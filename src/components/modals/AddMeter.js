@@ -22,7 +22,9 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
     const [tarifftype, setTariffType] = React.useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:2000/api/getTarriffs')
+        // fetch('http://localhost:2000/api/getTarriffs')
+        fetch('https://lightbillbackend.onrender.com/api/getTarriffs')
+        
             .then(response => response.json())
             .then(data => setTariffType(data))
             .catch(error => console.error('Error fetching tariff types:', error));
