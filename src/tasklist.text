@@ -1,0 +1,121 @@
+remove redundant data from bill schema username,email,password ,contactNumer,email,
+using cn =>Consumer Number map user to bill
+In form 120
+=====================
+backend edit role backend api madhe username nahi send karat tyamule sidebar maddhe name undefined yet.
+============================
+Login whayachya aadhich sidebar disat hot te resolved kel
+========================
+role create kartana user che sagale details parat bharale jaatat aani delete kartana pansem role madhe delete kel tar 
+user madhe pan delete karayala lagato teva user cha data delete hoto
+-----------------------------
+Junior Engineer che ward pan disal pahije => Pending
+--------------------------
+Role delete kelyavar user pan rahat hota so it can be login 
+---------------------
+Consumer Number Add front end backend
+=========================
+bills map with users
+======================
+Instead userId displayed real consumerId
+=================================
+Role Master Alignment
+=============================
+meter type=>front end madhe meter purpose=>straight light,
+meterId=>meterNumber 
+cosumerNumber,meterLocation
+========================
+meterNumber dispaly navat hot te disat aata
+bill schema refence wit meter and meterId send common fields=>meterNumber,phaseType,tarriffType,sanctionedLoad
+that send populate etchBills api and dispaly in frontend tables 
+============================
+TypeError: Cannot read properties of null (reading '_id')
+    at exports.addBill (C:\mohini\lightbillbackend\controller\bill.js:84:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    ===============================
+    addBill add kartana phaseType undefuined
+
+    add bill form remove unwanted field ward,consumer numer using meterNumber fetch api directly get those things
+    =================================
+    download excel madhe meter number disat nahi =>solved
+    ==========================
+    tarriff section add
+    Add tarriff types
+    ====================
+    fetch tarriff types from backends in meter section
+    -----------------------------------------------
+    ApprovedStatus->ConsumerId not seen that resolved
+    CONSUMER ID
+EMAIL
+CONTACT NUMBER
+METER NO. => Initially not seen that resolved
+=============================================
+Paid Bills madhe Email,contactNumber,meterNumer disat nahi,consumerNumber same in approvedSatus screen
+===================================
+ email: bill?.userId?.email,
+    contactNumber: bill?.userId?.contactNumber,
+    // address: bill.address,
+    ward: bill.ward,
+    meterNumber: bill?.meterId?.meterNumber,
+    =====================================
+   
+    =============================================
+    Mukesh Shah
+    001618370905
+07643274720
+Commercial
+Single
+LT I (A) - घरगुती 0 ते 100 युनिट्स पर्यंत
+======================================
+ Add user kartana alert yeto to remove karayacha aahe.
+ form 120 madhe month aahe to change karayacha aahe .Jya mahinyat reading ghetali to mahina
+ Edit bill kelyavar instant update hot nahi bills
+ bills update kartana date display zale pahije aadhi bharlele
+ consumer number static details add karane form 120 madhe
+
+  const [userId, setUserId] = useState('');
+   const [cnId, setCnId] = useState('');
+   ======================================
+   form 120 madhe serach consumer aadhi db chya id ne mapped hote aata real consumerId ne kele=done
+   Search consumer by consumerId in Bills section=>done
+   ==============================
+   ward 120 =>download madhe ward dakhavane
+   ============================
+   555555555555
+51111111111
+==================================
+Rohit Macchi
+Consumer Id =>002222222222
+002222222222
+22222222223
+Industrial
+==========================
+Before the date=> Until the date=>Done
+=========================================
+Jeet Vaze
+ConsumerId => 001111111112
+001111111112
+22222222224
+===============================
+Gauri Gaitadake
+001111111121
+11111111113
+
+002222222222
+22222222223
+==============================
+Nikita Gupta
+001111111114
+11111111122
+============================
+Overdue screen and sidebar displayed overduecountand form 120 screen month correct
+------------------------------
+consumer Number disat navata to disala
+--------------------------------
+*** => current Reading date search year month 
+===========================
+11 dec=>I Junior Engineer login sidebar overlap data that resolved
+--------------------------------
+npm install nodemailer
+----------------------------
+npm install body-parser nodemailer crypto jsonwebtoken dotenv

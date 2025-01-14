@@ -1,0 +1,207 @@
+
+import React, { useEffect } from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import { Button, useMediaQuery } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../store/actions/userActions';
+import {fetchBills} from '../store/actions/billActions';
+import { fetchRoles } from '../store/actions/roleActions';
+import { fetchMeters } from '../store/actions/meterActions';
+import { getMasters } from '../store/actions/masterActions';
+import InfoCard from '../components/cards/InfoCard';
+import { CircularProgress, Box } from '@mui/material';
+import ChartComponent from '../components/CharComponent'; 
+import './Home.css';
+import PieChartComponent from '../components/PieChartComponent';
+import PieChartBills from '../components/PieChartBills';
+const Home = () => {
+  const dispatch = useDispatch();
+  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+  const { bills, loading: loadingBills, error: errorBills } = useSelector((state) => state.bills);
+  const { meters, loading: loadingMeters, error: errorUsers } = useSelector((state) => state.meters);
+  const { roles, loading: loadingRoles, error: errorRoles } = useSelector((state) => state.roles);
+  const { masters, loading: loadingMasters, error: errorMasters } = useSelector((state) => state.masters);
+const uniqueBills = bills
+  .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) 
+  .filter((bill, index, self) => {
+    return index === self.findIndex(b => b.cn === bill.cn);
+  });
+  console.log("uniqueBills>>>>",uniqueBills)
+const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
+    if (bill.meterStatus === 'Faulty') {
+        acc.Faulty += 1;
+    } else if (bill.meterStatus === 'Average') {
+        acc.Average += 1;
+    }
+    return acc;
+}, { Faulty: 0, Average: 0 });
+const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length;
+
+const today = new Date(); 
+const passedDueDateCount = bills.filter(bill => {
+  const dueDate = new Date(bill.dueDate); 
+  return dueDate < today
+}).length;
+
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('xs'));
+  const isSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMd = useMediaQuery(theme.breakpoints.down('md'));
+  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
+  const isXl = useMediaQuery(theme.breakpoints.down('xl'));
+  useEffect(() => {
+    dispatch(fetchUsers());
+    dispatch(fetchBills());
+    dispatch(getMasters());
+    dispatch(fetchRoles());
+    dispatch(fetchMeters());
+    document.body.classList.add('home-body');
+    return () => {
+     
+      document.body.classList.remove('home-body');
+    };
+
+  }, [dispatch]);
+
+  if ( loadingRoles) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (errorUsers) {
+    return <p>Error loading users: {errorUsers}</p>;
+  }
+
+  if (errorRoles) {
+    return <p>Error loading roles: {errorRoles}</p>;
+  }
+  const gridStyle = {
+    width: '100%',
+    
+    width: isSm || isXs ? '80%' : isSidebarOpen ? '80%' : '95%',
+  
+  marginLeft: isSm || isXs ? '60px' : isSidebarOpen ? '20%' : '60px',
+ 
+  display: 'flex',
+  
+
+  // height: isSm ? '100vh' : (isMd ? '100vh' : (isLg ? '80vh' : (isXl ? '60vh' : 'auto'))),
+
+  
+  justifyContent: 'center',
+  
+  alignContent: 'center',
+  alignItems:'center'
+
+  };
+  
+  return (
+    <div style={gridStyle} className="containerhome">
+     
+     <div className="info-card-container" sx={{width: isSm || isXs? '100%' : '30%'}}>
+     <InfoCard
+  className="container-infocard"
+  avatarColor="#FB404B"
+  avatarIcon="U"
+  title="Total Users"
+  count={roles.length} 
+/>
+
+     <InfoCard
+  className="container-infocard"
+  avatarColor="#23CCEF"
+  
+  avatarIcon="M"
+  title="Total Meters"
+  count={meters.length}
+/>
+
+<InfoCard
+  className="container-infocard"
+  avatarColor="#FFA534"
+  avatarIcon="M"
+  title="Total Faulty Meters"
+  count={meterStatusCounts.Faulty}
+/>
+
+<InfoCard
+  className="container-infocard"
+  avatarColor="#06763C"
+  avatarIcon="M"
+  title="Total Average Meters"
+  count={meterStatusCounts.Average}
+/>
+
+
+<InfoCard
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title="Upcoming Due Bills"
+  count={upcomingOverdueCount}
+/>
+
+<InfoCard
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title="Passed Due Bills"
+  count={passedDueDateCount}
+/>
+     
+     </div>
+
+     
+     <Box sx={{width:'100%',height:'60vh',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:5}}>
+      <Box sx={{
+        width:{
+        xs:'100%',
+        md:'25%',
+        lg:'25%',
+        xl:'25%'
+      },
+      height:'80%',display:'flex',alignItems:'center',alignContent:'center',justifyContent:'center',flexDirection:'column'}}>
+      <h3>Chart</h3>
+      <ChartComponent />
+      </Box>
+        
+      <Box sx={{ width:{
+        xs:'100%',
+        md:'25%',
+        lg:'25%',
+        xl:'25%'
+      },mt:{
+        xs:10,
+        md:1,
+        lg:1,
+        xl:1
+      },
+      height:'80%',display:'flex',alignItems:'center',justifyContent:'center',alignContent:'center',flexDirection:'column'}}>
+      <h3>Meters</h3>
+      <PieChartComponent />
+      </Box>
+
+      <Box sx={{ width:{
+        xs:'100%',
+        md:'25%',
+        lg:'25%',
+        xl:'25%'
+      },height:'80%',display:'flex',alignItems:'center',justifyContent:'center',alignContent:'center',flexDirection:'column',mt:{
+        xs:10,
+        md:1,
+        lg:1,
+        xl:1
+      },}}>
+      <h3>Bills</h3>
+      <PieChartBills />
+      </Box>
+      </Box>
+    </div>
+  );
+};
+
+export default Home;
+

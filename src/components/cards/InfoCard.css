@@ -1,0 +1,12 @@
+.container-infocard:hover{
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    }
+
+.container-infocard:hover{
+scale:1.01 !important;
+
+
+opacity: 0.8;
+transition: opacity 0.3s ease;
+}
