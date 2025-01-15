@@ -813,49 +813,7 @@ const cRMonth = crDateObj.getMonth();
 
 
 
-      <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}/>
-    
-
-      <TextField
-                id="userId"
-                name="userId"
-                label="Search Consumer ID"
-                value={cnId}
-                onChange={
-                  handleChange}
-                variant="outlined"
-                InputProps={{
-                  sx: {
-                    height: '30px',
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    color: '#23CCEF',
-                    transform: 'translate(14px, 8px)',
-                    fontSize:'12px',
-                    transform: 'translate(14px, 8px)',
-                    '&.MuiInputLabel-shrink': {
-        transform: 'translate(14px, -8px) scale(0.75)', 
-      },
-                  },
-                 
-                }}
-                sx={{
-                  width: {
-                    xl: '17%',
-                    lg: '17%',
-                    md: '50%',
-                    sm: '50%',
-                    xs: '100%'
-                  }, 
-                  mt:{
-                    sm:1
-                  }
-                  
-                }}
-              />
-
+     
             <input
               type="file"
               accept=".xlsx, .xls"
@@ -909,8 +867,8 @@ const cRMonth = crDateObj.getMonth();
                 },
                 
                 width:{
-                  xl:'80px',
-                  lg:'80px',
+                  xl:'150px',
+                  lg:'150px',
                   md:'50%',
                   sm:'50%',
                   xs:'62%'
@@ -925,7 +883,7 @@ const cRMonth = crDateObj.getMonth();
                 selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')
               }
             >
-              <Typography sx={{fontSize:{xl:'14px',lg:'12px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}}>Process</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}}>Process</Typography>
             </Button>
             
             <Button
@@ -1129,7 +1087,57 @@ const cRMonth = crDateObj.getMonth();
               <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'14px',lg:'12px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}} >Add Bill</Typography>
             </Button>
           </Box>
+        
         </Box>
+
+
+        <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+
+
+<MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}/>
+
+
+<TextField
+    id="userId"
+    name="userId"
+    label="Search Consumer ID"
+    value={cnId}
+    onChange={
+      handleChange}
+    variant="outlined"
+    InputProps={{
+      sx: {
+        height: '40px',
+      },
+    }}
+    InputLabelProps={{
+      sx: {
+        color: '#23CCEF',
+        transform: 'translate(14px, 8px)',
+        fontSize:'12px',
+        transform: 'translate(14px, 8px)',
+        '&.MuiInputLabel-shrink': {
+transform: 'translate(14px, -8px) scale(0.75)', 
+},
+      },
+     
+    }}
+    sx={{
+      width: {
+        xl: '17%',
+        lg: '17%',
+        md: '50%',
+        sm: '50%',
+        xs: '100%'
+      }, 
+      mt:{
+        sm:1
+      }
+      
+    }}
+  />
+
+</Box>
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
           initialState={{

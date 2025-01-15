@@ -12,7 +12,7 @@ const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-      sx={{width:'190px'}}
+      sx={{width:'190px',height:'30px'}}
     
         views={['year', 'month']}
         label="🔍yy-mm bill" 
