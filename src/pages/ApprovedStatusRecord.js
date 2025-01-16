@@ -75,6 +75,7 @@ const ApprovedStatusRecord = () => {
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
   const rows = filteredBills.map((bill, index) => ({
+    _id: bill._id,
     id: index + 1,
     cn: bill.cn,
     consumerId:bill?.cn,
@@ -101,12 +102,13 @@ const ApprovedStatusRecord = () => {
     flagStatus: bill.flagStatus,
   }));
 const handleApproveClick = (bill, yesno) => {
+  console.log("bill",bill)
   let approvedStatus;
   let paymentStatus;
-  if (!bill || !bill._id) {
-    console.error("Bill or Bill _id is missing");
-    return;
-  }
+  // if (!bill || !bill._id) {
+  //   console.error("Bill or Bill _id is missing");
+  //   return;
+  // }
   if (user?.role === 'Junior Engineer') {
     if (yesno === 'No') {
       approvedStatus = 'PendingForJuniorEngineer';
