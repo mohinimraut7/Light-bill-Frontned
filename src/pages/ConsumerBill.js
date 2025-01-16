@@ -214,14 +214,7 @@ const ConsumerBill = () => {
     return `${year} , ${month} - ${day}`;
   };
 
-  const formatCRDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = date.toLocaleString('default', { month: 'long' }).toLowerCase();
-    // const day = String(date.getDate()).padStart(2, '0');
-    const day = date.getDate();
-    return `${year} ${month} ${day}`;
-  };
+ 
   
   const handleFileChange = (event) => { 
     const file = event.target.files[0];
@@ -306,30 +299,26 @@ const ConsumerBill = () => {
 
   let filteredData = cnId ? combinedData.filter(bill => bill.cn === cnId) : combinedData;
 
-    // Then filter by currentReadingDate if cRDate is provided and apply includes to the currentReadingDate
+    
     if (cRDate) {
       console.log("cRDate>>>>",cRDate)
-      // let smallcrdate=cRDate.toLocaleLowerCase().replace(/\b0+/g, '');
+      
       const crDateObj = new Date(cRDate);
 const cRYear = crDateObj.getFullYear();
 const cRMonth = crDateObj.getMonth(); 
 
-      // filteredData = filteredData.filter(bill =>
-        
-      //   bill.currentReadingDate && formatCRDate(bill.currentReadingDate)
-      //   // .replace(/\b0+/g, '').includes(smallcrdate) // Filter rows based on currentReadingDate using includes
-      // );
+   
 
       filteredData = filteredData.filter(bill => {
         if (bill.currentReadingDate) {
           const billDateObj = new Date(bill.currentReadingDate);
           const billYear = billDateObj.getFullYear();
-          const billMonth = billDateObj.getMonth(); // Month is 0-based
+          const billMonth = billDateObj.getMonth(); 
     
-          // Compare the year and month of cRDate and currentReadingDate
+          
           return cRYear === billYear && cRMonth === billMonth;
         }
-        return false; // Exclude bills without a valid currentReadingDate
+        return false; 
       });
     
     }
@@ -729,7 +718,7 @@ const cRMonth = crDateObj.getMonth();
       <Box sx={{width:'100%',display:'flex',
       justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
       alignItems:{xl:'flex-start',lg:'flex-start',md:'center',sm:'center',xs:'center'},
-      flexDirection:{xl:'row',lg:'row',md:'row',sm:'column',xs:'column'}
+      flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row'}
       }}>
         <CustomWidthTooltip title={`Total Meters : ${totalmeters}`}>
           <Button sx={{ m: 1, color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Total Meter</Button>
@@ -743,14 +732,21 @@ const cRMonth = crDateObj.getMonth();
       </Box>
       <Box sx={innerDivStyle}>
 
-        <Box sx={{display:'flex',mb:1}}> <Typography sx={{color: '#0d2136',display:'flex',justifyContent:{
+        <Box sx={{display:'flex',mb:1, justifyContent:{
             xs:'center',
             sm:'center',
+            md:'center',
+            xl:'flex-start',
+            lg:'flex-start'
           },
           alignItems:{
             xs:'center',
-            sm:'center'
-          }
+            sm:'center',
+            md:'center',
+            xl:'flex-start',
+            lg:'flex-start'
+          }}}> <Typography sx={{color: '#0d2136',display:'flex',
+       
           }} className="title-2">
             BILL MASTER
           </Typography></Box>
@@ -774,42 +770,6 @@ const cRMonth = crDateObj.getMonth();
             }}>
 
 
-{/* <TextField
-                id="currentReadingDate"
-                name="currentReadingDate"
-                label="CRDate:2024 May 01"
-                value={cRDate}
-                onChange={
-                  handleCRDChange}
-                variant="outlined"
-                InputProps={{
-                  sx: {
-                    height: '30px',
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    color: '#23CCEF',
-                    transform: 'translate(14px, 8px)',
-                    fontSize:'12px',
-                    transform: 'translate(14px, 8px)',
-                    '&.MuiInputLabel-shrink': {
-        transform: 'translate(14px, -8px) scale(0.75)', 
-      },
-                  },
-                 
-                }}
-                sx={{
-                  width: {
-                    xl: '17%',
-                    lg: '17%',
-                    md: '35%',
-                    sm: '100%',
-                    xs: '100%'
-                  }, 
-                  
-                }}
-              /> */}
 
 
 
@@ -823,6 +783,38 @@ const cRMonth = crDateObj.getMonth();
             />
 
 
+
+          </Box>
+        
+        </Box>
+
+        <Box sx={{display:'flex', width: {
+      xl: isSidebarOpen ? '100%' : '85%',
+      lg: isSidebarOpen ? '100%' : '85%',
+      sm: '100%',
+      md: '100%',
+      xs: '100%',
+    },
+        
+        justifyContent:{
+  xl:'space-between',
+  lg:'space-between',
+  md:'center',
+  sm:'center',
+  xs:'center'
+        },
+        
+      alignItems:'center',
+        
+        mb:2,   
+          flexDirection:{
+            xl:'row',
+            lg:'row',
+            md:'column',
+            sm:'column',
+            xs:'column'
+          }
+        }}>
 <Button
               sx={{
                 color: '#23CCEF',
@@ -869,9 +861,9 @@ const cRMonth = crDateObj.getMonth();
                 width:{
                   xl:'150px',
                   lg:'150px',
-                  md:'50%',
-                  sm:'50%',
-                  xs:'62%'
+                  md:'80%',
+                  sm:'80%',
+                  xs:'80%'
                   
                 }
                 
@@ -930,11 +922,11 @@ const cRMonth = crDateObj.getMonth();
                   xl:0,lg:0,md:1,sm:1,xs:1
                 },
                 width:{
-                  xl:'170px',
-                  lg:'140px',
-                  md:'50%',
-                  sm:'50%',
-                  xs:'62%'
+                  xl:'180px',
+                  lg:'180px',
+                  md:'80%',
+                  sm:'80%',
+                  xs:'80%'
                 }
                 
               }}
@@ -946,7 +938,7 @@ const cRMonth = crDateObj.getMonth();
               }
 
             >
-              <Typography sx={{fontSize:{xl:'14px',lg:'12px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}}>Rollback Approvals</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}}>Rollback Approvals</Typography>
             </Button>
 
 
@@ -979,11 +971,11 @@ const cRMonth = crDateObj.getMonth();
                   xs:'center'
                 },
                 width:{
-                  xl:'170px',
-                  lg:'auto',
-                  md:'50%',
-                  sm:'50%',
-                  xs:'62%'
+                  xl:'180px',
+                  lg:'190px',
+                  md:'80%',
+                  sm:'80%',
+                  xs:'80%'
                 },
                 mb:{
                   xl:0,lg:0,md:1,sm:1,xs:1
@@ -992,7 +984,7 @@ const cRMonth = crDateObj.getMonth();
               onClick={downloadAllTypsOfReport}
             >
               <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'14px',lg:'12px',md:'12px',sm:'14px',xs:'12px'},fontWeight:'bold'}}>Download Reports</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'14px',xs:'12px'},fontWeight:'bold'}}>Download Reports</Typography>
             </Button>
 
 
@@ -1027,11 +1019,11 @@ const cRMonth = crDateObj.getMonth();
                   xs:'center'
                 },
                 width:{
-                  xl:'170px',
-                  lg:'auto',
-                  md:'50%',
-                  sm:'50%',
-                  xs:'62%'
+                  xl:'210px',
+                  lg:'210px',
+                  md:'80%',
+                  sm:'80%',
+                  xs:'80%'
                 },
                 mb:{
                   xl:0,lg:0,md:1,sm:1,xs:1
@@ -1040,7 +1032,7 @@ const cRMonth = crDateObj.getMonth();
               onClick={handleDownloadReport}
             >
               <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'14px',lg:'12px',md:'12px',sm:'14px',xs:'12px'},fontWeight:'bold'}}>Faulty | Average Bills</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'14px',xs:'12px'},fontWeight:'bold'}}>Faulty | Average Bills</Typography>
             </Button>
             <Button
               sx={{
@@ -1074,27 +1066,44 @@ const cRMonth = crDateObj.getMonth();
 
 
                 width:{
-                  xl:'83px',
-                  lg:'83px',
-                  md:'50%',
-                  sm:'50%',
-                  xs:'62%'
+                  xl:'180px',
+                  lg:'180px',
+                  md:'80%',
+                  sm:'80%',
+                  xs:'80%'
                 },
               }}
               onClick={handleAddBillOpen}
             >
               <AddIcon sx={{ marginLeft: '2px',fontSize:'15px' }} />
-              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'14px',lg:'12px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}} >Add Bill</Typography>
+              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}} >Add Bill</Typography>
             </Button>
-          </Box>
-        
-        </Box>
+</Box>
+        <Box sx={{display:'flex',alignItems:'center',
+          justifyContent:{xl:'space-between',
+            lg:'space-between',
+            md:'center',
+            sm:'center',
+            xs:'center'
+          },
+          width:{xl:'60%',
+            lg:'60%',
+            md:'100%',
+            sm:'100%',
+            xs:'100%'
+          },
+         flexDirection:{
+          xl:'row',
+          lg:'row',
+          md:'column',
+          sm:'column',
+          xs:'column'
+         },
+          mb:5,}}
+          >
 
 
-        <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-
-
-<MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}/>
+<MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  />
 
 
 <TextField
@@ -1108,13 +1117,14 @@ const cRMonth = crDateObj.getMonth();
     InputProps={{
       sx: {
         height: '40px',
+        mb:1
       },
     }}
     InputLabelProps={{
       sx: {
-        color: '#23CCEF',
+        color: 'gray',
         transform: 'translate(14px, 8px)',
-        fontSize:'12px',
+        fontSize:'17px',
         transform: 'translate(14px, 8px)',
         '&.MuiInputLabel-shrink': {
 transform: 'translate(14px, -8px) scale(0.75)', 
@@ -1124,11 +1134,11 @@ transform: 'translate(14px, -8px) scale(0.75)',
     }}
     sx={{
       width: {
-        xl: '17%',
-        lg: '17%',
-        md: '50%',
-        sm: '50%',
-        xs: '100%'
+        xl: '58%',
+        lg: '58%',
+        md: '80%',
+        sm: '80%',
+        xs: '80%'
       }, 
       mt:{
         sm:1

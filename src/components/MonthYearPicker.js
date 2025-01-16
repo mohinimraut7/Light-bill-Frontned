@@ -6,22 +6,40 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
-  // Convert string cRDate to Dayjs object, default to current date if invalid
+  
   const dateValue = dayjs(cRDate);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-      sx={{width:'190px',height:'30px'}}
+      slotProps={{ field: { size: 'small' } }}
+      enableAccessibleFieldDOMStructure 
+      sx={{width:{
+        xl:'40%',
+        lg:'40%',
+        md:'80%',
+        sm:'80%',
+        xs:'80%'
+      },
+      mb:{
+        xl:'0px',
+        lg:'0px',
+        md:'10px',
+        sm:'10px',
+        xs:'10px'
+      }  
+        
+      
+      }}
     
         views={['year', 'month']}
-        label="🔍yy-mm bill" 
-        value={dateValue.isValid() ? dateValue : null} // Ensure a valid date object
+        label="Search By Current Date" 
+        value={dateValue.isValid() ? dateValue : null} 
         onChange={(newValue) => handleCRDChange(newValue)}
         renderInput={(params) => (
           <TextField {...params} 
           
-         
+        
           />
         )}
       />
