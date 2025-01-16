@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e964cbc7.css",
+    "main.js": "/static/js/main.8ff8784c.js",
+    "static/js/213.993a601f.chunk.js": "/static/js/213.993a601f.chunk.js",
+    "static/js/455.c7317e11.chunk.js": "/static/js/455.c7317e11.chunk.js",
+    "static/media/vvcmclogo.jpg": "/static/media/vvcmclogo.4e7892de965d1acdb43e.jpg",
+    "static/media/sidebarimg.jpg": "/static/media/sidebarimg.9aca257bcadedf58aeff.jpg",
+    "index.html": "/index.html",
+    "main.e964cbc7.css.map": "/static/css/main.e964cbc7.css.map",
+    "main.8ff8784c.js.map": "/static/js/main.8ff8784c.js.map",
+    "213.993a601f.chunk.js.map": "/static/js/213.993a601f.chunk.js.map",
+    "455.c7317e11.chunk.js.map": "/static/js/455.c7317e11.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e964cbc7.css",
+    "static/js/main.8ff8784c.js"
+  ]
+}
