@@ -732,7 +732,15 @@ const cRMonth = crDateObj.getMonth();
       </Box>
       <Box sx={innerDivStyle}>
 
-        <Box sx={{display:'flex',mb:1, justifyContent:{
+        <Box sx={{display:'flex',mb:1, 
+        mt:{
+          xl:0,
+          lg:0,
+          md:5,
+          sm:5,
+          xs:5
+        },
+        justifyContent:{
             xs:'center',
             sm:'center',
             md:'center',
@@ -875,7 +883,16 @@ const cRMonth = crDateObj.getMonth();
                 selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')
               }
             >
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}}>Process</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+            textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            
+            }}>Process</Typography>
             </Button>
             
             <Button
@@ -938,7 +955,15 @@ const cRMonth = crDateObj.getMonth();
               }
 
             >
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}}>Rollback Approvals</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+             textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            }}>Rollback Approvals</Typography>
             </Button>
 
 
@@ -984,7 +1009,15 @@ const cRMonth = crDateObj.getMonth();
               onClick={downloadAllTypsOfReport}
             >
               <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'14px',xs:'12px'},fontWeight:'bold'}}>Download Reports</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+             textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            }}>Download Reports</Typography>
             </Button>
 
 
@@ -1032,7 +1065,16 @@ const cRMonth = crDateObj.getMonth();
               onClick={handleDownloadReport}
             >
               <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'14px',xs:'12px'},fontWeight:'bold'}}>Faulty | Average Bills</Typography>
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            
+            }}>Faulty | Average Bills</Typography>
             </Button>
             <Button
               sx={{
@@ -1076,7 +1118,14 @@ const cRMonth = crDateObj.getMonth();
               onClick={handleAddBillOpen}
             >
               <AddIcon sx={{ marginLeft: '2px',fontSize:'15px' }} />
-              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'12px',xs:'12px'},fontWeight:'bold'}} >Add Bill</Typography>
+              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+             textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }}} >Add Bill</Typography>
             </Button>
 </Box>
         <Box sx={{display:'flex',alignItems:'center',
