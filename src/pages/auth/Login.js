@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import { Box, Typography, TextField, Button, Container } from '@mui/material';
+import { Box, Typography, TextField, Button, Container,Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/actions/loginActions';
 import { useNavigate } from 'react-router-dom';
 import './Auth.css';
+import '../../Images/vasaivirarmahangarpalika.jpg';
+import vvcmclogo from '../../Images/vvcmclogo.jpg';
 const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().required('Password is required'),
@@ -52,12 +54,13 @@ const Login = () => {
     });
 
     return (
-        <Container className="Auth-Container" maxWidth="xs">
+        <Container className="Auth-Container" maxWidth="sm">
             <Box
                 sx={{
                     width: '80%',
                     margin: 'auto',
-                    padding: '30px',
+                    // padding: '30px',
+                    padding: '10px 30px 30px 30px',
                     border: '1px solid #d3d3d3',
                     borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -65,14 +68,21 @@ const Login = () => {
                 }}
                 component='form'
                 onSubmit={formik.handleSubmit}
+                
             >
-                <Typography className='Auth-Title' gutterBottom>
-                    Login
-                </Typography>
+
+
+<Box sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+<Box sx={{ width: '30%', height: '30%',}}>
+    <img src={vvcmclogo} height='100%' width='100%' /></Box>
+</Box>
+
+
+             
                 <Box className="Auth-LIB" >
-                <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                         EMAIL ADDRESS
-                    </Typography>
+                    </Typography> */}
                 <TextField
                     fullWidth
                     id="email"
@@ -85,24 +95,19 @@ const Login = () => {
                     margin="normal"
                     variant="outlined"
                     className="Auth-Input"
-                    InputProps={{
-                        sx: {
-                            height: '42px', // Adjust the height as needed
-                            
-                        },
-                    }}
+                   size="small"
                     InputLabelProps={{
                         sx: {
-                            color: '#DDDDDD', // Change this to the desired color
+                            color: 'gray', 
                         },
                     }}
                 />
                 </Box>
 
                 <Box className="Auth-LIB" >
-                <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
+                {/* <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                         PASSWORD
-                    </Typography>
+                    </Typography> */}
                 <TextField
                     fullWidth
                     id="password"
@@ -116,14 +121,10 @@ const Login = () => {
                     margin="normal"
                     variant="outlined"
                     className="Auth-Input"
-                    InputProps={{
-                        sx: {
-                            height: '44px', // Adjust the height as needed
-                        },
-                    }}
+                   size="small"
                     InputLabelProps={{
                         sx: {
-                            color: '#DDDDDD',
+                            color: 'gray',
                         },
 
                     }}
@@ -152,22 +153,88 @@ const Login = () => {
                     </Button>
                     
                 </Box>
-                <Box sx={{display:'flex',alignItems:'center',justifyContent:'center',height:'20px',marginTop:'10px'}}>
+
+                <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      mt:3
+      }}
+    >
+      <Divider
+        sx={{
+          width: '20%', 
+          borderColor: '#c3c3c3', 
+          borderWidth: '0.5px', 
+          mr:1
+        }}
+      />
+      <Typography sx={{fontSize:'10px',color:'gray',fontWeight:'bold'}}>Or</Typography>
+      <Divider
+        sx={{
+          width: '20%',
+          borderColor: '#c3c3c3', 
+          borderWidth: '0.5px', 
+          ml:1
+        }}
+      />
+    </Box>
+
+
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className='Auth-Button-Signup'
+                        sx={{
+                            
+                            '&:hover': {
+                                bgcolor: '#81c784',
+                            }
+                        }}
+                    >
+                        <Typography
+        component={Link}
+        to="/register"
+        sx={{
+            fontSize:{
+             xl:'12px',
+             lg:'12px',
+             md:'10px',
+             sm:'9px',
+             xs:'9px'
+            },
+          textDecoration: 'none', 
+          color: 'inherit',       
+          '&:hover': {
+            color: '#1976d2',     
+          }
+        }}
+      >
+        Create new account
+      </Typography>
+
+                    </Button>
+                    
+                </Box>
+                {/* <Box sx={{display:'flex',alignItems:'center',justifyContent:'center',height:'20px',marginTop:'10px'}}>
                 <Typography
         component={Link}
         to="/register"
         sx={{
             fontSize:'12px',
-          textDecoration: 'none', // Remove underline
-          color: 'inherit',       // Inherit the color from parent, or you can set custom color here
+          textDecoration: 'none', 
+          color: 'inherit',       
           '&:hover': {
-            color: '#1976d2',     // Set hover color if needed
+            color: '#1976d2',    
           }
         }}
       >
         Don't have an account? Sign up here
       </Typography>
-                    </Box>
+                    </Box> */}
                 
             </Box>
             

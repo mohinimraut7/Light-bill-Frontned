@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import vvcmclogo from '../../Images/vvcmclogo.jpg'; 
 import wardData from '../../data/warddata';
 import { addUser } from '../../store/actions/userActions';
 // import './Register.css';
@@ -44,12 +44,12 @@ const Register = () => {
               }
     });
     return (
-        <Container maxWidth="sm" sx={{mt:2}}>
+        <Container maxWidth="xs">
             <Box
                 sx={{
                     width: '80%',
                     margin: 'auto',
-                    padding: '30px',
+                    padding: '15px 30px 30px 30px',
                     border: '1px solid #d3d3d3',
                     borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -59,13 +59,16 @@ const Register = () => {
                 component='form'
                     onSubmit={formik.handleSubmit}
             >
-                <Typography className='Auth-Title' align="center" gutterBottom>
-                    Register
-                </Typography>
+                <Box sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+<Box sx={{ width: '100%',display:'flex',justifyContent:'center',mb:1.2}}>
+    <Typography sx={{fontWeight:'bold',fontSize:'20px'}}>Create a new account</Typography>
+    </Box>
+</Box>
+
                 
-                 <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                 {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                         USER NAME
-                    </Typography>
+                    </Typography> */}
                 <TextField
                     fullWidth
                     id="username"
@@ -79,15 +82,16 @@ const Register = () => {
                     variant="outlined"
                     className='Auth-Input'
                     sx={{marginBottom:'14px'}}
+                    size="small"
                     InputLabelProps={{
                         sx: {
                             color: '#DDDDDD', // Change this to the desired color
                         },
                     }}
                 />
-                 <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                 {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                         EMAIL
-                    </Typography>
+                    </Typography> */}
                 <TextField
                     fullWidth
                     id="email"
@@ -101,15 +105,16 @@ const Register = () => {
                     variant="outlined"
                     className='Auth-Input'
                     sx={{marginBottom:'14px'}}
+                   size="small"
                     InputLabelProps={{
                         sx: {
                             color: '#DDDDDD', // Change this to the desired color
                         },
                     }}
                 />
-                <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                   PASSWORD
-                 </Typography>
+                 </Typography> */}
                 <TextField
                     fullWidth
                     id="password"
@@ -124,15 +129,16 @@ const Register = () => {
                     variant="outlined"
                     className='Auth-Input'
                     sx={{marginBottom:'14px'}}
+                    size="small"
                     InputLabelProps={{
                         sx: {
                             color: '#DDDDDD', // Change this to the desired color
                         },
                     }}
                 />
-                <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                  CONTACT NUMBER
-                 </Typography>
+                 </Typography> */}
                 <TextField
                     fullWidth
                     id="contactNumber"
@@ -146,15 +152,16 @@ const Register = () => {
                     variant="outlined"
                     className='Auth-Input'
                     sx={{marginBottom:'14px'}}
+                    size="small"
                     InputLabelProps={{
                         sx: {
                             color: '#DDDDDD', // Change this to the desired color
                         },
                     }}
                 />
-                <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                  ADDRESS
-                 </Typography>
+                 </Typography> */}
                  <TextField
                         fullWidth
                         id="address"
@@ -168,6 +175,8 @@ const Register = () => {
                         variant="outlined"
                         multiline
                         minRows={1}
+                       size="small"
+                        
                         InputLabelProps={{
                             sx: {
                                 color: '#DDDDDD', // Change this to the desired color
@@ -223,10 +232,10 @@ const Register = () => {
                     )}
                 </FormControl> */}
 
-                <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                  WARD
-                 </Typography>
-                <FormControl fullWidth margin="normal" variant="outlined" className='Auth-Input'>
+                 </Typography> */}
+                <FormControl fullWidth margin="normal" variant="outlined" className='Auth-Input' size="small">
                         <InputLabel id="ward-label" sx={{color:"#DDDDDD"}}>Ward</InputLabel>
                         <Select
                             labelId="ward-label"
@@ -236,6 +245,8 @@ const Register = () => {
                             onChange={formik.handleChange}
                             label="Ward"
                             error={formik.touched.ward && Boolean(formik.errors.ward)}
+
+                            
                         >
                             {wardData.map((ward, index) => (
                                 <MenuItem key={index} value={ward.ward}>{ward.ward}</MenuItem>
@@ -245,14 +256,14 @@ const Register = () => {
                             <Typography color="error" variant="caption">{formik.errors.ward}</Typography>
                         )} */}
                     </FormControl>
-                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{display: 'flex', justifyContent: 'center' }}>
                     <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        className='Auth-Button'
+                        className='Auth-Button-Signup'
                         sx={{
-                           
+                           backgroundColor:'#00A400',
                             '&:hover': {
                                 bgcolor: '#81c784',
                             }
@@ -269,13 +280,13 @@ const Register = () => {
         sx={{
           textDecoration: 'none', // Remove underline
           fontSize:'12px',
-          color: 'inherit',       // Inherit the color from parent, or you can set custom color here
+          color: '#797DF2',       // Inherit the color from parent, or you can set custom color here
           '&:hover': {
             color: '#1976d2',     // Set hover color if needed
           }
         }}
       >
-        Have an account? Sign in
+        Already have an account?
       </Typography>
                     </Box>
             </Box>
