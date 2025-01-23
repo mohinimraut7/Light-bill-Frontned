@@ -115,11 +115,12 @@ export const addBill = (billData) => {
     dispatch(addBillRequest());
     try {
       const token = getToken();
-      const response = await axios.post(`${baseUrl}/addBill`, billData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
+      const response = await axios.post(`${baseUrl}/addBill`, billData
+      //   , {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // }
       );
       dispatch(addBillSuccess(response.data.bill))
       toast.success("Bill Added Successfully", { position: "top-center" });
