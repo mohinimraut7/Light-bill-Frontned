@@ -77,12 +77,12 @@ const ApprovedStatusRecord = () => {
   const rows = filteredBills.map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
-    cn: bill.cn,
+    consumerNumber: bill.consumerNumber,
     consumerId:bill?.cn,
-    email: bill?.userId?.email,
+    email: bill?.email,
     username: bill.username || '-',
-    contactNumber: bill?.userId?.contactNumber,
-    meterNumber: bill?.meterId?.meterNumber || '-',
+    contactNumber: bill?.contactNumber,
+    meterNumber: bill?.meterNumber || '-',
     totalConsumption: bill.totalConsumption,
     meterStatus: bill.meterStatus,
     currentReading: bill.currentReading,
@@ -96,7 +96,7 @@ const ApprovedStatusRecord = () => {
     approvedStatus: bill.approvedStatus || '-',
     paidAmount:bill.paidAmount?bill.paidAmount:0,
     pendingAmount:bill.paidAmount?bill.roundedBillAmount-bill.paidAmount:bill.roundedBillAmount,
-    ifPaidBefore: bill.ifPaidBefore,
+    ifPaidByThisDate: bill.ifPaidByThisDate,
     dueDate: formatDate(bill.dueDate),
     ifPaidAfter: bill.ifPaidAfter,
     flagStatus: bill.flagStatus,
@@ -209,7 +209,7 @@ const flagChange = (billId, flagStatus) => {
 };
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'cn', headerName: 'CONSUMER ID', width: 140 },
+    { field: 'consumerNumber', headerName: 'CONSUMER ID', width: 140 },
    
     { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
@@ -224,7 +224,7 @@ const columns = [
     { field: 'totalArrears', headerName: 'TOTAL ARREARS', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
-    { field: 'ifPaidBefore', headerName: 'PAID BEFORE', width: 130 },
+    { field: 'ifPaidByThisDate', headerName: 'IF PAID BY THIS DATE', width: 130 },
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
     { field: 'ifPaidAfter', headerName: 'PAID AFTER', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },

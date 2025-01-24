@@ -662,7 +662,7 @@ const passedDueDateCount = bills.filter(bill => {
                 </ListItem>
               )}
 
-              {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+              {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
                 <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/pendingapprovals")}>
                   <ListItemButton
                     sx={{

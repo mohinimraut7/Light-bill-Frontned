@@ -222,13 +222,13 @@ const ConsumerBillDetails = () => {
 
   )
   const combinedData = [...filteredBills, ...data];
-  const consumerId = consumerData?.cn || null;
+  const consumerId = consumerData?.consumerNumber || null;
   console.log("consumerId testing", consumerId)
   const rows = combinedData
     .filter(bill => {
       return (
-        bill.cn === consumerId ||
-        bill.cn === cnId
+        bill.consumerNumber === consumerId ||
+        bill.consumerNumber === cnId
       );
     })
     .map((bill, index) => ({
@@ -236,18 +236,18 @@ const ConsumerBillDetails = () => {
       id: index + 1,
       dueDateMonth: formatDateMonth(bill.currentReadingDate),
       userId: bill.userId,
-      cn: bill.cn,
+      consumerNumber: bill.consumerNumber,
       email: bill.email,
       username: bill.username || '-',
-      contactNumber: bill?.userId?.contactNumber,
-      meterNumber: bill?.meterId?.meterNumber || '-',
+      contactNumber: bill?.contactNumber,
+      meterNumber: bill?.meterNumber || '-',
       totalConsumption: bill.totalConsumption,
       meterStatus: bill.meterStatus || '-',
-      phaseType: bill?.meterId?.phaseType || '-',
-      tariffType: bill?.meterId?.tariffType || '-',
+      phaseType: bill?.phaseType || '-',
+      tariffType: bill?.tariffType || '-',
       netLoad: bill.netLoad || '-',
-      sanctionedLoad: bill?.meterId?.sanctionedLoad || '-',
-      installationDate: formatDate(bill?.meterId?.installationDate) || '-',
+      sanctionedLoad: bill?.sanctionedLoad || '-',
+      installationDate: formatDate(bill?.installationDate) || '-',
       previousReadingDate: formatDate(bill.previousReadingDate) || '-',
       previousReading: bill.previousReading,
       currentReadingDate: formatDate(bill.currentReadingDate),
@@ -541,7 +541,7 @@ const handleDownloadPDF = () => {
       if (rows.length > 0) {
           const firstRow = rows[0]; 
           const firstGroupData = [
-              firstRow.cn || 'N/A',
+              firstRow.consumerNumber || 'N/A',
               firstRow.meterNumber || 'N/A',
               firstRow.contactNumber || 'N/A',
               firstRow.installationDate || 'N/A',
