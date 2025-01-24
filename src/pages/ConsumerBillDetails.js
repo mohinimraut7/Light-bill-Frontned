@@ -725,8 +725,8 @@ const handleDeleteBill = (billId) => {
                 },
               }}>
                 {combinedData
-                  .filter(bill => bill.userId._id === consumerData._id)
-                  .reduce((acc, bill) => bill.meterId?.meterNumber || acc, 'No meter number available')}
+                  .filter(bill => bill?.userId?._id === consumerData?._id)
+                  .reduce((acc, bill) => bill?.meterId?.meterNumber || acc, 'No meter number available')}
 
 
               </Typography>
