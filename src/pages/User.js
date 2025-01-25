@@ -14,22 +14,27 @@ import { CircularProgress} from '@mui/material';
 import { styled } from '@mui/material/styles';
 const columns = (handleDeleteUser, handleEditUser) => [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'cn', headerName: 'CONSUMER NO.', width: 130 },
+  // { field: 'cn', headerName: 'CONSUMER NO.', width: 130 },
 
-  {
-    field: 'username',
-    headerName: 'USER NAME',
-    width: 130,
-    renderCell: (params) => (
-      <Link 
-        to={`/consumer-bill-details/${params.row.cn}`} 
-        state={{ consumerData: params.row }} 
-        style={{ textDecoration: 'none', color: '#23CCEF' }}
-      >
-        {params.row.username}
-      </Link>
-    ),
-  },
+  
+
+  // {
+  //   field: 'username',
+  //   headerName: 'USER NAME',
+  //   width: 130,
+  //   renderCell: (params) => (
+  //     <Link 
+  //       to={`/consumer-bill-details/${params.row.cn}`} 
+  //       state={{ consumerData: params.row }} 
+  //       style={{ textDecoration: 'none', color: '#23CCEF' }}
+  //     >
+  //       {params.row.username}
+  //     </Link>
+  //   ),
+  // },
+
+  { field: 'username', headerName: 'USER NAME', width: 200 },
+
   { field: 'email', headerName: 'EMAIL', width: 200 },
 
 
@@ -79,10 +84,11 @@ const User = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-  const rows = users.filter((user)=>(user?.role !== "Super Admin" && user?.role !== "Admin"  && user?.role !== "Executive Engineer" && user?.role !== "Junior Engineer")).map((user, index) => ({
+  // const rows = users.filter((user)=>(user?.role !== "Super Admin" && user?.role !== "Admin"  && user?.role !== "Executive Engineer" && user?.role !== "Junior Engineer")).map((user, index) => ({
+    const rows = users.map((user,index) => ({
     id: index + 1,
     _id: user._id,
-    cn: user.cn,
+    // cn: user.cn,
     username: user.username,
     email: user.email,
     role: user.role || '-',

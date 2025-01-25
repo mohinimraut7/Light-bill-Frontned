@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation,Link} from 'react-router-dom';
+
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box, Button, Modal, Checkbox,TextField } from '@mui/material';
@@ -297,7 +298,7 @@ const ConsumerBill = () => {
   const combinedData = [...filteredBills, ...data];
   
 
-  let filteredData = cnId ? combinedData.filter(bill => bill.cn === cnId) : combinedData;
+  let filteredData = cnId ? combinedData.filter(bill => bill.consumerNumber === cnId) : combinedData;
 
     
     if (cRDate) {
@@ -336,7 +337,7 @@ const cRMonth = crDateObj.getMonth();
     tarriffType: bill?.tarriffType||'-',
     netLoad:bill.netLoad||'-',
     sanctionedLoad:bill?.sanctionedLoad||'-',
-    installationDate:formatDate(bill?.meterId?.installationDate)||'-',
+    installationDate:formatDate(bill?.installationDate)||'-',
     totalConsumption: bill.totalConsumption,
     previousReadingDate: formatDate(bill.previousReadingDate),
     previousReading: bill.previousReading,
@@ -474,7 +475,21 @@ const cRMonth = crDateObj.getMonth();
       },
     },
     { field: 'id', headerName: 'ID', width: 40 },
-    { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
+    // { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
+    {
+      field: 'consumerNumber',
+      headerName: 'CONSUMER NUMBER',
+      width: 130,
+      renderCell: (params) => (
+        <Link 
+          to={`/consumer-bill-details/${params.row.consumerNumber}`} 
+          state={{ consumerData: params.row }} 
+          style={{ textDecoration: 'none', color: '#23CCEF' }}
+        >
+          {params.row.consumerNumber}
+        </Link>
+      ),
+    },
     { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
     
@@ -1157,8 +1172,8 @@ const cRMonth = crDateObj.getMonth();
 
 
 <TextField
-    id="userId"
-    name="userId"
+    id="consumerNumber"
+    name="consumerNumber"
     label="Search Consumer ID"
     value={cnId}
     onChange={

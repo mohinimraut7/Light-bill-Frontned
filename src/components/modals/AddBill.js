@@ -213,7 +213,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             fullWidth
                             id="consumerName"
                             name="consumerName"
-                            label="Consume Name"
+                            label="Consumer Name"
                             value={formik.values.consumerName}
                             onChange={formik.handleChange}
                             error={formik.touched.consumerName && Boolean(formik.errors.consumerName)}
@@ -241,6 +241,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             className='A-B-Input'
                         />
                     </Box>
+                    
                     <Box sx={{mt:2}}>
                        
                         <TextField
@@ -255,7 +256,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.email && formik.errors.email}
                             margin="normal"
                             variant="outlined"
-                            className='A-U-Input'
+                             className='A-B-Input'
                         />
                     </Box>
 
@@ -273,13 +274,14 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         helperText={formik.touched.contactNumber && formik.errors.contactNumber}
                         margin="normal"
                         variant="outlined"
-                        className='A-U-Input'
+                         className='A-B-Input'
+                       
                     />
                     </Box>
 
 
 <Box sx={{mt:2}}>
-<FormControl fullWidth margin="normal" variant="outlined" className='A-U-Input'  size="small">
+<FormControl fullWidth margin="normal" variant="outlined" className='A-U-Input'  size="small"   className='A-B-Input'>
     <InputLabel id="ward-label">Ward</InputLabel>
     <Select
         labelId="ward-label"
@@ -416,11 +418,9 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         </FormControl>
                     </Box>
 
-                    <Box>
-                        <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-                            PHASE TYPE
-                        </Typography>
-                        <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input'>
+                    <Box sx={{mt:2}}>
+                       
+                        <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input' size="small" >
                             <InputLabel id="ward-label">Phase Type</InputLabel>
                             <Select
                                 labelId="phaseType-label"
@@ -438,7 +438,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                     </Box>
 
 
-                    <Box sx={{}}>
+                    <Box sx={{mt:2}}>
                        
                         <TextField
                          size="small"
@@ -453,6 +453,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.tarriffCode && formik.errors.tarriffCode}
                             margin="normal"
                             variant="outlined"
+                            className='A-B-Input'
                             InputLabelProps={{
                                 sx: {
                                     color: '#DDDDDD',
@@ -461,7 +462,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         />
                     </Box>
 
-                    <Box sx={{}}>
+                    <Box sx={{mt:2}}>
                        
                         <TextField
                          size="small"
@@ -476,6 +477,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.tarriffType && formik.errors.tarriffType}
                             margin="normal"
                             variant="outlined"
+                            className='A-B-Input'
                             InputLabelProps={{
                                 sx: {
                                     color: '#DDDDDD',
@@ -484,7 +486,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         />
                     </Box>
 
-                    <Box sx={{}}>
+                    <Box sx={{mt:2}}>
                         
                         <TextField
                          size="small"
@@ -499,6 +501,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.billingUnit && formik.errors.billingUnit}
                             margin="normal"
                             variant="outlined"
+                            className='A-B-Input'
                             InputLabelProps={{
                                 sx: {
                                     color: '#DDDDDD',
@@ -709,11 +712,8 @@ size="small"
 
                     </Box>
                     <Box sx={{mt:2}}>
-
-                        <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-                            NET BILL AMOUNT
-                        </Typography>
                         <TextField
+                        size="small"
                             fullWidth
                             id="netBillAmount"
                             name="netBillAmount"
@@ -754,6 +754,7 @@ size="small"
                             IF PAID BY THIS DATE
                         </Typography>
                         <TextField
+                        size="small"
                             fullWidth
                             id="ifPaidByThisDate"
                             name="ifPaidByThisDate"
@@ -794,7 +795,7 @@ size="small"
 
                     
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:1}}>
 
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             DUE DATE
@@ -819,7 +820,7 @@ size="small"
 
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:1}}>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             IF PAID AFTER
                         </Typography>
@@ -840,7 +841,7 @@ size="small"
                     </Box>
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:3}}>
                        
                         <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input' size="small">
                             <InputLabel id="ward-label">Payment Status</InputLabel>

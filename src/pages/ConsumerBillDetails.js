@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
 
+
 import { Typography, Box, Button, Modal, TextField } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import AddBill from '../components/modals/AddBill';
@@ -325,6 +326,7 @@ const ConsumerBillDetails = () => {
   const columns = (handleDeleteBill) => [
 
     { field: 'dueDateMonth', headerName: 'महिना', width: 130 },
+    { field: 'consumerNumber', headerName: 'ग्राहक क्रमांक', width: 130 },
     { field: 'contactNumber', headerName: 'ग्राहक संपर्क क्रमांक', width: 130 },
     { field: 'totalConsumption', headerName: 'एकूण वापर युनिट संख्या', width: 130 },
 
@@ -334,7 +336,7 @@ const ConsumerBillDetails = () => {
     { field: 'currentReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पर्यंत', width: 130 },
     { field: 'currentBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
     { field: 'dueDate', headerName: 'देयकाची अंतिम तारीख ', width: 130 },
-    { field: 'tariffType', headerName: 'मीटर दर प्रकार', width: 130 },
+    { field: 'meterStatus', headerName: 'मीटरची स्थिती', width: 130 },
     { field: 'netLoad', headerName: 'एकूण भार', width: 130 },
     { field: 'sanctionedLoad', headerName: 'मंजूर भार', width: 130 },
     { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
@@ -724,9 +726,11 @@ const handleDeleteBill = (billId) => {
                   xs: '12px'
                 },
               }}>
-                {combinedData
-                  .filter(bill => bill?.userId?._id === consumerData?._id)
-                  .reduce((acc, bill) => bill?.meterId?.meterNumber || acc, 'No meter number available')}
+                
+                {combinedData[0].meterNumber}
+                {/* {combinedData
+                  .filter(bill => bill?.consumerNumber === consumerData?._id)
+                  .reduce((acc, bill) => bill?.meterNumber || acc, 'No meter number available')} */}
 
 
               </Typography>

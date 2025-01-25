@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
 const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
     const formik = useFormik({
         initialValues: {
-          cn: currentUser ? currentUser.cn : '',
+        //   cn: currentUser ? currentUser.cn : '',
           username: currentUser ? currentUser.username : '',
           email: currentUser ? currentUser.email : '',
           password: currentUser ? currentUser.password : '',
