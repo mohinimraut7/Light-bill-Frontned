@@ -59,6 +59,7 @@ const ConsumerBill = () => {
   const [rollbackSuperAdmBtnEnabled, setRollbackSuperAdmBtnEnabled] = useState(false);
   const [cnId, setCnId] = useState('');
   const [cRDate, setCRDate] = useState('');
+  const [myear,setMyear]=useState('');
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
@@ -421,6 +422,7 @@ const cRMonth = crDateObj.getMonth();
     setCRDate(value); 
   };
   
+ 
   const columns = (handleDeleteBill) => [
     {
       field: 'checkbox',

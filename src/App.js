@@ -52,6 +52,7 @@ const App = () => {
       }
     }
   }, [dispatch]);
+
   useEffect(() => {
     let timer;
     let toastId = null;
@@ -74,14 +75,14 @@ const App = () => {
           draggable: true,
           progress: undefined,
           style: {
-            backgroundColor: '#FCE8E6',
+            backgroundColor: '#FAFAFA',
             color: '#000',
-            width: isSmallScreen ? '350px' : isMediumScreen ? '599px' : '800px',
-            height: isSmallScreen ? '80px' : '100px',
+            width: isSmallScreen ? '350px' : isMediumScreen ? '599px' : '600px',
+            height: isSmallScreen ? '80px' : '60px',
             fontSize: isSmallScreen ? '11px' : '15px',
             position: 'relative',
             top: '10px',
-            left: isSmallScreen ? '5px' : '-200px',
+            left: isSmallScreen ? '5px' : '0px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -103,6 +104,7 @@ const App = () => {
       };
     }
   }, [bills.length, dueAlertCount,isAuthenticated]);
+
      const handleLogout = () => {
     localStorage.removeItem("resdata");
     dispatch({ type: "LOGOUT" });

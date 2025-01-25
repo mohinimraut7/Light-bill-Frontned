@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl,IconButton } from '@mui/material';
 import { useFormik } from 'formik';
 import { useLocation } from 'react-router-dom';
 import CloseIcon from "@mui/icons-material/Close";
-
+import MonthYearPicker from '../MonthYearPicker';
 import * as Yup from 'yup';
 import wardData from '../../data/warddata';
 import './AddBill.css';
@@ -34,8 +34,14 @@ const validationSchema = Yup.object({
     // billPaymentDate: Yup.string(),
 
 });
+// const handleMYChange = (value) => {
+//     console.log("Selected Month-Year:", value);
+//     setMyear(value); 
+//   };
 
 const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill }) => {
+        const [myear,setMyear]=useState('');
+    
     const user = useSelector(state => state.auth.user);
     console.log("user role in Add bill test", user?.role)
 
@@ -341,7 +347,10 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                     </Box>
 
 
- <Box sx={{mt:2}}>
+ <Box sx={{mt:1}}>
+ <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
+                        Installation Date
+                        </Typography>
                         
                         <TextField
                          size="small"
@@ -570,7 +579,10 @@ size="small"
 
 </Box>
 
+{/* <MonthYearPicker myear={myear} handleMYChange={handleMYChange}  /> */}
+
 <Box sx={{mt:1}}>
+    {/* ***** */}
 <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             Month And Year
                         </Typography>

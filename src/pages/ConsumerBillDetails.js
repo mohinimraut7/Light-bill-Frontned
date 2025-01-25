@@ -777,6 +777,7 @@ const handleDeleteBill = (billId) => {
           }}>
             {shouldDisplayTextField && (
               <TextField
+              size="small"
                 id="userId"
                 name="userId"
                 label="Search Consumer ID"

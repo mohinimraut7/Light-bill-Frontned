@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -6,6 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
+    const [myear,setMyear]=useState('');
   
   const dateValue = dayjs(cRDate);
 
