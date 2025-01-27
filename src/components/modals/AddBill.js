@@ -14,6 +14,9 @@ import phasetype from '../../data/phasetype';
 import tarifftype from '../../data/tarifftype';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import MonthYearBill from '../MonthYearBill';
+
+
 const validationSchema = Yup.object({
     //   cn: Yup.string().required('Consumer Number is required'), 
     // totalConsumption: Yup.number().required('Total Consumption is required').min(0, 'Total Consumption must be positive'),
@@ -34,13 +37,12 @@ const validationSchema = Yup.object({
     // billPaymentDate: Yup.string(),
 
 });
-// const handleMYChange = (value) => {
-//     console.log("Selected Month-Year:", value);
-//     setMyear(value); 
-//   };
+
+
 
 const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill }) => {
-        const [myear,setMyear]=useState('');
+        
+      const [myear,setMyear]=useState('');
     
     const user = useSelector(state => state.auth.user);
     console.log("user role in Add bill test", user?.role)
@@ -67,8 +69,8 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             meterNumber: currentBill ? currentBill.meterNumber : '',
             meterStatus: currentBill ? currentBill.meterStatus : '',
             meterPurpose: currentBill ? currentBill.meterPurpose : '',
-            tarriffCode: currentBill ? currentBill.tarriffCode : '',
-            tarriffType: currentBill ? currentBill.tarriffType : '',
+            
+            tarriffDescription: currentBill ? currentBill.tarriffType : '',
             phaseType: currentBill ? currentBill.phaseType : '',
 
             billingUnit: currentBill ? currentBill.billingUnit : '',
@@ -84,11 +86,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             totalArrears: currentBill ? currentBill.totalArrears : '',
             netBillAmount: currentBill ? currentBill.netBillAmount : '',
             roundedBillAmount: currentBill ? currentBill.roundedBillAmount : '',
-            ifPaidThisDate: currentBill ? currentBill.ifPaidThisDate : '',
+        
             // ifPaidThisDate: currentBill?.ifPaidThisDate ? moment(currentBill?.ifPaidThisDate, "MMMM DD, YYYY").format("YYYY-MM-DD") : new Date().toISOString().split('T')[0],
-            earlyPaymentAmount: currentBill ? currentBill.earlyPaymentAmount : '',
+            
             dueDate: currentBill ? currentBill.dueDate : '',
-            ifPaidAfter: currentBill ? currentBill.ifPaidAfter : '',
+            overDueAmount: currentBill ? currentBill.overDueAmount : '',
             paymentStatus: currentBill ? currentBill.paymentStatus : '',
             paidAmount: currentBill ? currentBill.paidAmount : '',
             pendingAmount: currentBill ? currentBill.pendingAmount : '',
@@ -119,7 +121,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         },
 
     });
-
+    const handleMYChange = (value) => {
+        console.log("Selected Month-Year:", value);
+        setMyear(value); 
+      };
+    
 
     return (
         <Modal open={open} onClose={handleClose} >
@@ -193,7 +199,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         <Typography variant='h5' sx={{fontWeight:'bold',textAlign:'center'}}>Add Bill</Typography>
                     </Box>
 
-                    <Box sx={{mt:5}}>
+                    <Box sx={{mt:1}}>
                        
                         <TextField
                         size="small"
@@ -207,11 +213,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.consumerNumber && formik.errors.consumerNumber}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                             
                         />
                     </Box>
-                    <Box  sx={{mt:2}}>
+                    <Box  sx={{mt:0}}>
                       
                         <TextField
                         size="small"
@@ -226,11 +232,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.consumerName && formik.errors.consumerName}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                          size="small"
@@ -244,11 +250,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.consumerAddress && formik.errors.consumerAddress}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
                     
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                          size="small"
@@ -262,11 +268,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.email && formik.errors.email}
                             margin="normal"
                             variant="outlined"
-                             className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                   
                         <TextField
                          size="small"
@@ -280,14 +286,14 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         helperText={formik.touched.contactNumber && formik.errors.contactNumber}
                         margin="normal"
                         variant="outlined"
-                         className='A-B-Input'
+                        sx={{color:'#1C1C1C'}}
                        
                     />
                     </Box>
 
 
-<Box sx={{mt:2}}>
-<FormControl fullWidth margin="normal" variant="outlined" className='A-U-Input'  size="small"   className='A-B-Input'>
+<Box sx={{mt:0}}>
+<FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}> 
     <InputLabel id="ward-label">Ward</InputLabel>
     <Select
         labelId="ward-label"
@@ -309,7 +315,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
 </FormControl>
 </Box>
 
-<Box sx={{mt:2}}>
+<Box sx={{mt:0}}>
                        
                         <TextField
                          size="small"
@@ -323,12 +329,12 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.adjustmentUnit && formik.errors.adjustmentUnit}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                         
                         <TextField
                          size="small"
@@ -342,12 +348,12 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.totalConsumption && formik.errors.totalConsumption}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
- <Box sx={{mt:1}}>
+ <Box sx={{mt:1,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column'}}>
  <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                         Installation Date
                         </Typography>
@@ -362,14 +368,13 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             onChange={formik.handleChange}
                             error={formik.touched.installationDate && Boolean(formik.errors.installationDate)}
                             helperText={formik.touched.installationDate && formik.errors.installationDate}
-                            margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                       
                         <TextField
                          size="small"
@@ -383,12 +388,12 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.meterNumber && formik.errors.meterNumber}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                         
-                        <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input'  size="small">
+                        <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Meter Status</InputLabel>
                             <Select
                                 labelId="meterStatus-label"
@@ -406,9 +411,9 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
 
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
-                        <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input'  size="small">
+                        <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Meter Purpose</InputLabel>
                             <Select
                                 id="meterPurpose"
@@ -427,9 +432,9 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         </FormControl>
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
-                        <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input' size="small" >
+                        <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Phase Type</InputLabel>
                             <Select
                                 labelId="phaseType-label"
@@ -447,55 +452,34 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                     </Box>
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                          size="small"
+                         sx={{color:'#1C1C1C'}}
                             fullWidth
-                            id="tarriffCode"
-                            name="tarriffCode"
-                            label="Tarriff Code"
+                            id="tarriffDescription"
+                            name="tarriffDescription"
+                            label="Tarriff Description"
                             // disabled
-                            value={formik.values.tarriffCode}
+                            value={formik.values.tarriffDescription}
                             onChange={formik.handleChange}
-                            error={formik.touched.tarriffCode && Boolean(formik.errors.tarriffCode)}
-                            helperText={formik.touched.tarriffCode && formik.errors.tarriffCode}
+                            error={formik.touched.tarriffDescription && Boolean(formik.errors.tarriffDescription)}
+                            helperText={formik.touched.tarriffDescription && formik.errors.tarriffDescription}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
                             InputLabelProps={{
-                                sx: {
-                                    color: '#DDDDDD',
-                                },
+                               
                             }}
+                            
+                            
+
                         />
                     </Box>
 
-                    <Box sx={{mt:2}}>
-                       
-                        <TextField
-                         size="small"
-                            fullWidth
-                            id="tarriffType"
-                            name="tarriffType"
-                            label="Tarriff Type"
-                            // disabled
-                            value={formik.values.tarriffType}
-                            onChange={formik.handleChange}
-                            error={formik.touched.tarriffType && Boolean(formik.errors.tarriffType)}
-                            helperText={formik.touched.tarriffType && formik.errors.tarriffType}
-                            margin="normal"
-                            variant="outlined"
-                            className='A-B-Input'
-                            InputLabelProps={{
-                                sx: {
-                                    color: '#DDDDDD',
-                                },
-                            }}
-                        />
-                    </Box>
+                  
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                         
                         <TextField
                          size="small"
@@ -509,19 +493,13 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             error={formik.touched.billingUnit && Boolean(formik.errors.billingUnit)}
                             helperText={formik.touched.billingUnit && formik.errors.billingUnit}
                             margin="normal"
-                            variant="outlined"
-                            className='A-B-Input'
-                            InputLabelProps={{
-                                sx: {
-                                    color: '#DDDDDD',
-                                },
-                            }}
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
                    
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                         size="small"
@@ -535,10 +513,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.netLoad && formik.errors.netLoad}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            
+                            
                         />
                     </Box>
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                         size="small"
@@ -552,10 +531,10 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.sanctionedLoad && formik.errors.sanctionedLoad}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:1}}>
 
 
 <TextField
@@ -571,39 +550,33 @@ size="small"
     helperText={formik.touched.billDate && formik.errors.billDate}
     margin="normal"
     variant="outlined"
-    className='A-B-Input'
     InputLabelProps={{
         shrink: true,
     }}
+    sx={{color:'#1C1C1C'}}
+
 />
 
 </Box>
 
-{/* <MonthYearPicker myear={myear} handleMYChange={handleMYChange}  /> */}
+                    <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+        <Typography className="Auth-Label" variant="subtitle1" gutterBottom>
+          Month and Year
+        </Typography>
 
-<Box sx={{mt:1}}>
-    {/* ***** */}
-<Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-                            Month And Year
-                        </Typography>
-                       
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="monthAndYear"
-                            name="monthAndYear"
-                            // label="Previous Reading Date"
-                            type="date"
-                            value={formik.values.monthAndYear}
-                            onChange={formik.handleChange}
-                            error={formik.touched.monthAndYear && Boolean(formik.errors.monthAndYear)}
-                            helperText={formik.touched.monthAndYear && formik.errors.monthAndYear}
-                            margin="normal"
-                            variant="outlined"
-                            className='A-B-Input'
-                        />
-                    </Box>
-                    <Box sx={{mt:1}}>
+        <MonthYearBill
+          monthAndYear={formik.values.monthAndYear}
+          handleMYChange={formik.handleChange}
+          name="monthAndYear"
+          error={formik.touched.monthAndYear && Boolean(formik.errors.monthAndYear)}
+          helperText={formik.touched.monthAndYear && formik.errors.monthAndYear}
+        />
+
+</Box>
+
+
+
+                    <Box sx={{mt:2,display:'flex',flexDirection:'column',alignItems:'flex-start',justifyContent:'flex-end'}}>
                     <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             PREVIOUS READING DATE
                         </Typography>
@@ -618,12 +591,12 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.previousReadingDate && Boolean(formik.errors.previousReadingDate)}
                             helperText={formik.touched.previousReadingDate && formik.errors.previousReadingDate}
-                            margin="normal"
+                            
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:1}}>
 
                        
                         <TextField
@@ -638,12 +611,12 @@ size="small"
                             helperText={formik.touched.previousReading && formik.errors.previousReading}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:2,display:'flex',flexDirection:'column',alignItems:'flex-start',justifyContent:'flex-end'}}>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             CURRENT READING DATE
                         </Typography>
@@ -658,9 +631,9 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.currentReadingDate && Boolean(formik.errors.currentReadingDate)}
                             helperText={formik.touched.currentReadingDate && formik.errors.currentReadingDate}
-                            margin="normal"
+                            
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
                     <Box sx={{mt:2}}>
@@ -677,7 +650,7 @@ size="small"
                             helperText={formik.touched.currentReading && formik.errors.currentReading}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
 
                     </Box>
@@ -685,7 +658,7 @@ size="small"
 
                     
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
 
                       
                         <TextField
@@ -700,30 +673,13 @@ size="small"
                             helperText={formik.touched.currentBillAmount && formik.errors.currentBillAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
 
                     </Box>
 
-                    <Box sx={{mt:2}}>
-                        
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="totalArrears"
-                            name="totalArrears"
-                            label="Total Arrears"
-                            value={formik.values.totalArrears}
-                            onChange={formik.handleChange}
-                            error={formik.touched.totalArrears && Boolean(formik.errors.totalArrears)}
-                            helperText={formik.touched.totalArrears && formik.errors.totalArrears}
-                            margin="normal"
-                            variant="outlined"
-                            className='A-B-Input'
-                        />
-
-                    </Box>
-                    <Box sx={{mt:2}}>
+                    
+                    <Box sx={{mt:0}}>
                         <TextField
                         size="small"
                             fullWidth
@@ -736,12 +692,12 @@ size="small"
                             helperText={formik.touched.netBillAmount && formik.errors.netBillAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
 
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                         
                         <TextField
                         size="small"
@@ -755,59 +711,19 @@ size="small"
                             helperText={formik.touched.roundedBillAmount && formik.errors.roundedBillAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
 
                     </Box>
 
-                    <Box sx={{mt:2}}>
-
-                        <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-                            IF PAID BY THIS DATE
-                        </Typography>
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="ifPaidByThisDate"
-                            name="ifPaidByThisDate"
-                            // label="If Paid By This Date"
-                            type="date"
-                            value={formik.values.ifPaidByThisDate}
-                            onChange={formik.handleChange}
-                            error={formik.touched.ifPaidByThisDate && Boolean(formik.errors.ifPaidByThisDate)}
-                            helperText={formik.touched.ifPaidByThisDate && formik.errors.ifPaidByThisDate}
-                            margin="normal"
-                            variant="outlined"
-                            className='A-B-Input'
-                        />
-                    </Box>
+                 
 
 
 
-                    <Box sx={{mt:2}}>
-
-                       
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="earlyPaymentAmount"
-                            name="earlyPaymentAmount"
-                            label="Early Payment Amount"
-                            value={formik.values.earlyPaymentAmount}
-                            onChange={formik.handleChange}
-                            error={formik.touched.earlyPaymentAmount && Boolean(formik.errors.earlyPaymentAmount)}
-                            helperText={formik.touched.earlyPaymentAmount && formik.errors.earlyPaymentAmount}
-                            margin="normal"
-                            variant="outlined"
-                            className='A-B-Input'
-                        />
-
-
-                    </Box>
-
+                   
                     
 
-                    <Box sx={{mt:1}}>
+                    <Box sx={{mt:1,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column'}}>
 
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             DUE DATE
@@ -823,9 +739,9 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
                             helperText={formik.touched.dueDate && formik.errors.dueDate}
-                            margin="normal"
+                            
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
 
                     </Box>
@@ -833,29 +749,27 @@ size="small"
 
 
                     <Box sx={{mt:1}}>
-                        <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-                            IF PAID AFTER
-                        </Typography>
+                      
                         <TextField
                         size="small"
                             fullWidth
-                            id="ifPaidAfter"
-                            name="ifPaidAfter"
-                            label="If Paid After"
-                            value={formik.values.ifPaidAfter}
+                            id="overDueAmount"
+                            name="overDueAmount"
+                            label="overDueAmount"
+                            value={formik.values.overDueAmount}
                             onChange={formik.handleChange}
-                            error={formik.touched.ifPaidAfter && Boolean(formik.errors.ifPaidAfter)}
-                            helperText={formik.touched.ifPaidAfter && formik.errors.ifPaidAfter}
+                            error={formik.touched.overDueAmount && Boolean(formik.errors.overDueAmount)}
+                            helperText={formik.touched.overDueAmount && formik.errors.overDueAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
-                    <Box sx={{mt:3}}>
+                    <Box sx={{mt:1}}>
                        
-                        <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input' size="small">
+                        <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Payment Status</InputLabel>
                             <Select
                                 labelId="paymentStatus-label"
@@ -864,16 +778,17 @@ size="small"
                                 value={formik.values.paidAmount === formik.values.roundedBillAmount ? 'Paid' : formik.values.paymentStatus}
                                 onChange={formik.handleChange}
                                 label="Ward"
+                                sx={{color:'#1C1C1C'}}
                             >
                                 {paymentdata.map((paymentstatus, index) => (
-                                    <MenuItem key={index} value={paymentstatus.status}>{paymentstatus.status}</MenuItem>
+                                    <MenuItem sx={{color:'#1C1C1C'}} key={index} value={paymentstatus.status}>{paymentstatus.status}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
 
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                         size="small"
@@ -898,14 +813,14 @@ size="small"
                             helperText={formik.touched.paidAmount && formik.errors.paidAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                         
                         <TextField
                         size="small"
@@ -924,11 +839,11 @@ size="small"
                             helperText={formik.touched.pendingAmount && formik.errors.pendingAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
 
                     </Box>
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:0}}>
                        
                         <TextField
                         size="small"
@@ -942,12 +857,12 @@ size="small"
                             helperText={formik.touched.billNo && formik.errors.billNo}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
-                    <Box sx={{mt:2}}>
-                        <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
+                    <Box sx={{display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column',mt:2}}>
+                        <Typography className='Auth-Label' sx={{mb:1}}>
                             BILL PAYMENT DATE
                         </Typography>
                         <TextField
@@ -960,14 +875,14 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.billPaymentDate && Boolean(formik.errors.billPaymentDate)}
                             helperText={formik.touched.billPaymentDate && formik.errors.billPaymentDate}
-                            margin="normal"
+                            
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{mt:1}}>
                        
                         <TextField
                         size="small"
@@ -981,11 +896,11 @@ size="small"
                             helperText={formik.touched.receiptNoBillPayment && formik.errors.receiptNoBillPayment}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-                    <Box sx={{mt:2}}>
-                      
+                    <Box sx={{mt:0}}>
+                   
                         <TextField
                         size="small"
                             fullWidth
@@ -998,11 +913,21 @@ size="small"
                             helperText={formik.touched.promptPaymentAmount && formik.errors.promptPaymentAmount}
                             margin="normal"
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 
-                    <Box sx={{mt:2}}>
+                    <Box sx={{
+                    display: 'flex',
+      flexDirection:'column',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-start',
+      mt:2
+      
+      }}>
+                    <Typography  sx={{mb:1}} className="Auth-Label"> 
+                        Prompt Payment Date
+                        </Typography>
                        
                         <TextField
                         size="small"
@@ -1014,9 +939,9 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.promptPaymentDate && Boolean(formik.errors.promptPaymentDate)}
                             helperText={formik.touched.promptPaymentDate && formik.errors.promptPaymentDate}
-                            margin="normal"
+                    
                             variant="outlined"
-                            className='A-B-Input'
+                            sx={{color:'#1C1C1C'}}
                         />
                     </Box>
 

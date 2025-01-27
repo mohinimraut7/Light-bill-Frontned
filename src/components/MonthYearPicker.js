@@ -6,7 +6,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
-    const [myear,setMyear]=useState('');
   
   const dateValue = dayjs(cRDate);
 

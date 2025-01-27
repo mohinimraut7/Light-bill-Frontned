@@ -1,8 +1,6 @@
 const paymentdata = [
     { "status": 'Paid' },
-    { "status": 'Partial' },
-    { "status": 'UnPaid' },
-    { "status": 'Pending' },
+    { "status": 'UnPaid' }
     ];
 
 export default paymentdata;
