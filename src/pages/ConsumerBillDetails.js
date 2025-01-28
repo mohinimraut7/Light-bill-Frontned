@@ -713,7 +713,7 @@ const handleDeleteBill = (billId) => {
                 },
               }}>
                 
-                {combinedData[0].meterNumber}
+                {combinedData[0]?.meterNumber}
               </Typography>
             </Box>
             <Box sx={{
