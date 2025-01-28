@@ -335,7 +335,7 @@ const cRMonth = crDateObj.getMonth();
     meterNumber: bill?.meterNumber || '-',
     meterStatus: bill.meterStatus||'-',
     phaseType: bill?.phaseType||'-',
-    tarriffType: bill?.tarriffType||'-',
+    tarriffDescription: bill?.tarriffDescription||'-',
     netLoad:bill.netLoad||'-',
     sanctionedLoad:bill?.sanctionedLoad||'-',
     installationDate:formatDate(bill?.installationDate)||'-',
@@ -346,18 +346,16 @@ const cRMonth = crDateObj.getMonth();
     currentReading: bill.currentReading,
     billDate: formatDate(bill.billDate),
     currentBillAmount: bill.currentBillAmount,
-    
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
-    
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || 'PendingForJuniorEngineer',
     paidAmount: bill.paidAmount ? bill.paidAmount : 0,
     pendingAmount: bill.paidAmount ? bill.roundedBillAmount - bill.paidAmount : bill.roundedBillAmount,
     promptPaymentDate:bill.promptPaymentDate,
-    promptPaymentAmount:bill.earlyPaymentAmount,
-    dueDate:bill.promptPaymentAmount,
+    promptPaymentAmount:bill.promptPaymentAmount,
+    dueDate:bill.dueDate,
     overDueAmount: bill.overDueAmount,
     phaseType:bill?.phaseType||'-',
     receiptNoBillPayment:bill.receiptNoBillPayment||'-',
@@ -499,7 +497,7 @@ const cRMonth = crDateObj.getMonth();
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
     { field: 'phaseType', headerName: 'PHASE TYPE', width: 130 },
-    { field: 'tarriffType', headerName: 'TARIFF TYPE', width: 130 },
+    { field: 'tarriffDescription', headerName: 'TARRIFF DESCRIPTION', width: 130 },
     { field: 'netLoad', headerName: 'NET LOAD', width: 130 },
     { field: 'sanctionedLoad', headerName: 'SANCTIONED LOAD', width: 130 },
     { field: 'installationDate', headerName: 'INSTALLATION DATE', width: 130 },
@@ -513,7 +511,6 @@ const cRMonth = crDateObj.getMonth();
     { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
-  
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
     { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
@@ -620,7 +617,6 @@ const cRMonth = crDateObj.getMonth();
   const innerDivStyle = {
     border: '1px solid #F7F7F8',
     width: '99%',
-    // padding: '30px 10px',
   };
   const rowColors = ['#F7F9FB', 'white'];
   const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -687,7 +683,6 @@ const cRMonth = crDateObj.getMonth();
     XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
   };
   const downloadAllTypsOfReport = () => {
-    // const filteredRows = rows.filter(row => row.meterStatus === 'Faulty' || row.meterStatus === 'Average');
     const worksheet = XLSX.utils.json_to_sheet(rows?.map(row => ({
       'ID': row.id,
       'Consumer No.': row.cn,
@@ -793,11 +788,6 @@ const cRMonth = crDateObj.getMonth();
             
             }}>
 
-
-
-
-
-     
             <input
               type="file"
               accept=".xlsx, .xls"
@@ -815,15 +805,15 @@ const cRMonth = crDateObj.getMonth();
         <Box sx={{display:'flex', width: {
       xl: isSidebarOpen ? '100%' : '85%',
       lg: isSidebarOpen ? '100%' : '85%',
+      md: isSidebarOpen ? '100%' : '100%',
       sm: '100%',
-      md: '100%',
       xs: '100%',
     },
         
         justifyContent:{
   xl:'space-between',
   lg:'space-between',
-  md:'center',
+  md:'space-between',
   sm:'center',
   xs:'center'
         },
@@ -834,7 +824,7 @@ const cRMonth = crDateObj.getMonth();
           flexDirection:{
             xl:'row',
             lg:'row',
-            md:'column',
+            md:'row',
             sm:'column',
             xs:'column'
           }
@@ -850,7 +840,7 @@ const cRMonth = crDateObj.getMonth();
                 color: '#ffffff',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                borderRadius: '8px',
+                borderRadius: '2px',
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -871,21 +861,21 @@ const cRMonth = crDateObj.getMonth();
 
                 },
                 alignItems:{
-                  xl:'space-between',
+                  xl:'center',
                   lg:'center',
-                  md:'space-between',
+                  md:'center',
                   sm:'center',
                   xs:'center'
 
                 },
                 mt:{
-                  xl:0,lg:0,md:1,sm:1,xs:1
+                  xl:0,lg:0,md:0,sm:1,xs:1
                 },
                 
                 width:{
                   xl:'150px',
                   lg:'150px',
-                  md:'80%',
+                  md:'90px',
                   sm:'80%',
                   xs:'80%'
                   
@@ -899,7 +889,7 @@ const cRMonth = crDateObj.getMonth();
                 selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')
               }
             >
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
             textTransform:{
               xl:'capitalize',
               lg:'capitalize',
@@ -926,9 +916,9 @@ const cRMonth = crDateObj.getMonth();
                 backgroundColor: '#23CCEF',
                 color: '#ffffff',
                 
-                fontSize: '16px',
+                fontSize: '12px',
                 fontWeight: 'bold',
-                borderRadius: '8px',
+                borderRadius: '2px',
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -949,15 +939,15 @@ const cRMonth = crDateObj.getMonth();
                   xs:'center'
                 },
                 mt:{
-                  xl:0,lg:0,md:1,sm:1,xs:1
+                  xl:0,lg:0,md:0,sm:1,xs:1
                 },
                 mb:{
-                  xl:0,lg:0,md:1,sm:1,xs:1
+                  xl:0,lg:0,md:0,sm:1,xs:1
                 },
                 width:{
                   xl:'180px',
                   lg:'180px',
-                  md:'80%',
+                  md:'170px',
                   sm:'80%',
                   xs:'80%'
                 }
@@ -971,7 +961,7 @@ const cRMonth = crDateObj.getMonth();
               }
 
             >
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
              textTransform:{
               xl:'capitalize',
               lg:'capitalize',
@@ -994,7 +984,7 @@ const cRMonth = crDateObj.getMonth();
                 backgroundColor: '#23CCEF',
                 color: '#ffffff',
                 fontWeight: 'bold',
-                borderRadius: '8px',
+                borderRadius: '2px',
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -1014,18 +1004,18 @@ const cRMonth = crDateObj.getMonth();
                 width:{
                   xl:'180px',
                   lg:'190px',
-                  md:'80%',
+                  md:'190px',
                   sm:'80%',
                   xs:'80%'
                 },
                 mb:{
-                  xl:0,lg:0,md:1,sm:1,xs:1
+                  xl:0,lg:0,md:0,sm:1,xs:1
                 },
               }}
               onClick={downloadAllTypsOfReport}
             >
               <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
              textTransform:{
               xl:'capitalize',
               lg:'capitalize',
@@ -1050,7 +1040,7 @@ const cRMonth = crDateObj.getMonth();
                 backgroundColor: '#23CCEF',
                 color: '#ffffff',
                 fontWeight: 'bold',
-                borderRadius: '8px',
+                borderRadius: '2px',
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -1070,18 +1060,18 @@ const cRMonth = crDateObj.getMonth();
                 width:{
                   xl:'210px',
                   lg:'210px',
-                  md:'80%',
+                  md:'190px',
                   sm:'80%',
                   xs:'80%'
                 },
                 mb:{
-                  xl:0,lg:0,md:1,sm:1,xs:1
+                  xl:0,lg:0,md:'0px',sm:1,xs:1
                 },
               }}
               onClick={handleDownloadReport}
             >
               <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
               textTransform:{
               xl:'capitalize',
               lg:'capitalize',
@@ -1108,7 +1098,7 @@ const cRMonth = crDateObj.getMonth();
                 color: '#ffffff',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                borderRadius: '8px',
+                borderRadius: '2px',
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -1126,7 +1116,7 @@ const cRMonth = crDateObj.getMonth();
                 width:{
                   xl:'180px',
                   lg:'180px',
-                  md:'80%',
+                  md:'100px',
                   sm:'80%',
                   xs:'80%'
                 },
@@ -1134,7 +1124,7 @@ const cRMonth = crDateObj.getMonth();
               onClick={handleAddBillOpen}
             >
               <AddIcon sx={{ marginLeft: '2px',fontSize:'15px' }} />
-              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'15px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
              textTransform:{
               xl:'capitalize',
               lg:'capitalize',
@@ -1147,13 +1137,13 @@ const cRMonth = crDateObj.getMonth();
         <Box sx={{display:'flex',alignItems:'center',
           justifyContent:{xl:'space-between',
             lg:'space-between',
-            md:'center',
+            md:'space-between',
             sm:'center',
             xs:'center'
           },
           width:{xl:'60%',
             lg:'60%',
-            md:'100%',
+            md:'55%',
             sm:'100%',
             xs:'100%'
           },

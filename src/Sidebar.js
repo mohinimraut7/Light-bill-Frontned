@@ -456,7 +456,7 @@ const passedDueDateCount = bills.filter(bill => {
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
-                    // px: 2.5,
+                    
                   }}
                 >
                   <ListItemIcon
@@ -546,53 +546,6 @@ const passedDueDateCount = bills.filter(bill => {
                 </ListItem>
 )}
 
-
-
-
-<ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/metercomponent")}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    // px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 0.2 : 'auto',
-                      justifyContent: 'center',
-                      color: '#fff'
-                    }}
-                  >
-                    <ElectricMeterIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Meter Section" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
-                </ListItemButton>
-              </ListItem>
-
-
-              <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/tarriffscomponent")}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 0.2 : 'auto',
-                      justifyContent: 'center',
-                      color: '#fff'
-                    }}
-                  >
-                    <PaymentIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Tarriff" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
-                </ListItemButton>
-              </ListItem>           
-
              
 
               {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
@@ -611,7 +564,7 @@ const passedDueDateCount = bills.filter(bill => {
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                         color: '#fff',
-                        // border:'1px solid red'
+                        
                       }}
                     >
                       <UpcomingIcon />
@@ -687,51 +640,6 @@ const passedDueDateCount = bills.filter(bill => {
                 </ListItem>
               )}
 
-              <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/paidbills")}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    // px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 0.2 : 'auto',
-                      justifyContent: 'center',
-                      color: '#fff'
-                    }}
-                  >
-                    <CurrencyRupeeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Paid Bills" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
-                </ListItemButton>
-              </ListItem>
-
-              <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/partialpaidbills")}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    // px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 0.2 : 'auto',
-                      justifyContent: 'center',
-                      color: '#fff'
-                    }}
-                  >
-                    <PaymentIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Partial Paid Bills" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
-                </ListItemButton>
-              </ListItem>
-
-
               <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/specificconsumerbills")}>
                 <ListItemButton
                   sx={{
@@ -755,30 +663,7 @@ const passedDueDateCount = bills.filter(bill => {
               </ListItem>
 
 
-              {/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
-<ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/test")}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? 'initial' : 'center',
-                      // px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 0.2 : 'auto',
-                        justifyContent: 'center',
-                        color: '#fff'
-                      }}
-                    >
-                      <PaymentIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="test" sx={{ opacity: open ? 1 : 0, color: 'white' ,textAlign:'left'}} />
-                  </ListItemButton>
-                </ListItem>
-)} */}
-
+              
             </List>
           </Box>
         </Drawer>

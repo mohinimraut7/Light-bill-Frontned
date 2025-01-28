@@ -1,8 +1,6 @@
 
 
 import React from 'react';
-import Sidebar from '../Sidebar';
-import {Typography,DrawerHeader} from '@mui/material';
 import { Box } from '@mui/material';
 const Contact = () => {
   return (

@@ -486,7 +486,6 @@ const ConsumerBillDetails = () => {
         rowData.currentReading || 'N/A',
         rowData.currentBillAmount || 'N/A',
         rowData.dueDate || 'N/A',
-
         rowData.tariffType || 'N/A',
         rowData.netLoad || 'N/A',
         rowData.sanctionedLoad || 'N/A',
@@ -506,8 +505,6 @@ const ConsumerBillDetails = () => {
     link.download = 'ConsumerBills.xlsx';
     link.click();
   };
-
-
 
 const handleDownloadPDF = () => {
   try {
@@ -562,8 +559,6 @@ const handleDownloadPDF = () => {
           });
           firstGroupBody.appendChild(firstDataRow);
       }
-
-      
       const groupedRows = rows.reduce((acc, row) => {
           const year = new Date(row.currentReadingDate).getFullYear();
           if (!acc[year]) {
@@ -572,10 +567,7 @@ const handleDownloadPDF = () => {
           acc[year].push(row);
           return acc;
       }, {});
-
-      
       Object.keys(groupedRows).forEach((year) => {
-        
           const yearHeading = document.createElement('table');
           yearHeading.innerHTML = `
               <thead>
@@ -598,10 +590,7 @@ const handleDownloadPDF = () => {
               </thead>
               <tbody></tbody>
           `;
-
           const yearTableBody = yearHeading.querySelector("tbody");
-
-          
           groupedRows[year].forEach((row) => {
               const thirdGroupData = [
                   row.dueDateMonth || 'N/A',
@@ -616,7 +605,6 @@ const handleDownloadPDF = () => {
                   row.billPaymentDate || 'N/A',
                   row.netLoad || 'N/A'
               ];
-
               const thirdDataRow = document.createElement('tr');
               thirdGroupData.forEach((cellData) => {
                   const td = document.createElement('td');
@@ -650,8 +638,6 @@ const handleDownloadPDF = () => {
       console.error('Error generating PDF:', error);
   }
 };
-
-
 const handleDeleteBill = (billId) => {
     dispatch(deleteBill(billId));
   };
@@ -728,11 +714,6 @@ const handleDeleteBill = (billId) => {
               }}>
                 
                 {combinedData[0].meterNumber}
-                {/* {combinedData
-                  .filter(bill => bill?.consumerNumber === consumerData?._id)
-                  .reduce((acc, bill) => bill?.meterNumber || acc, 'No meter number available')} */}
-
-
               </Typography>
             </Box>
             <Box sx={{
