@@ -351,15 +351,14 @@ const cRMonth = crDateObj.getMonth();
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || 'PendingForJuniorEngineer',
-    paidAmount: bill.paidAmount ? bill.paidAmount : 0,
-    pendingAmount: bill.paidAmount ? bill.roundedBillAmount - bill.paidAmount : bill.roundedBillAmount,
+    lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     promptPaymentDate:bill.promptPaymentDate,
     promptPaymentAmount:bill.promptPaymentAmount,
     dueDate:bill.dueDate,
     overDueAmount: bill.overDueAmount,
     phaseType:bill?.phaseType||'-',
     receiptNoBillPayment:bill.receiptNoBillPayment||'-',
-    billPaymentDate: formatDate(bill.billPaymentDate)||'-',
+    lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
     
   }));
   const handleApproveClick = (bill, yesno) => {
@@ -474,7 +473,6 @@ const cRMonth = crDateObj.getMonth();
       },
     },
     { field: 'id', headerName: 'ID', width: 40 },
-    // { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NUMBER',
@@ -491,7 +489,6 @@ const cRMonth = crDateObj.getMonth();
     },
     { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
-    
     { field: 'ward', headerName: 'WARD', width: 80 },
     { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -514,11 +511,9 @@ const cRMonth = crDateObj.getMonth();
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
     { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
-    { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
-    { field: 'pendingAmount', headerName: 'PENDING AMOUNT', width: 130 },
+    { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
-    { field: 'receiptNoBillPayment', headerName: 'RECEIPT NO. BILL PAYMENT', width: 130 }, 
-    { field: 'billPaymentDate', headerName: 'BILL PAYMENT DATE', width: 130 }, 
+    { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 }, 
     {
       field: 'actions',
       headerName: 'Actions',

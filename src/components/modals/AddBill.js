@@ -3,38 +3,28 @@ import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel
 import { useFormik } from 'formik';
 import { useLocation } from 'react-router-dom';
 import CloseIcon from "@mui/icons-material/Close";
-import MonthYearPicker from '../MonthYearPicker';
 import * as Yup from 'yup';
 import wardData from '../../data/warddata';
 import './AddBill.css';
 import paymentdata from '../../data/paymnetdata';
 import meterstatus from '../../data/meterstatus';
-import meterpurpose from '../../data/meterpurpose';
 import phasetype from '../../data/phasetype';
-import tarifftype from '../../data/tarifftype';
-import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import {useSelector } from 'react-redux';
 import MonthYearBill from '../MonthYearBill';
-
-
 const validationSchema = Yup.object({
-    //   cn: Yup.string().required('Consumer Number is required'), 
-    // totalConsumption: Yup.number().required('Total Consumption is required').min(0, 'Total Consumption must be positive'),
-    // meterStatus: Yup.string().required('Meter Status is required'),
-    // currentReading: Yup.number().required('Current Reading is required').min(0, 'Current Reading must be positive'),
-    // previousReading: Yup.number().required('Previous Reading is required').min(0, 'Previous Reading must be positive'),
-    // currentBillAmount: Yup.number().required('Current Bill Amount is required').min(0, 'Current Bill Amount must be positive'),
-    // totalArrears: Yup.number().required('Total Arrears is required'),
-    // netBillAmount: Yup.number().required('Net Bill Amount is required').min(0, 'Net Bill Amount must be positive'),
-    // roundedBillAmount: Yup.number().required('Rounded Bill Amount is required').min(0, 'Rounded Bill Amount must be positive'),
-    // ifPaidThisDate: Yup.date().required('If Paid This Date is required').typeError('Invalid date format'),
-    // earlyPaymentAmount: Yup.number().required('Early Payment Amount is required').min(0, 'Early Payment Amount must be positive'),
-
-    // ifPaidBefore: Yup.string().required('If Paid Before is required'),
-    // dueDate: Yup.date().required('Due Date is required').typeError('Invalid date format'),
-    // ifPaidAfter: Yup.string().required('If Paid After is required'),
-    // receiptNoBillPayment: Yup.string(),
-    // billPaymentDate: Yup.string(),
+    consumerNumber: Yup.string().required('Consumer Number is required'), 
+    totalConsumption: Yup.number().required('Total Consumption is required').min(0, 'Total Consumption must be positive'),
+    adjustmentUnit: Yup.number().required('Adjustment Unit is required').min(0, 'Total Consumption must be positive'),
+    meterStatus: Yup.string().required('Meter Status is required'),
+    currentReading: Yup.number().required('Current Reading is required').min(0, 'Current Reading must be positive'),
+    previousReading: Yup.number().required('Previous Reading is required').min(0, 'Previous Reading must be positive'),
+    currentBillAmount: Yup.number().required('Current Bill Amount is required'),
+    netBillAmount: Yup.number().required('Net Bill Amount is required'),
+    roundedBillAmount: Yup.number().required('Rounded Bill Amount is required'),
+    billDate: Yup.string().required('Bill Date is required'),
+    dueDate: Yup.date().required('Due Date is required').typeError('Invalid date format'),
+    // receiptNoBillPayment: Yup.string().required('Receipt Number Bill Payment Due Date is required'),
+    lastReceiptDate: Yup.string().required,
 
 });
 
@@ -68,7 +58,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             installationDate: currentBill ? currentBill.installationDate : '',
             meterNumber: currentBill ? currentBill.meterNumber : '',
             meterStatus: currentBill ? currentBill.meterStatus : '',
-            meterPurpose: currentBill ? currentBill.meterPurpose : '',
+            // meterPurpose: currentBill ? currentBill.meterPurpose : '',
             
             tarriffDescription: currentBill ? currentBill.tarriffType : '',
             phaseType: currentBill ? currentBill.phaseType : '',
@@ -83,7 +73,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             currentReadingDate: currentBill ? currentBill.currentReadingDate : '',
             currentReading: currentBill ? currentBill.currentReading : '',
             currentBillAmount: currentBill ? currentBill.currentBillAmount : '',
-            totalArrears: currentBill ? currentBill.totalArrears : '',
             netBillAmount: currentBill ? currentBill.netBillAmount : '',
             roundedBillAmount: currentBill ? currentBill.roundedBillAmount : '',
         
@@ -92,11 +81,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             dueDate: currentBill ? currentBill.dueDate : '',
             overDueAmount: currentBill ? currentBill.overDueAmount : '',
             paymentStatus: currentBill ? currentBill.paymentStatus : '',
-            paidAmount: currentBill ? currentBill.paidAmount : '',
-            pendingAmount: currentBill ? currentBill.pendingAmount : '',
+            lastReceiptAmount: currentBill ? currentBill.lastReceiptAmount : '',
+            // pendingAmount: currentBill ? currentBill.pendingAmount : '',
             billNo: currentBill ? currentBill.billNo : '',
-            billPaymentDate: currentBill ? currentBill.billPaymentDate : '',
-            receiptNoBillPayment: currentBill ? currentBill.receiptNoBillPayment : '',
+            lastReceiptDate: currentBill ? currentBill.lastReceiptDate : '',
+            // receiptNoBillPayment: currentBill ? currentBill.receiptNoBillPayment : '',
             promptPaymentAmount: currentBill ? currentBill.promptPaymentAmount : '',
             promptPaymentDate: currentBill ? currentBill.promptPaymentDate : '',
         },
@@ -323,6 +312,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             id="adjustmentUnit"
                             name="adjustmentUnit"
                             label="Adjustment Unit"
+                            type="number"
                             value={formik.values.adjustmentUnit}
                             onChange={formik.handleChange}
                             error={formik.touched.adjustmentUnit && Boolean(formik.errors.adjustmentUnit)}
@@ -339,6 +329,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         <TextField
                          size="small"
                             fullWidth
+                            type="number"
                             id="totalConsumption"
                             name="totalConsumption"
                             label="Total Consumption"
@@ -411,7 +402,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
 
                     </Box>
 
-                    <Box sx={{mt:0}}>
+                    {/* <Box sx={{mt:0}}>
                        
                         <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Meter Purpose</InputLabel>
@@ -430,7 +421,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                                 ))}
                             </Select>
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
                     <Box sx={{mt:0}}>
                        
@@ -605,6 +596,7 @@ size="small"
                             id="previousReading"
                             name="previousReading"
                             label="Previous Reading"
+                            type="number"
                             value={formik.values.previousReading}
                             onChange={formik.handleChange}
                             error={formik.touched.previousReading && Boolean(formik.errors.previousReading)}
@@ -645,6 +637,7 @@ size="small"
                             name="currentReading"
                             label="Current Reading"
                             value={formik.values.currentReading}
+                            type="number"
                             onChange={formik.handleChange}
                             error={formik.touched.currentReading && Boolean(formik.errors.currentReading)}
                             helperText={formik.touched.currentReading && formik.errors.currentReading}
@@ -667,6 +660,7 @@ size="small"
                             id="currentBillAmount"
                             name="currentBillAmount"
                             label="Current Bill Amount"
+                            type="number"
                             value={formik.values.currentBillAmount}
                             onChange={formik.handleChange}
                             error={formik.touched.currentBillAmount && Boolean(formik.errors.currentBillAmount)}
@@ -690,6 +684,7 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.netBillAmount && Boolean(formik.errors.netBillAmount)}
                             helperText={formik.touched.netBillAmount && formik.errors.netBillAmount}
+                            type="number"
                             margin="normal"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
@@ -704,6 +699,7 @@ size="small"
                             fullWidth
                             id="roundedBillAmount"
                             name="roundedBillAmount"
+                            type="number"
                             label="Rounded Bill Amount"
                             value={formik.values.roundedBillAmount}
                             onChange={formik.handleChange}
@@ -775,7 +771,8 @@ size="small"
                                 labelId="paymentStatus-label"
                                 id="paymentStatus"
                                 name="paymentStatus"
-                                value={formik.values.paidAmount === formik.values.roundedBillAmount ? 'Paid' : formik.values.paymentStatus}
+                                // value={formik.values.paidAmount === formik.values.roundedBillAmount ? 'Paid' : formik.values.paymentStatus}
+                                value={formik.values.paymentStatus}
                                 onChange={formik.handleChange}
                                 label="Ward"
                                 sx={{color:'#1C1C1C'}}
@@ -793,24 +790,26 @@ size="small"
                         <TextField
                         size="small"
                             fullWidth
-                            id="paidAmount"
-                            name="paidAmount"
-                            label="Paid Amount"
-                            value={
-                                formik.values.paymentStatus === "Paid"
-                                    ? formik.values.paidAmount = formik.values.roundedBillAmount
-                                    : formik.values.paymentStatus === "UnPaid"
-                                        ? formik.values.paidAmount = 0
-                                        : formik.values.paymentStatus === "Partial"
-                                            ? Math.max(formik.values.paidAmount, formik.values.paidAmount > 0)
-                                            : formik.values.paymentStatus === "Pending"
-                                                ? Math.min(formik.values.paidAmount, formik.values.roundedBillAmount - 1)
-                                                : formik.values.paidAmount
-                            }
-                            disabled={formik.values.paymentStatus === "Paid" || formik.values.paymentStatus === "UnPaid"}
+                            id="lastReceiptAmount"
+                            name="lastReceiptAmount"
+                            label="Last Receipt Amount"
+                            value={formik.values.lastReceiptAmount}
+                            // value={
+                            //     formik.values.paymentStatus === "Paid"
+                            //         ? formik.values.paidAmount = formik.values.roundedBillAmount
+                            //         : formik.values.paymentStatus === "UnPaid"
+                            //             ? formik.values.paidAmount = 0
+                            //             : formik.values.paymentStatus === "Partial"
+                            //                 ? Math.max(formik.values.paidAmount, formik.values.paidAmount > 0)
+                            //                 : formik.values.paymentStatus === "Pending"
+                            //                     ? Math.min(formik.values.paidAmount, formik.values.roundedBillAmount - 1)
+                            //                     : formik.values.paidAmount
+                            // }
+                            // disabled={formik.values.paymentStatus === "Paid" || formik.values.paymentStatus === "UnPaid"}
+                            disabled={formik.values.paymentStatus === "UnPaid"}
                             onChange={formik.handleChange}
-                            error={formik.touched.paidAmount && Boolean(formik.errors.paidAmount)}
-                            helperText={formik.touched.paidAmount && formik.errors.paidAmount}
+                            error={formik.touched.lastReceiptAmount && Boolean(formik.errors.lastReceiptAmount)}
+                            helperText={formik.touched.lastReceiptAmount && formik.errors.lastReceiptAmount}
                             margin="normal"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
@@ -820,7 +819,7 @@ size="small"
 
 
 
-                    <Box sx={{mt:0}}>
+                    {/* <Box sx={{mt:0}}>
                         
                         <TextField
                         size="small"
@@ -828,6 +827,7 @@ size="small"
                             id="pendingAmount"
                             name="pendingAmount"
                             label="Pending Amount"
+                            type="number"
                             value={
                                 formik.values.paymentStatus === 'UnPaid' ? formik.values.roundedBillAmount :
                                     formik.values.paymentStatus === 'Paid' ? 0 :
@@ -842,7 +842,7 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
 
-                    </Box>
+                    </Box> */}
                     <Box sx={{mt:0}}>
                        
                         <TextField
@@ -863,18 +863,18 @@ size="small"
 
                     <Box sx={{display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column',mt:2}}>
                         <Typography className='Auth-Label' sx={{mb:1}}>
-                            BILL PAYMENT DATE
+                        LAST RECEIPT DATE
                         </Typography>
                         <TextField
                         size="small"
                             fullWidth
-                            id="billPaymentDate"
-                            name="billPaymentDate"
+                            id="lastReceiptDate"
+                            name="lastReceiptDate"
                             type="date"
-                            value={formik.values.billPaymentDate}
+                            value={formik.values.lastReceiptDate}
                             onChange={formik.handleChange}
-                            error={formik.touched.billPaymentDate && Boolean(formik.errors.billPaymentDate)}
-                            helperText={formik.touched.billPaymentDate && formik.errors.billPaymentDate}
+                            error={formik.touched.lastReceiptDate && Boolean(formik.errors.lastReceiptDate)}
+                            helperText={formik.touched.lastReceiptDate && formik.errors.lastReceiptDate}
                             
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
@@ -907,6 +907,7 @@ size="small"
                             id="promptPaymentAmount"
                             name="promptPaymentAmount"
                             label="Prompt Payment Amount"
+                            type="number"
                             value={formik.values.promptPaymentAmount}
                             onChange={formik.handleChange}
                             error={formik.touched.promptPaymentAmount && Boolean(formik.errors.promptPaymentAmount)}
