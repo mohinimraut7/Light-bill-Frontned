@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl,IconButton } from '@mui/material';
 import { useFormik } from 'formik';
+import FormHelperText from '@mui/material/FormHelperText';
+
 import { useLocation } from 'react-router-dom';
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from 'yup';
@@ -10,40 +12,51 @@ import paymentdata from '../../data/paymnetdata';
 import meterstatus from '../../data/meterstatus';
 import phasetype from '../../data/phasetype';
 import {useSelector } from 'react-redux';
+import dayjs from 'dayjs';
+
 import MonthYearBill from '../MonthYearBill';
 const validationSchema = Yup.object({
     consumerNumber: Yup.string().required('Consumer Number is required'), 
-    totalConsumption: Yup.number().required('Total Consumption is required').min(0, 'Total Consumption must be positive'),
-    adjustmentUnit: Yup.number().required('Adjustment Unit is required').min(0, 'Total Consumption must be positive'),
-    meterStatus: Yup.string().required('Meter Status is required'),
-    currentReading: Yup.number().required('Current Reading is required').min(0, 'Current Reading must be positive'),
-    previousReading: Yup.number().required('Previous Reading is required').min(0, 'Previous Reading must be positive'),
-    currentBillAmount: Yup.number().required('Current Bill Amount is required'),
-    netBillAmount: Yup.number().required('Net Bill Amount is required'),
+    contactNumber: Yup.string().required('Contact Number is required'), 
+     totalConsumption: Yup.number().required('Total Consumption is required'),
+    adjustmentUnit: Yup.number().required('Adjustment Unit is required'),
+    meterNumber: Yup.string().required('Meter Number is required'),
+     meterStatus: Yup.string().required('Meter Status is required'),
+     netLoad: Yup.string().required('Net Load is required'),
+     billingUnit: Yup.string().required('Billing Unit is required'),
+     currentReading: Yup.number().required('Current Reading is required'),
+    previousReading: Yup.number().required('Previous Reading is required'),
+     currentBillAmount: Yup.number().required('Current Bill Amount is required'),
+     netBillAmount: Yup.number().required('Net Bill Amount is required'),
     roundedBillAmount: Yup.number().required('Rounded Bill Amount is required'),
-    billDate: Yup.string().required('Bill Date is required'),
+    overDueAmount: Yup.number().required('Over Due Amount is required'),
+    promptPaymentAmount: Yup.number().required('Prompt Payment Amount is required'),
+    promptPaymentDate: Yup.date().required('Prompt Payment Date is required'),
+    previousReadingDate: Yup.date().required('Previous Reading Date is required'),
+    currentReadingDate: Yup.date().required('Current Reading Date is required'),
+    billDate: Yup.date().required('Bill Date is required'),
+    billNo: Yup.string().required('Bill Number is required'),
+    monthAndYear: Yup.string()
+    .required('Month and Year is required')
+    .test('is-valid-date', 'Invalid Month and Year', (value) => {
+      return value && dayjs(value, 'MMM-YYYY', true).isValid(); 
+    }),
+  
     dueDate: Yup.date().required('Due Date is required').typeError('Invalid date format'),
-    // receiptNoBillPayment: Yup.string().required('Receipt Number Bill Payment Due Date is required'),
-    lastReceiptDate: Yup.string().required,
+    lastReceiptDate: Yup.date().required('Last Receipt Date is required').typeError('Invalid date format'),
 
 });
 
 
 
 const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill }) => {
-        
       const [myear,setMyear]=useState('');
-    
     const user = useSelector(state => state.auth.user);
     console.log("user role in Add bill test", user?.role)
-
     const location = useLocation();
-
-
     const shouldHideBox =
         location.pathname.startsWith('/consumer-bill-details/') ||
         location.pathname === '/specificconsumerbills';
-
     const formik = useFormik({
         initialValues: {
             consumerNumber: currentBill ? currentBill.consumerNumber : '',
@@ -51,14 +64,12 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             consumerAddress: currentBill ? currentBill.consumerAddress : '',
             email: currentBill ? currentBill.email : '',
             contactNumber: currentBill ? currentBill.contactNumber : '',
-            // role: currentBill ? currentBill.role : '',
             ward: currentBill ? currentBill.ward : '',
             adjustmentUnit: currentBill ? currentBill.adjustmentUnit : '',
             totalConsumption: currentBill ? currentBill.totalConsumption : '',
             installationDate: currentBill ? currentBill.installationDate : '',
             meterNumber: currentBill ? currentBill.meterNumber : '',
             meterStatus: currentBill ? currentBill.meterStatus : '',
-            // meterPurpose: currentBill ? currentBill.meterPurpose : '',
             
             tarriffDescription: currentBill ? currentBill.tarriffType : '',
             phaseType: currentBill ? currentBill.phaseType : '',
@@ -75,17 +86,12 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             currentBillAmount: currentBill ? currentBill.currentBillAmount : '',
             netBillAmount: currentBill ? currentBill.netBillAmount : '',
             roundedBillAmount: currentBill ? currentBill.roundedBillAmount : '',
-        
-            // ifPaidThisDate: currentBill?.ifPaidThisDate ? moment(currentBill?.ifPaidThisDate, "MMMM DD, YYYY").format("YYYY-MM-DD") : new Date().toISOString().split('T')[0],
-            
             dueDate: currentBill ? currentBill.dueDate : '',
             overDueAmount: currentBill ? currentBill.overDueAmount : '',
             paymentStatus: currentBill ? currentBill.paymentStatus : '',
             lastReceiptAmount: currentBill ? currentBill.lastReceiptAmount : '',
-            // pendingAmount: currentBill ? currentBill.pendingAmount : '',
             billNo: currentBill ? currentBill.billNo : '',
             lastReceiptDate: currentBill ? currentBill.lastReceiptDate : '',
-            // receiptNoBillPayment: currentBill ? currentBill.receiptNoBillPayment : '',
             promptPaymentAmount: currentBill ? currentBill.promptPaymentAmount : '',
             promptPaymentDate: currentBill ? currentBill.promptPaymentDate : '',
         },
@@ -97,9 +103,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
 
 
         onSubmit: (values) => {
-            // if (currentBill && !values.password) {
-            //     values.password = currentBill.password;
-            // }
+           
             if (currentBill) {
                 editBill(currentBill._id, values);
             } else {
@@ -110,19 +114,9 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         },
 
     });
-    const handleMYChange = (value) => {
-        console.log("Selected Month-Year:", value);
-        setMyear(value); 
-      };
-    
-
+   
     return (
         <Modal open={open} onClose={handleClose} >
-            
-
-
-            
-            
             <Box
            
                 sx={{
@@ -391,6 +385,8 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                                 id="meterStatus"
                                 name="meterStatus"
                                 value={formik.values.meterStatus}
+                                onBlur={formik.handleBlur}
+
                                 onChange={formik.handleChange}
                                 label="Ward"
                             >
@@ -398,30 +394,14 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                                     <MenuItem key={index} value={meterStatus.status}>{meterStatus.status}</MenuItem>
                                 ))}
                             </Select>
+                            {formik.touched.meterStatus && formik.errors.meterStatus && (
+      <FormHelperText>{formik.errors.meterStatus}</FormHelperText>
+    )}
                         </FormControl>
 
                     </Box>
 
-                    {/* <Box sx={{mt:0}}>
-                       
-                        <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
-                            <InputLabel id="ward-label">Meter Purpose</InputLabel>
-                            <Select
-                                id="meterPurpose"
-                                name="meterPurpose"
-                                labelId="Meter Purpose"
-
-
-                                value={formik.values.meterPurpose}
-                                onChange={formik.handleChange}
-                                label="meterPurpose"
-                            >
-                                {meterpurpose.map((meterpurpose, index) => (
-                                    <MenuItem key={index} value={meterpurpose.purpose}>{meterpurpose.purpose}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Box> */}
+                  
 
                     <Box sx={{mt:0}}>
                        
@@ -555,13 +535,23 @@ size="small"
           Month and Year
         </Typography>
 
-        <MonthYearBill
+        {/* <MonthYearBill
           monthAndYear={formik.values.monthAndYear}
           handleMYChange={formik.handleChange}
           name="monthAndYear"
+          type="date"
           error={formik.touched.monthAndYear && Boolean(formik.errors.monthAndYear)}
           helperText={formik.touched.monthAndYear && formik.errors.monthAndYear}
-        />
+        /> */}
+
+<MonthYearBill
+    monthAndYear={formik.values.monthAndYear}
+    setFieldValue={formik.setFieldValue}
+    setFieldTouched={formik.setFieldTouched}
+    name="monthAndYear"
+    error={formik.touched.monthAndYear && Boolean(formik.errors.monthAndYear)}
+    helperText={formik.touched.monthAndYear ? formik.errors.monthAndYear : ''}
+  />
 
 </Box>
 
@@ -771,7 +761,6 @@ size="small"
                                 labelId="paymentStatus-label"
                                 id="paymentStatus"
                                 name="paymentStatus"
-                                // value={formik.values.paidAmount === formik.values.roundedBillAmount ? 'Paid' : formik.values.paymentStatus}
                                 value={formik.values.paymentStatus}
                                 onChange={formik.handleChange}
                                 label="Ward"
@@ -882,7 +871,7 @@ size="small"
                     </Box>
 
 
-                    <Box sx={{mt:1}}>
+                    {/* <Box sx={{mt:1}}>
                        
                         <TextField
                         size="small"
@@ -898,7 +887,7 @@ size="small"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
-                    </Box>
+                    </Box> */}
                     <Box sx={{mt:0}}>
                    
                         <TextField

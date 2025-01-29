@@ -5,30 +5,31 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-const MonthYearBill = ({ monthAndYear, handleMYChange, error, helperText, name }) => {
-  const dateValue = dayjs(monthAndYear);
+const MonthYearBill = ({ monthAndYear, setFieldValue, setFieldTouched, error, helperText, name }) => {
+
+  
+  const dateValue = monthAndYear ? dayjs(monthAndYear, 'MMM-YYYY', true) : null;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         views={['year', 'month']}
         label="Month and Year"
-        value={dateValue.isValid() ? dateValue : null}
-        onChange={(newValue) =>
-          handleMYChange({
-            target: {
-              name,
-              value: newValue ? dayjs(newValue).format('MMM-YYYY') : '', // Format to 'DEC-2024'
-            },
-          })
-        }
+        value={dateValue && dateValue.isValid() ? dateValue : null}
+        onChange={(newValue) => {
+          const formattedValue = newValue ? dayjs(newValue).format('MMM-YYYY') : '';
+
+          
+          setFieldValue(name, formattedValue);
+          setFieldTouched(name, true, false);
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
             size="small"
             fullWidth
-            error={Boolean(error)}
-            helperText={helperText}
+            error={Boolean(error)} 
+            helperText={helperText} 
             sx={{
               width: {
                 xl: '40%',
@@ -54,3 +55,5 @@ const MonthYearBill = ({ monthAndYear, handleMYChange, error, helperText, name }
 };
 
 export default MonthYearBill;
+
+
