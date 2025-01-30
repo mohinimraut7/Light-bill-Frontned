@@ -61,7 +61,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         initialValues: {
             consumerNumber: currentBill ? currentBill.consumerNumber : '',
             consumerName: currentBill ? currentBill.consumerName : '',
-            consumerAddress: currentBill ? currentBill.consumerAddress : '',
+            // consumerAddress: currentBill ? currentBill.consumerAddress : '',
             email: currentBill ? currentBill.email : '',
             contactNumber: currentBill ? currentBill.contactNumber : '',
             ward: currentBill ? currentBill.ward : '',
@@ -70,7 +70,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             installationDate: currentBill ? currentBill.installationDate : '',
             meterNumber: currentBill ? currentBill.meterNumber : '',
             meterPurpose: currentBill ? currentBill.meterPurpose : '',
-            place: currentBill ? currentBill.place : '',
+            // place: currentBill ? currentBill.place : '',
             meterStatus: currentBill ? currentBill.meterStatus : '',
             
             tarriffDescription: currentBill ? currentBill.tarriffType : '',
@@ -221,7 +221,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         />
                     </Box>
 
-                    <Box sx={{mt:0}}>
+                    {/* <Box sx={{mt:0}}>
                        
                         <TextField
                          size="small"
@@ -237,7 +237,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
-                    </Box>
+                    </Box> */}
                     
                     <Box sx={{mt:0}}>
                        
@@ -287,7 +287,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         value={formik.values.ward}
         onChange={formik.handleChange}
         label="Ward"
-        disabled={formik.values.ward==='All'}
+        // disabled={formik.values.ward==='All'}
         error={formik.touched.ward && Boolean(formik.errors.ward)}
     >
         {wardData.map((ward, index) => (
@@ -395,7 +395,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                           sx={{color:'#1C1C1C'}}
                       />
                   </Box>
-                  <Box sx={{mt:0}}>
+                  {/* <Box sx={{mt:0}}>
                       
                       <TextField
                        size="small"
@@ -411,7 +411,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                           variant="outlined"
                           sx={{color:'#1C1C1C'}}
                       />
-                  </Box>
+                  </Box> */}
                     <Box sx={{mt:0}}>
                         
                         <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>

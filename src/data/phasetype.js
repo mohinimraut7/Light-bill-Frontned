@@ -1,6 +1,6 @@
 const phasetype = [
-    { "name": 'Single' },
-    { "name": 'Three' },
+    { "name": '1 Phase' },
+    { "name": '3 Phase' },
     ];
 
 export default phasetype;
