@@ -69,6 +69,8 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             totalConsumption: currentBill ? currentBill.totalConsumption : '',
             installationDate: currentBill ? currentBill.installationDate : '',
             meterNumber: currentBill ? currentBill.meterNumber : '',
+            meterPurpose: currentBill ? currentBill.meterPurpose : '',
+            place: currentBill ? currentBill.place : '',
             meterStatus: currentBill ? currentBill.meterStatus : '',
             
             tarriffDescription: currentBill ? currentBill.tarriffType : '',
@@ -376,6 +378,40 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
+                    <Box sx={{mt:0}}>
+                      
+                      <TextField
+                       size="small"
+                          fullWidth
+                          id="meterPurpose"
+                          name="meterPurpose"
+                          label="Meter Purpose"
+                          value={formik.values.meterPurpose}
+                          onChange={formik.handleChange}
+                          error={formik.touched.meterPurpose && Boolean(formik.errors.meterPurpose)}
+                          helperText={formik.touched.meterPurpose && formik.errors.meterPurpose}
+                          margin="normal"
+                          variant="outlined"
+                          sx={{color:'#1C1C1C'}}
+                      />
+                  </Box>
+                  <Box sx={{mt:0}}>
+                      
+                      <TextField
+                       size="small"
+                          fullWidth
+                          id="place"
+                          name="place"
+                          label="Place"
+                          value={formik.values.place}
+                          onChange={formik.handleChange}
+                          error={formik.touched.place && Boolean(formik.errors.place)}
+                          helperText={formik.touched.place && formik.errors.place}
+                          margin="normal"
+                          variant="outlined"
+                          sx={{color:'#1C1C1C'}}
+                      />
+                  </Box>
                     <Box sx={{mt:0}}>
                         
                         <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
