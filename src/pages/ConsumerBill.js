@@ -829,7 +829,13 @@ const cRMonth = crDateObj.getMonth();
                 color: '#ffffff',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                borderRadius: '2px',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -907,7 +913,13 @@ const cRMonth = crDateObj.getMonth();
                 
                 fontSize: '12px',
                 fontWeight: 'bold',
-                borderRadius: '2px',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -973,7 +985,13 @@ const cRMonth = crDateObj.getMonth();
                 backgroundColor: '#23CCEF',
                 color: '#ffffff',
                 fontWeight: 'bold',
-                borderRadius: '2px',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -1029,7 +1047,13 @@ const cRMonth = crDateObj.getMonth();
                 backgroundColor: '#23CCEF',
                 color: '#ffffff',
                 fontWeight: 'bold',
-                borderRadius: '2px',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
@@ -1087,7 +1111,13 @@ const cRMonth = crDateObj.getMonth();
                 color: '#ffffff',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                borderRadius: '2px',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
                 transition: 'background-color 0.3s ease, transform 0.2s ease',
                 '&:hover': {
                   backgroundColor: '#23CCEF',
