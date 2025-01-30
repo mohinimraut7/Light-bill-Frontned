@@ -67,8 +67,8 @@ const Overduebills = () => {
     setArrears(bills?.totalArrears)
     setNBillAmount(bills?.netBillAmount)
     setRBillAmount(bills?.roundedBillAmount)
-    setPaidAfter(bills?.ifPaidBefore)
-    setPaidBefore(bills?.ifPaidAfter)
+    setPaidAfter(bills?.overDueAmount)
+    setPaidBefore(bills?.promptPaymentAmount)
   }, [])
   const getFilteredBills = () => {
     if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') {
@@ -195,13 +195,14 @@ const Overduebills = () => {
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || 'Initial',
-    paidAmount: bill.paidAmount ? bill.paidAmount : 0,
-    pendingAmount: bill.paidAmount ? bill.roundedBillAmount - bill.paidAmount : bill.roundedBillAmount,
-    ifPaidByThisDate: formatDate(bill.ifPaidByThisDate),
-    earlyPaymentAmount: bill.earlyPaymentAmount,
-    ifPaidBefore: bill.ifPaidBefore,
+    lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
+    overDueAmount:bill.overDueAmount,
+    pendingAmount: bill.lastReceiptAmount ? bill.roundedBillAmount - bill.lastReceiptAmount : bill.roundedBillAmount,
+    promptPaymentDate: formatDate(bill.promptPaymentDate),
+    promptPaymentAmount: bill.promptPaymentAmount,
+  
     dueDate: formatDate(bill.dueDate),
-    ifPaidAfter: bill.ifPaidAfter,
+    
     forwardForGeneration: bill.forwardForGeneration,
   }));
   const handleApproveClick = (bill, yesno) => {
@@ -286,11 +287,11 @@ const Overduebills = () => {
       ),
     },
     { field: 'id', headerName: 'ID', width: 70 },
-    // { field: 'userId', headerName: 'CONSUMER NO.', width: 130 },
+    
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
     { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
-    // { field: 'address', headerName: 'ADDRESS', width: 130 },
+  
     { field: 'ward', headerName: 'WARD', width: 130 },
     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -301,17 +302,17 @@ const Overduebills = () => {
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
-    { field: 'totalArrears', headerName: 'TOTAL ARREARS', width: 130 },
-    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
+    
+    
     { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
-    { field: 'ifPaidByThisDate', headerName: 'IF PAID BY THIS DATE', width: 130 },
-    { field: 'earlyPaymentAmount', headerName: 'EARLY PAYMENT AMOUNT', width: 130 },
-    { field: 'ifPaidBefore', headerName: 'IF PAID BEFORE', width: 130 },
+    { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
+    { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
+  
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'ifPaidAfter', headerName: 'IF PAID AFTER', width: 130 },
+    { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
-    { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
-    { field: 'pendingAmount', headerName: 'PENDING AMOUNT', width: 130 },
+    { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
+
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     {
       field: 'actions',
@@ -327,11 +328,11 @@ const Overduebills = () => {
             <DeleteIcon />
           </IconButton>
           { }
-          <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+          {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
             disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
           >
             <EditIcon />
-          </IconButton>
+          </IconButton> */}
         </>
       ),
     },

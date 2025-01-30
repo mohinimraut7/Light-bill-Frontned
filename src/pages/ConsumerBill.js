@@ -528,11 +528,11 @@ const cRMonth = crDateObj.getMonth();
             <DeleteIcon />
           </IconButton>
           { }
-          <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+          {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
             disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
           >
             <EditIcon />
-          </IconButton>
+          </IconButton> */}
         </>
       ),
     },
@@ -647,7 +647,7 @@ const cRMonth = crDateObj.getMonth();
     const filteredRows = rows.filter(row => row.meterStatus === 'Faulty' || row.meterStatus === 'Average');
     const worksheet = XLSX.utils.json_to_sheet(filteredRows?.map(row => ({
       'ID': row.id,
-      'Consumer No.': row.cn,
+      'Consumer No.': row.consumerNumber,
       'Email': row.email,
       'Contact Number': row.contactNumber,
       'Ward': row.ward,
@@ -660,17 +660,15 @@ const cRMonth = crDateObj.getMonth();
       'Current Reading': row.currentReading,
       'billDate': row.billDate,
       'Current Bill Amount': row.currentBillAmount,
-      'Total Arrears': row.totalArrears,
+      
       'Net Bill Amount': row.netBillAmount,
       'Rounded Bill Amount': row.roundedBillAmount,
-      'If Paid Before': row.ifPaidBefore,
+      'Prompt Payment Date': row.promptPaymentDate,
+      'Prompt Payment Amount': row.promptPaymentAmount,
       'Due Date': row.dueDate,
-      'If Paid After': row.ifPaidAfter,
-      'OverDue Date': row.overdueDate,
-      'Payment Status': row.paymentStatus,
-      'Paid Amount': row.paidAmount,
-      'Pending Amount': row.pendingAmount,
-      'Approved Status': row.approvedStatus,
+      'Over Due Amount': row.overDueAmount,
+      
+      'Last Receipt Amount': row.lastReceiptAmount,
     })));
 
     const workbook = XLSX.utils.book_new();
@@ -680,7 +678,7 @@ const cRMonth = crDateObj.getMonth();
   const downloadAllTypsOfReport = () => {
     const worksheet = XLSX.utils.json_to_sheet(rows?.map(row => ({
       'ID': row.id,
-      'Consumer No.': row.cn,
+      'Consumer No.': row.consumerNumber,
       'Email': row.email,
       'Contact Number': row.contactNumber,
       'Ward': row.ward,
@@ -693,17 +691,13 @@ const cRMonth = crDateObj.getMonth();
       'Current Reading': row.currentReading,
       'billDate': row.billDate,
       'Current Bill Amount': row.currentBillAmount,
-      'Total Arrears': row.totalArrears,
       'Net Bill Amount': row.netBillAmount,
       'Rounded Bill Amount': row.roundedBillAmount,
-      'If Paid Before': row.ifPaidBefore,
+      'Prompt Payment Amount': row.promptPaymentAmount,
       'Due Date': row.dueDate,
-      'If Paid After': row.ifPaidAfter,
-      'OverDue Date': row.overdueDate,
-      'Payment Status': row.paymentStatus,
-      'Paid Amount': row.paidAmount,
-      'Pending Amount': row.pendingAmount,
-      'Approved Status': row.approvedStatus,
+      'Over Due Amount': row.overDueAmount,
+      'Last Receipt Date': row.lastReceiptDate,
+      
     })));
 
     const workbook = XLSX.utils.book_new();

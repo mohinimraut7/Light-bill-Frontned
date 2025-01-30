@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-// import wardData from '../../data/warddata';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './AddRole.css';
-// import rolesdata from '../../data/rolesdata';
-import FormHelperText from '@mui/material/FormHelperText';
+
+
 import phasetype from '../../data/phasetype';
 import meterpurpose from '../../data/meterpurpose';
 
@@ -213,25 +213,7 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                     </Box>
 
 
-                    {/* <Box>
-<Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-    TARIFF TYPE
-</Typography>
-<TextField
-    fullWidth
-    id="tariffType"
-    name="tariffType"
-    label="tariffType"
-    value={formik.values.tariffType}
-    onChange={formik.handleChange}
-    error={formik.touched.tariffType && Boolean(formik.errors.tariffType)}
-    helperText={formik.touched.tariffType && formik.errors.tariffType}
-    margin="normal"
-    variant="outlined"
-    className='A-B-Input'
-/>
-</Box> */}
-
+                  
 
 
                     <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input'>
@@ -268,10 +250,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             className='A-B-Input'
                         />
                     </Box>
-
-
-
-                    {/* installationDate  */}
 
 
                     <Box>

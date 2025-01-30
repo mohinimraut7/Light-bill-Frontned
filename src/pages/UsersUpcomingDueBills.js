@@ -166,10 +166,7 @@ const UsersUpcomingDueBills = () => {
   const rows = combinedData.filter(bill => bill.dueAlert === true).map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
-    // userId: bill.userId,
     consumerNumber:bill.consumerNumber,
-    // firstName: bill.firstName,
-    // lastName: bill.lastName,
     email: bill?.email,
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
@@ -185,18 +182,16 @@ const UsersUpcomingDueBills = () => {
     totalArrears: bill.totalArrears,
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
-    // address: bill.address || '-',
-    // role: bill.role || '-',
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || 'Initial',
-    paidAmount: bill.paidAmount ? bill.paidAmount : 0,
-    pendingAmount: bill.paidAmount ? bill.roundedBillAmount - bill.paidAmount : bill.roundedBillAmount,
-    ifPaidByThisDate: formatDate(bill.ifPaidByThisDate),
-    earlyPaymentAmount: bill.earlyPaymentAmount,
-    ifPaidBefore: bill.ifPaidBefore,
+    lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
+    pendingAmount: bill.lastReceiptAmount ? bill.roundedBillAmount - bill.lastReceiptAmount : bill.roundedBillAmount,
+    promptPaymentDate: formatDate(bill.promptPaymentDate),
+    promptPaymentAmount: bill.promptPaymentAmount,
+    
     dueDate: formatDate(bill.dueDate),
-    ifPaidAfter: bill.ifPaidAfter,
+    overDueAmount: bill.overDueAmount,
     forwardForGeneration: bill.forwardForGeneration,
   }));
   const handleApproveClick = (bill, yesno) => {
@@ -281,11 +276,11 @@ const UsersUpcomingDueBills = () => {
       ),
     },
     { field: 'id', headerName: 'ID', width: 70 },
-    // { field: 'userId', headerName: 'CONSUMER NO.', width: 130 },
+    
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
     { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
-    // { field: 'address', headerName: 'ADDRESS', width: 130 },
+    
     { field: 'ward', headerName: 'WARD', width: 130 },
     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -296,17 +291,17 @@ const UsersUpcomingDueBills = () => {
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
-    { field: 'totalArrears', headerName: 'TOTAL ARREARS', width: 130 },
-    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
+    
+   
     { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
-    { field: 'ifPaidByThisDate', headerName: 'IF PAID BY THIS DATE', width: 130 },
-    { field: 'earlyPaymentAmount', headerName: 'EARLY PAYMENT AMOUNT', width: 130 },
-    // { field: 'ifPaidBefore', headerName: 'IF PAID BEFORE', width: 130 },
+    { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
+    { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
+    
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'ifPaidAfter', headerName: 'IF PAID AFTER', width: 130 },
+    { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
-    { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
-    { field: 'pendingAmount', headerName: 'PENDING AMOUNT', width: 130 },
+    { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
+   
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     {
       field: 'actions',
@@ -322,11 +317,11 @@ const UsersUpcomingDueBills = () => {
             <DeleteIcon />
           </IconButton>
           { }
-          <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+          {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
             disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
           >
             <EditIcon />
-          </IconButton>
+          </IconButton> */}
         </>
       ),
     },

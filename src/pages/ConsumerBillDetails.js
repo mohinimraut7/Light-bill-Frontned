@@ -17,6 +17,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
@@ -31,6 +32,7 @@ const ConsumerBillDetails = () => {
   const location = useLocation();
   console.log("location", location)
   const { consumerData = {} } = location?.state || {};
+  console.log("Testing consumerData",consumerData.meterNumber)
   const { bills, loading, error } = useSelector((state) => state.bills);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [userId, setUserId] = useState('');
@@ -270,7 +272,7 @@ const ConsumerBillDetails = () => {
       dueDate: formatDate(bill.dueDate),
       ifPaidAfter: bill.ifPaidAfter,
       receiptNoBillPayment: bill.receiptNoBillPayment,
-      billPaymentDate: formatDate(bill.billPaymentDate),
+      lastReceiptDate: formatDate(bill.lastReceiptDate),
       forwardForGeneration: bill.forwardForGeneration,
       juniorEngineerContactNumber: bill.juniorEngineerContactNumber
     }));
@@ -327,6 +329,7 @@ const ConsumerBillDetails = () => {
 
     { field: 'dueDateMonth', headerName: 'महिना', width: 130 },
     { field: 'consumerNumber', headerName: 'ग्राहक क्रमांक', width: 130 },
+    { field: 'meterNumber', headerName: 'मीटर क्रमांक', width: 130 },
     { field: 'contactNumber', headerName: 'ग्राहक संपर्क क्रमांक', width: 130 },
     { field: 'totalConsumption', headerName: 'एकूण वापर युनिट संख्या', width: 130 },
 
@@ -334,29 +337,29 @@ const ConsumerBillDetails = () => {
     { field: 'previousReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पासून', width: 130 },
     { field: 'currentReadingDate', headerName: 'या तारखे पर्यंत मीटर नोंद', width: 130 },
     { field: 'currentReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पर्यंत', width: 130 },
-    { field: 'currentBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
+    { field: 'roundedBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
     { field: 'dueDate', headerName: 'देयकाची अंतिम तारीख ', width: 130 },
     { field: 'meterStatus', headerName: 'मीटरची स्थिती', width: 130 },
     { field: 'netLoad', headerName: 'एकूण भार', width: 130 },
     { field: 'sanctionedLoad', headerName: 'मंजूर भार', width: 130 },
     { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
     { field: 'phaseType', headerName: 'फेज प्रकार', width: 130 },
-    { field: 'receiptNoBillPayment', headerName: 'पावती क्रमांक ', width: 130 },
-    { field: 'billPaymentDate', headerName: 'बिल भरणा तारीख', width: 130 },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 200,
-      renderCell: (params) => (
-        <>
-          <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-          >
-            <EditIcon />
-          </IconButton>
-        </>
-      ),
-    },
+    // { field: 'receiptNoBillPayment', headerName: 'पावती क्रमांक ', width: 130 },
+    { field: 'lastReceiptDate', headerName: 'बिल भरणा तारीख', width: 130 },
+    // {
+    //   field: 'actions',
+    //   headerName: 'Actions',
+    //   width: 200,
+    //   renderCell: (params) => (
+    //     <>
+    //       <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <EditIcon />
+    //       </IconButton>
+    //     </>
+    //   ),
+    // },
     ...(!user?.role === 'Junior Engineer'
       ? [
         {
@@ -466,8 +469,8 @@ const ConsumerBillDetails = () => {
        'मीटर क्रमांक','ग्राहक संपर्क क्रमांक', 'महिना','एकूण वापर युनिट संख्या', 'या तारखे पासून मीटर नोंद',
       'वापर झालेल्या युनिट रिडींग क्रमांक पासून', 'या तारखे पर्यंत मीटर नोंद',
       'वापर झालेल्या युनिट रिडींग क्रमांक पर्यंत', 'देयकाची रक्कम', 'देयकाची अंतिम तारीख ',
-      'मीटर दर प्रकार', 'एकूण भार', 'मंजूर भार', 'स्थापना दिनांक', 'फेज प्रकार',
-      'बिल भरणा क्रमांक', 'बिल भरणा तारीख',
+      'मीटरची स्थिती', 'एकूण भार', 'मंजूर भार', 'स्थापना दिनांक', 'फेज प्रकार',
+      'बिल भरणा तारीख',
     ];
     worksheet.addRow([]);
     worksheet.addRow(headers).font = { bold: true };
@@ -484,14 +487,14 @@ const ConsumerBillDetails = () => {
         rowData.previousReading || 'N/A',
         rowData.currentReadingDate || 'N/A',
         rowData.currentReading || 'N/A',
-        rowData.currentBillAmount || 'N/A',
+        rowData.roundedBillAmount || 'N/A',
         rowData.dueDate || 'N/A',
-        rowData.tariffType || 'N/A',
+        rowData.meterStatus || 'N/A',
         rowData.netLoad || 'N/A',
         rowData.sanctionedLoad || 'N/A',
         rowData.installationDate || 'N/A',
         rowData.phaseType || 'N/A',
-        rowData.receiptNoBillPayment || 'N/A',
+        // rowData.receiptNoBillPayment || 'N/A',
         rowData.billPaymentDate || 'N/A',
 
       ]);
@@ -525,7 +528,7 @@ const handleDownloadPDF = () => {
                       <th>मीटर क्रमांक</th>
                       <th>ग्राहक संपर्क क्रमांक</th>
                       <th>स्थापना दिनांक</th>
-                      <th>मीटर दर प्रकार</th>
+                      <th>मीटरची स्थिती</th>
                       <th>मंजूर भार</th>
                       <th>फेज प्रकार</th>
                   </tr>
@@ -544,7 +547,7 @@ const handleDownloadPDF = () => {
               firstRow.meterNumber || 'N/A',
               firstRow.contactNumber || 'N/A',
               firstRow.installationDate || 'N/A',
-              firstRow.tariffType || 'N/A',
+              firstRow.meterStatus || 'N/A',
               firstRow.sanctionedLoad || 'N/A',
               firstRow.phaseType || 'N/A'
           ];
@@ -583,7 +586,6 @@ const handleDownloadPDF = () => {
                       <th>या तारखे पर्यंत यूनिट रीडिंग क्रमांक</th>
                       <th>देयकाची रक्कम</th>
                       <th>देयकाची अंतिम तारीख</th>
-                      <th>बिल भरणा क्रमांक</th>
                       <th>बिल भरणा तारीख</th>
                       <th>एकूण भार</th>
                   </tr>
@@ -599,10 +601,9 @@ const handleDownloadPDF = () => {
                   row.previousReading || 'N/A',
                   row.currentReadingDate || 'N/A',
                   row.currentReading || 'N/A',
-                  row.currentBillAmount || 'N/A',
+                  row.roundedBillAmount || 'N/A',
                   row.dueDate || 'N/A',
-                  row.receiptNoBillPayment || 'N/A',
-                  row.billPaymentDate || 'N/A',
+                  row.lastReceiptDate || 'N/A',
                   row.netLoad || 'N/A'
               ];
               const thirdDataRow = document.createElement('tr');
@@ -690,7 +691,9 @@ const handleDeleteBill = (billId) => {
           }
         }}>
           <Box>
-            <Box sx={{
+           {location.pathname.includes('/consumer-bill-details/')&&(
+            <>
+             <Box sx={{
               display: 'flex',
               justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'cener', sm: 'center', xs: 'center' }
             }}>
@@ -713,9 +716,13 @@ const handleDeleteBill = (billId) => {
                 },
               }}>
                 
-                {combinedData[0]?.meterNumber}
+                {consumerData?.meterNumber}
               </Typography>
             </Box>
+            </>
+           )}
+           
+
             <Box sx={{
               display: 'flex',
               justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'cener', sm: 'center', xs: 'center' }

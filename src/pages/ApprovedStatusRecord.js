@@ -33,11 +33,11 @@ const ApprovedStatusRecord = () => {
   }, [dispatch]);
   useEffect(()=>{
     setCBillAmount(bills?.currentBillAmount)
-    setArrears(bills?.totalArrears)
-    setNBillAmount(bills?.netBillAmount)
+    // setArrears(bills?.totalArrears)
+    // setNBillAmount(bills?.netBillAmount)
     setRBillAmount(bills?.roundedBillAmount)
-    setPaidAfter(bills?.ifPaidBefore)
-    setPaidBefore(bills?.ifPaidAfter)
+    setPaidAfter(bills?.overDueAmount)
+    setPaidBefore(bills?.promptPaymentAmount)
   },[])
   const getFilteredBills = () => {
     if (user?.role === 'Junior Engineer') {
@@ -94,11 +94,10 @@ const ApprovedStatusRecord = () => {
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || '-',
-    paidAmount:bill.paidAmount?bill.paidAmount:0,
-    pendingAmount:bill.paidAmount?bill.roundedBillAmount-bill.paidAmount:bill.roundedBillAmount,
-    ifPaidByThisDate: bill.ifPaidByThisDate,
+    lastReceiptAmount:bill.lastReceiptAmount?bill.lastReceiptAmount:0,
+    promptPaymentDate: bill.promptPaymentDate,
     dueDate: formatDate(bill.dueDate),
-    ifPaidAfter: bill.ifPaidAfter,
+    overDueAmount: bill.overDueAmount,
     flagStatus: bill.flagStatus,
   }));
 const handleApproveClick = (bill, yesno) => {
@@ -221,17 +220,16 @@ const columns = [
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
-    { field: 'totalArrears', headerName: 'TOTAL ARREARS', width: 130 },
+  
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
-    { field: 'ifPaidByThisDate', headerName: 'IF PAID BY THIS DATE', width: 130 },
+    { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'ifPaidAfter', headerName: 'PAID AFTER', width: 130 },
+    { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
-    { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
-    { field: 'pendingAmount', headerName: 'PENDING AMOUNT', width: 130 },
-    {
+    { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
+        {
         field: 'actions',
         headerName: 'Actions',
         width: 200,

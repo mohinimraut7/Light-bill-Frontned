@@ -102,11 +102,9 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
-                    <Box>
+                    
 
-                    </Box>
-
-                    <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                    {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                         Consumer No.
                     </Typography>
                      <TextField
@@ -121,7 +119,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                         margin="normal"
                         variant="outlined"
                         className='A-U-Input'
-                    />
+                    /> */}
                     
                      <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                         USER NAME

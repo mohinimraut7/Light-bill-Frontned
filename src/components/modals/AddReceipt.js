@@ -1,0 +1,91 @@
+import React, { useState } from 'react';
+import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+    receiptNoBillPayment: Yup.string().required('Receipt Number is required'),
+});
+
+const AddReceiptModal = ({ open, handleClose, handleAddReceipt, currentReceipt }) => {
+    const formik = useFormik({
+        initialValues: {
+            receiptNoBillPayment: currentReceipt ? currentReceipt.receiptNoBillPayment : '',
+        },
+        validationSchema: validationSchema,
+        enableReinitialize: true,
+        onSubmit: (values) => {
+            handleAddReceipt(values);
+            handleClose();
+        },
+    });
+
+    return (
+        <Modal open={open} onClose={handleClose}>
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: { xs: '90%', sm: '75%', md: '50%', lg: '40%', xl: '35%' },
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: 4,
+                    borderRadius: '4px',
+                }}
+            >
+                <form onSubmit={formik.handleSubmit}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        RECEIPT NUMBER
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        id="receiptNoBillPayment"
+                        name="receiptNoBillPayment"
+                        label="Receipt Number"
+                        value={formik.values.receiptNoBillPayment}
+                        onChange={formik.handleChange}
+                        error={formik.touched.receiptNoBillPayment && Boolean(formik.errors.receiptNoBillPayment)}
+                        helperText={formik.touched.receiptNoBillPayment && formik.errors.receiptNoBillPayment}
+                        margin="normal"
+                        variant="outlined"
+                    />
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                            type="button"
+                            onClick={handleClose}
+                            variant="contained"
+                            sx={{ mr: 2, backgroundColor: '#23CCEF', '&:hover': { opacity: '0.8' } }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
+                        >
+                            {currentReceipt ? 'Update Receipt' : 'Add Receipt'}
+                        </Button>
+                    </Box>
+                </form>
+            </Box>
+        </Modal>
+    );
+};
+
+const ReceiptActions = ({ handleOpenReceiptModal }) => {
+    return {
+        field: 'actions',
+        headerName: 'Actions',
+        width: 200,
+        renderCell: (params) => (
+            <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleOpenReceiptModal(params.row)}>
+                <AddIcon />
+            </IconButton>
+        ),
+    };
+};
+
+export { AddReceiptModal, ReceiptActions };
