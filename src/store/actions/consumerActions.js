@@ -112,7 +112,7 @@ export const editConsumer = (consumerId,consumerData) => {
       dispatch(editConsumerRequest());
       try {
         const token = getToken();
-            const response = await axios.post(`${baseUrl}/editConsumer/${consumerId}`,consumerData,{
+            const response = await axios.put(`${baseUrl}/editConsumer/${consumerId}`,consumerData,{
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -539,7 +539,7 @@ const passedDueDateCount = bills.filter(bill => {
                     >
                       <Person />
                     </ListItemIcon>
-                    <ListItemText primary="User" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
+                    <ListItemText primary="Consumer" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
                   </ListItemButton>
                 </ListItem>
               )}    

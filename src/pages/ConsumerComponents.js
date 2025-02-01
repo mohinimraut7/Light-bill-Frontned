@@ -82,7 +82,7 @@ const [currentConsumer, setCurrentConsumer] = useState(null);
   }
   const rows = consumers?.map((consumer,index) => ({
     id:index+1,
-
+    _id:consumer._id,
     
     consumerNumber:consumer?.consumerNumber||'-',
     consumerAddress: consumer?.consumerAddress||'-',

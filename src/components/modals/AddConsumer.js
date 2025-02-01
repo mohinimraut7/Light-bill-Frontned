@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-
+import wardData from '../../data/warddata';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './AddRole.css';
@@ -18,16 +18,7 @@ const validationSchema = Yup.object({
 });
 
 const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, editConsumer }) => {
-    // const [tarifftype, setTariffType] = React.useState([]);
-
-    // useEffect(() => {
-    //     // fetch('http://localhost:2000/api/getTarriffs')
-    //     fetch('https://lightbillbackend.onrender.com/api/getTarriffs')
-        
-    //         .then(response => response.json())
-    //         .then(data => setTariffType(data))
-    //         .catch(error => console.error('Error fetching tariff types:', error));
-    // }, []);
+   
     const formik = useFormik({
         initialValues: {
             consumerNumber: currentConsumer ? currentConsumer.consumerNumber : '',
@@ -139,31 +130,27 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             },
                         }}
                     />
-
-                    <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
-                        METER PURPOSE
+ <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
+                        WARD
                     </Typography>
-                    <TextField
-                        fullWidth
-                        id="meterPurpose"
-                        name="meterPurpose"
-                        label="Meter Purpose"
-                        value={formik.values.meterPurpose}
-                        onChange={formik.handleChange}
-                        error={formik.touched.meterPurpose && Boolean(formik.errors.meterPurpose)}
-                        helperText={formik.touched.meterPurpose && formik.errors.meterPurpose}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            sx: {
-                                color: '#DDDDDD',
-                            },
-                        }}
-                    />
+                    <FormControl fullWidth margin="normal" variant="outlined" className='A-U-Input'>
+                        <InputLabel id="ward-label">Ward</InputLabel>
+                        <Select
+                            labelId="ward-label"
+                            id="ward"
+                            name="ward"
+                            value={formik.values.ward}
+                            onChange={formik.handleChange}
+                            label="Ward"
+                        >
+                            {wardData.map((ward, index) => (
+                                <MenuItem key={index} value={ward.ward}>{ward.ward}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
 
-
-{/* <Box>
+<Box>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                         METER PURPOSE
                         </Typography>
@@ -184,7 +171,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                                 ))}
                             </Select>
                         </FormControl>
-                    </Box> */}
+                    </Box>
 
 
                     <Box>
