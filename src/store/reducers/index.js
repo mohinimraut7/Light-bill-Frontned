@@ -4,6 +4,7 @@ import userReducer from "./userReducer";
 import sidebarReducer from "./sidebarReducer";
 import roleReducer from "./roleReducer";
 import meterReducer from "./meterReducer";
+import consumerReducer from "./consumerReducer";
 import loginReducer from "./loginReducer";
 import billReducer from "./billReducer";
 import masterReducer from "./masterReducer";
@@ -15,6 +16,7 @@ const rootReducer=combineReducers({
     sidebar:sidebarReducer,
     roles:roleReducer,
     meters:meterReducer,
+    consumers:consumerReducer,
     tarriffs:tarriffReducer,
     auth:loginReducer,
     bills:billReducer,

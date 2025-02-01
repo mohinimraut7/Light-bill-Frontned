@@ -23,6 +23,7 @@ import MeterComponent from './pages/MeterComponents';
 import TarriffMaster from './pages/TarriffMaster';
 import OverdueBills from './pages/Overduebills';
 import Overduebills from './pages/Overduebills';
+import ConsumerComponent from './pages/ConsumerComponents';
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -181,6 +182,7 @@ const App = () => {
             <Route path="/bills" element={<ConsumerBill />} />
             <Route path="/tarriffscomponent" element={<TarriffMaster />} />
             <Route path="/metercomponent" element={<MeterComponent />} />
+            <Route path="/consumercomponent" element={<ConsumerComponent />} />
             <Route path="/usersupcomingduebills" element={<UsersUpcomingDueBills />} />
             <Route path="/overduebills" element={<Overduebills/>} />
             <Route path="/massapprovalsbills" element={<MassApprovalsBills />} />

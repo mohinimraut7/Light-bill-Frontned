@@ -520,7 +520,29 @@ const passedDueDateCount = bills.filter(bill => {
                 </ListItem>
               )}
 
-             
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Junior Engineer') && (
+                <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/consumercomponent")}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      // px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 0.2 : 'auto',
+                        justifyContent: 'center',
+                        color: '#fff'
+                      }}
+                    >
+                      <Person />
+                    </ListItemIcon>
+                    <ListItemText primary="User" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
+                  </ListItemButton>
+                </ListItem>
+              )}    
 
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
 <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/bills")}>
