@@ -13,7 +13,8 @@ import { Typography } from '@mui/material';
 import './Rolemaster.css';
 import { styled } from '@mui/material/styles';
 import { CircularProgress} from '@mui/material';
-
+import * as XLSX from 'xlsx';
+import { baseUrl } from '../config/config';
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
 
@@ -54,6 +55,152 @@ const [currentConsumer, setCurrentConsumer] = useState(null);
     setCurrentConsumer(null);
     setConsumerOpen(true)
   }
+
+
+  // const importExcel = (event) => {
+  //   const file = event.target.files[0]; 
+  //   if (!file) return;
+  
+  //   const reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     const data = new Uint8Array(e.target.result);
+  //     const workbook = XLSX.read(data, { type: 'array' });
+  
+  //     const sheetName = workbook.SheetNames[0];
+  //     const sheet = workbook.Sheets[sheetName];
+  
+  //     const jsonData = XLSX.utils.sheet_to_json(sheet);
+  //     console.log("Parsed Excel Data:", jsonData);
+  
+  //     // Send Data to Backend
+  //     fetch(`${baseUrl}/import-excel`, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(jsonData),
+  //     })
+  //     .then(response => response.json())
+  //     .then(data => console.log("Response from backend:", data))
+  //     .catch(error => console.error("Error:", error));
+  //   };
+  
+  //   reader.readAsArrayBuffer(file);
+  // };
+  
+//  ============================================================= 
+  
+//   const importExcel = (event) => {
+//     const file = event.target.files[0]; 
+//     if (!file) return;
+
+//     const reader = new FileReader();
+//     reader.onload = (e) => {
+//         const data = new Uint8Array(e.target.result);
+//         const workbook = XLSX.read(data, { type: 'array' });
+
+//         const sheetName = workbook.SheetNames[0];
+//         const sheet = workbook.Sheets[sheetName];
+
+//         const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+//         // Clean up the data to remove unnecessary columns and map required fields
+//         const cleanedData = jsonData.map(item => ({
+//             consumerNumber: item.consumerNumber || '', // Make sure to handle missing data
+//             consumerAddress: item.consumerAddress || '',
+//               ward: item.ward || '',
+//                 meterPurpose: item.meterPurpose || '',
+//                 phaseType: item.phaseType || ''
+//         }));
+
+//         console.log("Cleaned Excel Data:", cleanedData);
+
+//         // Send cleaned data to backend
+//         fetch(`${baseUrl}/import-excel`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify(cleanedData),
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log("Response from backend:", data);
+//             alert(data.message); // Display success message to the user
+//         })
+//         .catch(error => {
+//             console.error("Error:", error);
+//             alert('Error importing data');
+//         });
+//     };
+
+//     reader.readAsArrayBuffer(file);
+// };
+// ===========================================================
+const importExcel = async (event) => {
+  const file = event.target.files[0]; 
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+
+    const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+    // Clean and format the data
+    const cleanedData = jsonData.map(item => ({
+      consumerNumber: item.consumerNumber || '',
+      consumerAddress: item.consumerAddress || '',
+      ward: item.ward || '',
+      meterPurpose: item.meterPurpose || '',
+    }));
+
+    console.log("Total Records:", cleanedData.length);
+
+    // Split data into chunks of 100 records each
+    const chunkSize = 100;
+    for (let i = 0; i < cleanedData.length; i += chunkSize) {
+      const chunk = cleanedData.slice(i, i + chunkSize);
+
+      try {
+        const response = await fetch(`${baseUrl}/import-excel`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(chunk),
+        });
+
+        const result = await response.json();
+        console.log(`Batch ${i / chunkSize + 1} imported successfully:`, result);
+      } catch (error) {
+        console.error(`Error importing batch ${i / chunkSize + 1}:`, error);
+      }
+    }
+
+    alert("Excel data import process completed.");
+  };
+
+  reader.readAsArrayBuffer(file);
+};
+  
+  const deleteAllConsumers = () => {
+    fetch(`${baseUrl}/deleteAll`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('All consumers deleted:', data);
+        alert(data.message); // Display success message to the user
+      })
+      .catch((error) => {
+        console.error('Error deleting consumers:', error);
+        alert('Error deleting consumers');
+      });
+  };
+  
+  
   const handleAddConsumerClose=()=>{
     setConsumerOpen(false)
   }
@@ -127,6 +274,60 @@ const [currentConsumer, setCurrentConsumer] = useState(null);
       <Box sx={innerDivStyle}>
       <Box sx={{   width:'100%',display:'flex',justifyContent:'space-between',mb:2}}>
         <Typography  style={{paddingLeft:'20px',color:'#0d2136'}} className='title-2'>CONSUMER MASTER</Typography>
+
+
+        {/* <Button
+            sx={{
+              color: '#23CCEF',
+              border: '0.1px solid #23CCEF',
+              cursor: 'pointer',
+              textTransform: 'none',
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: 'auto',
+            }}
+            onClick={importExcel}
+          >
+            <AddIcon sx={{ marginLeft: '2px' }} />
+            <Typography>Import Excel</Typography>
+          </Button> */}
+          <Button
+  component="label"
+  sx={{
+    color: '#23CCEF',
+    border: '0.1px solid #23CCEF',
+    cursor: 'pointer',
+    textTransform: 'none',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 'auto',
+  }}
+  onClick={deleteAllConsumers}
+>
+  <AddIcon sx={{ marginLeft: '2px' }} />
+  <Typography>Delete All</Typography>
+
+</Button>
+
+
+<Button
+  component="label"
+  sx={{
+    color: '#23CCEF',
+    border: '0.1px solid #23CCEF',
+    cursor: 'pointer',
+    textTransform: 'none',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 'auto',
+  }}
+>
+  <AddIcon sx={{ marginLeft: '2px' }} />
+  <Typography>Import Excel</Typography>
+  <input type="file" hidden onChange={importExcel} accept=".xlsx, .xls" />
+</Button>
+
+
         <Button
             sx={{
               color: '#23CCEF',
@@ -140,8 +341,9 @@ const [currentConsumer, setCurrentConsumer] = useState(null);
             onClick={handleAddConsumerOpen}
           >
             <AddIcon sx={{ marginLeft: '2px' }} />
-            <Typography onClick={handleAddConsumerOpen}>Add Consumer</Typography>
+            <Typography>Add Consumer</Typography>
           </Button>
+
         </Box>
       <StyledDataGrid
       autoHeight  
