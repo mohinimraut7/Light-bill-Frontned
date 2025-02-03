@@ -1,23 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { baseUrl } from '../../config/config';
 
 const validationSchema = Yup.object({
     receiptNoBillPayment: Yup.string().required('Receipt Number is required'),
 });
 
-const AddReceiptModal = ({ open, handleClose, handleAddReceipt, currentReceipt }) => {
+const AddReceiptModal = ({ open, handleClose, currentBill }) => {
     const formik = useFormik({
         initialValues: {
-            receiptNoBillPayment: currentReceipt ? currentReceipt.receiptNoBillPayment : '',
+            receiptNoBillPayment: currentBill ? currentBill.receiptNoBillPayment : '',
         },
-        validationSchema: validationSchema,
+        validationSchema,
         enableReinitialize: true,
-        onSubmit: (values) => {
-            handleAddReceipt(values);
-            handleClose();
+        onSubmit: async (values) => {
+            try {
+                const url = currentBill && currentBill._id 
+                    ? `${baseUrl}/editReceipt` 
+                    : `${baseUrl}/addReceipt`;
+
+                const method = currentBill && currentBill._id ? "PUT" : "POST";
+                
+                const payload = {
+                    ...values,
+                    _id: currentBill?._id, // Pass _id only if updating
+                };
+
+                const response = await fetch(url, {
+                    method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    handleClose(); 
+                } else {
+                    alert(result.message || "Something went wrong");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to process the request.");
+            }
         },
     });
 
@@ -66,7 +95,7 @@ const AddReceiptModal = ({ open, handleClose, handleAddReceipt, currentReceipt }
                             variant="contained"
                             sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
                         >
-                            {currentReceipt ? 'Update Receipt' : 'Add Receipt'}
+                            {currentBill ? 'Update Receipt' : 'Add Receipt'}
                         </Button>
                     </Box>
                 </form>

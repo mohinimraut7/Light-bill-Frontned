@@ -341,10 +341,13 @@ const cRMonth = crDateObj.getMonth();
     tarriffDescription: bill?.tarriffDescription||'-',
     netLoad:bill.netLoad||'-',
     sanctionedLoad:bill?.sanctionedLoad||'-',
-    installationDate:formatDate(bill?.installationDate)||'-',
+    // installationDate:formatDate(bill?.installationDate)||'-',
     totalConsumption: bill.totalConsumption,
     previousReadingDate: formatDate(bill.previousReadingDate),
     previousReading: bill.previousReading,
+    monthAndYear:bill.monthAndYear,
+
+    
     currentReadingDate: formatDate(bill.currentReadingDate),
     currentReading: bill.currentReading,
     billDate: formatDate(bill.billDate),
@@ -502,10 +505,12 @@ const cRMonth = crDateObj.getMonth();
     { field: 'tarriffDescription', headerName: 'TARRIFF DESCRIPTION', width: 130 },
     { field: 'netLoad', headerName: 'NET LOAD', width: 130 },
     { field: 'sanctionedLoad', headerName: 'SANCTIONED LOAD', width: 130 },
-    { field: 'installationDate', headerName: 'INSTALLATION DATE', width: 130 },
+    // { field: 'installationDate', headerName: 'INSTALLATION DATE', width: 130 },
     { field: 'previousReadingDate', headerName: 'PREVIOUS READING DATE', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
+     { field: 'monthAndYear', headerName: 'MONTH AND YEAR', width: 130 },
+    
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
@@ -517,8 +522,9 @@ const cRMonth = crDateObj.getMonth();
     { field: 'netBillAmountWithDPC', headerName: 'NET BILL AMOUNT WITH DPC', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
-    { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 }, 
+    { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
+
     {
       field: 'actions',
       headerName: 'Actions',

@@ -25,6 +25,7 @@ import ExcelJS from 'exceljs';
 
 import { CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { AddReceiptModal } from '../components/modals/AddReceipt';
 
 
 const ConsumerBillDetails = () => {
@@ -250,7 +251,7 @@ const ConsumerBillDetails = () => {
       tariffType: bill?.tariffType || '-',
       netLoad: bill.netLoad || '-',
       sanctionedLoad: bill?.sanctionedLoad || '-',
-      installationDate: formatDate(bill?.installationDate) || '-',
+      // installationDate: formatDate(bill?.installationDate) || '-',
       previousReadingDate: formatDate(bill.previousReadingDate) || '-',
       previousReading: bill.previousReading,
       currentReadingDate: formatDate(bill.currentReadingDate),
@@ -271,7 +272,7 @@ const ConsumerBillDetails = () => {
       ifPaidBefore: bill.ifPaidBefore,
       dueDate: formatDate(bill.dueDate),
       ifPaidAfter: bill.ifPaidAfter,
-      receiptNoBillPayment: bill.receiptNoBillPayment,
+      receiptNoBillPayment: bill.receiptNoBillPayment||'-',
       lastReceiptDate: formatDate(bill.lastReceiptDate),
       forwardForGeneration: bill.forwardForGeneration,
       juniorEngineerContactNumber: bill.juniorEngineerContactNumber
@@ -342,24 +343,24 @@ const ConsumerBillDetails = () => {
     { field: 'meterStatus', headerName: 'मीटरची स्थिती', width: 130 },
     { field: 'netLoad', headerName: 'एकूण भार', width: 130 },
     { field: 'sanctionedLoad', headerName: 'मंजूर भार', width: 130 },
-    { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
+    // { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
     { field: 'phaseType', headerName: 'फेज प्रकार', width: 130 },
-    // { field: 'receiptNoBillPayment', headerName: 'पावती क्रमांक ', width: 130 },
+    { field: 'receiptNoBillPayment', headerName: 'पावती क्रमांक ', width: 130 },
     { field: 'lastReceiptDate', headerName: 'बिल भरणा तारीख', width: 130 },
-    // {
-    //   field: 'actions',
-    //   headerName: 'Actions',
-    //   width: 200,
-    //   renderCell: (params) => (
-    //     <>
-    //       <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <EditIcon />
-    //       </IconButton>
-    //     </>
-    //   ),
-    // },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 200,
+      renderCell: (params) => (
+        <>
+          <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+          >
+            <EditIcon />
+          </IconButton>
+        </>
+      ),
+    },
     ...(!user?.role === 'Junior Engineer'
       ? [
         {
@@ -492,9 +493,9 @@ const ConsumerBillDetails = () => {
         rowData.meterStatus || 'N/A',
         rowData.netLoad || 'N/A',
         rowData.sanctionedLoad || 'N/A',
-        rowData.installationDate || 'N/A',
+        // rowData.installationDate || 'N/A',
         rowData.phaseType || 'N/A',
-        // rowData.receiptNoBillPayment || 'N/A',
+        rowData.receiptNoBillPayment || 'N/A',
         rowData.billPaymentDate || 'N/A',
 
       ]);
@@ -546,7 +547,7 @@ const handleDownloadPDF = () => {
               firstRow.consumerNumber || 'N/A',
               firstRow.meterNumber || 'N/A',
               firstRow.contactNumber || 'N/A',
-              firstRow.installationDate || 'N/A',
+              // firstRow.installationDate || 'N/A',
               firstRow.meterStatus || 'N/A',
               firstRow.sanctionedLoad || 'N/A',
               firstRow.phaseType || 'N/A'
@@ -870,8 +871,17 @@ const handleDeleteBill = (billId) => {
           pageSizeOptions={[5, 10, 15]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5, marginTop: 2 }}
         />
-        <Modal open={billOpen} onClose={handleAddBillClose}>
+        {/* <Modal open={billOpen} onClose={handleAddBillClose}>
           <AddBill open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
+            currentBill={currentBill}
+            editBill={(billId, billData) => {
+              dispatch(editBill(billId, billData));
+              dispatch(fetchBills());
+            }}
+          />
+        </Modal> */}
+        <Modal open={billOpen} onClose={handleAddBillClose}>
+          <AddReceiptModal open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
             currentBill={currentBill}
             editBill={(billId, billData) => {
               dispatch(editBill(billId, billData));
