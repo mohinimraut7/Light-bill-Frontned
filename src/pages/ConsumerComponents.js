@@ -272,26 +272,44 @@ const importExcel = async (event) => {
   return (
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
-      <Box sx={{   width:'100%',display:'flex',justifyContent:'space-between',mb:2}}>
+      <Box sx={{   width:'100%',display:'flex',justifyContent:{
+        xl:'space-between',
+        lg:'space-between',
+        md:'center',
+        xs:'center'
+      },
+      alignItems:{
+        xl:'flex-start',
+        lg:'flex-start',
+        md:'start',
+      sm:'center',
+      xs:'center'
+      },
+      
+      mb:2,flexDirection:{
+      lg:'row',
+      xl:'row',
+      md:'row',
+      sm:'column',
+      xs:'column'
+    }}}>
         <Typography  style={{paddingLeft:'20px',color:'#0d2136'}} className='title-2'>CONSUMER MASTER</Typography>
 
-
-        {/* <Button
-            sx={{
-              color: '#23CCEF',
-              border: '0.1px solid #23CCEF',
-              cursor: 'pointer',
-              textTransform: 'none',
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: 'auto',
-            }}
-            onClick={importExcel}
-          >
-            <AddIcon sx={{ marginLeft: '2px' }} />
-            <Typography>Import Excel</Typography>
-          </Button> */}
-          <Button
+<Box sx={{display:'flex',width:{
+  xl:'40%',
+  lg:'40%',
+  md:'40%',
+  sm:'80%',
+  xs:'80%'
+},justifyContent:'space-between', flexDirection:{
+      lg:'row',
+      xl:'row',
+      md:'row',
+      sm:'column',
+      xs:'column'
+    }}}>
+<Button
+size="small"
   component="label"
   sx={{
     color: '#23CCEF',
@@ -301,10 +319,11 @@ const importExcel = async (event) => {
     display: 'flex',
     justifyContent: 'space-between',
     width: 'auto',
+   
   }}
   onClick={deleteAllConsumers}
 >
-  <AddIcon sx={{ marginLeft: '2px' }} />
+  <AddIcon />
   <Typography>Delete All</Typography>
 
 </Button>
@@ -320,6 +339,8 @@ const importExcel = async (event) => {
     display: 'flex',
     justifyContent: 'space-between',
     width: 'auto',
+   
+   
   }}
 >
   <AddIcon sx={{ marginLeft: '2px' }} />
@@ -328,7 +349,7 @@ const importExcel = async (event) => {
 </Button>
 
 
-        <Button
+<Button
             sx={{
               color: '#23CCEF',
               border: '0.1px solid #23CCEF',
@@ -342,7 +363,11 @@ const importExcel = async (event) => {
           >
             <AddIcon sx={{ marginLeft: '2px' }} />
             <Typography>Add Consumer</Typography>
-          </Button>
+</Button>
+
+</Box>
+       
+
 
         </Box>
       <StyledDataGrid
