@@ -338,7 +338,7 @@ const ConsumerBillDetails = () => {
     { field: 'previousReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पासून', width: 130 },
     { field: 'currentReadingDate', headerName: 'या तारखे पर्यंत मीटर नोंद', width: 130 },
     { field: 'currentReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पर्यंत', width: 130 },
-    { field: 'roundedBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
+    { field: 'netBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
     { field: 'dueDate', headerName: 'देयकाची अंतिम तारीख ', width: 130 },
     { field: 'meterStatus', headerName: 'मीटरची स्थिती', width: 130 },
     { field: 'netLoad', headerName: 'एकूण भार', width: 130 },
