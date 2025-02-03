@@ -193,7 +193,7 @@ const importExcel = async (event) => {
       .then((response) => response.json())
       .then((data) => {
         console.log('All consumers deleted:', data);
-        alert(data.message); // Display success message to the user
+        alert(data.message); 
       })
       .catch((error) => {
         console.error('Error deleting consumers:', error);
@@ -297,9 +297,9 @@ const importExcel = async (event) => {
         <Typography  style={{paddingLeft:'20px',color:'#0d2136'}} className='title-2'>CONSUMER MASTER</Typography>
 
 <Box sx={{display:'flex',width:{
-  xl:'40%',
-  lg:'40%',
-  md:'40%',
+  xl:'45%',
+  lg:'45%',
+  md:'45%',
   sm:'80%',
   xs:'80%'
 },justifyContent:'space-between', flexDirection:{
