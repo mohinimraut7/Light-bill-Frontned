@@ -153,6 +153,7 @@ const importExcel = async (event) => {
       consumerAddress: item.consumerAddress || '',
       ward: item.ward || '',
       meterPurpose: item.meterPurpose || '',
+      phaseType: item.phaseType || '',
     }));
 
     console.log("Total Records:", cleanedData.length);
