@@ -131,15 +131,15 @@ export default function Sidebar() {
 
   const dueAlertrows = bills.filter(bill => {
     if (user?.role === 'Junior Engineer') {
-      return bill.dueAlert === true && user.ward === bill.ward;
+      return bill?.dueAlert === true && user?.ward === bill.ward;
     }
-    return bill.dueAlert === true;
+    return bill?.dueAlert === true;
   });
-  const dueAlertCount = dueAlertrows.length;
+  const dueAlertCount = dueAlertrows?.length;
 
   const today = new Date(); 
 const passedDueDateCount = bills.filter(bill => {
-  const dueDate = new Date(bill.dueDate); 
+  const dueDate = new Date(bill?.dueDate); 
   return dueDate < today
 }).length;
   useEffect(() => {

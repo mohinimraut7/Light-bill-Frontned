@@ -33,9 +33,9 @@ const App = () => {
 
   const dueAlertrows = bills.filter(bill => {
     if (user?.role === 'Junior Engineer') {
-      return bill.dueAlert === true && user.ward === bill.ward;
+      return bill?.dueAlert === true && user?.ward === bill?.ward;
     }
-    return bill.dueAlert === true;
+    return bill?.dueAlert === true;
   });
   const dueAlertCount = dueAlertrows.length;
   useEffect(() => {

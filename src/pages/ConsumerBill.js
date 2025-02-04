@@ -63,18 +63,22 @@ const ConsumerBill = () => {
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
+
+  
   useEffect(() => {
+
     if (bills) {
       const initialSelectedValues = bills.reduce((acc, bill, index) => {
-        acc[index + 1] = bill.forwardForGeneration ? 'Yes' : 'No';
+        acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
         return acc;
       }, {});
+
       setSelectedValues(initialSelectedValues);
-      const normalMeters = bills.filter(bill => bill.meterStatus === 'Normal').length;
-      const faultyMeters = bills.filter(bill => bill.meterStatus === 'Faulty').length;
-      const averageMeters = bills.filter(bill => bill.meterStatus === 'Average').length;
-      const paid = bills.filter(bill => bill.paymentStatus === 'Paid').length;
-      const unpaid = bills.filter(bill => bill.paymentStatus === 'UnPaid').length;
+      const normalMeters = bills.filter(bill => bill?.meterStatus === 'Normal')?.length;
+      const faultyMeters = bills.filter(bill => bill?.meterStatus === 'Faulty')?.length;
+      const averageMeters = bills.filter(bill => bill?.meterStatus === 'Average')?.length;
+      const paid = bills.filter(bill => bill?.paymentStatus === 'Paid')?.length;
+      const unpaid = bills.filter(bill => bill?.paymentStatus === 'UnPaid')?.length;
       setNormalMeterCount(normalMeters);
       setFaultyMeterCount(faultyMeters);
       setAverageMeterCount(averageMeters);
@@ -82,6 +86,13 @@ const ConsumerBill = () => {
       setBillUnPaid(unpaid)
     }
   }, [bills]);
+
+
+
+
+
+
+
   useEffect(() => {
     setCBillAmount(bills?.currentBillAmount)
     setArrears(bills?.totalArrears)
@@ -96,12 +107,12 @@ const ConsumerBill = () => {
       if (user.role === 'Junior Engineer') {
         
         const pendingForJuniorCount = bills.filter(
-          item => item.approvedStatus === 'PendingForJuniorEngineer'
-        ).length;
+          item => item?.approvedStatus === 'PendingForJuniorEngineer'
+        )?.length;
 
         const pendingForExecutiveCount = bills.filter(
-          item => item.approvedStatus === 'PendingForExecutiveEngineer'
-        ).length;
+          item => item?.approvedStatus === 'PendingForExecutiveEngineer'
+        )?.length;
         
         if (pendingForExecutiveCount > pendingForJuniorCount) {
           setRollbackBtnEnabled(true); 
@@ -150,11 +161,11 @@ const ConsumerBill = () => {
         }
       } else if (user.role === 'Super Admin') {
         const pendingForSuperAdminCount = bills.filter(
-          item => item.approvedStatus === 'PendingForSuperAdmin'
-        ).length;
+          item => item?.approvedStatus === 'PendingForSuperAdmin'
+        )?.length;
         const DoneCount = bills.filter(
-          item => item.approvedStatus === 'Done'
-        ).length;
+          item => item?.approvedStatus === 'Done'
+        )?.length;
         if (DoneCount > pendingForSuperAdminCount) {
           setRollbackSuperAdmBtnEnabled(true);
           setProcessSuperAdmBtnEnabled(false);
@@ -176,7 +187,7 @@ const ConsumerBill = () => {
       return bills;
     } else if (user?.role.startsWith('Junior Engineer')) {
       const specificWard = user?.ward;
-      return bills.filter((bill) => bill.ward === specificWard);
+      return bills.filter((bill) => bill?.ward === specificWard);
     }
     return [];
   };
@@ -336,12 +347,14 @@ const cRMonth = crDateObj.getMonth();
     meterNumber: bill?.meterNumber || '-',
     // meterPurpose: bill?.meterPurpose || '-',
     place: bill?.place || '-',
-    meterStatus: bill.meterStatus||'-',
+    meterStatus: bill?.meterStatus||'-',
     phaseType: bill?.phaseType||'-',
-    tarriffDescription: bill?.tarriffDescription||'-',
+    tariffDescription: bill?.tariffDescription||'-',
     netLoad:bill.netLoad||'-',
     sanctionedLoad:bill?.sanctionedLoad||'-',
     // installationDate:formatDate(bill?.installationDate)||'-',
+    installationDate:bill?.installationDate||'-',
+
     totalConsumption: bill.totalConsumption,
     previousReadingDate: formatDate(bill.previousReadingDate),
     previousReading: bill.previousReading,
@@ -355,8 +368,8 @@ const cRMonth = crDateObj.getMonth();
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
     ward: bill?.ward,
-    paymentStatus: bill.paymentStatus || '-',
-    approvedStatus: bill.approvedStatus || 'PendingForJuniorEngineer',
+    paymentStatus: bill?.paymentStatus || '-',
+    approvedStatus: bill?.approvedStatus || 'PendingForJuniorEngineer',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     promptPaymentDate:bill.promptPaymentDate,
     promptPaymentAmount:bill.promptPaymentAmount,
@@ -502,10 +515,10 @@ const cRMonth = crDateObj.getMonth();
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
     { field: 'phaseType', headerName: 'PHASE TYPE', width: 130 },
-    { field: 'tarriffDescription', headerName: 'TARRIFF DESCRIPTION', width: 130 },
+    { field: 'tariffDescription', headerName: 'TARIFF DESCRIPTION', width: 130 },
     { field: 'netLoad', headerName: 'NET LOAD', width: 130 },
     { field: 'sanctionedLoad', headerName: 'SANCTIONED LOAD', width: 130 },
-    // { field: 'installationDate', headerName: 'INSTALLATION DATE', width: 130 },
+    { field: 'installationDate', headerName: 'INSTALLATION DATE', width: 130 },
     { field: 'previousReadingDate', headerName: 'PREVIOUS READING DATE', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
@@ -547,50 +560,50 @@ const cRMonth = crDateObj.getMonth();
         </>
       ),
     },
-    ...(user?.role === 'Junior Engineer'
-      ? [
-        {
-          field: 'forwardForGeneration',
-          headerName: 'FORWARD FOR GENERATION',
-          width: 200,
-          renderCell: (params) => {
-            const isJuniorEngineer = user?.role === 'Junior Engineer';
-            const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
-            if (!isJuniorEngineer) return null;
-            return (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 1,
-                  height: '100%',
-                }}
-              >
-                <IconButton
-                  sx={{ color: '#23CCEF' }}
-                  onClick={() => handleApproveClick(params.row, 'Yes')}
-                  disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
-                >
-                  <Typography>Yes</Typography>
-                </IconButton>
-                <IconButton
-                  sx={{ color: '#23CCEF' }}
-                  onClick={() => handleApproveClick(params.row, 'No')}
-                  disabled={
-                    (params.row.approvedStatus === 'PendingForJuniorEngineer' && params.row.paymentStatus === 'UnPaid' && user?.role === 'Junior Engineer') ||
-                    (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
-                  }
-                >
-                  <UndoIcon />
-                </IconButton>
-              </Box>
-            );
-          },
-        }
+    // ...(user?.role === 'Junior Engineer'
+    //   ? [
+    //     {
+    //       field: 'forwardForGeneration',
+    //       headerName: 'FORWARD FOR GENERATION',
+    //       width: 200,
+    //       renderCell: (params) => {
+    //         const isJuniorEngineer = user?.role === 'Junior Engineer';
+    //         const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
+    //         if (!isJuniorEngineer) return null;
+    //         return (
+    //           <Box
+    //             sx={{
+    //               display: 'flex',
+    //               justifyContent: 'center',
+    //               alignItems: 'center',
+    //               gap: 1,
+    //               height: '100%',
+    //             }}
+    //           >
+    //             <IconButton
+    //               sx={{ color: '#23CCEF' }}
+    //               onClick={() => handleApproveClick(params.row, 'Yes')}
+    //               disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
+    //             >
+    //               <Typography>Yes</Typography>
+    //             </IconButton>
+    //             <IconButton
+    //               sx={{ color: '#23CCEF' }}
+    //               onClick={() => handleApproveClick(params.row, 'No')}
+    //               disabled={
+    //                 (params.row.approvedStatus === 'PendingForJuniorEngineer' && params.row.paymentStatus === 'UnPaid' && user?.role === 'Junior Engineer') ||
+    //                 (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
+    //               }
+    //             >
+    //               <UndoIcon />
+    //             </IconButton>
+    //           </Box>
+    //         );
+    //       },
+    //     }
 
-      ]
-      : []),
+    //   ]
+    //   : []),
     ...(!user?.role === 'Junior Engineer'
       ? [
         {

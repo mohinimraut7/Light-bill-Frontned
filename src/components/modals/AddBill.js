@@ -26,10 +26,10 @@ const validationSchema = Yup.object({
      billingUnit: Yup.string().required('Billing Unit is required'),
      currentReading: Yup.number().required('Current Reading is required'),
     previousReading: Yup.number().required('Previous Reading is required'),
-     currentBillAmount: Yup.number().required('Current Bill Amount is required'),
+    
      netBillAmount: Yup.number().required('Net Bill Amount is required'),
-    roundedBillAmount: Yup.number().required('Rounded Bill Amount is required'),
-    overDueAmount: Yup.number().required('Over Due Amount is required'),
+    
+    
     promptPaymentAmount: Yup.number().required('Prompt Payment Amount is required'),
     promptPaymentDate: Yup.date().required('Prompt Payment Date is required'),
     previousReadingDate: Yup.date().required('Previous Reading Date is required'),
@@ -85,11 +85,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             previousReading: currentBill ? currentBill.previousReading : '',
             currentReadingDate: currentBill ? currentBill.currentReadingDate : '',
             currentReading: currentBill ? currentBill.currentReading : '',
-            currentBillAmount: currentBill ? currentBill.currentBillAmount : '',
+            // currentBillAmount: currentBill ? currentBill.currentBillAmount : '',
             netBillAmount: currentBill ? currentBill.netBillAmount : '',
-            roundedBillAmount: currentBill ? currentBill.roundedBillAmount : '',
+            // roundedBillAmount: currentBill ? currentBill.roundedBillAmount : '',
             dueDate: currentBill ? currentBill.dueDate : '',
-            overDueAmount: currentBill ? currentBill.overDueAmount : '',
+            netBillAmountWithDPC: currentBill ? currentBill.netBillAmountWithDPC : '',
             paymentStatus: currentBill ? currentBill.paymentStatus : '',
             lastReceiptAmount: currentBill ? currentBill.lastReceiptAmount : '',
             billNo: currentBill ? currentBill.billNo : '',
@@ -465,14 +465,14 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                          size="small"
                          sx={{color:'#1C1C1C'}}
                             fullWidth
-                            id="tarriffDescription"
-                            name="tarriffDescription"
-                            label="Tarriff Description"
+                            id="tariffDescription"
+                            name="tariffDescription"
+                            label="Tariff Description"
                             // disabled
-                            value={formik.values.tarriffDescription}
+                            value={formik.values.tariffDescription}
                             onChange={formik.handleChange}
-                            error={formik.touched.tarriffDescription && Boolean(formik.errors.tarriffDescription)}
-                            helperText={formik.touched.tarriffDescription && formik.errors.tarriffDescription}
+                            error={formik.touched.tariffDescription && Boolean(formik.errors.tariffDescription)}
+                            helperText={formik.touched.tariffDescription && formik.errors.tariffDescription}
                             margin="normal"
                             variant="outlined"
                             InputLabelProps={{
@@ -677,7 +677,7 @@ size="small"
 
                     
 
-                    <Box sx={{mt:0}}>
+                    {/* <Box sx={{mt:0}}>
 
                       
                         <TextField
@@ -696,7 +696,7 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
 
-                    </Box>
+                    </Box> */}
 
                     
                     <Box sx={{mt:0}}>
@@ -718,7 +718,7 @@ size="small"
 
                     </Box>
 
-                    <Box sx={{mt:0}}>
+                    {/* <Box sx={{mt:0}}>
                         
                         <TextField
                         size="small"
@@ -736,7 +736,7 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
 
-                    </Box>
+                    </Box> */}
 
                  
 
@@ -775,13 +775,13 @@ size="small"
                         <TextField
                         size="small"
                             fullWidth
-                            id="overDueAmount"
-                            name="overDueAmount"
-                            label="overDueAmount"
-                            value={formik.values.overDueAmount}
+                            id="netBillAmountWithDPC"
+                            name="netBillAmountWithDPC"
+                            label="Net Bill Amount With DPC"
+                            value={formik.values.netBillAmountWithDPC}
                             onChange={formik.handleChange}
-                            error={formik.touched.overDueAmount && Boolean(formik.errors.overDueAmount)}
-                            helperText={formik.touched.overDueAmount && formik.errors.overDueAmount}
+                            error={formik.touched.netBillAmountWithDPC && Boolean(formik.errors.netBillAmountWithDPC)}
+                            helperText={formik.touched.netBillAmountWithDPC && formik.errors.netBillAmountWithDPC}
                             margin="normal"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}

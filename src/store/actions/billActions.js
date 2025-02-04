@@ -117,8 +117,11 @@ export const addBill = (billData) => {
       const token = getToken();
       const response = await axios.post(`${baseUrl}/addBill`, billData
         , {
+        // headers: {
+        //   Authorization: `Bearer ${token}`
+        // }
         headers: {
-          Authorization: `Bearer ${token}`
+          vvcmc: "saavi@infinet"
         }
       }
       );

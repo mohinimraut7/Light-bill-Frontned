@@ -248,7 +248,7 @@ const ConsumerBillDetails = () => {
       totalConsumption: bill.totalConsumption,
       meterStatus: bill.meterStatus || '-',
       phaseType: bill?.phaseType || '-',
-      tariffType: bill?.tariffType || '-',
+      tariffDescription: bill?.tariffDescription || '-',
       netLoad: bill.netLoad || '-',
       sanctionedLoad: bill?.sanctionedLoad || '-',
       // installationDate: formatDate(bill?.installationDate) || '-',
@@ -345,6 +345,8 @@ const ConsumerBillDetails = () => {
     { field: 'sanctionedLoad', headerName: 'मंजूर भार', width: 130 },
     // { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
     { field: 'phaseType', headerName: 'फेज प्रकार', width: 130 },
+    { field: 'tariffDescription', headerName: 'टॅरिफ डिस्क्रिप्शन', width: 130 },
+    
     { field: 'receiptNoBillPayment', headerName: 'पावती क्रमांक ', width: 130 },
     { field: 'lastReceiptDate', headerName: 'बिल भरणा तारीख', width: 130 },
     {
