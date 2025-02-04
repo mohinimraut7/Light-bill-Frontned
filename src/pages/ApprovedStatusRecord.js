@@ -36,7 +36,7 @@ const ApprovedStatusRecord = () => {
     // setArrears(bills?.totalArrears)
     // setNBillAmount(bills?.netBillAmount)
     setRBillAmount(bills?.roundedBillAmount)
-    setPaidAfter(bills?.overDueAmount)
+    setPaidAfter(bills?.netBillAmountWithDPC)
     setPaidBefore(bills?.promptPaymentAmount)
   },[])
   const getFilteredBills = () => {
@@ -97,7 +97,7 @@ const ApprovedStatusRecord = () => {
     lastReceiptAmount:bill.lastReceiptAmount?bill.lastReceiptAmount:0,
     promptPaymentDate: bill.promptPaymentDate,
     dueDate: formatDate(bill.dueDate),
-    overDueAmount: bill.overDueAmount,
+    netBillAmountWithDPC: bill.netBillAmountWithDPC,
     flagStatus: bill.flagStatus,
   }));
 const handleApproveClick = (bill, yesno) => {
@@ -219,13 +219,13 @@ const columns = [
     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
-    { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
+    // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
   
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
-    { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
+    // { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
+    { field: 'netBillAmountWithDPC', headerName: 'NET BILL AMOUNT WITH DPC', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
