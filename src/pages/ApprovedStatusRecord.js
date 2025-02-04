@@ -79,7 +79,7 @@ const ApprovedStatusRecord = () => {
     id: index + 1,
     consumerNumber: bill.consumerNumber,
     consumerId:bill?.cn,
-    email: bill?.email,
+    email: bill?.email||'-',
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
     meterNumber: bill?.meterNumber || '-',
