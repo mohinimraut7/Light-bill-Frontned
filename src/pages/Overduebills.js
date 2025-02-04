@@ -175,7 +175,7 @@ const Overduebills = () => {
     consumerNumber:bill.consumerNumber,
     // firstName: bill.firstName,
     // lastName: bill.lastName,
-    email: bill?.email,
+    email: bill?.email||'-',
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
     meterNumber: bill?.meterNumber || '-',
@@ -301,15 +301,15 @@ const Overduebills = () => {
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
-    { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
+    // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
     
     
-    { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
+    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
   
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
+    { field: 'netBillAmountWithDPC', headerName: 'NET BILL AMOUNT WITH DPC', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
 
@@ -506,7 +506,7 @@ const Overduebills = () => {
           // }
 
            }} className="title-2">
-            Users with Upcoming Due Bills
+            Users with Over Due Bills
           </Typography>
           <Box sx={{ display: 'flex', width: '250px', justifyContent: {
             xs:'space-around',
