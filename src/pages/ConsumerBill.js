@@ -310,7 +310,11 @@ const ConsumerBill = () => {
   const combinedData = [...filteredBills, ...data];
   
 
-  let filteredData = cnId ? combinedData.filter(bill => bill.consumerNumber === cnId) : combinedData;
+  // let filteredData = cnId ? combinedData.filter(bill => bill.consumerNumber === cnId) : combinedData;
+
+  let filteredData = cnId
+  ? combinedData.filter(bill => bill.consumerNumber.includes(cnId))
+  : combinedData;
 
     
     if (cRDate) {
