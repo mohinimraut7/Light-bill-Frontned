@@ -79,6 +79,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             billingUnit: currentBill ? currentBill.billingUnit : '',
             netLoad: currentBill ? currentBill.netLoad : '',
             sanctionedLoad: currentBill ? currentBill.sanctionedLoad : '',
+            billType: currentBill ? currentBill.billType : '',
             billDate: currentBill ? currentBill.billDate : '',
             monthAndYear: currentBill ? currentBill.monthAndYear : '',
             previousReadingDate: currentBill ? currentBill.previousReadingDate : '',
@@ -541,6 +542,25 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
+
+<Box sx={{mt:0}}>
+                       
+                        <TextField
+                        size="small"
+                            fullWidth
+                            id="billType"
+                            name="billType"
+                            label="Bill Type"
+                            value={formik.values.billType}
+                            onChange={formik.handleChange}
+                            error={formik.touched.billType && Boolean(formik.errors.billType)}
+                            helperText={formik.touched.billType && formik.errors.billType}
+                            margin="normal"
+                            variant="outlined"
+                            sx={{color:'#1C1C1C'}}
+                        />
+                    </Box>
+
                     <Box sx={{mt:1}}>
 
 

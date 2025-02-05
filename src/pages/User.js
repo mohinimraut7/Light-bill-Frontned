@@ -14,6 +14,22 @@ import { CircularProgress} from '@mui/material';
 import { styled } from '@mui/material/styles';
 const columns = (handleDeleteUser, handleEditUser) => [
   { field: 'id', headerName: 'ID', width: 70 },
+
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    width: 200,
+    renderCell: (params) => (
+      <>
+        <IconButton sx={{ color: '#FFA534' }} onClick={() => handleDeleteUser(params.row._id)}>
+          <DeleteIcon />
+        </IconButton>
+        <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditUser(params.row)}>
+          <EditIcon />
+        </IconButton>
+      </>
+    ),
+  },
   // { field: 'cn', headerName: 'CONSUMER NO.', width: 130 },
 
   
@@ -46,21 +62,7 @@ const columns = (handleDeleteUser, handleEditUser) => [
   { field: 'address', headerName: 'ADDRESS', width: 130 },
   // { field: 'roleSupervisor', headerName: 'ROLE SUPERVISOR', width: 130 },
   { field: 'ward', headerName: 'Ward', width: 130 },
-  {
-    field: 'actions',
-    headerName: 'Actions',
-    width: 200,
-    renderCell: (params) => (
-      <>
-        <IconButton sx={{ color: '#FFA534' }} onClick={() => handleDeleteUser(params.row._id)}>
-          <DeleteIcon />
-        </IconButton>
-        <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditUser(params.row)}>
-          <EditIcon />
-        </IconButton>
-      </>
-    ),
-  },
+ 
   
 ];
 const User = () => {

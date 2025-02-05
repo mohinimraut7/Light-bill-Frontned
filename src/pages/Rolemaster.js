@@ -16,11 +16,6 @@ import { CircularProgress} from '@mui/material';
 
 const columns = (handleDeleteRole,handleEditRole)=>[
   { field: 'id', headerName: 'ID', width: 40 },
-  { field: 'name', headerName: 'ROLE NAME', width: 220 },
-  { field: 'username', headerName: 'USER NAME', width: 180 },
-  { field: 'email', headerName: 'EMAIL', width: 220 },
-  { field: 'contactNumber', headerName: 'CONTACT', width: 150 },
-  { field: 'ward', headerName: 'WARD AUTHORITY', width: 180 },
   {
     field: 'actions',
     headerName: 'Actions',
@@ -36,6 +31,12 @@ const columns = (handleDeleteRole,handleEditRole)=>[
       </>
     ),
   },
+  { field: 'name', headerName: 'ROLE NAME', width: 220 },
+  { field: 'username', headerName: 'USER NAME', width: 180 },
+  { field: 'email', headerName: 'EMAIL', width: 220 },
+  { field: 'contactNumber', headerName: 'CONTACT', width: 150 },
+  { field: 'ward', headerName: 'WARD AUTHORITY', width: 180 },
+ 
   {
     description: 'This column has a value getter and is not sortable.',
     sortable: false,

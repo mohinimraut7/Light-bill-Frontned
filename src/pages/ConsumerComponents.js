@@ -17,13 +17,6 @@ import * as XLSX from 'xlsx';
 import { baseUrl } from '../config/config';
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
-
-  { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 220 },
-  { field: 'consumerAddress', headerName: 'CONSUMER ADDRESS', width: 180 },
-  { field: 'ward', headerName: 'WARD', width: 180 },
-  { field: 'meterPurpose', headerName: 'METER PURPOSE', width: 220 },
-  { field: 'phaseType', headerName: 'PHASE TYPE', width: 150 },
- 
   {
     field: 'actions',
     headerName: 'Actions',
@@ -39,6 +32,13 @@ const columns = (handleDeleteConsumer,handleEditConsumer)=>[
       </>
     ),
   },
+  { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 220 },
+  { field: 'consumerAddress', headerName: 'CONSUMER ADDRESS', width: 180 },
+  { field: 'ward', headerName: 'WARD', width: 180 },
+  { field: 'meterPurpose', headerName: 'METER PURPOSE', width: 220 },
+  { field: 'phaseType', headerName: 'PHASE TYPE', width: 150 },
+ 
+  
  
 ];
 const ConsumerComponent = () => {
