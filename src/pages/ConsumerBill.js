@@ -371,6 +371,7 @@ const cRMonth = crDateObj.getMonth();
     currentBillAmount: bill.currentBillAmount,
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
+    billingUnit:bill.billingUnit,
     ward: bill?.ward,
     paymentStatus: bill?.paymentStatus || '-',
     approvedStatus: bill?.approvedStatus || 'PendingForJuniorEngineer',
@@ -516,6 +517,7 @@ const cRMonth = crDateObj.getMonth();
     { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
     // { field: 'meterPurpose', headerName: 'METER PURPOSE.', width: 130 },
     { field: 'consumerName', headerName: 'CONSUMER NAME', width: 130 },
+    { field: 'billingUnit', headerName: 'BILLING UNIT', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
     { field: 'phaseType', headerName: 'PHASE TYPE', width: 130 },
@@ -533,6 +535,8 @@ const cRMonth = crDateObj.getMonth();
     // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     // { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
+    
+    
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },

@@ -167,7 +167,7 @@ const UsersUpcomingDueBills = () => {
     _id: bill._id,
     id: index + 1,
     consumerNumber:bill.consumerNumber,
-    email: bill?.email,
+    // email: bill?.email,
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
     meterNumber: bill?.meterNumber || '-',
@@ -191,7 +191,7 @@ const UsersUpcomingDueBills = () => {
     promptPaymentAmount: bill.promptPaymentAmount,
     
     dueDate: formatDate(bill.dueDate),
-    overDueAmount: bill.overDueAmount,
+    netBillAmountWithDPC: bill.netBillAmountWithDPC,
     forwardForGeneration: bill.forwardForGeneration,
   }));
   const handleApproveClick = (bill, yesno) => {
@@ -278,7 +278,7 @@ const UsersUpcomingDueBills = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
-    { field: 'email', headerName: 'EMAIL', width: 130 },
+    // { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
     
     { field: 'ward', headerName: 'WARD', width: 130 },
@@ -290,15 +290,15 @@ const UsersUpcomingDueBills = () => {
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
-    { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
-    
+    // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
+    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
    
-    { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
+    // { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
     
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'overDueAmount', headerName: 'OVER DUE AMOUNT', width: 130 },
+    { field: 'netBillAmountWithDPC', headerName: 'NET Bill AMOUNT WITH DPC', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
    
