@@ -89,7 +89,7 @@ const User = () => {
   // const rows = users.filter((user)=>(user?.role !== "Super Admin" && user?.role !== "Admin"  && user?.role !== "Executive Engineer" && user?.role !== "Junior Engineer")).map((user, index) => ({
     const rows = users.map((user,index) => ({
     id: index + 1,
-    _id: user._id,
+    _id: user?._id,
     // cn: user.cn,
     username: user.username,
     email: user.email,
