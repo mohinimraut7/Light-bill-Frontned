@@ -1,11 +1,14 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import { Box, Typography, TextField, Button, Container,Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/actions/loginActions';
+import MathCaptcha from "./MathCapcha"; // Import Captcha
+
 import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 import '../../Images/vasaivirarmahangarpalika.jpg';
@@ -16,6 +19,8 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+    const [captchaValid, setCaptchaValid] = useState(false); // Captcha validation state
+
     const dispatch = useDispatch();
     const navigate=useNavigate();
     const authError = useSelector((state) => state.auth.error);
@@ -43,6 +48,10 @@ const Login = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values,{resetForm,setSubmitting}) => {
+             if (!captchaValid) {
+        toast.error("Incorrect CAPTCHA. Please try again.", { position: "top-center" });
+        return;
+      }
             dispatch(login(values, navigate))
             // navigate('/')
             .then(()=>{
@@ -130,6 +139,9 @@ const Login = () => {
                     }}
                 />
                 </Box>
+
+                <MathCaptcha onValidate={setCaptchaValid} />
+
                 
                 {authError && (
                     <Typography variant="body2" color="error" align="center" paragraph>
