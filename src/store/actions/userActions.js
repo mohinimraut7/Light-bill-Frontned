@@ -87,7 +87,7 @@ try{
   // }
 );
   dispatch(addUserSuccess(response.data.user))
-  toast.success("User Added Successfully", { position: "top-center" });
+  toast.success("User added successfully.Please check email for verification", { position: "top-center" });
 
 }catch(error){
   dispatch(addUserFailure(error));

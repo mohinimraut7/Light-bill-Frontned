@@ -80,6 +80,10 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             netLoad: currentBill ? currentBill.netLoad : '',
             sanctionedLoad: currentBill ? currentBill.sanctionedLoad : '',
             billType: currentBill ? currentBill.billType : '',
+        billDisplayParameter1: currentBill ? currentBill.billDisplayParameter1 : '',
+        billDisplayParameter2: currentBill ? currentBill.billDisplayParameter2 : '',
+        billDisplayParameter3: currentBill ? currentBill.billDisplayParameter3 : '',
+        billDisplayParameter4: currentBill ? currentBill.billDisplayParameter4 : '',
             billDate: currentBill ? currentBill.billDate : '',
             monthAndYear: currentBill ? currentBill.monthAndYear : '',
             previousReadingDate: currentBill ? currentBill.previousReadingDate : '',
@@ -559,11 +563,83 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
-                    </Box>
+</Box>
 
-                    <Box sx={{mt:1}}>
+<Box sx={{mt:0}}>
+                       
+                        <TextField
+                        size="small"
+                            fullWidth
+                            id=""
+                            name="billDisplayParameter1"
+                            label="billDisplayParameter1"
+                            value={formik.values.billDisplayParameter1}
+                            onChange={formik.handleChange}
+                            error={formik.touched.billDisplayParameter1 && Boolean(formik.errors.billDisplayParameter1)}
+                            helperText={formik.touched.billDisplayParameter1 && formik.errors.billDisplayParameter1}
+                            margin="normal"
+                            variant="outlined"
+                            sx={{color:'#1C1C1C'}}
+                        />
+</Box>
 
 
+<Box sx={{mt:0}}>
+                       
+                        <TextField
+                        size="small"
+                            fullWidth
+                            id=""
+                            name="billDisplayParameter2"
+                            label="billDisplayParameter2"
+                            value={formik.values.billDisplayParameter2}
+                            onChange={formik.handleChange}
+                            error={formik.touched.billDisplayParameter2 && Boolean(formik.errors.billDisplayParameter2)}
+                            helperText={formik.touched.billDisplayParameter2 && formik.errors.billDisplayParameter2}
+                            margin="normal"
+                            variant="outlined"
+                            sx={{color:'#1C1C1C'}}
+                        />
+</Box>
+<Box sx={{mt:0}}>
+                       
+                        <TextField
+                        size="small"
+                            fullWidth
+                            id="billDisplayParameter3"
+                            name="billDisplayParameter3"
+                            label="billDisplayParameter3"
+                            value={formik.values.billDisplayParameter3}
+                            onChange={formik.handleChange}
+                            error={formik.touched.billDisplayParameter3 && Boolean(formik.errors.billDisplayParameter3)}
+                            helperText={formik.touched.billDisplayParameter3 && formik.errors.billDisplayParameter3}
+                            margin="normal"
+                            variant="outlined"
+                            sx={{color:'#1C1C1C'}}
+                        />
+</Box>
+
+<Box sx={{mt:0}}>
+                       
+                        <TextField
+                        size="small"
+                            fullWidth
+                            id="billDisplayParameter4"
+                            name="billDisplayParameter4"
+                            label="billDisplayParameter4"
+                            value={formik.values.billDisplayParameter4}
+                            onChange={formik.handleChange}
+                            error={formik.touched.billDisplayParameter4 && Boolean(formik.errors.billDisplayParameter4)}
+                            helperText={formik.touched.billDisplayParameter4 && formik.errors.billDisplayParameter4}
+                            margin="normal"
+                            variant="outlined"
+                            sx={{color:'#1C1C1C'}}
+                        />
+</Box>
+                   
+
+
+<Box sx={{mt:1}}>
 <TextField
 size="small"
     fullWidth

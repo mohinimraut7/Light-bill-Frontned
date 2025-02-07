@@ -91,13 +91,13 @@ const User = () => {
     id: index + 1,
     _id: user?._id,
     // cn: user.cn,
-    username: user.username,
-    email: user.email,
-    role: user.role || '-',
-    roleSupervisor: user.roleSupervisor || '-',
-    contactNumber: user.contactNumber,
-    address: user.address || '-',
-    ward: user.ward || '-'
+    username: user?.username,
+    email: user?.email,
+    role: user?.role || '-',
+    roleSupervisor: user?.roleSupervisor || '-',
+    contactNumber: user?.contactNumber,
+    address: user?.address || '-',
+    ward: user?.ward || '-'
 
   }));
   const gridStyle = {

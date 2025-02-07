@@ -111,73 +111,73 @@ export const updateBillFlagFailure = (error) => ({
   payload: error.message
 })
 
-// export const addBill = (billData) => {
-//   return async (dispatch) => {
-//     dispatch(addBillRequest());
-//     try {
-//       const token = getToken();
-//       const response = await axios.post(`${baseUrl}/addBill`, billData
-//         , {
-//         // headers: {
-//         //   Authorization: `Bearer ${token}`
-//         // }
-//         headers: {
-//           vvcmc: "saavi@infinet"
-//         }
-//       }
-//       );
-//       dispatch(addBillSuccess(response.data.bill))
-//       console.log("response.data.bill",response.data.bill)
-//       toast.success("Bill Added Successfully", { position: "top-center" });
-//       dispatch(fetchBills());
-//     } catch (error) {
-//       dispatch(addBillFailure(error));
-//       toast.error(error.response?.data?.message || "Error adding lightbill", { position: "top-center" });
-//     }
-//   }
-// }
-
-
 export const addBill = (billData) => {
   return async (dispatch) => {
     dispatch(addBillRequest());
     try {
-      // const token = getToken();
-      const response = await axios.post(`${baseUrl}/addBill`, billData, {
+      const token = getToken();
+      const response = await axios.post(`${baseUrl}/addBill`, billData
+        , {
+        // headers: {
+        //   Authorization: `Bearer ${token}`
+        // }
         headers: {
           vvcmc: "saavi@infinet"
         }
-      });
-
-      console.log("response.data.bill", response.data.bill);
-
-      if (Array.isArray(response.data.bill)) {
-        const hasSuccess = response.data.bill.some(item => item.status === "SUCCESS");
-        const hasFailure = response.data.bill.some(item => item.status === "FAILURE");
-
-        if (hasSuccess) {
-          dispatch(addBillSuccess(response.data.bill.filter(item => item.status === "SUCCESS")));
-          toast.success("Bill Added Successfully", { position: "top-center" });
-          dispatch(fetchBills());
-        }
-
-        if (hasFailure) {
-          response.data.bill
-            .filter(item => item.status === "FAILURE")
-            .forEach(error => {
-              toast.error(error.errorMessage || "Error processing bill", { position: "top-center" });
-            });
-        }
-      } else {
-        throw new Error("Unexpected response format");
       }
-      
+      );
+      dispatch(addBillSuccess(response.data.bill))
+      console.log("response.data.bill",response.data.bill)
+      toast.success(response?.data?.bill?.status, { position: "top-center" });
+      dispatch(fetchBills());
     } catch (error) {
       dispatch(addBillFailure(error));
       toast.error(error.response?.data?.message || "Error adding lightbill", { position: "top-center" });
     }
-  };
-};
+  }
+}
+
+
+// export const addBill = (billData) => {
+//   return async (dispatch) => {
+//     dispatch(addBillRequest());
+//     try {
+//       // const token = getToken();
+//       const response = await axios.post(`${baseUrl}/addBill`, billData, {
+//         headers: {
+//           vvcmc: "saavi@infinet"
+//         }
+//       });
+
+//       console.log("response.data.bill", response.data.bill);
+
+//       if (Array.isArray(response.data.bill)) {
+//         const hasSuccess = response.data.bill.some(item => item.status === "SUCCESS");
+//         const hasFailure = response.data.bill.some(item => item.status === "FAILURE");
+
+//         if (hasSuccess) {
+//           dispatch(addBillSuccess(response.data.bill.filter(item => item.status === "SUCCESS")));
+//           toast.success("Bill Added Successfully", { position: "top-center" });
+//           dispatch(fetchBills());
+//         }
+
+//         if (hasFailure) {
+//           response.data.bill
+//             .filter(item => item.status === "FAILURE")
+//             .forEach(error => {
+//               toast.error(error.errorMessage || "Error processing bill", { position: "top-center" });
+//             });
+//         }
+//       } else {
+//         throw new Error("Unexpected response format");
+//       }
+      
+//     } catch (error) {
+//       dispatch(addBillFailure(error));
+//       toast.error(error.response?.data?.message || "Error adding lightbill", { position: "top-center" });
+//     }
+//   };
+// };
 
 
 export const updateBillStatusAction = (id, approvedStatus, paymentStatus, yesno) => async (dispatch) => {
