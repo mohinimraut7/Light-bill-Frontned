@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import '../App.css';
+import viewimage2 from '../Images/viewimage2.jfif';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -306,6 +308,25 @@ const ConsumerBill = () => {
     setSelectedItems([]);
   }
 
+
+
+  const generateBillURL = (billType, param1, param2, param3, param4) => {
+    if (!billType || !param1 || !param2 || !param3) {
+      return "#"; // Return a placeholder if required parameters are missing
+    }
+  
+    let baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink";
+  
+    if (billType === "LT") {
+      return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}&D=${encodeURIComponent(param4)}`;
+    } else if (billType === "LTIP" || billType === "HT") {
+      return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
+    }
+  
+    return "#"; // Default return in case billType doesn't match
+  };
+  
+
  
   const combinedData = [...filteredBills, ...data];
   
@@ -347,6 +368,12 @@ const cRMonth = crDateObj.getMonth();
     consumerName: bill?.consumerName,
     // email: bill?.email,
     username: bill.username || '-',
+
+    billType:bill?.billType,
+    billDisplayParameter1:bill?.billDisplayParameter1,
+    billDisplayParameter2:bill?.billDisplayParameter2,
+    billDisplayParameter3:bill?.billDisplayParameter3,
+    billDisplayParameter4:bill?.billDisplayParameter4,
     contactNumber: bill?.contactNumber,
     meterNumber: bill?.meterNumber || '-',
     // meterPurpose: bill?.meterPurpose || '-',
@@ -498,14 +525,16 @@ const cRMonth = crDateObj.getMonth();
     },
    
     { field: 'id', headerName: 'ID', width: 40 },
+    
+
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 20,
+      width: 80,
       renderCell: (params) => (
         <>
           <IconButton
-            sx={{ color: '#FFA534' }}
+            sx={{ color: '#FFA534',display:'flex',alignItems:'center',justifyContent:'center'}}
             onClick={() => handleDeleteBill(params.row._id)}
             disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
           >
@@ -520,10 +549,75 @@ const cRMonth = crDateObj.getMonth();
         </>
       ),
     },
+
+    // {
+    //   field: '',
+    //   headerName: 'View Bill',
+    //   width: 100,
+    //   renderCell: (params) => (
+    //     <a
+    //       href="https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink&A=fmXSZ3xEES4TPVAKwG0tSMWJNYrz71nSc6BvD05amvE=&B=ZhnYwVpODJL1fUlTx9Nm2Q==&C=yFp81m+ZxzGn6S519yRouN7Xg84H29CGwUQdb+zL9Ow=&D=ZJHhiacg2C+SEvqPZNHHve46L12tb4XK8s2P85Eb9pU="
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //       style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
+    //     >
+    //       <img src={viewbill} />
+    //     </a>
+    //   ),
+    // },
+    // ----------------------------------------------------------
+    // {
+    //   field: '',
+    //   headerName: 'View Bill',
+    //   width: 100,
+    //   renderCell: (params) => {
+    //     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+        
+    //     const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+    
+    //     return (
+    //       <a
+    //         href={billURL}
+    //         target="_blank"
+    //         rel="noopener noreferrer"
+    //         style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
+    //       >
+    //       <VisibilityIcon/>
+    //       </a>
+    //     );
+    //   }
+    // },
+    // -----------------------------------------------------
+    {
+      field: '',
+      headerName: 'View Bill',
+      width: 80,
+      headerClassName: 'view-bill-column',
+      renderCell: (params) => {
+        const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+    
+        const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+    
+        return (
+          <Link
+            to={billURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}
+          >
+            <VisibilityIcon />
+          </Link>
+        );
+      }
+      
+    },
+    // ----------------------------------------------------------------
+    
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NO.',
       width: 130,
+      
       renderCell: (params) => (
         <Link 
           to={`/consumer-bill-details/${params.row.consumerNumber}`} 
