@@ -164,7 +164,7 @@ const passedDueDateCount = bills.filter(bill => {
         xl:'25%'
       },
       height:'80%',display:'flex',alignItems:'center',alignContent:'center',justifyContent:'center',flexDirection:'column'}}>
-      <h3>Chart</h3>
+      <h3 style={{color:'black'}}>Chart</h3>
       <ChartComponent />
       </Box>
         
@@ -180,7 +180,7 @@ const passedDueDateCount = bills.filter(bill => {
         xl:1
       },
       height:'80%',display:'flex',alignItems:'center',justifyContent:'center',alignContent:'center',flexDirection:'column'}}>
-      <h3>Meters</h3>
+      <h3 style={{color:'black'}}>Meters</h3>
       <PieChartComponent />
       </Box>
 
@@ -195,7 +195,7 @@ const passedDueDateCount = bills.filter(bill => {
         lg:1,
         xl:1
       },}}>
-      <h3>Bills</h3>
+      <h3 style={{color:'black'}}>Bills</h3>
       <PieChartBills />
       </Box>
       </Box>

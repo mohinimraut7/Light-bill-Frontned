@@ -37,11 +37,11 @@ const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A' }) =
         {avatarIcon}
       </Avatar> */}
       <CardContent>
-        <Typography variant="h6" component="div">
+        <Typography variant="h6" component="div" sx={{fontWeight:'bold',color:'black'}}>
           {title}
         </Typography>
-        <Typography variant="h5">
-          <CountUp  style={{fontSize:'17px',color:'#9A9A9A'}} end={count} duration={3.5} />
+        <Typography variant="h6">
+          <CountUp  style={{fontSize:'20px',color:'#9A9A9A',fontWeight:'bold',color:'black'}} end={count} duration={3.5} />
         </Typography>
       </CardContent>
     </Card>
