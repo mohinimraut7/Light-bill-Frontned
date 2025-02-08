@@ -9,7 +9,7 @@ import FormHelperText from '@mui/material/FormHelperText'; // Ensure this import
 const validationSchema = Yup.object({
     name: Yup.string().required('Role name is required'),
     email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    // password: Yup.string().required('Password is required'),
     // ward: Yup.string().required('Ward name is required'),
 });
 
@@ -20,8 +20,8 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
             // firstName: currentRole ? currentRole.firstName : '',
             // lastName: currentRole ? currentRole.lastName : '',
             email: currentRole ? currentRole.email : '',
-            contactNumber: currentRole ? currentRole.contactNumber : '',
-            password: currentRole ? currentRole.password : '',
+            // contactNumber: currentRole ? currentRole.contactNumber : '',
+            // password: currentRole ? currentRole.password : '',
             ward: currentRole ? currentRole.ward : '',
         },
         validationSchema: validationSchema,
@@ -105,7 +105,7 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
     ) : null}
 </FormControl>
 
-                    <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
+                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         USER NAME
                     </Typography>
                     <TextField
@@ -125,7 +125,7 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                                 color: '#DDDDDD',
                             },
                         }}
-                    />
+                    /> */}
 
                     {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         LAST NAME
@@ -170,7 +170,7 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                         }}
                     />
 
-                    <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
+                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         CONTACT NUMBER
                     </Typography>
                     <TextField
@@ -190,9 +190,9 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                                 color: '#DDDDDD',
                             },
                         }}
-                    />
+                    /> */}
 
-                    <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
+                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         PASSWORD
                     </Typography>
                     <TextField
@@ -211,7 +211,7 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                                 color: '#DDDDDD',
                             },
                         }}
-                    />
+                    /> */}
 
                     <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         WARD

@@ -32,9 +32,9 @@ const columns = (handleDeleteRole,handleEditRole)=>[
     ),
   },
   { field: 'name', headerName: 'ROLE NAME', width: 220 },
-  { field: 'username', headerName: 'USER NAME', width: 180 },
+  // { field: 'username', headerName: 'USER NAME', width: 180 },
   { field: 'email', headerName: 'EMAIL', width: 220 },
-  { field: 'contactNumber', headerName: 'CONTACT', width: 150 },
+  // { field: 'contactNumber', headerName: 'CONTACT', width: 150 },
   { field: 'ward', headerName: 'WARD AUTHORITY', width: 180 },
  
   {
