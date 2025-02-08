@@ -1,3 +1,12 @@
 .view-bill-column {
     background-color: #fff!important;  /* ✅ Forces white background */
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .view-bill-cell{
+ display:flex;
+ align-items: center;
+ justify-content: center;
+
   }

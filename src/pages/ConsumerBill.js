@@ -4,7 +4,7 @@ import { useLocation,Link} from 'react-router-dom';
 
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Button, Modal, Checkbox,TextField } from '@mui/material';
+import { Typography, Box, Button, Modal, Checkbox,TextField, tableCellClasses } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
@@ -473,6 +473,8 @@ const cRMonth = crDateObj.getMonth();
   const columns = (handleDeleteBill) => [
     {
       field: 'checkbox',
+      headerClassName: 'view-bill-column',
+      cellClassName: 'view-bill-cell',
       headerName: '',
       width: 50,
       headerClassName: 'data-grid-checkbox-header',
@@ -524,13 +526,16 @@ const cRMonth = crDateObj.getMonth();
       },
     },
    
-    { field: 'id', headerName: 'ID', width: 40 },
+    { field: 'id', headerName: 'ID', width: 40, headerClassName: 'view-bill-column',
+      cellClassName: 'view-bill-cell', },
     
 
     {
       field: 'actions',
       headerName: 'Actions',
       width: 80,
+      headerClassName: 'view-bill-column',
+      cellClassName: 'view-bill-cell',
       renderCell: (params) => (
         <>
           <IconButton
@@ -593,6 +598,7 @@ const cRMonth = crDateObj.getMonth();
       headerName: 'View Bill',
       width: 80,
       headerClassName: 'view-bill-column',
+      cellClassName: 'view-bill-cell',
       renderCell: (params) => {
         const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
     
@@ -603,9 +609,9 @@ const cRMonth = crDateObj.getMonth();
             to={billURL}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}
+            style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
           >
-            <VisibilityIcon />
+            <VisibilityIcon/>
           </Link>
         );
       }
