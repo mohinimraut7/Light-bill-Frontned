@@ -122,7 +122,7 @@ export const addBill = (billData) => {
         //   Authorization: `Bearer ${token}`
         // }
         headers: {
-          vvcmc: "saavi@infinet"
+          vvcmcsaaviinfinet: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTZmYmI3NjZkMWYxNWY1OGM0NTNhYiIsInJvbGUiOiJTdXBlciBBZG1pbiIsImlhdCI6MTczODk5ODIyMywiZXhwIjoxNzQxNTkwMjIzfQ.YQRt7Kj4-eRejrs-G073tvzLdM_9oQDOYuQYmxSWsgs"
         }
       }
       );
