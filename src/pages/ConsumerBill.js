@@ -310,23 +310,49 @@ const ConsumerBill = () => {
 
 
 
+  // const generateBillURL = (billType, param1, param2, param3, param4) => {
+  //   if (!billType || !param1 || !param2 || !param3) {
+  //     return "#"; // Return a placeholder if required parameters are missing
+  //   }
+  
+  //   let baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink";
+  
+  //   if (billType === "LT") {
+  //     return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}&D=${encodeURIComponent(param4)}`;
+  //   } else if (billType === "LTIP" || billType === "HT") {
+  //     console.log(">>>>>>>>>>>>>>>>>>>>",`${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`)
+  //     return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
+  //   }
+  
+  //   return "#"; // Default return in case billType doesn't match
+  // };
+  
+
+
   const generateBillURL = (billType, param1, param2, param3, param4) => {
     if (!billType || !param1 || !param2 || !param3) {
       return "#"; // Return a placeholder if required parameters are missing
     }
   
-    let baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink";
+    // **Dynamic baseURL based on billType**
+    let baseURL = "";
   
     if (billType === "LT") {
+      baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink";
       return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}&D=${encodeURIComponent(param4)}`;
-    } else if (billType === "LTIP" || billType === "HT") {
+    } 
+    else if (billType === "LTIP") {
+      baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getHTEnergyBillLinkPrint";
+      return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
+    } 
+    else if (billType === "HT") {
+      baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getHTEnergyBillPagePDFPrintLinkEncrypted";
       return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
     }
   
-    return "#"; // Default return in case billType doesn't match
+    return "#"; // Default return if `billType` does not match
   };
   
-
  
   const combinedData = [...filteredBills, ...data];
   
