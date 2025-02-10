@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AddConsumer from '../components/modals/AddConsumer';
 import Button from '@mui/material/Button';
+import {TextField} from '@mui/material';
+
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -47,6 +49,7 @@ const ConsumerComponent = () => {
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
 const [consumerOpen,setConsumerOpen]=useState(false);
 const [consumer, setConsumer] = useState('');
+const [cnId, setCnId] = useState('');
 const [currentConsumer, setCurrentConsumer] = useState(null);
   useEffect(() => {
     dispatch(fetchConsumers());
@@ -216,6 +219,10 @@ const importExcel = async (event) => {
   const handleDeleteConsumer = (consumerId) => {
     dispatch(deleteConsumer(consumerId));
   };
+
+  const handleChange = (event) => {
+    setCnId(event.target.value);
+  };
   
   if (loading) {
     return (
@@ -228,7 +235,15 @@ const importExcel = async (event) => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-  const rows = consumers?.map((consumer,index) => ({
+
+  
+
+  let filteredData = cnId
+  ? consumers.filter(consumer => consumer.consumerNumber.includes(cnId))
+  : consumers;
+
+
+  const rows = filteredData?.map((consumer,index) => ({
     id:index+1,
     _id:consumer._id,
     
@@ -367,10 +382,53 @@ size="small"
 </Button>
 
 </Box>
+
        
 
 
         </Box>
+        <Box>
+<TextField
+    id="consumerNumber"
+    name="consumerNumber"
+    label="Search Consumer ID"
+    value={cnId}
+    onChange={
+      handleChange}
+    variant="outlined"
+    InputProps={{
+      sx: {
+        height: '40px',
+        mb:1
+      },
+    }}
+    InputLabelProps={{
+      sx: {
+        color: 'gray',
+        transform: 'translate(14px, 8px)',
+        fontSize:'17px',
+        transform: 'translate(14px, 8px)',
+        '&.MuiInputLabel-shrink': {
+transform: 'translate(14px, -8px) scale(0.75)', 
+},
+      },
+     
+    }}
+    sx={{
+      width: {
+        xl: '30%',
+        lg: '30%',
+        md: '80%',
+        sm: '80%',
+        xs: '80%'
+      }, 
+      mt:{
+        sm:1
+      }
+      
+    }}
+  />
+</Box>
       <StyledDataGrid
       autoHeight  
         rows={rows}
