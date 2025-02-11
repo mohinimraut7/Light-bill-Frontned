@@ -324,6 +324,11 @@ const importExcel = async (event) => {
       sm:'column',
       xs:'column'
     }}}>
+
+
+
+
+      
 <Button
 size="small"
   component="label"
@@ -438,7 +443,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[5, 10,15,20,25,100]}
         checkboxSelection
       />
       <AddConsumer
