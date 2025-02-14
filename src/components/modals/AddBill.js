@@ -927,7 +927,7 @@ size="small"
                             //                     : formik.values.paidAmount
                             // }
                             // disabled={formik.values.paymentStatus === "Paid" || formik.values.paymentStatus === "UnPaid"}
-                            disabled={formik.values.paymentStatus === "UnPaid"}
+                            disabled={formik.values.paymentStatus === "unpaid"}
                             onChange={formik.handleChange}
                             error={formik.touched.lastReceiptAmount && Boolean(formik.errors.lastReceiptAmount)}
                             helperText={formik.touched.lastReceiptAmount && formik.errors.lastReceiptAmount}

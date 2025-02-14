@@ -54,7 +54,7 @@ const Overduebills = () => {
       const faultyMeters = bills.filter(bill => bill.meterStatus === 'Faulty').length;
       const averageMeters = bills.filter(bill => bill.meterStatus === 'Average').length;
       const paid = bills.filter(bill => bill.paymentStatus === 'Paid').length;
-      const unpaid = bills.filter(bill => bill.paymentStatus === 'UnPaid').length;
+      const unpaid = bills.filter(bill => bill.paymentStatus === 'unpaid').length;
       setNormalMeterCount(normalMeters);
       setFaultyMeterCount(faultyMeters);
       setAverageMeterCount(averageMeters);
@@ -221,7 +221,7 @@ const Overduebills = () => {
     if (user?.role === 'Junior Engineer') {
       if (yesno === 'No') {
         approvedStatus = 'Initial';
-        paymentStatus = 'UnPaid';
+        paymentStatus = 'unpaid';
         toast.info('Bill sent back to Junior Engineer for review');
       } else if (yesno === 'Yes' && paymentStatus === 'Partial') {
         approvedStatus = 'PendingForExecutiveEngineer';
@@ -367,7 +367,7 @@ const Overduebills = () => {
                   sx={{ color: '#23CCEF' }}
                   onClick={() => handleApproveClick(params.row, 'No')}
                   disabled={
-                    (params.row.approvedStatus === 'Initial' && params.row.paymentStatus === 'UnPaid' && user?.role === 'Junior Engineer') ||
+                    (params.row.approvedStatus === 'Initial' && params.row.paymentStatus === 'unpaid' && user?.role === 'Junior Engineer') ||
                     (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
                   }
                 >

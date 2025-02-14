@@ -55,7 +55,7 @@ const MassApprovalsBills = () => {
       const faultyMeters = bills.filter(bill => bill.meterStatus === 'Faulty').length;
       const averageMeters = bills.filter(bill => bill.meterStatus === 'Average').length;
       const paid = bills.filter(bill => bill.paymentStatus === 'Paid').length;
-      const unpaid = bills.filter(bill => bill.paymentStatus === 'UnPaid').length;
+      const unpaid = bills.filter(bill => bill.paymentStatus === 'unpaid').length;
 
       setNormalMeterCount(normalMeters);
       setFaultyMeterCount(faultyMeters);

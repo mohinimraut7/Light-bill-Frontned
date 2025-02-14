@@ -80,7 +80,7 @@ const ConsumerBillDetails = () => {
       const faultyMeters = bills.filter(bill => bill.meterStatus === 'Faulty').length;
       const averageMeters = bills.filter(bill => bill.meterStatus === 'Average').length;
       const paid = bills.filter(bill => bill.paymentStatus === 'Paid').length;
-      const unpaid = bills.filter(bill => bill.paymentStatus === 'UnPaid').length;
+      const unpaid = bills.filter(bill => bill.paymentStatus === 'unpaid').length;
       setNormalMeterCount(normalMeters);
       setFaultyMeterCount(faultyMeters);
       setAverageMeterCount(averageMeters);
@@ -293,7 +293,7 @@ const ConsumerBillDetails = () => {
     if (user?.role === 'Junior Engineer') {
       if (yesno === 'No') {
         approvedStatus = 'PendingForJuniorEngineer';
-        paymentStatus = 'UnPaid';
+        paymentStatus = 'unpaid';
         toast.info('Bill sent back to Junior Engineer for review');
       } else if (yesno === 'Yes' && paymentStatus === 'Partial') {
         approvedStatus = 'PendingForExecutiveEngineer';
