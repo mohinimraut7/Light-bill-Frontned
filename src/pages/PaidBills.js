@@ -32,7 +32,7 @@ const PaidBills = () => {
     return <p>Error: {error}</p>;
   }
 
-  const paidBills = bills.filter((bill) => bill.paymentStatus === 'Paid' && bill.approvedStatus==='Done' && bill?.flagStatus===true
+  const paidBills = bills.filter((bill) => bill.paymentStatus === 'paid' && bill.approvedStatus==='Done' && bill?.flagStatus===true
 );
 
 const gridStyle = {

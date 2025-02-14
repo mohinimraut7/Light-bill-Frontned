@@ -53,7 +53,7 @@ const UsersUpcomingDueBills = () => {
       const normalMeters = bills.filter(bill => bill.meterStatus === 'Normal').length;
       const faultyMeters = bills.filter(bill => bill.meterStatus === 'Faulty').length;
       const averageMeters = bills.filter(bill => bill.meterStatus === 'Average').length;
-      const paid = bills.filter(bill => bill.paymentStatus === 'Paid').length;
+      const paid = bills.filter(bill => bill.paymentStatus === 'paid').length;
       const unpaid = bills.filter(bill => bill.paymentStatus === 'unpaid').length;
       setNormalMeterCount(normalMeters);
       setFaultyMeterCount(faultyMeters);
@@ -230,7 +230,7 @@ const UsersUpcomingDueBills = () => {
       paymentStatus = 'Pending';
     } else if (user?.role === 'Super Admin' && yesno === 'Yes') {
       approvedStatus = 'Done';
-      paymentStatus = 'Paid';
+      paymentStatus = 'paid';
     } else if (user?.role === 'Super Admin' && yesno === 'No') {
       approvedStatus = 'PendingForSuperAdmin';
       paymentStatus = 'Pending';
