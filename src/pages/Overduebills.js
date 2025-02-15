@@ -166,8 +166,8 @@ const Overduebills = () => {
     const today = new Date(); 
     
   const combinedData = [...filteredBills, ...data];
-  // const rows = combinedData.filter(bill => new Date(bill.dueDate) < today).map((bill, index) => ({
-    const rows = combinedData.filter(bill =>bill.overdueAlert===true).map((bill, index) => ({
+  const rows = combinedData.filter(bill => new Date(bill.dueDate) < today && bill.paymentStatus==='unpaid').map((bill, index) => ({
+    // const rows = combinedData.filter(bill =>bill.overdueAlert===true).map((bill, index) => ({
 
 
 //   const rows = combinedData.filter(bill => bill.dueAlert === true).map((bill, index) => ({

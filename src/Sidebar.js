@@ -141,7 +141,7 @@ export default function Sidebar() {
 
 const passedDueDateCount = bills.filter(bill => {
   const dueDate = new Date(bill?.dueDate); 
-  return dueDate < today
+  return dueDate < today && bill.paymentStatus==='unpaid'
 }).length;
 
 const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).length;
@@ -631,8 +631,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     <ListItemText primary="Overdue Bills" sx={{ opacity: open ? 1 : 0, color: 'white'}} />
 
 
-                    {overdueAlertCount > 0 && open && (
-                      <Badge className='badgeupcomingdue' badgeContent={overdueAlertCount} color="primary">
+                    {passedDueDateCount > 0 && open && (
+                      <Badge className='badgeupcomingdue' badgeContent={passedDueDateCount} color="primary">
                         <NotificationsIcon sx={{ color: 'white' }} />
                       </Badge>
                     )}
