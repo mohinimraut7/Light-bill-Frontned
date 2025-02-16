@@ -152,7 +152,7 @@ const ChartComponent = () => {
   const chartRef = useRef(null); 
   const chartInstance = useRef(null); 
   const { bills } = useSelector((state) => state.bills);
-
+  const user = useSelector(state => state.auth.user);
   // Current month & year (e.g., "FEB-2025")
   const currentDate = new Date();
   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
@@ -162,7 +162,11 @@ const ChartComponent = () => {
   console.log("Current Month-Year:", currentMonthYear); 
 
   // Filter bills matching latest month & year
-  const latestBills = bills.filter(bill => bill.monthAndYear === currentMonthYear);
+  // const latestBills = bills.filter(bill => bill.monthAndYear === currentMonthYear);
+  const latestBills = bills.filter(bill =>
+    bill.monthAndYear === currentMonthYear &&
+    (user?.role !== 'Junior Engineer' || bill.ward === user?.ward)
+  );
 
   // Meter status count
   const meterStatusCounts = {
