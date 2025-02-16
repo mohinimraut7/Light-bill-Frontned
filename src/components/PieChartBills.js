@@ -8,6 +8,7 @@ const PieChartBills = () => {
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const { bills, loading: loadingBills, error: errorBills } = useSelector((state) => state.bills);
   const { meters, loading: loadingMeters, error: errorUsers } = useSelector((state) => state.meters);
+    const user = useSelector(state => state.auth.user);
 
 
   const uniqueBills = bills
@@ -15,23 +16,54 @@ const PieChartBills = () => {
   .filter((bill, index, self) => {
     return index === self.findIndex(b => b.cn === bill.cn);
   });
-const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
-    if (bill.meterStatus === 'Faulty') {
-        acc.Faulty += 1;
-    } else if (bill.meterStatus === 'Average') {
-        acc.Average += 1;
-    }
-    return acc;
-}, { Faulty: 0, Average: 0 });
 
+// const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
+//     if (bill.meterStatus === 'Faulty') {
+//         acc.Faulty += 1;
+//     } else if (bill.meterStatus === 'Average') {
+//         acc.Average += 1;
+//     }
+//     return acc;
+// }, { Faulty: 0, Average: 0 });
+
+
+const today = new Date(); 
 
 const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length;
 
-const today = new Date(); 
-const passedDueDateCount = bills.filter(bill => {
-  const dueDate = new Date(bill.dueDate); 
-  return dueDate < today
+const dueAlertrows = bills.filter(bill => {
+  const dueDate = new Date(bill.dueDate);
+  const twoDaysBeforeDue = new Date(dueDate);
+  twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+
+  const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
+  const isUnpaid = bill.paymentStatus === 'unpaid';
+
+  if (user?.role === 'Junior Engineer') {
+    return isDueSoon && isUnpaid && user?.ward === bill.ward;
+  }
+  return isDueSoon && isUnpaid;
+});
+
+const dueAlertCount = dueAlertrows.length;
+
+
+const paidBillCount = bills.filter(bill => {
+  const ispaid = bill.paymentStatus === 'paid';
+  return ispaid
 }).length;
+
+const passedDueDateCount = bills.filter(bill => {
+  const dueDate = new Date(bill.dueDate);
+  const isOverdue = dueDate < today;
+  const isUnpaid = bill.paymentStatus === 'unpaid';
+
+  if (user?.role === 'Junior Engineer') {
+    return isOverdue && isUnpaid && user?.ward === bill.ward;
+  }
+  return isOverdue && isUnpaid;
+}).length;
+
 
   useEffect(() => {
     if (chartRef.current) {
@@ -44,15 +76,16 @@ const passedDueDateCount = bills.filter(bill => {
       chartInstance.current = new Chart(chartRef.current, {
         type: 'pie', 
         data: {
-          labels: ['Upcoming Due Bills', 'Passed Due Bills', uniqueBills.length], 
+          labels: ['Paid Bills','Upcoming Due Bills','Passed Due Bills', uniqueBills.length], 
           datasets: [
             {
-              label: 'Meter Status Distribution',
-              data: [upcomingOverdueCount,passedDueDateCount,10], 
+              label: 'Metffffer Status Distribution',
+              data: [paidBillCount,dueAlertCount,passedDueDateCount ,10], 
               backgroundColor: [
                 '#E74C3C', 
                 '#23CCEF', 
                 '#FFAE48', 
+                '#F3F3F3', 
               ],
               borderColor: [
               '#E74C3C', 
