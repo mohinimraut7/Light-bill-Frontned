@@ -128,21 +128,44 @@ export default function Sidebar() {
   const { bills, loading, error } = useSelector((state) => state.bills);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.auth.user);
-
-  const dueAlertrows = bills.filter(bill => {
-    if (user?.role === 'Junior Engineer') {
-      return bill?.dueAlert === true && user?.ward === bill.ward;
-    }
-    return bill?.dueAlert === true;
-  });
-  const dueAlertCount = dueAlertrows?.length;
-
   const today = new Date(); 
+  const dueAlertrows = bills.filter(bill => {
+    const dueDate = new Date(bill.dueDate);
+    const twoDaysBeforeDue = new Date(dueDate);
+    twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+  
+    const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
+    const isUnpaid = bill.paymentStatus === 'unpaid';
+  
+    if (user?.role === 'Junior Engineer') {
+      return isDueSoon && isUnpaid && user?.ward === bill.ward;
+    }
+    return isDueSoon && isUnpaid;
+  });
+  
+  const dueAlertCount = dueAlertrows.length;
+
+
+
+// const passedDueDateCount = bills.filter(bill => {
+//   const dueDate = new Date(bill?.dueDate); 
+//   return dueDate < today && bill.paymentStatus==='unpaid'
+// }).length;
+
+
 
 const passedDueDateCount = bills.filter(bill => {
-  const dueDate = new Date(bill?.dueDate); 
-  return dueDate < today && bill.paymentStatus==='unpaid'
+  const dueDate = new Date(bill.dueDate);
+  const isOverdue = dueDate < today;
+  const isUnpaid = bill.paymentStatus === 'unpaid';
+
+  if (user?.role === 'Junior Engineer') {
+    return isOverdue && isUnpaid && user?.ward === bill.ward;
+  }
+  return isOverdue && isUnpaid;
 }).length;
+
+
 
 const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).length;
 

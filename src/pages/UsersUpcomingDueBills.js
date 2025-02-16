@@ -163,7 +163,14 @@ const UsersUpcomingDueBills = () => {
     user?.role === 'Executive Engineer' ||
     user?.role === 'Done';
   const combinedData = [...filteredBills, ...data];
-  const rows = combinedData.filter(bill => bill.dueAlert === true).map((bill, index) => ({
+  const today = new Date();
+  const rows = combinedData.filter(bill => {
+    const dueDate = new Date(bill.dueDate);
+    const twoDaysBeforeDue = new Date(dueDate);
+    twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+
+    return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid';
+  }).map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
     consumerNumber:bill.consumerNumber,
