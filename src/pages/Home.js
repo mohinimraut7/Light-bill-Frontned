@@ -17,6 +17,7 @@ import PieChartBills from '../components/PieChartBills';
 const Home = () => {
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+    const user = useSelector(state => state.auth.user);
   const { bills, loading: loadingBills, error: errorBills } = useSelector((state) => state.bills);
   const { meters, loading: loadingMeters, error: errorUsers } = useSelector((state) => state.meters);
   const { roles, loading: loadingRoles, error: errorRoles } = useSelector((state) => state.roles);
@@ -38,10 +39,23 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
 const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length;
 
 const today = new Date(); 
+
+// const passedDueDateCount = bills.filter(bill => {
+//   const dueDate = new Date(bill.dueDate); 
+//   return dueDate < today
+// }).length;
+
 const passedDueDateCount = bills.filter(bill => {
-  const dueDate = new Date(bill.dueDate); 
-  return dueDate < today
+  const dueDate = new Date(bill.dueDate);
+  const isOverdue = dueDate < today;
+  const isUnpaid = bill.paymentStatus === 'unpaid';
+
+  if (user?.role === 'Junior Engineer') {
+    return isOverdue && isUnpaid && user?.ward === bill.ward;
+  }
+  return isOverdue && isUnpaid;
 }).length;
+
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('xs'));
