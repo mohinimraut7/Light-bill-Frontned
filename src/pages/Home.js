@@ -36,9 +36,31 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
     }
     return acc;
 }, { Faulty: 0, Average: 0 });
+
 const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length;
 
+
+
+
 const today = new Date(); 
+
+
+
+const dueAlertrows = bills.filter(bill => {
+  const dueDate = new Date(bill.dueDate);
+  const twoDaysBeforeDue = new Date(dueDate);
+  twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+
+  const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
+  const isUnpaid = bill.paymentStatus === 'unpaid';
+
+  if (user?.role === 'Junior Engineer') {
+    return isDueSoon && isUnpaid && user?.ward === bill.ward;
+  }
+  return isDueSoon && isUnpaid;
+});
+
+const dueAlertCount = dueAlertrows.length;
 
 // const passedDueDateCount = bills.filter(bill => {
 //   const dueDate = new Date(bill.dueDate); 
@@ -155,7 +177,7 @@ const passedDueDateCount = bills.filter(bill => {
   avatarColor="#1976D2"
   avatarIcon="M"
   title="Upcoming Due Bills"
-  count={upcomingOverdueCount}
+  count={dueAlertCount}
 />
 
 <InfoCard

@@ -129,6 +129,7 @@ export default function Sidebar() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.auth.user);
   const today = new Date(); 
+  
   const dueAlertrows = bills.filter(bill => {
     const dueDate = new Date(bill.dueDate);
     const twoDaysBeforeDue = new Date(dueDate);
