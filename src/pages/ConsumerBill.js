@@ -449,34 +449,34 @@ const cRMonth = crDateObj.getMonth();
     if (!bill || !bill._id) {
       return;
     }
-    let paymentStatus;
+    let paymentStatus = bill.paymentStatus || 'unpaid';
     if (user?.role === 'Junior Engineer') {
       if (yesno === 'No') {
         approvedStatus = 'PendingForJuniorEngineer';
-        paymentStatus = 'unpaid';
+        paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
         toast.info('Bill sent back to Junior Engineer for review');
-      } else if (yesno === 'Yes' && paymentStatus === 'Partial') {
+      } else if (yesno === 'Yes' && paymentStatus === 'unpaid') {
         approvedStatus = 'PendingForExecutiveEngineer';
-        paymentStatus = 'Partial';
+        paymentStatus =bill.paymentStatus ? bill.paymentStatus : 'unpaid';
         toast.success('Record forwarded to Executive Engineer');
       }
       else {
         approvedStatus = 'PendingForExecutiveEngineer';
-        paymentStatus = 'Pending';
+        paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
         toast.success('Record forwarded to Executive Engineer');
       }
     } else if (user?.role === 'Executive Engineer') {
       approvedStatus = 'PendingForAdmin';
-      paymentStatus = 'Pending';
+      paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } else if (user?.role === 'Admin') {
       approvedStatus = 'PendingForSuperAdmin';
-      paymentStatus = 'Pending';
+      paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } else if (user?.role === 'Super Admin' && yesno === 'Yes') {
       approvedStatus = 'Done';
-      paymentStatus = 'paid';
+      paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } else if (user?.role === 'Super Admin' && yesno === 'No') {
       approvedStatus = 'PendingForSuperAdmin';
-      paymentStatus = 'Pending';
+      paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
       currentBillAmount = tArrears;
       ifPaidBefore = paidBefore;
       ifPaidAfter = paidAfter;

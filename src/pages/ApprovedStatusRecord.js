@@ -210,7 +210,7 @@ const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'consumerNumber', headerName: 'CONSUMER ID', width: 140 },
    
-    { field: 'email', headerName: 'EMAIL', width: 130 },
+    // { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
     
     { field: 'ward', headerName: 'WARD', width: 70 },
