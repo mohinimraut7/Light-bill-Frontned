@@ -24,7 +24,7 @@ import TarriffMaster from './pages/TarriffMaster';
 import OverdueBills from './pages/Overduebills';
 import Overduebills from './pages/Overduebills';
 import ConsumerComponent from './pages/ConsumerComponents';
-import addNotification from 'react-push-notification';
+
 
 const App = () => {
   const dispatch = useDispatch();
