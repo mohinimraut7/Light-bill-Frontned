@@ -110,9 +110,9 @@ const UsersUpcomingDueBills = () => {
         requireInteraction: true, // Stays until user interacts
       });
   
-      notification.onclick = () => {
-        console.log(`Notification clicked - ${dueAlertCount} pending bills`);
-      };
+      // notification.onclick = () => {
+      //   console.log(`Notification clicked - ${dueAlertCount} pending bills`);
+      // };
   
       // Auto close after 10 seconds
       const timer = setTimeout(() => {
