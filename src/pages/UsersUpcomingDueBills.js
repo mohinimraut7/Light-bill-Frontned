@@ -15,12 +15,15 @@ import './ConsumerBill.css';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import addNotification from 'react-push-notification';
+
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
 const UsersUpcomingDueBills = () => {
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const [billOpen, setBillOpen] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
   const [addPaymentOpen, setAddPaymentOpen] = useState(false);
@@ -40,9 +43,12 @@ const UsersUpcomingDueBills = () => {
   const user = useSelector(state => state.auth.user);
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const today = new Date();
+
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
+
   useEffect(() => {
     if (bills) {
       const initialSelectedValues = bills.reduce((acc, bill, index) => {
@@ -62,6 +68,7 @@ const UsersUpcomingDueBills = () => {
       setBillUnPaid(unpaid)
     }
   }, [bills]);
+
   useEffect(() => {
     setCBillAmount(bills?.currentBillAmount)
     setArrears(bills?.totalArrears)
@@ -70,6 +77,53 @@ const UsersUpcomingDueBills = () => {
     setPaidAfter(bills?.ifPaidBefore)
     setPaidBefore(bills?.ifPaidAfter)
   }, [])
+
+  const dueAlertrows = bills.filter(bill => {
+    const dueDate = new Date(bill.dueDate);
+    const twoDaysBeforeDue = new Date(dueDate);
+    twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+    if (user?.role === 'Junior Engineer') {
+      return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid'&&user?.ward === bill?.ward;;
+      // return bill?.dueAlert === true && user?.ward === bill?.ward;
+    }
+    // return bill?.dueAlert === true;
+    return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid'
+  });
+  const dueAlertCount = dueAlertrows.length;
+
+  // useEffect(() => {
+  //   if (dueAlertCount > 0 && isAuthenticated) {
+  //     addNotification({
+  //       title: 'Pending Light Bills',
+  //       message: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
+  //       requireInteraction: true,
+  //       native: true,
+  //       onClick: () => console.log(`Notification clicked - ${dueAlertCount} pending bills`),
+  //     });
+  //   }
+  // }, [dueAlertCount, isAuthenticated]); 
+
+  useEffect(() => {
+    if (dueAlertCount > 0 && isAuthenticated) {
+      const notification = new Notification('Pending Light Bills', {
+        body: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
+        requireInteraction: true, // Stays until user interacts
+      });
+  
+      notification.onclick = () => {
+        console.log(`Notification clicked - ${dueAlertCount} pending bills`);
+      };
+  
+      // Auto close after 10 seconds
+      const timer = setTimeout(() => {
+        notification.close(); // Close the notification after 10 seconds
+      }, 20000);
+  
+      return () => clearTimeout(timer); // Clean up timer on component unmount
+    }
+  }, [dueAlertCount, isAuthenticated]);
+  
+
   const getFilteredBills = () => {
     if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') {
       return bills;
@@ -163,7 +217,7 @@ const UsersUpcomingDueBills = () => {
     user?.role === 'Executive Engineer' ||
     user?.role === 'Done';
   const combinedData = [...filteredBills, ...data];
-  const today = new Date();
+  
   const rows = combinedData.filter(bill => {
     const dueDate = new Date(bill.dueDate);
     const twoDaysBeforeDue = new Date(dueDate);
@@ -473,6 +527,35 @@ const UsersUpcomingDueBills = () => {
     console.log("check function click", data)
   }
 
+  // const clickToNotify=()=>{
+  //     addNotification({
+  //     title:'Code With Mohini',
+  //     message:'Visit My Channel',
+  //     duration:4000,
+     
+  //     native:true,
+  //     onClick:()=>console.log('notification from mohini')
+  //     })
+  //   }
+
+  
+  
+  
+
+  // const clickToNotify = () => {
+  //   if (dueAlertCount > 0) {
+  //     addNotification({
+  //       title: 'Pending Light Bills',
+  //       message: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
+  //       duration: 4000,
+  //       native: true,
+  //       onClick: () => console.log(`Notification clicked - ${dueAlertCount} pending bills`),
+  //     });
+  //   }
+  // };
+
+  
+ 
   return (
     <div style={gridStyle}>
 
@@ -543,6 +626,7 @@ const UsersUpcomingDueBills = () => {
             >
               <Typography>Process</Typography>
             </Button>
+              {/* <button onClick={clickToNotify}>click to notify</button> */}
             <Button
               sx={{
                 color: '#23CCEF',

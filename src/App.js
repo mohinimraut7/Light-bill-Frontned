@@ -24,6 +24,8 @@ import TarriffMaster from './pages/TarriffMaster';
 import OverdueBills from './pages/Overduebills';
 import Overduebills from './pages/Overduebills';
 import ConsumerComponent from './pages/ConsumerComponents';
+import addNotification from 'react-push-notification';
+
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,11 +33,18 @@ const App = () => {
   const { bills} = useSelector((state) => state.bills);
   const toastIdRef = useRef(null);
 
+  const today = new Date(); 
+  
   const dueAlertrows = bills.filter(bill => {
+    const dueDate = new Date(bill.dueDate);
+    const twoDaysBeforeDue = new Date(dueDate);
+    twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
     if (user?.role === 'Junior Engineer') {
-      return bill?.dueAlert === true && user?.ward === bill?.ward;
+      return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid'&&user?.ward === bill?.ward;;
+      // return bill?.dueAlert === true && user?.ward === bill?.ward;
     }
-    return bill?.dueAlert === true;
+    // return bill?.dueAlert === true;
+    return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid'
   });
   const dueAlertCount = dueAlertrows.length;
   useEffect(() => {
@@ -167,8 +176,12 @@ const App = () => {
     dispatch({ type: "LOGOUT" });
     navigate('/login');
   };
+
+
   return (
     <>
+
+  
           <Sidebar />
       <Routes>
        
