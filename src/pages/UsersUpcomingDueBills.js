@@ -91,17 +91,7 @@ const UsersUpcomingDueBills = () => {
   });
   const dueAlertCount = dueAlertrows.length;
 
-  // useEffect(() => {
-  //   if (dueAlertCount > 0 && isAuthenticated) {
-  //     addNotification({
-  //       title: 'Pending Light Bills',
-  //       message: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
-  //       requireInteraction: true,
-  //       native: true,
-  //       onClick: () => console.log(`Notification clicked - ${dueAlertCount} pending bills`),
-  //     });
-  //   }
-  // }, [dueAlertCount, isAuthenticated]); 
+ 
 
   useEffect(() => {
     if (dueAlertCount > 0 && isAuthenticated) {
@@ -110,16 +100,12 @@ const UsersUpcomingDueBills = () => {
         requireInteraction: true, // Stays until user interacts
       });
   
-      // notification.onclick = () => {
-      //   console.log(`Notification clicked - ${dueAlertCount} pending bills`);
-      // };
-  
-      // Auto close after 10 seconds
+    
       const timer = setTimeout(() => {
-        notification.close(); // Close the notification after 10 seconds
+        notification.close();
       }, 20000);
   
-      return () => clearTimeout(timer); // Clean up timer on component unmount
+      return () => clearTimeout(timer); 
     }
   }, [dueAlertCount, isAuthenticated]);
   
@@ -339,7 +325,7 @@ const UsersUpcomingDueBills = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
-    // { field: 'email', headerName: 'EMAIL', width: 130 },
+
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
     
     { field: 'ward', headerName: 'WARD', width: 130 },
@@ -351,10 +337,10 @@ const UsersUpcomingDueBills = () => {
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
-    // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
+  
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
    
-    // { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
+ 
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
     
@@ -378,11 +364,7 @@ const UsersUpcomingDueBills = () => {
             <DeleteIcon />
           </IconButton>
           { }
-          {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-          >
-            <EditIcon />
-          </IconButton> */}
+          
         </>
       ),
     },
@@ -526,34 +508,6 @@ const UsersUpcomingDueBills = () => {
   const approvedCheck = (data) => {
     console.log("check function click", data)
   }
-
-  // const clickToNotify=()=>{
-  //     addNotification({
-  //     title:'Code With Mohini',
-  //     message:'Visit My Channel',
-  //     duration:4000,
-     
-  //     native:true,
-  //     onClick:()=>console.log('notification from mohini')
-  //     })
-  //   }
-
-  
-  
-  
-
-  // const clickToNotify = () => {
-  //   if (dueAlertCount > 0) {
-  //     addNotification({
-  //       title: 'Pending Light Bills',
-  //       message: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
-  //       duration: 4000,
-  //       native: true,
-  //       onClick: () => console.log(`Notification clicked - ${dueAlertCount} pending bills`),
-  //     });
-  //   }
-  // };
-
   
  
   return (
@@ -580,10 +534,7 @@ const UsersUpcomingDueBills = () => {
             md:'15px',
             lg:'20px'
           },
-          // marginTop:{
-          //   xs:'100px'
-          // }
-
+          
            }} className="title-2">
             Users with Upcoming Due Bills
           </Typography>
@@ -626,7 +577,7 @@ const UsersUpcomingDueBills = () => {
             >
               <Typography>Process</Typography>
             </Button>
-              {/* <button onClick={clickToNotify}>click to notify</button> */}
+           
             <Button
               sx={{
                 color: '#23CCEF',
