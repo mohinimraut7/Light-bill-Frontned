@@ -556,30 +556,30 @@ const cRMonth = crDateObj.getMonth();
       cellClassName: 'view-bill-cell', },
     
 
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 80,
-      headerClassName: 'view-bill-column',
-      cellClassName: 'view-bill-cell',
-      renderCell: (params) => (
-        <>
-          <IconButton
-            sx={{ color: '#FFA534',display:'flex',alignItems:'center',justifyContent:'center'}}
-            onClick={() => handleDeleteBill(params.row._id)}
-            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-          >
-            <DeleteIcon />
-          </IconButton>
-          { }
-          {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-          >
-            <EditIcon />
-          </IconButton> */}
-        </>
-      ),
-    },
+    // {
+    //   field: 'actions',
+    //   headerName: 'Actions',
+    //   width: 80,
+    //   headerClassName: 'view-bill-column',
+    //   cellClassName: 'view-bill-cell',
+    //   renderCell: (params) => (
+    //     <>
+    //       <IconButton
+    //         sx={{ color: '#FFA534',display:'flex',alignItems:'center',justifyContent:'center'}}
+    //         onClick={() => handleDeleteBill(params.row._id)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <DeleteIcon />
+    //       </IconButton>
+    //       { }
+    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <EditIcon />
+    //       </IconButton> */}
+    //     </>
+    //   ),
+    // },
 
     // {
     //   field: '',
