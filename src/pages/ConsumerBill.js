@@ -6,20 +6,19 @@ import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, mass
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box, Button, Modal, Checkbox,TextField, tableCellClasses } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
+
 import CheckIcon from '@mui/icons-material/Check';
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
-import UndoIcon from '@mui/icons-material/Undo';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ConsumerButton from '../components/ConsumerButton';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import '../App.css';
-import viewimage2 from '../Images/viewimage2.jfif';
+
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
@@ -27,6 +26,7 @@ import { CircularProgress} from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
 
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
+
 const ConsumerBill = () => {
   const location = useLocation();
   console.log("location.pathname",location.pathname )
@@ -312,23 +312,7 @@ const ConsumerBill = () => {
 
 
 
-  // const generateBillURL = (billType, param1, param2, param3, param4) => {
-  //   if (!billType || !param1 || !param2 || !param3) {
-  //     return "#"; // Return a placeholder if required parameters are missing
-  //   }
-  
-  //   let baseURL = "https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink";
-  
-  //   if (billType === "LT") {
-  //     return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}&D=${encodeURIComponent(param4)}`;
-  //   } else if (billType === "LTIP" || billType === "HT") {
-  //     console.log(">>>>>>>>>>>>>>>>>>>>",`${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`)
-  //     return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
-  //   }
-  
-  //   return "#"; // Default return in case billType doesn't match
-  // };
-  
+ 
 
 
   const generateBillURL = (billType, param1, param2, param3, param4) => {
@@ -603,12 +587,12 @@ const cRMonth = crDateObj.getMonth();
         </Link>
       ),
     },
-    // { field: 'email', headerName: 'EMAIL', width: 130 },
+   
     
     { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 80 },
     { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
-    // { field: 'meterPurpose', headerName: 'METER PURPOSE.', width: 130 },
+ 
     { field: 'consumerName', headerName: 'CONSUMER NAME', width: 130 },
     { field: 'billingUnit', headerName: 'BILLING UNIT', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -858,7 +842,7 @@ const cRMonth = crDateObj.getMonth();
             xs:'column'
           }
         }}>
-<Button
+{/* <Button
               sx={{
                 color: '#23CCEF',
                 border: '0.1px solid #23CCEF',
@@ -934,7 +918,11 @@ const cRMonth = crDateObj.getMonth();
             }
             
             }}>Process</Typography>
-            </Button>
+            </Button> */}
+            <ConsumerButton onClick={handleProcessClick} disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
+  selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')}>
+  Process
+</ConsumerButton>
             
             <Button
               sx={{
