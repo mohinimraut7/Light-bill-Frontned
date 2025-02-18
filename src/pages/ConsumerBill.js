@@ -25,6 +25,8 @@ import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
+
+import CustomWidthTooltip from '../components/CustomWidthTooltip';
 const ConsumerBill = () => {
   const location = useLocation();
   console.log("location.pathname",location.pathname )
@@ -556,69 +558,10 @@ const cRMonth = crDateObj.getMonth();
       cellClassName: 'view-bill-cell', },
     
 
-    // {
-    //   field: 'actions',
-    //   headerName: 'Actions',
-    //   width: 80,
-    //   headerClassName: 'view-bill-column',
-    //   cellClassName: 'view-bill-cell',
-    //   renderCell: (params) => (
-    //     <>
-    //       <IconButton
-    //         sx={{ color: '#FFA534',display:'flex',alignItems:'center',justifyContent:'center'}}
-    //         onClick={() => handleDeleteBill(params.row._id)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <DeleteIcon />
-    //       </IconButton>
-    //       { }
-    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <EditIcon />
-    //       </IconButton> */}
-    //     </>
-    //   ),
-    // },
+   
 
-    // {
-    //   field: '',
-    //   headerName: 'View Bill',
-    //   width: 100,
-    //   renderCell: (params) => (
-    //     <a
-    //       href="https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink&A=fmXSZ3xEES4TPVAKwG0tSMWJNYrz71nSc6BvD05amvE=&B=ZhnYwVpODJL1fUlTx9Nm2Q==&C=yFp81m+ZxzGn6S519yRouN7Xg84H29CGwUQdb+zL9Ow=&D=ZJHhiacg2C+SEvqPZNHHve46L12tb4XK8s2P85Eb9pU="
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //       style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
-    //     >
-    //       <img src={viewbill} />
-    //     </a>
-    //   ),
-    // },
-    // ----------------------------------------------------------
-    // {
-    //   field: '',
-    //   headerName: 'View Bill',
-    //   width: 100,
-    //   renderCell: (params) => {
-    //     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-        
-    //     const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+  
     
-    //     return (
-    //       <a
-    //         href={billURL}
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //         style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
-    //       >
-    //       <VisibilityIcon/>
-    //       </a>
-    //     );
-    //   }
-    // },
-    // -----------------------------------------------------
     {
       field: '',
       headerName: 'View Bill',
@@ -678,15 +621,10 @@ const cRMonth = crDateObj.getMonth();
     { field: 'previousReadingDate', headerName: 'PREVIOUS READING DATE', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
-     { field: 'monthAndYear', headerName: 'MONTH AND YEAR', width: 130 },
-    
+    { field: 'monthAndYear', headerName: 'MONTH AND YEAR', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
-    // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
-    // { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
-    
-    
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
@@ -697,50 +635,7 @@ const cRMonth = crDateObj.getMonth();
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
 
    
-    // ...(user?.role === 'Junior Engineer'
-    //   ? [
-    //     {
-    //       field: 'forwardForGeneration',
-    //       headerName: 'FORWARD FOR GENERATION',
-    //       width: 200,
-    //       renderCell: (params) => {
-    //         const isJuniorEngineer = user?.role === 'Junior Engineer';
-    //         const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
-    //         if (!isJuniorEngineer) return null;
-    //         return (
-    //           <Box
-    //             sx={{
-    //               display: 'flex',
-    //               justifyContent: 'center',
-    //               alignItems: 'center',
-    //               gap: 1,
-    //               height: '100%',
-    //             }}
-    //           >
-    //             <IconButton
-    //               sx={{ color: '#23CCEF' }}
-    //               onClick={() => handleApproveClick(params.row, 'Yes')}
-    //               disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
-    //             >
-    //               <Typography>Yes</Typography>
-    //             </IconButton>
-    //             <IconButton
-    //               sx={{ color: '#23CCEF' }}
-    //               onClick={() => handleApproveClick(params.row, 'No')}
-    //               disabled={
-    //                 (params.row.approvedStatus === 'PendingForJuniorEngineer' && params.row.paymentStatus === 'UnPaid' && user?.role === 'Junior Engineer') ||
-    //                 (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
-    //               }
-    //             >
-    //               <UndoIcon />
-    //             </IconButton>
-    //           </Box>
-    //         );
-    //       },
-    //     }
-
-    //   ]
-    //   : []),
+    
     ...(!user?.role === 'Junior Engineer'
       ? [
         {
@@ -788,22 +683,10 @@ const cRMonth = crDateObj.getMonth();
       },
     },
   }));
-  const CustomWidthTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))({
-    [`& .${tooltipClasses.tooltip}`]: {
-      // maxWidth: 500,
-      backgroundColor: 'dodgerblue',
-      color: 'white',
-      fontSize: '12px',
-      // padding: '10px 15px',
-      borderRadius: '4px',
-    },
-    [`& .${tooltipClasses.arrow}`]: {
-      color: '#FB404B',
-    },
-  });
+
+ 
   const totalmeters = `${rows.length}`;
+
   const handleDownloadReport = () => {
     const filteredRows = rows.filter(row => row.meterStatus === 'Faulty' || row.meterStatus === 'Average');
     const worksheet = XLSX.utils.json_to_sheet(filteredRows?.map(row => ({
@@ -874,8 +757,7 @@ const cRMonth = crDateObj.getMonth();
       justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
       alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
       flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',},
-      // border:'1px solid black',
-      // backgroundColor:'#23CCEF',
+     
       marginTop: isSidebarOpen === false? '5%' : '2%',
       }}>
         <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} >

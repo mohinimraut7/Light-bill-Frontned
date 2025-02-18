@@ -1,0 +1,110 @@
+{
+    field: 'actions',
+    headerName: 'Actions',
+    width: 80,
+    headerClassName: 'view-bill-column',
+    cellClassName: 'view-bill-cell',
+    renderCell: (params) => (
+      <>
+        <IconButton
+          sx={{ color: '#FFA534',display:'flex',alignItems:'center',justifyContent:'center'}}
+          onClick={() => handleDeleteBill(params.row._id)}
+          disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+        >
+          <DeleteIcon />
+        </IconButton>
+        { }
+        {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+          disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+        >
+          <EditIcon />
+        </IconButton> */}
+      </>
+    ),
+  },
+  -------------------------------------
+    {
+      field: '',
+      headerName: 'View Bill',
+      width: 100,
+      renderCell: (params) => (
+        <a
+          href="https://wss.mahadiscom.in/wss/wss?uiActionName=getPrintBillingDataLink&A=fmXSZ3xEES4TPVAKwG0tSMWJNYrz71nSc6BvD05amvE=&B=ZhnYwVpODJL1fUlTx9Nm2Q==&C=yFp81m+ZxzGn6S519yRouN7Xg84H29CGwUQdb+zL9Ow=&D=ZJHhiacg2C+SEvqPZNHHve46L12tb4XK8s2P85Eb9pU="
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
+        >
+          <img src={viewbill} />
+        </a>
+      ),
+    },
+    ------------------------------------------
+    {
+      field: '',
+      headerName: 'View Bill',
+      width: 100,
+      renderCell: (params) => {
+        const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+        
+        const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+    
+        return (
+          <a
+            href={billURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
+          >
+          <VisibilityIcon/>
+          </a>
+        );
+      }
+    },
+    ---------------------------------------
+      // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
+        // { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
+        ------------------------------------------
+        ...(user?.role === 'Junior Engineer'
+      ? [
+        {
+          field: 'forwardForGeneration',
+          headerName: 'FORWARD FOR GENERATION',
+          width: 200,
+          renderCell: (params) => {
+            const isJuniorEngineer = user?.role === 'Junior Engineer';
+            const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
+            if (!isJuniorEngineer) return null;
+            return (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 1,
+                  height: '100%',
+                }}
+              >
+                <IconButton
+                  sx={{ color: '#23CCEF' }}
+                  onClick={() => handleApproveClick(params.row, 'Yes')}
+                  disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
+                >
+                  <Typography>Yes</Typography>
+                </IconButton>
+                <IconButton
+                  sx={{ color: '#23CCEF' }}
+                  onClick={() => handleApproveClick(params.row, 'No')}
+                  disabled={
+                    (params.row.approvedStatus === 'PendingForJuniorEngineer' && params.row.paymentStatus === 'UnPaid' && user?.role === 'Junior Engineer') ||
+                    (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
+                  }
+                >
+                  <UndoIcon />
+                </IconButton>
+              </Box>
+            );
+          },
+        }
+
+      ]
+      : []),
