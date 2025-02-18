@@ -767,7 +767,7 @@ const cRMonth = crDateObj.getMonth();
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '30px 0px',
+    padding: '0px 0px',
     paddingLeft: '10px',
   };
   const innerDivStyle = {
@@ -792,11 +792,11 @@ const cRMonth = crDateObj.getMonth();
     <Tooltip {...props} classes={{ popper: className }} />
   ))({
     [`& .${tooltipClasses.tooltip}`]: {
-      maxWidth: 500,
-      backgroundColor: '#FB404B',
+      // maxWidth: 500,
+      backgroundColor: 'dodgerblue',
       color: 'white',
-      fontSize: '14px',
-      padding: '10px 15px',
+      fontSize: '12px',
+      // padding: '10px 15px',
       borderRadius: '4px',
     },
     [`& .${tooltipClasses.arrow}`]: {
@@ -872,17 +872,20 @@ const cRMonth = crDateObj.getMonth();
     <div style={gridStyle}>
       <Box sx={{width:'100%',display:'flex',
       justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
-      alignItems:{xl:'flex-start',lg:'flex-start',md:'center',sm:'center',xs:'center'},
-      flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row'}
+      alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
+      flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',},
+      // border:'1px solid black',
+      // backgroundColor:'#23CCEF',
+      marginTop: isSidebarOpen === false? '5%' : '2%',
       }}>
-        <CustomWidthTooltip title={`Total Meters : ${totalmeters}`}>
-          <Button sx={{ m: 1, color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Total Meter</Button>
+        <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} >
+          <Button sx={{color: '#373C5D','&:hover': { backgroundColor: '#F7F9FB' } }}>Total Meter</Button>
         </CustomWidthTooltip>
-        <CustomWidthTooltip title={`Normal Meter Count: ${normalMeterCount} and Faulty Meter Count: ${faultyMeterCount} and Average Meter Count :${averageMeterCount}`}>
-          <Button sx={{ m: 1, color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Meter Status</Button>
+        <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`}>
+          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Meter Status</Button>
         </CustomWidthTooltip>
-        <CustomWidthTooltip title={`Total Paid Bills: - ${billPaid} and Total Unpaid Bills: - ${billUnPaid}`}>
-          <Button sx={{ m: 1, color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Payment Status</Button>
+        <CustomWidthTooltip title={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`}>
+          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Payment Status</Button>
         </CustomWidthTooltip>
       </Box>
       <Box sx={innerDivStyle}>
@@ -908,7 +911,7 @@ const cRMonth = crDateObj.getMonth();
             md:'center',
             xl:'flex-start',
             lg:'flex-start'
-          }}}> <Typography sx={{color: '#0d2136',display:'flex',
+          }}}> <Typography sx={{color: '#0d2136',display:'flex',paddingTop:'20px'
        
           }} className="title-2">
             BILL MASTER
