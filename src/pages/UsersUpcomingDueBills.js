@@ -93,21 +93,43 @@ const UsersUpcomingDueBills = () => {
 
  
 
-  useEffect(() => {
-    if (dueAlertCount > 0 && isAuthenticated) {
-      const notification = new Notification('Pending Light Bills', {
-        body: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
-        requireInteraction: true, // Stays until user interacts
-      });
+  // useEffect(() => {
+  //   if (dueAlertCount > 0 && isAuthenticated) {
+  //     const notification = new Notification('Pending Light Bills', {
+  //       body: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
+  //       requireInteraction: true, // Stays until user interacts
+  //     });
   
     
-      const timer = setTimeout(() => {
-        notification.close();
-      }, 20000);
+  //     const timer = setTimeout(() => {
+  //       notification.close();
+  //     }, 20000);
   
-      return () => clearTimeout(timer); 
+  //     return () => clearTimeout(timer); 
+  //   }
+  // }, [dueAlertCount, isAuthenticated]);
+
+
+  useEffect(() => {
+    if (dueAlertCount > 0 && isAuthenticated) {
+      if (Notification.permission === "granted") {
+        new Notification("Pending Light Bills", {
+          body: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
+          requireInteraction: true,
+        });
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            new Notification("Pending Light Bills", {
+              body: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
+              requireInteraction: true,
+            });
+          }
+        });
+      }
     }
   }, [dueAlertCount, isAuthenticated]);
+  
   
 
   const getFilteredBills = () => {
