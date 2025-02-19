@@ -7,12 +7,15 @@ import { fetchUsers } from '../store/actions/userActions';
 import {fetchBills} from '../store/actions/billActions';
 import { fetchRoles } from '../store/actions/roleActions';
 import { fetchMeters } from '../store/actions/meterActions';
+import { fetchConsumers } from '../store/actions/consumerActions';
+
+
 import { getMasters } from '../store/actions/masterActions';
 import InfoCard from '../components/cards/InfoCard';
 import { CircularProgress, Box } from '@mui/material';
 import ChartComponent from '../components/CharComponent'; 
 import './Home.css';
-import PieChartComponent from '../components/PieChartComponent';
+
 import PieChartBills from '../components/PieChartBills';
 const Home = () => {
   const dispatch = useDispatch();
@@ -20,6 +23,8 @@ const Home = () => {
     const user = useSelector(state => state.auth.user);
   const { bills, loading: loadingBills, error: errorBills } = useSelector((state) => state.bills);
   const { meters, loading: loadingMeters, error: errorUsers } = useSelector((state) => state.meters);
+  const { consumers, loading: loadingConsumers, error: errorConsumers } = useSelector((state) => state.consumers);
+
   const { roles, loading: loadingRoles, error: errorRoles } = useSelector((state) => state.roles);
   const { masters, loading: loadingMasters, error: errorMasters } = useSelector((state) => state.masters);
 const uniqueBills = bills
@@ -40,7 +45,9 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
 const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length;
 
 
-
+const filteredConsumers = consumers?.filter(consumer => {
+  return user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
+});
 
 const today = new Date(); 
 
@@ -91,6 +98,7 @@ const passedDueDateCount = bills.filter(bill => {
     dispatch(getMasters());
     dispatch(fetchRoles());
     dispatch(fetchMeters());
+    dispatch(fetchConsumers());
     document.body.classList.add('home-body');
     return () => {
      
@@ -146,15 +154,22 @@ const passedDueDateCount = bills.filter(bill => {
   count={roles.length} 
 />
 
-     <InfoCard
+     {/* <InfoCard
   className="container-infocard"
   avatarColor="#23CCEF"
   
   avatarIcon="M"
   title="Total Meters"
   count={meters.length}
+/> */}
+<InfoCard
+  className="container-infocard"
+  avatarColor="#23CCEF"
+  
+  avatarIcon="M"
+  title="Total Meters"
+  count={filteredConsumers.length}
 />
-
 <InfoCard
   className="container-infocard"
   avatarColor="#FFA534"
