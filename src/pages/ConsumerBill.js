@@ -739,7 +739,22 @@ const cRMonth = crDateObj.getMonth();
       <Box sx={{width:'100%',
       display:'flex',
    justifyContent:'space-between',
-    
+
+   flexDirection:{
+    xl:'row',
+    lg:'row',
+    md:'column',
+    sm:'column',
+    xs:'column'
+   },
+
+    mt:{
+      xl:8,
+      lg:8,
+      md:8,
+      sm:8,
+      xs:8
+    },
            marginTop: isSidebarOpen === false? '5%' : '2%',
       }}>
         <Box sx={{display:'flex', justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
@@ -748,7 +763,13 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
   </Box>
       
       
-        <Box sx={{}}> <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
+        <Box sx={{display:'flex',flexDirection:{
+    xl:'row',
+    lg:'row',
+    md:'column',
+    sm:'column',
+    xs:'column'
+   },}}> <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
           <Button sx={{color: '#373C5D','&:hover': { backgroundColor: '#F7F9FB' } }}  placement="top">Total Meter</Button>
         </CustomWidthTooltip>
         <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`}  placement="top">
