@@ -546,4 +546,80 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
               }} >Download Report</Typography>
             </Button>
+            ========================
+            consumer master
+            -----------
+            const importExcel = (event) => {
+    const file = event.target.files[0]; 
+    if (!file) return;
+  
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+  
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+  
+      const jsonData = XLSX.utils.sheet_to_json(sheet);
+      console.log("Parsed Excel Data:", jsonData);
+  
+      // Send Data to Backend
+      fetch(`${baseUrl}/import-excel`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jsonData),
+      })
+      .then(response => response.json())
+      .then(data => console.log("Response from backend:", data))
+      .catch(error => console.error("Error:", error));
+    };
+  
+    reader.readAsArrayBuffer(file);
+  };
+  ============================================================
+    const importExcel = (event) => {
+    const file = event.target.files[0]; 
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        // Clean up the data to remove unnecessary columns and map required fields
+        const cleanedData = jsonData.map(item => ({
+            consumerNumber: item.consumerNumber || '', // Make sure to handle missing data
+            consumerAddress: item.consumerAddress || '',
+              ward: item.ward || '',
+                meterPurpose: item.meterPurpose || '',
+                phaseType: item.phaseType || ''
+        }));
+
+        console.log("Cleaned Excel Data:", cleanedData);
+
+        // Send cleaned data to backend
+        fetch(`${baseUrl}/import-excel`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cleanedData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Response from backend:", data);
+            alert(data.message); // Display success message to the user
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert('Error importing data');
+        });
+    };
+
+    reader.readAsArrayBuffer(file);
+};
 

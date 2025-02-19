@@ -25,9 +25,9 @@ const columns = (handleDeleteConsumer,handleEditConsumer)=>[
     width: 200,
     renderCell: (params) => (
       <>
-        <IconButton sx={{color:'#FFA534'}}  onClick={() => handleDeleteConsumer(params.row._id)}>
+        {/* <IconButton sx={{color:'#FFA534'}}  onClick={() => handleDeleteConsumer(params.row._id)}>
           <DeleteIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton sx={{color:'#23CCEF'}}  onClick={() => handleEditConsumer(params.row)}>
           <EditIcon />
         </IconButton>
@@ -47,6 +47,8 @@ const ConsumerComponent = () => {
   const dispatch = useDispatch();
   const { consumers, loading, error } = useSelector((state) => state?.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+      const user = useSelector(state => state.auth.user);
+  
 const [consumerOpen,setConsumerOpen]=useState(false);
 const [consumer, setConsumer] = useState('');
 const [cnId, setCnId] = useState('');
@@ -59,83 +61,6 @@ const [currentConsumer, setCurrentConsumer] = useState(null);
     setConsumerOpen(true)
   }
 
-
-  // const importExcel = (event) => {
-  //   const file = event.target.files[0]; 
-  //   if (!file) return;
-  
-  //   const reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     const data = new Uint8Array(e.target.result);
-  //     const workbook = XLSX.read(data, { type: 'array' });
-  
-  //     const sheetName = workbook.SheetNames[0];
-  //     const sheet = workbook.Sheets[sheetName];
-  
-  //     const jsonData = XLSX.utils.sheet_to_json(sheet);
-  //     console.log("Parsed Excel Data:", jsonData);
-  
-  //     // Send Data to Backend
-  //     fetch(`${baseUrl}/import-excel`, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(jsonData),
-  //     })
-  //     .then(response => response.json())
-  //     .then(data => console.log("Response from backend:", data))
-  //     .catch(error => console.error("Error:", error));
-  //   };
-  
-  //   reader.readAsArrayBuffer(file);
-  // };
-  
-//  ============================================================= 
-  
-//   const importExcel = (event) => {
-//     const file = event.target.files[0]; 
-//     if (!file) return;
-
-//     const reader = new FileReader();
-//     reader.onload = (e) => {
-//         const data = new Uint8Array(e.target.result);
-//         const workbook = XLSX.read(data, { type: 'array' });
-
-//         const sheetName = workbook.SheetNames[0];
-//         const sheet = workbook.Sheets[sheetName];
-
-//         const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-//         // Clean up the data to remove unnecessary columns and map required fields
-//         const cleanedData = jsonData.map(item => ({
-//             consumerNumber: item.consumerNumber || '', // Make sure to handle missing data
-//             consumerAddress: item.consumerAddress || '',
-//               ward: item.ward || '',
-//                 meterPurpose: item.meterPurpose || '',
-//                 phaseType: item.phaseType || ''
-//         }));
-
-//         console.log("Cleaned Excel Data:", cleanedData);
-
-//         // Send cleaned data to backend
-//         fetch(`${baseUrl}/import-excel`, {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify(cleanedData),
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log("Response from backend:", data);
-//             alert(data.message); // Display success message to the user
-//         })
-//         .catch(error => {
-//             console.error("Error:", error);
-//             alert('Error importing data');
-//         });
-//     };
-
-//     reader.readAsArrayBuffer(file);
-// };
-// ===========================================================
 const importExcel = async (event) => {
   const file = event.target.files[0]; 
   if (!file) return;
@@ -238,9 +163,21 @@ const importExcel = async (event) => {
 
   
 
-  let filteredData = cnId
-  ? consumers.filter(consumer => consumer.consumerNumber.includes(cnId))
-  : consumers;
+  // let filteredData = cnId
+  // ? consumers.filter(consumer => consumer.consumerNumber.includes(cnId))
+  // : consumers;
+
+
+  let filteredData = consumers?.filter(consumer => {
+    // First, filter by consumerNumber if cnId is provided
+    const matchesConsumerNumber = cnId ? consumer.consumerNumber.includes(cnId) : true;
+    
+    // Then, filter by ward if the user is a Junior Engineer
+    const matchesWard = user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
+  
+    return matchesConsumerNumber && matchesWard;
+  });
+  
 
 
   const rows = filteredData?.map((consumer,index) => ({
@@ -329,7 +266,7 @@ const importExcel = async (event) => {
 
 
       
-<Button
+{/* <Button
 size="small"
   component="label"
   sx={{
@@ -347,7 +284,7 @@ size="small"
   <AddIcon />
   <Typography>Delete All</Typography>
 
-</Button>
+</Button> */}
 
 
 <Button
