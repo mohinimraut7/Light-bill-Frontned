@@ -495,5 +495,55 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
               xs:'uppercase',
             }}} >Add Bill</Typography>
             </Button>
+=============================================
+  // installationDate: formatDate(bill?.installationDate) || '-',
+    // { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
+      // rowData.installationDate || 'N/A',
+       // firstRow.installationDate || 'N/A',
+       =================================
+       form 120
+       -----
+         <Modal open={billOpen} onClose={handleAddBillClose}>
+          <AddBill open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
+            currentBill={currentBill}
+            editBill={(billId, billData) => {
+              dispatch(editBill(billId, billData));
+              dispatch(fetchBills());
+            }}
+          />
+        </Modal>
+        ==========================================
+           <Button
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: getResponsiveWidth(),
+                height: '65%',
+                mt: {
+                  xs: '10px'
+                },
+                mb: {
+                  xs: '10px'
+                },
+                marginLeft: {
+                  xs: '30px',
+                  sm: '30px',
+                  md: shouldDisplayTextField === false ? '10px' : '0px',
+                  lg: shouldDisplayTextField === false ? '10px' : '0px',
+                  xl: shouldDisplayTextField === false ? '10px' : '0px',
+                },
 
+              }}
+              onClick={handleDownloadReport}
+            >
+              <DownloadIcon sx={{ marginLeft: '1px' }} />
+              <Typography sx={{
+                fontSize: isSidebarOpen ? '12.2px' : '14px',
+
+              }} >Download Report</Typography>
+            </Button>
 

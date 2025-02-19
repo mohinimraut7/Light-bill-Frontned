@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { Typography, Box, Button, Modal, TextField } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import AddBill from '../components/modals/AddBill';
+
 import AddPayment from '../components/modals/AddPayment';
 
 import { toast } from "react-toastify";
@@ -17,7 +17,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
+
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
@@ -27,6 +27,7 @@ import { CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { AddReceiptModal } from '../components/modals/AddReceipt';
 
+import ConsumerButton from '../components/ConsumerButton';
 
 const ConsumerBillDetails = () => {
   const dispatch = useDispatch();
@@ -251,7 +252,7 @@ const ConsumerBillDetails = () => {
       tariffDescription: bill?.tariffDescription || '-',
       netLoad: bill.netLoad || '-',
       sanctionedLoad: bill?.sanctionedLoad || '-',
-      // installationDate: formatDate(bill?.installationDate) || '-',
+    
       previousReadingDate: formatDate(bill.previousReadingDate) || '-',
       previousReading: bill.previousReading,
       currentReadingDate: formatDate(bill.currentReadingDate),
@@ -343,7 +344,7 @@ const ConsumerBillDetails = () => {
     { field: 'meterStatus', headerName: 'मीटरची स्थिती', width: 130 },
     { field: 'netLoad', headerName: 'एकूण भार', width: 130 },
     { field: 'sanctionedLoad', headerName: 'मंजूर भार', width: 130 },
-    // { field: 'installationDate', headerName: 'स्थापना दिनांक', width: 130 },
+  
     { field: 'phaseType', headerName: 'फेज प्रकार', width: 130 },
     { field: 'tariffDescription', headerName: 'टॅरिफ डिस्क्रिप्शन', width: 130 },
     
@@ -495,7 +496,7 @@ const ConsumerBillDetails = () => {
         rowData.meterStatus || 'N/A',
         rowData.netLoad || 'N/A',
         rowData.sanctionedLoad || 'N/A',
-        // rowData.installationDate || 'N/A',
+      
         rowData.phaseType || 'N/A',
         rowData.receiptNoBillPayment || 'N/A',
         rowData.billPaymentDate || 'N/A',
@@ -548,7 +549,7 @@ const handleDownloadPDF = () => {
               firstRow.consumerNumber || 'N/A',
               firstRow.meterNumber || 'N/A',
               firstRow.contactNumber || 'N/A',
-              // firstRow.installationDate || 'N/A',
+             
               firstRow.meterStatus || 'N/A',
               firstRow.sanctionedLoad || 'N/A',
               firstRow.phaseType || 'N/A'
@@ -833,6 +834,7 @@ const handleDeleteBill = (billId) => {
               }} >Download Report</Typography>
             </Button>
 
+
             <Button
               sx={{
                 color: '#23CCEF',
@@ -872,15 +874,7 @@ const handleDeleteBill = (billId) => {
           pageSizeOptions={[5, 10, 15]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5, marginTop: 2 }}
         />
-        {/* <Modal open={billOpen} onClose={handleAddBillClose}>
-          <AddBill open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
-            currentBill={currentBill}
-            editBill={(billId, billData) => {
-              dispatch(editBill(billId, billData));
-              dispatch(fetchBills());
-            }}
-          />
-        </Modal> */}
+      
         <Modal open={billOpen} onClose={handleAddBillClose}>
           <AddReceiptModal open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
             currentBill={currentBill}

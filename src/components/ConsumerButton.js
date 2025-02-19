@@ -9,7 +9,7 @@ const ConsumerButton = ({ onClick, disabled, children, customStyles,startIcon}) 
     textTransform: "none",
     display: "flex",
     backgroundColor: "#23CCEF",
-    fontSize: "16px",
+    fontSize: "1px",
     fontWeight: "bold",
     borderRadius: "8px",
     transition: "background-color 0.3s ease, transform 0.2s ease",
@@ -24,7 +24,7 @@ const ConsumerButton = ({ onClick, disabled, children, customStyles,startIcon}) 
     justifyContent: "center",
     alignItems: "center",
     mt: { xl: 0, lg: 0, md: 0, sm: 1, xs: 1 },
-    width: { xl: "150px", lg: "19%", md: "90px", sm: "80%", xs: "80%" },
+    width: { xl: "150px", lg: "21%", md: "90px", sm: "80%", xs: "80%" },
   };
 
   return (
