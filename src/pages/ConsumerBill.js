@@ -4,7 +4,7 @@ import { useLocation,Link} from 'react-router-dom';
 
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Button, Modal, Checkbox,TextField, tableCellClasses } from '@mui/material';
+import { Typography, Box, Button, Modal, Checkbox,TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 import CheckIcon from '@mui/icons-material/Check';
@@ -90,12 +90,6 @@ const ConsumerBill = () => {
       setBillUnPaid(unpaid)
     }
   }, [bills]);
-
-
-
-
-
-
 
   useEffect(() => {
     setCBillAmount(bills?.currentBillAmount)
@@ -311,10 +305,6 @@ const ConsumerBill = () => {
   }
 
 
-
- 
-
-
   const generateBillURL = (billType, param1, param2, param3, param4) => {
     if (!billType || !param1 || !param2 || !param3) {
       return "#"; // Return a placeholder if required parameters are missing
@@ -343,7 +333,6 @@ const ConsumerBill = () => {
   const combinedData = [...filteredBills, ...data];
   
 
-  // let filteredData = cnId ? combinedData.filter(bill => bill.consumerNumber === cnId) : combinedData;
 
   let filteredData = cnId
   ? combinedData.filter(bill => bill.consumerNumber.includes(cnId))
@@ -378,9 +367,7 @@ const cRMonth = crDateObj.getMonth();
     id: index + 1,
     consumerNumber: bill?.consumerNumber,
     consumerName: bill?.consumerName,
-    // email: bill?.email,
     username: bill.username || '-',
-
     billType:bill?.billType,
     billDisplayParameter1:bill?.billDisplayParameter1,
     billDisplayParameter2:bill?.billDisplayParameter2,
@@ -388,22 +375,17 @@ const cRMonth = crDateObj.getMonth();
     billDisplayParameter4:bill?.billDisplayParameter4,
     contactNumber: bill?.contactNumber,
     meterNumber: bill?.meterNumber || '-',
-    // meterPurpose: bill?.meterPurpose || '-',
     place: bill?.place || '-',
     meterStatus: bill?.meterStatus||'-',
     phaseType: bill?.phaseType||'-',
     tariffDescription: bill?.tariffDescription||'-',
     netLoad:bill.netLoad||'-',
     sanctionedLoad:bill?.sanctionedLoad||'-',
-    // installationDate:formatDate(bill?.installationDate)||'-',
     installationDate:bill?.installationDate||'-',
-
     totalConsumption: bill.totalConsumption,
     previousReadingDate: formatDate(bill.previousReadingDate),
     previousReading: bill.previousReading,
     monthAndYear:bill.monthAndYear,
-
-    
     currentReadingDate: formatDate(bill.currentReadingDate),
     currentReading: bill.currentReading,
     billDate: formatDate(bill.billDate),
@@ -422,8 +404,7 @@ const cRMonth = crDateObj.getMonth();
     phaseType:bill?.phaseType||'-',
     receiptNoBillPayment:bill.receiptNoBillPayment||'-',
     lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
-    
-  }));
+    }));
   const handleApproveClick = (bill, yesno) => {
     let approvedStatus;
     let currentBillAmount;
@@ -540,12 +521,6 @@ const cRMonth = crDateObj.getMonth();
    
     { field: 'id', headerName: 'ID', width: 40, headerClassName: 'view-bill-column',
       cellClassName: 'view-bill-cell', },
-    
-
-   
-
-  
-    
     {
       field: '',
       headerName: 'View Bill',
@@ -570,7 +545,6 @@ const cRMonth = crDateObj.getMonth();
       }
       
     },
-    // ----------------------------------------------------------------
     
     {
       field: 'consumerNumber',
@@ -592,7 +566,6 @@ const cRMonth = crDateObj.getMonth();
     { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 80 },
     { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
- 
     { field: 'consumerName', headerName: 'CONSUMER NAME', width: 130 },
     { field: 'billingUnit', headerName: 'BILLING UNIT', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -617,10 +590,7 @@ const cRMonth = crDateObj.getMonth();
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 }, 
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
-
-   
-    
-    ...(!user?.role === 'Junior Engineer'
+      ...(!user?.role === 'Junior Engineer'
       ? [
         {
           field: 'actions',
@@ -668,7 +638,6 @@ const cRMonth = crDateObj.getMonth();
     },
   }));
 
- 
   const totalmeters = `${rows.length}`;
 
   const handleDownloadReport = () => {
@@ -737,26 +706,10 @@ const cRMonth = crDateObj.getMonth();
   };
   return (
     <div style={gridStyle}>
-      <Box sx={{width:'100%',display:'flex',
-      justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
-      alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
-      flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',},
-     
-      marginTop: isSidebarOpen === false? '5%' : '2%',
-      }}>
-        <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} >
-          <Button sx={{color: '#373C5D','&:hover': { backgroundColor: '#F7F9FB' } }}>Total Meter</Button>
-        </CustomWidthTooltip>
-        <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`}>
-          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Meter Status</Button>
-        </CustomWidthTooltip>
-        <CustomWidthTooltip title={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`}>
-          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Payment Status</Button>
-        </CustomWidthTooltip>
+      <Box>
+        
       </Box>
-      <Box sx={innerDivStyle}>
-
-        <Box sx={{display:'flex',mb:1, 
+      {/* <Box sx={{display:'flex',mb:1, 
         mt:{
           xl:0,
           lg:0,
@@ -781,7 +734,36 @@ const cRMonth = crDateObj.getMonth();
        
           }} className="title-2">
             BILL MASTER
-          </Typography></Box>
+          </Typography></Box> */}
+
+      <Box sx={{width:'100%',
+      display:'flex',
+   justifyContent:'space-between',
+    
+           marginTop: isSidebarOpen === false? '5%' : '2%',
+      }}>
+        <Box sx={{display:'flex', justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
+flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
+  <Typography sx={{color: '#0d2136',fontWeight:'bold' }} className="title-2">BILL MASTER</Typography>
+  </Box>
+      
+      
+        <Box sx={{}}> <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
+          <Button sx={{color: '#373C5D','&:hover': { backgroundColor: '#F7F9FB' } }}  placement="top">Total Meter</Button>
+        </CustomWidthTooltip>
+        <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`}  placement="top">
+          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Meter Status</Button>
+        </CustomWidthTooltip>
+        <CustomWidthTooltip title={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`}  placement="top">
+          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Payment Status</Button>
+        </CustomWidthTooltip></Box>
+
+       
+      </Box>
+
+      <Box sx={innerDivStyle}>
+
+        
 
         <Box sx={{ width: '100%', display: 'flex', justifyContent: {xl:'space-between',lg:'space-between',md:'space-between',sm:'space-between',xs:'center'},
         flexDirection:{xl:'row',lg:'row',md:'row',sm:'column',xs:'column'},
@@ -817,7 +799,7 @@ const cRMonth = crDateObj.getMonth();
 
         <Box sx={{display:'flex', width: {
       xl: isSidebarOpen ? '100%' : '85%',
-      lg: isSidebarOpen ? '100%' : '85%',
+      lg: isSidebarOpen ? '100%' : '100%',
       md: isSidebarOpen ? '100%' : '100%',
       sm: '100%',
       xs: '100%',
@@ -842,344 +824,21 @@ const cRMonth = crDateObj.getMonth();
             xs:'column'
           }
         }}>
-{/* <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                backgroundColor: '#23CCEF',
-                color: '#ffffff',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                borderRadius: {
-                  xl:'8px',
-                  lg:'8px',
-                  md:'8px',
-                  sm:'8px',
-                  xs:'8px'
-                },
-                transition: 'background-color 0.3s ease, transform 0.2s ease',
-                '&:hover': {
-                  backgroundColor: '#23CCEF',
-                 
-                  opacity: 0.7, 
-                 
-                  transform: 'scale(1.02)', 
-                },
-                '&:active': {
-                  transform: 'scale(0.98)', 
-                },
-                justifyContent:{
-                  xl:'center',
-                  lg:'center',
-                  md:'center',
-                  sm:'center',
-                  xs:'center'
 
-                },
-                alignItems:{
-                  xl:'center',
-                  lg:'center',
-                  md:'center',
-                  sm:'center',
-                  xs:'center'
-
-                },
-                mt:{
-                  xl:0,lg:0,md:0,sm:1,xs:1
-                },
-                
-                width:{
-                  xl:'150px',
-                  lg:'150px',
-                  md:'90px',
-                  sm:'80%',
-                  xs:'80%'
-                  
-                }
-                
-              }}
-              onClick={handleProcessClick}
-              disabled={
-                user.role === 'Junior Engineer' &&
-                selectedItems.length > 0 &&
-                selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')
-              }
-            >
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
-            textTransform:{
-              xl:'capitalize',
-              lg:'capitalize',
-              md:'uppercase',
-              sm:'uppercase',
-              xs:'uppercase',
-            }
-            
-            }}>Process</Typography>
-            </Button> */}
             <ConsumerButton onClick={handleProcessClick} disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
   selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')}>
   Process
 </ConsumerButton>
-            
-            <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                backgroundColor: '#23CCEF',
-                color: '#ffffff',
-                
-                fontSize: '12px',
-                fontWeight: 'bold',
-                borderRadius: {
-                  xl:'8px',
-                  lg:'8px',
-                  md:'8px',
-                  sm:'8px',
-                  xs:'8px'
-                },
-                transition: 'background-color 0.3s ease, transform 0.2s ease',
-                '&:hover': {
-                  backgroundColor: '#23CCEF',
-                  opacity: 0.7, 
-                  transform: 'scale(1.02)',
-                },
-                '&:active': {
-                  transform: 'scale(0.98)', 
-                },
 
-
-
-                justifyContent: {
-                  xl:'center',
-                  lg:'center',
-                  md:'center',
-                  sm:'center',
-                  xs:'center'
-                },
-                mt:{
-                  xl:0,lg:0,md:0,sm:1,xs:1
-                },
-                mb:{
-                  xl:0,lg:0,md:0,sm:1,xs:1
-                },
-                width:{
-                  xl:'180px',
-                  lg:'180px',
-                  md:'170px',
-                  sm:'80%',
-                  xs:'80%'
-                }
-                
-              }}
-              onClick={handleReverseApprovals}
+<ConsumerButton onClick={handleReverseApprovals}
               disabled={
                 user.role === 'Junior Engineer' &&
                 selectedItems.length > 0 &&
                 selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')
-              }
-
-            >
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
-             textTransform:{
-              xl:'capitalize',
-              lg:'capitalize',
-              md:'uppercase',
-              sm:'uppercase',
-              xs:'uppercase',
-            }
-            }}>Rollback Approvals</Typography>
-            </Button>
-
-
-            <Button
-            className="animated-button"
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                backgroundColor: '#23CCEF',
-                color: '#ffffff',
-                fontWeight: 'bold',
-                borderRadius: {
-                  xl:'8px',
-                  lg:'8px',
-                  md:'8px',
-                  sm:'8px',
-                  xs:'8px'
-                },
-                transition: 'background-color 0.3s ease, transform 0.2s ease',
-                '&:hover': {
-                  backgroundColor: '#23CCEF',
-                  opacity: 0.7, 
-                  transform: 'scale(1.02)', 
-                },
-                '&:active': {
-                  transform: 'scale(0.98)', 
-                },
-                justifyContent: {
-                  xl:'center',
-                  lg:'center',
-                  md:'center',
-                  sm:'center',
-                  xs:'center'
-                },
-                width:{
-                  xl:'180px',
-                  lg:'190px',
-                  md:'190px',
-                  sm:'80%',
-                  xs:'80%'
-                },
-                mb:{
-                  xl:0,lg:0,md:0,sm:1,xs:1
-                },
-              }}
-              onClick={downloadAllTypsOfReport}
-            >
-              <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
-             textTransform:{
-              xl:'capitalize',
-              lg:'capitalize',
-              md:'uppercase',
-              sm:'uppercase',
-              xs:'uppercase',
-            }
-            }}>Download Reports</Typography>
-            </Button>
-
-
-
-
-            <Button
-            className="animated-button"
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                backgroundColor: '#23CCEF',
-                color: '#ffffff',
-                fontWeight: 'bold',
-                borderRadius: {
-                  xl:'8px',
-                  lg:'8px',
-                  md:'8px',
-                  sm:'8px',
-                  xs:'8px'
-                },
-                transition: 'background-color 0.3s ease, transform 0.2s ease',
-                '&:hover': {
-                  backgroundColor: '#23CCEF',
-                  opacity: 0.7, 
-                  transform: 'scale(1.02)', 
-                },
-                '&:active': {
-                  transform: 'scale(0.98)', 
-                },
-                justifyContent: {
-                  xl:'center',
-                  lg:'center',
-                  md:'center',
-                  sm:'center',
-                  xs:'center'
-                },
-                width:{
-                  xl:'210px',
-                  lg:'210px',
-                  md:'190px',
-                  sm:'80%',
-                  xs:'80%'
-                },
-                mb:{
-                  xl:0,lg:0,md:'0px',sm:1,xs:1
-                },
-              }}
-              onClick={handleDownloadReport}
-            >
-              <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
-              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
-              textTransform:{
-              xl:'capitalize',
-              lg:'capitalize',
-              md:'uppercase',
-              sm:'uppercase',
-              xs:'uppercase',
-            }
-            
-            }}>Faulty | Average Bills</Typography>
-            </Button>
-            <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                backgroundColor: '#23CCEF',
-                color: '#ffffff',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                borderRadius: {
-                  xl:'8px',
-                  lg:'8px',
-                  md:'8px',
-                  sm:'8px',
-                  xs:'8px'
-                },
-                transition: 'background-color 0.3s ease, transform 0.2s ease',
-                '&:hover': {
-                  backgroundColor: '#23CCEF',
-                  opacity: 0.7,
-                  transform: 'scale(1.02)', 
-                },
-                '&:active': {
-                  transform: 'scale(0.98)', 
-                },
-
-
-                justifyContent: {xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
-
-
-                width:{
-                  xl:'180px',
-                  lg:'180px',
-                  md:'100px',
-                  sm:'80%',
-                  xs:'80%'
-                },
-              }}
-              onClick={handleAddBillOpen}
-            >
-              <AddIcon sx={{ marginLeft: '2px',fontSize:'15px' }} />
-              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
-             textTransform:{
-              xl:'capitalize',
-              lg:'capitalize',
-              md:'uppercase',
-              sm:'uppercase',
-              xs:'uppercase',
-            }}} >Add Bill</Typography>
-            </Button>
+              }>Rollback Approvals</ConsumerButton>
+                <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Download Reports</ConsumerButton>
+ <ConsumerButton  onClick={handleDownloadReport} startIcon={<DownloadIcon/>}>Faulty | Average Bills</ConsumerButton>
+  <ConsumerButton  onClick={handleAddBillOpen} startIcon={<AddIcon/>}>Add Bill</ConsumerButton>           
 </Box>
         <Box sx={{display:'flex',alignItems:'center',
           justifyContent:{xl:'space-between',
@@ -1206,8 +865,6 @@ const cRMonth = crDateObj.getMonth();
 
 
 <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  />
-
-
 <TextField
     id="consumerNumber"
     name="consumerNumber"

@@ -155,3 +155,345 @@ import EditIcon from '@mui/icons-material/Edit';
 import viewimage2 from '../Images/viewimage2.jfif';
 --------------------------------------
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+---------------------------------
+ meterPurpose: bill?.meterPurpose || '-',
+ installationDate:formatDate(bill?.installationDate)||'-',
+ email: bill?.email,
+ ----------------------------------
+ <Button
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                backgroundColor: '#23CCEF',
+                color: '#ffffff',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
+                transition: 'background-color 0.3s ease, transform 0.2s ease',
+                '&:hover': {
+                  backgroundColor: '#23CCEF',
+                 
+                  opacity: 0.7, 
+                 
+                  transform: 'scale(1.02)', 
+                },
+                '&:active': {
+                  transform: 'scale(0.98)', 
+                },
+                justifyContent:{
+                  xl:'center',
+                  lg:'center',
+                  md:'center',
+                  sm:'center',
+                  xs:'center'
+
+                },
+                alignItems:{
+                  xl:'center',
+                  lg:'center',
+                  md:'center',
+                  sm:'center',
+                  xs:'center'
+
+                },
+                mt:{
+                  xl:0,lg:0,md:0,sm:1,xs:1
+                },
+                
+                width:{
+                  xl:'150px',
+                  lg:'150px',
+                  md:'90px',
+                  sm:'80%',
+                  xs:'80%'
+                  
+                }
+                
+              }}
+              onClick={handleProcessClick}
+              disabled={
+                user.role === 'Junior Engineer' &&
+                selectedItems.length > 0 &&
+                selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')
+              }
+            >
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
+            textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            
+            }}>Process</Typography>
+            </Button>
+            =======================================
+            <Button
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                backgroundColor: '#23CCEF',
+                color: '#ffffff',
+                
+                fontSize: '12px',
+                fontWeight: 'bold',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
+                transition: 'background-color 0.3s ease, transform 0.2s ease',
+                '&:hover': {
+                  backgroundColor: '#23CCEF',
+                  opacity: 0.7, 
+                  transform: 'scale(1.02)',
+                },
+                '&:active': {
+                  transform: 'scale(0.98)', 
+                },
+
+
+
+                justifyContent: {
+                  xl:'center',
+                  lg:'center',
+                  md:'center',
+                  sm:'center',
+                  xs:'center'
+                },
+                mt:{
+                  xl:0,lg:0,md:0,sm:1,xs:1
+                },
+                mb:{
+                  xl:0,lg:0,md:0,sm:1,xs:1
+                },
+                width:{
+                  xl:'180px',
+                  lg:'180px',
+                  md:'170px',
+                  sm:'80%',
+                  xs:'80%'
+                }
+                
+              }}
+              onClick={handleReverseApprovals}
+              disabled={
+                user.role === 'Junior Engineer' &&
+                selectedItems.length > 0 &&
+                selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')
+              }
+
+            >
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
+             textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            }}>Rollback Approvals</Typography>
+            </Button>
+            ===================================
+              <Button
+            className="animated-button"
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                backgroundColor: '#23CCEF',
+                color: '#ffffff',
+                fontWeight: 'bold',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
+                transition: 'background-color 0.3s ease, transform 0.2s ease',
+                '&:hover': {
+                  backgroundColor: '#23CCEF',
+                  opacity: 0.7, 
+                  transform: 'scale(1.02)', 
+                },
+                '&:active': {
+                  transform: 'scale(0.98)', 
+                },
+                justifyContent: {
+                  xl:'center',
+                  lg:'center',
+                  md:'center',
+                  sm:'center',
+                  xs:'center'
+                },
+                width:{
+                  xl:'180px',
+                  lg:'190px',
+                  md:'190px',
+                  sm:'80%',
+                  xs:'80%'
+                },
+                mb:{
+                  xl:0,lg:0,md:0,sm:1,xs:1
+                },
+              }}
+              onClick={downloadAllTypsOfReport}
+            >
+              <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
+             textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            }}>Download Reports</Typography>
+            </Button>
+            =====================================
+            vasai virar bill address->identify kas karnar=>address varun consumer identify hoil na? ajun kahi aahe ka?=>New connection kaay karayach
+-------------------------------
+ <Button
+            className="animated-button"
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                backgroundColor: '#23CCEF',
+                color: '#ffffff',
+                fontWeight: 'bold',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
+                transition: 'background-color 0.3s ease, transform 0.2s ease',
+                '&:hover': {
+                  backgroundColor: '#23CCEF',
+                  opacity: 0.7, 
+                  transform: 'scale(1.02)', 
+                },
+                '&:active': {
+                  transform: 'scale(0.98)', 
+                },
+                justifyContent: {
+                  xl:'center',
+                  lg:'center',
+                  md:'center',
+                  sm:'center',
+                  xs:'center'
+                },
+                width:{
+                  xl:'210px',
+                  lg:'210px',
+                  md:'190px',
+                  sm:'80%',
+                  xs:'80%'
+                },
+                mb:{
+                  xl:0,lg:0,md:'0px',sm:1,xs:1
+                },
+              }}
+              onClick={handleDownloadReport}
+            >
+              <DownloadIcon sx={{ marginLeft: '1px',fontSize:'15px' }} />
+              <Typography sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
+              textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }
+            
+            }}>Faulty | Average Bills</Typography>
+            </Button>
+            ========================================
+              // let filteredData = cnId ? combinedData.filter(bill => bill.consumerNumber === cnId) : combinedData;
+              ============================================
+              <Button
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                backgroundColor: '#23CCEF',
+                color: '#ffffff',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                borderRadius: {
+                  xl:'8px',
+                  lg:'8px',
+                  md:'8px',
+                  sm:'8px',
+                  xs:'8px'
+                },
+                transition: 'background-color 0.3s ease, transform 0.2s ease',
+                '&:hover': {
+                  backgroundColor: '#23CCEF',
+                  opacity: 0.7,
+                  transform: 'scale(1.02)', 
+                },
+                '&:active': {
+                  transform: 'scale(0.98)', 
+                },
+
+
+                justifyContent: {xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
+
+
+                width:{
+                  xl:'180px',
+                  lg:'180px',
+                  md:'100px',
+                  sm:'80%',
+                  xs:'80%'
+                },
+              }}
+              onClick={handleAddBillOpen}
+            >
+              <AddIcon sx={{ marginLeft: '2px',fontSize:'15px' }} />
+              <Typography onClick={handleAddBillOpen} sx={{fontSize:{xl:'17px',lg:'17px',md:'12px',sm:'15px',xs:'15px'},fontWeight:'bold',
+             textTransform:{
+              xl:'capitalize',
+              lg:'capitalize',
+              md:'uppercase',
+              sm:'uppercase',
+              xs:'uppercase',
+            }}} >Add Bill</Typography>
+            </Button>
+
+
