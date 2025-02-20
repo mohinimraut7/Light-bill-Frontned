@@ -24,7 +24,7 @@ const ConsumerButton = ({ onClick, disabled, children, customStyles,startIcon}) 
     justifyContent: "center",
     alignItems: "center",
     mt: { xl: 0, lg: 0, md: 0, sm: 1, xs: 1 },
-    width: { xl: "150px", lg: "21%", md: "90px", sm: "80%", xs: "80%" },
+    width: { xl: "150px", lg: "22%", md: "90px", sm: "80%", xs: "80%" },
   };
 
   return (
