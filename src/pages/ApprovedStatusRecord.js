@@ -40,9 +40,15 @@ const ApprovedStatusRecord = () => {
     setPaidBefore(bills?.promptPaymentAmount)
   },[])
   const getFilteredBills = () => {
+    // if (user?.role === 'Junior Engineer') {
+    //   return bills.filter(bill => bill.approvedStatus === 'PendingForJuniorEngineer'|| bill.approvedStatus === 'PendingForExecutiveEngineer');
+    // }
     if (user?.role === 'Junior Engineer') {
-      return bills.filter(bill => bill.approvedStatus === 'PendingForJuniorEngineer'|| bill.approvedStatus === 'PendingForExecutiveEngineer');
-    }
+      return bills.filter(bill => 
+          bill.ward === user.ward && 
+          (bill.approvedStatus === 'PendingForJuniorEngineer' || bill.approvedStatus === 'PendingForExecutiveEngineer')
+      );
+  }
     else if (user?.role === 'Executive Engineer') {
       return bills.filter(bill => bill.approvedStatus === 'PendingForExecutiveEngineer' || bill.approvedStatus === 'PendingForAdmin');
     } else if (user?.role === 'Admin') {
@@ -114,22 +120,22 @@ const handleApproveClick = (bill, yesno) => {
       paymentStatus = 'unpaid';
     } else {
       approvedStatus = 'PendingForExecutiveEngineer';
-      paymentStatus = 'Pending';
+      paymentStatus = 'unpaid';
     }
   }
   else if (user?.role === 'Executive Engineer') {
-   if(yesno==='Yes' && bill.paymentStatus==='Partial'){
+   if(yesno==='Yes' && bill.paymentStatus==='unpaid'){
     approvedStatus='PendingForAdmin';
-    paymentStatus='Partial'
-   }else if(yesno==='No' && bill.paymentStatus==='Partial'&& bill.approvedStatus==='PendingForAdmin'){
+    paymentStatus='unpaid'
+   }else if(yesno==='No' && bill.paymentStatus==='unpaid'&& bill.approvedStatus==='PendingForAdmin'){
     approvedStatus='PendingForExecutiveEngineer';
-    paymentStatus='Partial'
-   }else if(yesno==='Yes' && bill.paymentStatus==='Pending' && bill.approvedStatus==='PendingForExecutiveEngineer' && bill.pendingAmount>0 && bill.paidAmount<bill.roundedBillAmount && bill.pendingAmount!==0){
+    paymentStatus='unpaid'
+   }else if(yesno==='Yes' && bill.paymentStatus==='unpaid' && bill.approvedStatus==='PendingForExecutiveEngineer' && bill.pendingAmount>0 && bill.paidAmount<bill.roundedBillAmount && bill.pendingAmount!==0){
     approvedStatus='PendingForAdmin';
-    paymentStatus='Partial'
-   }else if(yesno==='Yes' && bill.paymentStatus==='Pending'&& bill.approvedStatus==='PendingForExecutiveEngineer' && bill.pendingAmount===bill.roundedBillAmount && bill.paidAmount===0 && bill.pendingAmount!==0){
+    paymentStatus='unpaid'
+   }else if(yesno==='Yes' && bill.paymentStatus==='unpaid'&& bill.approvedStatus==='PendingForExecutiveEngineer' && bill.pendingAmount===bill.roundedBillAmount && bill.paidAmount===0 && bill.pendingAmount!==0){
     approvedStatus='PendingForAdmin';
-    paymentStatus='Pending';
+    paymentStatus='unpaid';
    }else if(yesno==='Yes' && bill.paymentStatus==='unpaid'&& bill.approvedStatus==='PendingForExecutiveEngineer'){
     approvedStatus='PendingForAdmin';
     paymentStatus='unpaid';
@@ -139,22 +145,22 @@ const handleApproveClick = (bill, yesno) => {
    }
    else{
     approvedStatus='PendingForAdmin';
-    paymentStatus='Pending'
+    paymentStatus='unpaid'
    }
   }
   else if (user?.role === 'Admin') {
-    if (yesno === 'No' && bill.approvedStatus === 'PendingForSuperAdmin' && bill.paymentStatus==='Pending') {
+    if (yesno === 'No' && bill.approvedStatus === 'PendingForSuperAdmin' && bill.paymentStatus==='unpaid') {
       approvedStatus = 'PendingForAdmin';
-      paymentStatus = 'Pending';
+      paymentStatus = 'unpaid';
       toast.info('Bill sent back to Admin for review');
-    }else if(yesno === 'Yes' && bill.approvedStatus === 'PendingForAdmin' && bill.paymentStatus==='Paid') {
+    }else if(yesno === 'Yes' && bill.approvedStatus === 'PendingForAdmin' && bill.paymentStatus==='paid') {
       approvedStatus = 'PendingSuperForAdmin';
-      paymentStatus = 'Paid';
+      paymentStatus = 'paid';
       toast.info('Bill sent back to Admin for review');
     }
-    else if(yesno === 'No' && bill.approvedStatus === 'PendingForSuperAdmin' && bill.paymentStatus==='Paid') {
+    else if(yesno === 'No' && bill.approvedStatus === 'PendingForSuperAdmin' && bill.paymentStatus==='paid') {
       approvedStatus = 'PendingForAdmin';
-      paymentStatus = 'Paid';
+      paymentStatus = 'paid';
       toast.info('Bill sent back to Admin for review');
     }
     else if(yesno==='Yes' && bill.paymentStatus==='unpaid'&& bill.approvedStatus==='PendingForAdmin'){
@@ -167,28 +173,29 @@ const handleApproveClick = (bill, yesno) => {
      }
     else {
       approvedStatus = 'PendingForSuperAdmin';
-      paymentStatus = 'Pending';
+      paymentStatus = 'unpaid';
       toast.success('Record forwarded to Super Admin');
     }
   }
   else if (user?.role === 'Super Admin') {
-    if (yesno === 'No' && bill.approvedStatus === 'Done'&& bill.paymentStatus === 'Paid') {
-      approvedStatus = 'PendingForSuperAdmin';
-      paymentStatus = 'Pending';
-      toast.info('Bill sent back to Super Admin for review');
-    }  else if (yesno === 'Yes' && bill.approvedStatus === 'PendingForSuperAdmin'&&(bill.paymentStatus === 'Pending' ||bill.paymentStatus === 'unpaid' )  && bill.pendingAmount==0) {
+    if (yesno === 'No' && bill.approvedStatus === 'Done'&& bill.paymentStatus === 'paid') {
       approvedStatus = 'Done';
-      paymentStatus = 'Paid';
-      
+      paymentStatus = 'paid';
+      toast.info('Paid bill cannot be reversed.');
+    }  else if (yesno === 'Yes' && bill.approvedStatus === 'PendingForSuperAdmin'&&(bill.paymentStatus === 'unpaid' )  && bill.pendingAmount==0) {
+      approvedStatus = 'PendingForSuperAdmin';
+      paymentStatus = 'unpaid';
+      toast.info('Please complete the payment before proceeding.');
     }
-    else if (yesno === 'Yes' && bill.approvedStatus === 'PendingForSuperAdmin'&& bill.paymentStatus === 'Pending' && bill.pendingAmount>0) {
-      approvedStatus = 'PartialDone';
-      paymentStatus = 'Partial';
-      toast.success('Bill partially approved successfully!');
+    else if (yesno === 'Yes' && bill.approvedStatus === 'PendingForSuperAdmin'&& bill.paymentStatus === 'unpaid') {
+      approvedStatus = 'PendingForSuperAdmin';
+      paymentStatus = 'unpaid';
+      toast.info('Please complete the payment before proceeding.');
     }
-    else if(yesno==='Yes' && bill.paymentStatus === 'Partial'){
-      approvedStatus = 'PartialDone';
-      paymentStatus = 'Partial';
+    else if(yesno==='Yes' && bill.paymentStatus === 'unpaid'){
+      approvedStatus = 'PendingForSuperAdmin';
+      paymentStatus = 'unpaid';
+      toast.info('Please complete the payment before proceeding.');
     }
     else {
       if (bill.paidAmount === 0) {
@@ -196,7 +203,7 @@ const handleApproveClick = (bill, yesno) => {
         return;
       }
       approvedStatus = 'Done';
-      paymentStatus = 'Paid';
+      paymentStatus = 'paid';
       toast.success('Bill approved successfully!');
     }
   }
