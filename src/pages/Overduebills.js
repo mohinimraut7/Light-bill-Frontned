@@ -291,7 +291,7 @@ const Overduebills = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
-    { field: 'email', headerName: 'EMAIL', width: 130 },
+    // { field: 'email', headerName: 'EMAIL', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
   
     { field: 'ward', headerName: 'WARD', width: 130 },
