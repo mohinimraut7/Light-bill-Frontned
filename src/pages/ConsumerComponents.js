@@ -250,7 +250,7 @@ const importExcel = async (event) => {
 
 <Box sx={{display:'flex',width:{
   xl:'45%',
-  lg:'45%',
+  lg:'30%',
   md:'45%',
   sm:'80%',
   xs:'80%'
@@ -266,7 +266,7 @@ const importExcel = async (event) => {
 
 
       
-<Button
+{/* <Button
 size="small"
   component="label"
   sx={{
@@ -284,7 +284,7 @@ size="small"
   <AddIcon />
   <Typography>Delete All</Typography>
 
-</Button>
+</Button> */}
 
 
 <Button
