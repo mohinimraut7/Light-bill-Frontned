@@ -508,7 +508,8 @@ const ConsumerBillDetails = () => {
       
         rowData.phaseType || 'N/A',
         rowData.receiptNoBillPayment || 'N/A',
-        rowData.billPaymentDate || 'N/A',
+        // rowData.billPaymentDate || 'N/A',
+        rowData.lastReceiptDate || 'N/A',
 
       ]);
     });
