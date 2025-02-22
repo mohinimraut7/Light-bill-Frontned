@@ -523,7 +523,7 @@ const cRMonth = crDateObj.getMonth();
       cellClassName: 'view-bill-cell', },
     {
       field: '',
-      headerName: 'View Bill',
+      headerName: 'VIEW BILL',
       width: 80,
       headerClassName: 'view-bill-column',
       cellClassName: 'view-bill-cell',
@@ -537,12 +537,12 @@ const cRMonth = crDateObj.getMonth();
             to={billURL}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
+            style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
           >
             <VisibilityIcon/>
           </Link>
         );
-      }
+      } 
       
     },
     

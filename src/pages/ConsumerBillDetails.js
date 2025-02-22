@@ -258,23 +258,31 @@ const ConsumerBillDetails = () => {
       currentReadingDate: formatDate(bill.currentReadingDate),
       currentReading: bill.currentReading,
       billDate: formatDate(bill.billDate),
-      currentBillAmount: bill.currentBillAmount,
+      // currentBillAmount: bill.currentBillAmount,
       totalArrears: bill.totalArrears,
       netBillAmount: bill.netBillAmount,
-      roundedBillAmount: bill.roundedBillAmount,
+      // roundedBillAmount: bill.roundedBillAmount,
       address: bill.address || '-',
       ward: bill?.ward,
       paymentStatus: bill.paymentStatus || '-',
       approvedStatus: bill.approvedStatus || 'PendingForJuniorEngineer',
       paidAmount: bill.paidAmount ? bill.paidAmount : 0,
       pendingAmount: bill.paidAmount ? bill.roundedBillAmount - bill.paidAmount : bill.roundedBillAmount,
-      ifPaidByThisDate: formatDate(bill.ifPaidByThisDate),
-      earlyPaymentAmount: bill.earlyPaymentAmount,
-      ifPaidBefore: bill.ifPaidBefore,
+      // ifPaidByThisDate: formatDate(bill.ifPaidByThisDate),
+      // earlyPaymentAmount: bill.earlyPaymentAmount,
+      // ifPaidBefore: bill.ifPaidBefore,
       dueDate: formatDate(bill.dueDate),
-      ifPaidAfter: bill.ifPaidAfter,
+      // ifPaidAfter: bill.ifPaidAfter,
       receiptNoBillPayment: bill.receiptNoBillPayment||'-',
-      lastReceiptDate: formatDate(bill.lastReceiptDate),
+      lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
+      promptPaymentDate:bill.promptPaymentDate,
+      promptPaymentAmount:bill.promptPaymentAmount,
+      dueDate:bill.dueDate,
+      netBillAmountWithDPC: bill.netBillAmountWithDPC||'-',
+      phaseType:bill?.phaseType||'-',
+    
+      lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
+     
       forwardForGeneration: bill.forwardForGeneration,
       juniorEngineerContactNumber: bill.juniorEngineerContactNumber
     }));
@@ -335,10 +343,11 @@ const ConsumerBillDetails = () => {
     { field: 'contactNumber', headerName: 'ग्राहक संपर्क क्रमांक', width: 130 },
     { field: 'totalConsumption', headerName: 'एकूण वापर युनिट संख्या', width: 130 },
 
-    { field: 'previousReadingDate', headerName: 'या तारखे पासून मीटर नोंद', width: 130 },
-    { field: 'previousReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पासून', width: 130 },
-    { field: 'currentReadingDate', headerName: 'या तारखे पर्यंत मीटर नोंद', width: 130 },
-    { field: 'currentReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पर्यंत', width: 130 },
+    { field: 'previousReadingDate', headerName: 'मागील रीडिंग दिनांक', width: 130 },
+    // मागील रीडिंग दिनांक,चालू रीडिंग दिनांक
+    { field: 'previousReading', headerName: 'मागील रीडिंग', width: 130 },
+    { field: 'currentReadingDate', headerName: 'चालू रीडिंग दिनांक', width: 130 },
+    { field: 'currentReading', headerName: 'चालू रीडिंग', width: 130 },
     { field: 'netBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
     { field: 'dueDate', headerName: 'देयकाची अंतिम तारीख ', width: 130 },
     { field: 'meterStatus', headerName: 'मीटरची स्थिती', width: 130 },
@@ -470,9 +479,9 @@ const ConsumerBillDetails = () => {
     });
 
     const headers = [
-       'मीटर क्रमांक','ग्राहक संपर्क क्रमांक', 'महिना','एकूण वापर युनिट संख्या', 'या तारखे पासून मीटर नोंद',
-      'वापर झालेल्या युनिट रिडींग क्रमांक पासून', 'या तारखे पर्यंत मीटर नोंद',
-      'वापर झालेल्या युनिट रिडींग क्रमांक पर्यंत', 'देयकाची रक्कम', 'देयकाची अंतिम तारीख ',
+       'मीटर क्रमांक','ग्राहक संपर्क क्रमांक', 'महिना','एकूण युनिट', 'मागील रीडिंग दिनांक',
+      'मागील रीडिंग', 'चालू रीडिंग दिनांक',
+      'चालू रीडिंग', 'देयकाची रक्कम', 'देयकाची अंतिम तारीख ',
       'मीटरची स्थिती', 'एकूण भार', 'मंजूर भार', 'स्थापना दिनांक', 'फेज प्रकार',
       'बिल भरणा तारीख',
     ];
@@ -491,7 +500,7 @@ const ConsumerBillDetails = () => {
         rowData.previousReading || 'N/A',
         rowData.currentReadingDate || 'N/A',
         rowData.currentReading || 'N/A',
-        rowData.roundedBillAmount || 'N/A',
+        rowData.netBillAmount || 'N/A',
         rowData.dueDate || 'N/A',
         rowData.meterStatus || 'N/A',
         rowData.netLoad || 'N/A',
@@ -582,11 +591,11 @@ const handleDownloadPDF = () => {
                   </tr>
                   <tr>
                       <th>महिना</th>
-                      <th>एकूण वापर युनिट संख्या</th>
-                      <th>या तारखे पासून मीटर नोंद</th>
-                      <th>या तारखे पासून यूनिट रीडिंग क्रमांक</th>
-                      <th>या तारखे पर्यंत मीटर नोंद</th>
-                      <th>या तारखे पर्यंत यूनिट रीडिंग क्रमांक</th>
+                      <th>एकूण युनिट</th>
+                      <th>मागील रीडिंग दिनांक</th>
+                      <th>मागील रीडिंग</th>
+                      <th>चालू रीडिंग दिनांक</th>
+                      <th>चालू रीडिंग</th>
                       <th>देयकाची रक्कम</th>
                       <th>देयकाची अंतिम तारीख</th>
                       <th>बिल भरणा तारीख</th>
@@ -604,7 +613,7 @@ const handleDownloadPDF = () => {
                   row.previousReading || 'N/A',
                   row.currentReadingDate || 'N/A',
                   row.currentReading || 'N/A',
-                  row.roundedBillAmount || 'N/A',
+                  row.netBillAmount || 'N/A',
                   row.dueDate || 'N/A',
                   row.lastReceiptDate || 'N/A',
                   row.netLoad || 'N/A'

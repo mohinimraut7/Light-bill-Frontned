@@ -622,4 +622,26 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
     reader.readAsArrayBuffer(file);
 };
+=================================================================================
+    { field: 'previousReadingDate', headerName: 'या तारखे पासून मीटर नोंद', width: 130 },
 
+    मागील रीडिंग दिनांक
+चालू रीडिंग दिनांक
+{ field: 'currentReadingDate', headerName: 'या तारखे पर्यंत मीटर नोंद', width: 130 },
+------------------------------------------------------------------------------------
+{ field: 'previousReading', headerName: 'वापर झालेल्या युनिट रिडींग क्रमांक पासून', width: 130 },
+  <th>एकूण वापर युनिट संख्या</th>
+  =================================
+    { field: 'previousReadingDate', headerName: 'मागील रीडिंग दिनांक', width: 130 },
+    // मागील रीडिंग दिनांक,चालू रीडिंग दिनांक
+    { field: 'previousReading', headerName: 'मागील रीडिंग', width: 130 },
+    { field: 'currentReadingDate', headerName: 'चालू रीडिंग दिनांक', width: 130 },
+    { field: 'currentReading', headerName: 'चालू रीडिंग', width: 130 },
+    { field: 'netBillAmount', headerName: 'देयकाची रक्कम', width: 130 },
+    { field: 'dueDate', headerName: 'देयकाची अंतिम तारीख ', width: 130 },
+    ===================================
+     'मीटर क्रमांक','ग्राहक संपर्क क्रमांक', 'महिना','एकूण युनिट', 'मागील रीडिंग दिनांक',
+      'मागील रीडिंग', 'चालू रीडिंग दिनांक',
+      'चालू रीडिंग', 'देयकाची रक्कम', 'देयकाची अंतिम तारीख ',
+      'मीटरची स्थिती', 'एकूण भार', 'मंजूर भार', 'स्थापना दिनांक', 'फेज प्रकार',
+      'बिल भरणा तारीख',
