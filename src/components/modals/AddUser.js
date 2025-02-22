@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
     contactNumber: Yup.string().required('Contact Number is required')
     .matches(/^\d{10}$/, 'Contact Number must be exactly 10 digits'),
     address: Yup.string().required('Address is required'),
-    ward: Yup.string().required('Ward is required'),
+    // ward: Yup.string().required('Ward is required'),
   });
 
   const rolesToDisplayField = [
@@ -35,7 +35,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
           address: currentUser ? currentUser.address : '',
         //   role: currentUser ? currentUser.role : 'User',
         // roleSupervisor: currentUser ? currentUser.roleSupervisor : 'Junior Engineer',
-          ward: currentUser ? currentUser.ward : '',
+        //   ward: currentUser ? currentUser.ward : '',
         },
         validationSchema: validationSchema,
         validateOnChange: true,
@@ -308,7 +308,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
         },
     }}
                     />
-                      <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
+                      {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                  WARD
                  </Typography>
 
@@ -331,7 +331,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
     {formik.touched.ward && formik.errors.ward && (
   <Typography color="error" variant="caption">{formik.errors.ward}</Typography>
 )}
-</FormControl>
+</FormControl> */}
                    
                      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center'}}>
                         <Button

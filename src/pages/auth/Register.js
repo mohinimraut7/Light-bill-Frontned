@@ -235,7 +235,7 @@ const Register = () => {
                 {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                  WARD
                  </Typography> */}
-                <FormControl fullWidth margin="normal" variant="outlined" className='Auth-Input' size="small">
+                {/* <FormControl fullWidth margin="normal" variant="outlined" className='Auth-Input' size="small">
                         <InputLabel id="ward-label" sx={{color:"#DDDDDD"}}>Ward</InputLabel>
                         <Select
                             labelId="ward-label"
@@ -252,10 +252,8 @@ const Register = () => {
                                 <MenuItem key={index} value={ward.ward}>{ward.ward}</MenuItem>
                             ))}
                         </Select>
-                        {/* {formik.touched.ward && formik.errors.ward && (
-                            <Typography color="error" variant="caption">{formik.errors.ward}</Typography>
-                        )} */}
-                    </FormControl>
+                       
+                    </FormControl> */}
                 <Box sx={{display: 'flex', justifyContent: 'center' }}>
                     <Button
                         type="submit"
