@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1c31f8b9.css",
+    "main.js": "/static/js/main.f9b281ee.js",
+    "static/js/213.993a601f.chunk.js": "/static/js/213.993a601f.chunk.js",
+    "static/js/455.c7317e11.chunk.js": "/static/js/455.c7317e11.chunk.js",
+    "static/media/vvcmclogo.jpg": "/static/media/vvcmclogo.4e7892de965d1acdb43e.jpg",
+    "static/media/vasaivirarmahangarpalika.jpg": "/static/media/vasaivirarmahangarpalika.4ff4a314293ab3cf964c.jpg",
+    "static/media/sidebarimg.jpg": "/static/media/sidebarimg.9aca257bcadedf58aeff.jpg",
+    "index.html": "/index.html",
+    "main.1c31f8b9.css.map": "/static/css/main.1c31f8b9.css.map",
+    "main.f9b281ee.js.map": "/static/js/main.f9b281ee.js.map",
+    "213.993a601f.chunk.js.map": "/static/js/213.993a601f.chunk.js.map",
+    "455.c7317e11.chunk.js.map": "/static/js/455.c7317e11.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1c31f8b9.css",
+    "static/js/main.f9b281ee.js"
+  ]
+}
