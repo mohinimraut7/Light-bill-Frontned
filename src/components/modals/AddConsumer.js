@@ -22,6 +22,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
     const formik = useFormik({
         initialValues: {
             consumerNumber: currentConsumer ? currentConsumer.consumerNumber : '',
+            consumerPlace: currentConsumer ? currentConsumer.consumerPlace : '',
             consumerAddress: currentConsumer ? currentConsumer.consumerAddress : '',
             meterPurpose: currentConsumer ? currentConsumer.meterPurpose : '',
             phaseType: currentConsumer ? currentConsumer.phaseType : '',
@@ -84,8 +85,8 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
 
 
 
-
-                    <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
+                  <Box sx={{mb:1}}>
+                  <Typography sx={{height:'5px'}} className='Auth-Label' variant="subtitle1" gutterBottom>
                         CONSUMER NUMBER
                     </Typography>
                     <TextField
@@ -93,6 +94,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         id="consumerNumber"
                         name="consumerNumber"
                         label="Consumer Number"
+                        size="small"
                         // disabled
                         value={formik.values.consumerNumber}
                         onChange={formik.handleChange}
@@ -106,10 +108,35 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             },
                         }}
                     />
+                  </Box>
+                    
+<Box sx={{mb:1}}>
+<Typography sx={{height:'5px'}} className='A-R-Label' variant="subtitle1" gutterBottom>
+                        CONSUMER PLACE
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        id="consumerPlace"
+                        name="consumerPlace"
+                        label="Consumer Place"
+                        size="small"
+                        // disabled
+                        value={formik.values.consumerPlace}
+                        onChange={formik.handleChange}
+                        error={formik.touched.consumerPlace && Boolean(formik.errors.consumerPlace)}
+                        helperText={formik.touched.consumerPlace && formik.errors.consumerPlace}
+                        margin="normal"
+                        variant="outlined"
+                        InputLabelProps={{
+                            sx: {
+                                color: '#DDDDDD',
+                            },
+                        }}
+                    />
+</Box>
 
-
-
-                    <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
+              <Box sx={{mb:1}}>
+              <Typography sx={{height:'5px'}} className='A-R-Label' variant="subtitle1" gutterBottom>
                         CONSUMER ADDRESS
                     </Typography>
                     <TextField
@@ -117,6 +144,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         id="consumerAddress"
                         name="consumerAddress"
                         label="Consumer Address"
+                        size="small"
                         // disabled
                         value={formik.values.consumerAddress}
                         onChange={formik.handleChange}
@@ -130,7 +158,9 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             },
                         }}
                     />
- <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
+              </Box>
+      <Box sx={{mb:1}}>
+      <Typography sx={{height:'20px'}} className='A-R-Label' variant="subtitle1" gutterBottom>
                         WARD
                     </Typography>
                     <FormControl fullWidth margin="normal" variant="outlined" className='A-U-Input'>
@@ -139,6 +169,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             labelId="ward-label"
                             id="ward"
                             name="ward"
+                            size="small"
                             value={formik.values.ward}
                             onChange={formik.handleChange}
                             label="Ward"
@@ -148,10 +179,12 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             ))}
                         </Select>
                     </FormControl>
+        </Box>             
+ 
 
 
-<Box>
-                        <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
+                     <Box sx={{mb:1}}>
+                        <Typography sx={{height:'20px'}} className='Auth-Label' variant="subtitle1" gutterBottom>
                         METER PURPOSE
                         </Typography>
                         <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input'>
@@ -160,7 +193,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                                id="meterPurpose"
                                name="meterPurpose"
                               labelId="Meter Purpose"
-                               
+                               size="small"
                                 
                                 value={formik.values.meterPurpose}
                                 onChange={formik.handleChange}
@@ -184,6 +217,7 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                                 labelId="phaseType-label"
                                 id="phaseType"
                                 name="phaseType"
+                                size="small"
                                 value={formik.values.phaseType}
                                 onChange={formik.handleChange}
                                 label="phaseType"
