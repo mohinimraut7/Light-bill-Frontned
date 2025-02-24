@@ -257,7 +257,7 @@ const importExcel = async (event) => {
       xs:'column'
     }}}>
       
-<Button
+{/* <Button
 size="small"
   component="label"
   sx={{
@@ -275,7 +275,7 @@ size="small"
   <AddIcon />
   <Typography>Delete All</Typography>
 
-</Button>
+</Button> */}
 
 
 <Button
