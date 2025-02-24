@@ -83,6 +83,7 @@ const importExcel = async (event) => {
     
     const cleanedData = jsonData.map(item => ({
       consumerNumber: item.consumerNumber || '',
+      consumerPlace: item.consumerPlace || '',
       consumerAddress: item.consumerAddress || '',
       ward: item.ward || '',
       meterPurpose: item.meterPurpose || '',
@@ -178,8 +179,8 @@ const importExcel = async (event) => {
   const rows = filteredData?.map((consumer,index) => ({
     id:index+1,
     _id:consumer._id,
-    
     consumerNumber:consumer?.consumerNumber||'-',
+    consumerPlace:consumer?.consumerPlace||'-',
     consumerAddress: consumer?.consumerAddress||'-',
     ward:consumer?.ward||'-',
     meterPurpose:consumer?.meterPurpose||'-',
