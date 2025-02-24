@@ -31,3 +31,8 @@ native:true
 API=https://lightbillbackend.onrender.com
 API=https://lightbillbackend.onrender.com
 BASEURL=https://lightbillbackend.onrender.com
+=======================
+npm install framer-motion
+for loader library
+===================================
+npm install framer-motion

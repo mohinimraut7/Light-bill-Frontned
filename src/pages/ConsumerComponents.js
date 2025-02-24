@@ -17,6 +17,8 @@ import { styled } from '@mui/material/styles';
 import { CircularProgress} from '@mui/material';
 import * as XLSX from 'xlsx';
 import { baseUrl } from '../config/config';
+
+
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
   {
@@ -53,6 +55,7 @@ const [consumerOpen,setConsumerOpen]=useState(false);
 const [consumer, setConsumer] = useState('');
 const [cnId, setCnId] = useState('');
 const [currentConsumer, setCurrentConsumer] = useState(null);
+const [isImporting, setIsImporting] = useState(false); 
   useEffect(() => {
     dispatch(fetchConsumers());
   }, [dispatch]);
@@ -64,6 +67,7 @@ const [currentConsumer, setCurrentConsumer] = useState(null);
 const importExcel = async (event) => {
   const file = event.target.files[0]; 
   if (!file) return;
+  setIsImporting(true);
 
   const reader = new FileReader();
   reader.onload = async (e) => {
@@ -75,7 +79,7 @@ const importExcel = async (event) => {
 
     const jsonData = XLSX.utils.sheet_to_json(sheet);
 
-    // Clean and format the data
+    
     const cleanedData = jsonData.map(item => ({
       consumerNumber: item.consumerNumber || '',
       consumerAddress: item.consumerAddress || '',
@@ -86,7 +90,7 @@ const importExcel = async (event) => {
 
     console.log("Total Records:", cleanedData.length);
 
-    // Split data into chunks of 100 records each
+    
     const chunkSize = 100;
     for (let i = 0; i < cleanedData.length; i += chunkSize) {
       const chunk = cleanedData.slice(i, i + chunkSize);
@@ -104,6 +108,7 @@ const importExcel = async (event) => {
         console.error(`Error importing batch ${i / chunkSize + 1}:`, error);
       }
     }
+    setIsImporting(false);
 
     alert("Excel data import process completed.");
   };
@@ -161,20 +166,9 @@ const importExcel = async (event) => {
     return <p>Error: {error}</p>;
   }
 
-  
-
-  // let filteredData = cnId
-  // ? consumers.filter(consumer => consumer.consumerNumber.includes(cnId))
-  // : consumers;
-
-
   let filteredData = consumers?.filter(consumer => {
-    // First, filter by consumerNumber if cnId is provided
     const matchesConsumerNumber = cnId ? consumer.consumerNumber.includes(cnId) : true;
-    
-    // Then, filter by ward if the user is a Junior Engineer
     const matchesWard = user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
-  
     return matchesConsumerNumber && matchesWard;
   });
   
@@ -261,12 +255,8 @@ const importExcel = async (event) => {
       sm:'column',
       xs:'column'
     }}}>
-
-
-
-
       
-{/* <Button
+<Button
 size="small"
   component="label"
   sx={{
@@ -284,7 +274,7 @@ size="small"
   <AddIcon />
   <Typography>Delete All</Typography>
 
-</Button> */}
+</Button>
 
 
 <Button
@@ -371,18 +361,29 @@ transform: 'translate(14px, -8px) scale(0.75)',
     }}
   />
 </Box>
-      <StyledDataGrid
-      autoHeight  
-        rows={rows}
-        columns={columns(handleDeleteConsumer,handleEditConsumer)}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10,15,20,25,100]}
-        checkboxSelection
-      />
+
+<StyledDataGrid
+autoHeight  
+  rows={rows}
+  columns={columns(handleDeleteConsumer,handleEditConsumer)}
+  initialState={{
+    pagination: {
+      paginationModel: { page: 0, pageSize: 5 },
+    },
+  }}
+  pageSizeOptions={[5, 10,15,20,25,100]}
+  checkboxSelection
+  loading={isImporting} 
+  components={{
+    NoRowsOverlay: () => (
+      isImporting ? <CircularProgress /> : <Typography>No Rows</Typography>
+    ),
+  }}
+/>
+{/* } */}
+
+
+      
       <AddConsumer
       open={consumerOpen}
       handleClose={ handleAddConsumerClose}
