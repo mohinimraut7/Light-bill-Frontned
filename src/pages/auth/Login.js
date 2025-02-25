@@ -68,7 +68,6 @@ const Login = () => {
                 sx={{
                     width: '80%',
                     margin: 'auto',
-                    // padding: '30px',
                     padding: '10px 30px 30px 30px',
                     border: '1px solid #d3d3d3',
                     borderRadius: '8px',
@@ -231,22 +230,7 @@ const Login = () => {
                     </Button>
                     
                 </Box>
-                {/* <Box sx={{display:'flex',alignItems:'center',justifyContent:'center',height:'20px',marginTop:'10px'}}>
-                <Typography
-        component={Link}
-        to="/register"
-        sx={{
-            fontSize:'12px',
-          textDecoration: 'none', 
-          color: 'inherit',       
-          '&:hover': {
-            color: '#1976d2',    
-          }
-        }}
-      >
-        Don't have an account? Sign up here
-      </Typography>
-                    </Box> */}
+                
                 
             </Box>
             

@@ -18,7 +18,7 @@ import { CircularProgress} from '@mui/material';
 import * as XLSX from 'xlsx';
 import { baseUrl } from '../config/config';
 
-
+import { toast } from "react-toastify";
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
   {
@@ -112,7 +112,7 @@ const importExcel = async (event) => {
     }
     setIsImporting(false);
     dispatch(fetchConsumers());
-    alert("Excel data import process completed.");
+    toast.success("Consumer data has been successfully imported.");
   };
 
   reader.readAsArrayBuffer(file);
@@ -221,16 +221,20 @@ const importExcel = async (event) => {
   return (
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
+
+     
+
       <Box sx={{   width:'100%',display:'flex',justifyContent:{
         xl:'space-between',
         lg:'space-between',
-        md:'center',
+        md:'space-between',
+        sm:'center',
         xs:'center'
       },
       alignItems:{
         xl:'flex-start',
         lg:'flex-start',
-        md:'start',
+        md:'flex-start',
       sm:'center',
       xs:'center'
       },
@@ -242,20 +246,40 @@ const importExcel = async (event) => {
       sm:'column',
       xs:'column'
     }}}>
-        <Typography  style={{paddingLeft:'20px',color:'#0d2136'}} className='title-2'>CONSUMER MASTER</Typography>
 
-<Box sx={{display:'flex',width:{
+<Box sx={{
+  mb:{
+        lg:1,
+      }
+      }}><Typography  sx={{color:'#0d2136',
+      //   backgroundColor:{
+      //   xs:'blue',
+      //   sm:'purple',
+      //   md:'yellow',
+      //   lg:'green',
+      //   xl:'pink'
+      // }
+      }} className='title-2'>CONSUMER MASTER</Typography></Box>
+
+<Box sx={{display:'flex',
+width:{
   xl:'45%',
   lg:'30%',
   md:'45%',
-  sm:'80%',
-  xs:'80%'
-},justifyContent:'space-between', flexDirection:{
+  sm:'100%',
+  xs:'100%'
+},justifyContent:{
+  xs:'center',
+  sm:'center',
+  md:'space-between',
+  lg:'space-between',
+  xl:'space-between'
+}, flexDirection:{
       lg:'row',
       xl:'row',
       md:'row',
-      sm:'column',
-      xs:'column'
+      sm:'row',
+      xs:'row'
     }}}>
       
 {/* <Button
@@ -290,6 +314,11 @@ size="small"
     justifyContent: 'space-between',
     width: 'auto',
    
+   mb:{
+    md:0,
+    lg:0,
+    xl:0
+   }
    
   }}
 >
@@ -308,10 +337,17 @@ size="small"
               display: 'flex',
               justifyContent: 'space-between',
               width: 'auto',
+              ml:{
+                xs:2,
+                sm:5,
+                md:0,
+                lg:0,
+                xl:0
+                    },
             }}
             onClick={handleAddConsumerOpen}
           >
-            <AddIcon sx={{ marginLeft: '2px' }} />
+            <AddIcon sx={{ }} />
             <Typography>Add Consumer</Typography>
 </Button>
 
@@ -321,7 +357,18 @@ size="small"
 
 
         </Box>
-        <Box>
+
+        <Box sx={{
+          display:'flex',
+          justifyContent:{
+            xs:'center',
+            sm:'center',
+            md:'flex-start',
+            lg:'flex-start',
+            xl:'flex-start'
+          
+          }
+        }}>
 <TextField
     id="consumerNumber"
     name="consumerNumber"
