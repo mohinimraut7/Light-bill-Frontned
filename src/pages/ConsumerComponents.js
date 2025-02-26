@@ -38,9 +38,9 @@ const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   },
   { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 220 },
   { field: 'consumerPlace', headerName: 'CONSUMER PLACE', width: 220 },
-  { field: 'consumerAddress', headerName: 'CONSUMER ADDRESS', width: 180 },
   { field: 'ward', headerName: 'WARD', width: 180 },
   { field: 'meterPurpose', headerName: 'METER PURPOSE', width: 220 },
+  { field: 'consumerAddress', headerName: 'CONSUMER ADDRESS', width: 180 },
   { field: 'phaseType', headerName: 'PHASE TYPE', width: 150 },
  
   
