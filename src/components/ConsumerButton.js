@@ -24,7 +24,7 @@ const ConsumerButton = ({ onClick, disabled, children, customStyles,startIcon}) 
     justifyContent: "center",
     alignItems: "center",
     mt: { xl: 0, lg: 0, md: 0, sm: 1, xs: 1 },
-    width: { xl: "150px", lg: "22%", md: "90px", sm: "80%", xs: "80%" },
+    width: { xl: "150px", lg: "22%", md: "22%", sm: "80%", xs: "80%" },
   };
 
   return (
@@ -33,7 +33,7 @@ const ConsumerButton = ({ onClick, disabled, children, customStyles,startIcon}) 
     >
       <Typography
         sx={{
-          fontSize: { xl: "17px", lg: "17px", md: "12px", sm: "15px", xs: "15px" },
+          fontSize: { xl: "17px", lg: "17px", md: "10px", sm: "15px", xs: "15px" },
           fontWeight: "bold",
           textTransform: { xl: "capitalize", lg: "capitalize", md: "uppercase", sm: "uppercase", xs: "uppercase" },
         }}

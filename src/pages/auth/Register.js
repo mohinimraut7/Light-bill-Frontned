@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import { Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, Container } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import vvcmclogo from '../../Images/vvcmclogo.jpg'; 
 import wardData from '../../data/warddata';
 import { addUser } from '../../store/actions/userActions';
+import LoaderLottie from '../../components/LoaderLottie';
 // import './Register.css';
 const validationSchema = Yup.object({
     username: Yup.string().required('User Name is required'),
@@ -20,6 +21,8 @@ const validationSchema = Yup.object({
 });
 const Register = () => {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
    
         document.body.classList.add('auth-body');
@@ -39,9 +42,17 @@ const Register = () => {
             ward:''
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
-                dispatch(addUser(values));
-              }
+        // onSubmit: (values) => {
+        //         dispatch(addUser(values));
+        //       }
+        onSubmit: async (values) => {
+            setLoading(true); // Loader सुरू करणे
+            try {
+                await dispatch(addUser(values));
+            } finally {
+                setLoading(false); // Loader बंद करणे
+            }
+        }
     });
     return (
         <Container maxWidth="xs">
@@ -255,21 +266,28 @@ const Register = () => {
                        
                     </FormControl> */}
                 <Box sx={{display: 'flex', justifyContent: 'center' }}>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className='Auth-Button-Signup'
-                        sx={{
-                           backgroundColor:'#00A400',
-                            '&:hover': {
-                                bgcolor: '#81c784',
-                            }
-                        }}
-                    >
-                        Register
-                    </Button>
-                    
+
+
+                {loading ? <LoaderLottie /> : (
+    <Button
+    type="submit"
+    variant="contained"
+    color="primary"
+    className='Auth-Button-Signup'
+    sx={{
+       backgroundColor:'#00A400',
+        '&:hover': {
+            bgcolor: '#81c784',
+        }
+    }}
+>
+    Register
+</Button>
+
+)}
+
+
+                   
                 </Box>
                 <Box sx={{display:'flex',alignItems:'center',justifyContent:'center',height:'20px',marginTop:'10px'}}>
                 <Typography

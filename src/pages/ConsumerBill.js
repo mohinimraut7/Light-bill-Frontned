@@ -519,33 +519,46 @@ const cRMonth = crDateObj.getMonth();
       },
     },
    
-    { field: 'id', headerName: 'ID', width: 40, headerClassName: 'view-bill-column',
-      cellClassName: 'view-bill-cell', },
-    {
-      field: '',
-      headerName: 'VIEW BILL',
-      width: 80,
-      headerClassName: 'view-bill-column',
-      cellClassName: 'view-bill-cell',
+    { field: 'id', headerName: 'ID', width: 40},
+       
+    // {
+   
+    //   headerName: 'VIEW BILL',
+    //   width: 80,
+     
+    //   renderCell: (params) => {
+    //     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+    
+    //     const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+    
+    //     return (
+    //       <Link
+    //         to={billURL}
+         
+    //         // style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
+    //       >
+    //         <VisibilityIcon/>
+    //       </Link>
+    //     );
+    //   } 
+      
+    // },
+    { field: 'cont', headerName: 'VIEW BILL', width: 80,
       renderCell: (params) => {
         const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-    
         const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-    
-        return (
-          <Link
-            to={billURL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
-          >
-            <VisibilityIcon/>
-          </Link>
-        );
-      } 
-      
-    },
-    
+return(
+  <Link
+  className="eyeconsumer"
+  to={billURL}
+   target="_blank"
+  >
+   <VisibilityIcon/>
+  </Link>
+ 
+)}
+
+     },
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NO.',
@@ -620,7 +633,6 @@ const cRMonth = crDateObj.getMonth();
     paddingLeft: '10px',
   };
   const innerDivStyle = {
-    border: '1px solid #F7F7F8',
     width: '99%',
   };
   const rowColors = ['#F7F9FB', 'white'];
@@ -737,13 +749,18 @@ const cRMonth = crDateObj.getMonth();
           </Typography></Box> */}
 
       <Box sx={{width:'100%',
+   
+      width:{xl:'100%',
+        lg:'100%',
+        md:'92%'
+      },
       display:'flex',
    justifyContent:'space-between',
 
    flexDirection:{
     xl:'row',
     lg:'row',
-    md:'column',
+    md:'row',
     sm:'column',
     xs:'column'
    },
@@ -759,14 +776,14 @@ const cRMonth = crDateObj.getMonth();
       }}>
         <Box sx={{display:'flex', justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
 flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
-  <Typography sx={{color: '#0d2136',fontWeight:'bold' }} className="title-2">BILL MASTER</Typography>
+  <Typography sx={{color: '#0d2136',fontWeight:'bold'}} className="title-2">BILL MASTER</Typography>
   </Box>
       
       
         <Box sx={{display:'flex',flexDirection:{
     xl:'row',
     lg:'row',
-    md:'column',
+    md:'row',
     sm:'column',
     xs:'column'
    },}}> <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
@@ -818,10 +835,18 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
         
         </Box>
 
-        <Box sx={{display:'flex', width: {
+        <Box sx={{display:'flex',
+        ml: {
+          xl: isSidebarOpen ? 0 :0,
+          lg: isSidebarOpen ? 0 : 0,
+          md: isSidebarOpen ? 2.5 : 1,
+         
+        },
+        
+        width: {
       xl: isSidebarOpen ? '100%' : '85%',
       lg: isSidebarOpen ? '100%' : '100%',
-      md: isSidebarOpen ? '100%' : '100%',
+      md: isSidebarOpen ? '95%' : '100%',
       sm: '100%',
       xs: '100%',
     },
@@ -861,7 +886,8 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
  <ConsumerButton  onClick={handleDownloadReport} startIcon={<DownloadIcon/>}>Faulty | Average Bills</ConsumerButton>
   {/* <ConsumerButton  onClick={handleAddBillOpen} startIcon={<AddIcon/>}>Add Bill</ConsumerButton>            */}
 </Box>
-        <Box sx={{display:'flex',alignItems:'center',
+        <Box sx={{
+          display:'flex',alignItems:'center',
           justifyContent:{xl:'space-between',
             lg:'space-between',
             md:'space-between',
@@ -870,14 +896,14 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
           },
           width:{xl:'60%',
             lg:'60%',
-            md:'55%',
+            md:'60%',
             sm:'100%',
             xs:'100%'
           },
          flexDirection:{
           xl:'row',
           lg:'row',
-          md:'column',
+          md:'row',
           sm:'column',
           xs:'column'
          },
@@ -914,14 +940,18 @@ transform: 'translate(14px, -8px) scale(0.75)',
     }}
     sx={{
       width: {
-        xl: '58%',
-        lg: '58%',
-        md: '80%',
+        xl: '48%',
+        lg: '48%',
+        md: '48%',
         sm: '80%',
         xs: '80%'
       }, 
       mt:{
-        sm:1
+        xs:1,
+        sm:1,
+        md:0,
+        lg:1,
+        xl:1
       }
       
     }}

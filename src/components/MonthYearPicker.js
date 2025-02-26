@@ -17,7 +17,7 @@ const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
       sx={{width:{
         xl:'40%',
         lg:'40%',
-        md:'80%',
+        md:'50%',
         sm:'80%',
         xs:'80%'
       },

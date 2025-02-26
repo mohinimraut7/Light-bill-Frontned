@@ -246,7 +246,9 @@ import MathCaptcha from "./MathCapcha"; // Import Captcha
 import { useNavigate } from 'react-router-dom';
 import vvcmclogo from '../../Images/vvcmclogo.jpg';
 import { baseUrl } from '../../config/config';
+import LoaderLottie from '../../components/LoaderLottie'; // Import Loader
 
+import './Auth.css';
 const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().required('Password is required'),
@@ -256,7 +258,7 @@ const Login = () => {
     const [captchaValid, setCaptchaValid] = useState(false);
     const [showResend, setShowResend] = useState(false); // State to show resend button
     const [userEmail, setUserEmail] = useState(""); // Store email for resend
-
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const authError = useSelector((state) => state.auth.error);
@@ -283,24 +285,35 @@ const Login = () => {
             password: '',
         },
         validationSchema: validationSchema,
-        onSubmit: (values, { resetForm, setSubmitting }) => {
+        onSubmit:async (values, { resetForm, setSubmitting }) => {
             if (!captchaValid) {
                 toast.error("Incorrect CAPTCHA. Please try again.", { position: "top-center" });
                 return;
             }
             setUserEmail(values.email); // Store email for resend verification
-            dispatch(login(values, navigate))
-                .then(() => {
-                    resetForm();
-                })
-                .catch(() => {
-                    setSubmitting(false);
-                });
+            setLoading(true); 
+
+            // dispatch(login(values, navigate))
+            //     .then(() => {
+            //         resetForm();
+            //     })
+            //     .catch(() => {
+            //         setSubmitting(false);
+            //     });
+            try {
+                await dispatch(login(values, navigate));
+                resetForm();
+            } catch (error) {
+                setSubmitting(false);
+            } finally {
+                setLoading(false); // ✅ Hide Loader
+            }
         },
     });
 
     // **Function to Resend Verification Email**
     const handleResendVerification = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${baseUrl}/resend-verification`, {
                 method: "POST",
@@ -311,14 +324,17 @@ const Login = () => {
             });
 
             const data = await response.json();
+            setLoading(false); 
             toast.success(data.message || "Verification link sent!", { position: "top-center" });
         } catch (error) {
+            setLoading(false); 
             toast.error("Something went wrong. Please try again.", { position: "top-center" });
         }
     };
 
     return (
         <Container className="Auth-Container" maxWidth="sm">
+           
             <Box
                 sx={{
                     width: '80%',
@@ -384,25 +400,32 @@ const Login = () => {
                 {/* Show Resend Verification Button if User is not verified */}
                 {showResend && (
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
+                        <Link
+                          className="anchorverificationlink"
                             onClick={handleResendVerification}
                         >
                             Resend Verification Link
-                        </Button>
+                        </Link>
+
+                       
                     </Box>
                 )}
+<Box sx={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}}>{loading && <LoaderLottie />}</Box>
+
+                
 
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                     <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        className='Auth-Button'
+                       className='Auth-Button'
+                        size="small"
                         sx={{
+                             width:'80%',
                             '&:hover': {
                                 bgcolor: '#81c784',
+                               
                             }
                         }}
                     >
@@ -420,9 +443,10 @@ const Login = () => {
                     <Button
                         type="submit"
                         variant="contained"
-                        color="primary"
+                      
                         className='Auth-Button-Signup'
                         sx={{
+                            backgroundColor:'#rgb(49,162,76)',
                             '&:hover': {
                                 bgcolor: '#81c784',
                             }
@@ -435,13 +459,14 @@ const Login = () => {
                                 fontSize: { xl: '12px', lg: '12px', md: '10px', sm: '9px', xs: '9px' },
                                 textDecoration: 'none',
                                 color: 'inherit',
-                                '&:hover': { color: '#1976d2' },
+                                '&:hover': { fontWeight:'bold'},
                             }}
                         >
                             Create new account
                         </Typography>
                     </Button>
                 </Box>
+                
             </Box>
         </Container>
     );
