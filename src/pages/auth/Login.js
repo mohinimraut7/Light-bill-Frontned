@@ -235,7 +235,8 @@
 // ======================================================
 
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, TextField, Button, Container, Divider } from '@mui/material';
+import { Box, Typography, TextField, Button, Container, Divider,InputAdornment,IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useFormik } from 'formik';
@@ -259,6 +260,7 @@ const Login = () => {
     const [showResend, setShowResend] = useState(false); // State to show resend button
     const [userEmail, setUserEmail] = useState(""); // Store email for resend
     const [loading, setLoading] = useState(false);
+     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const authError = useSelector((state) => state.auth.error);
@@ -331,6 +333,9 @@ const Login = () => {
             toast.error("Something went wrong. Please try again.", { position: "top-center" });
         }
     };
+    const handleTogglePassword = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     return (
         <Container className="Auth-Container" maxWidth="sm">
@@ -376,7 +381,7 @@ const Login = () => {
                     id="password"
                     name="password"
                     label="Password"
-                    type="password"
+                    type={showPassword ?'password':'text'}  
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     error={formik.touched.password && Boolean(formik.errors.password)}
@@ -386,6 +391,15 @@ const Login = () => {
                     size="small"
                     InputLabelProps={{
                         sx: { color: 'gray' },
+                    }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword} edge="end">
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
                     }}
                 />
 

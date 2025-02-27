@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, Container } from '@mui/material';
+import { Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, Container,InputAdornment,IconButton} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,8 @@ import vvcmclogo from '../../Images/vvcmclogo.jpg';
 import wardData from '../../data/warddata';
 import { addUser } from '../../store/actions/userActions';
 import LoaderLottie from '../../components/LoaderLottie';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 // import './Register.css';
 const validationSchema = Yup.object({
     username: Yup.string().required('User Name is required'),
@@ -22,6 +24,7 @@ const validationSchema = Yup.object({
 const Register = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
    
@@ -54,6 +57,11 @@ const Register = () => {
             }
         }
     });
+
+    const handleTogglePassword = () => {
+        setShowPassword((prev) => !prev);
+    };
+
     return (
         <Container maxWidth="xs">
             <Box
@@ -131,7 +139,7 @@ const Register = () => {
                     id="password"
                     name="password"
                     label="Password"
-                    type="password"
+                    type={showPassword ?'password':'text'}  
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     error={formik.touched.password && Boolean(formik.errors.password)}
@@ -145,6 +153,15 @@ const Register = () => {
                         sx: {
                             color: '#DDDDDD', // Change this to the desired color
                         },
+                    }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword} edge="end">
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
                     }}
                 />
                 {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>

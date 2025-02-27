@@ -1,5 +1,6 @@
-import React from 'react';
-import { Modal, Box, Typography, TextField, Button,MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import React,{useState} from 'react';
+import { Modal, Box, Typography, TextField, Button,MenuItem, Select, InputLabel, FormControl,InputAdornment,IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import rolesdata from '../../data/rolesdata';
@@ -25,6 +26,8 @@ const validationSchema = Yup.object().shape({
     'Super Admin',
   ];
 const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
+        const [showPassword, setShowPassword] = useState(false);
+    
     const formik = useFormik({
         initialValues: {
         //   cn: currentUser ? currentUser.cn : '',
@@ -55,6 +58,9 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
       });
       
     const shouldDisplayRoleField = rolesToDisplayField.includes(formik.values.role);
+    const handleTogglePassword = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     return (
         <Modal open={open} onClose={handleClose}>   
@@ -161,7 +167,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                         id="password"
                         name="password"
                         label="password"
-                        type="password"
+                        type={showPassword ?'password':'text'}  
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         error={formik.touched.password && Boolean(formik.errors.password)}
@@ -169,6 +175,15 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                         margin="normal"
                         variant="outlined"
                         className='A-U-Input'
+                         InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton onClick={handleTogglePassword} edge="end">
+                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
                     />
  {/* {shouldDisplayRoleField && (
     <>
