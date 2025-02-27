@@ -14,8 +14,18 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 const validationSchema = Yup.object({
     username: Yup.string().required('User Name is required'),
     email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    contactNumber: Yup.string().required('Contact Number is required'),
+    // password: Yup.string().required('Password is required'),
+     password: Yup.string()
+            .min(8, 'Password must be at least 8 characters long')
+            .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+            .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+            .matches(/[0-9]/, 'Password must contain at least one number')
+            .matches(/[@$!%*?&#]/, 'Password must contain at least one special character')
+            .required('Password is required'),
+    // contactNumber: Yup.string().required('Contact Number is required'),
+    contactNumber: Yup.string()
+        .matches(/^\d{10}$/, "Contact number must be 10 digits")
+        .required("Contact number is required"),
     address: Yup.string().required('Address is required'),
 
     // role: Yup.string().required('Role is required'),
@@ -181,6 +191,7 @@ const Register = () => {
                     className='Auth-Input'
                     sx={{marginBottom:'14px'}}
                     size="small"
+                    inputProps={{ maxLength: 10 }} 
                     InputLabelProps={{
                         sx: {
                             color: '#DDDDDD', // Change this to the desired color

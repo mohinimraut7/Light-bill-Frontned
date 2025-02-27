@@ -10,7 +10,14 @@ import './AddUser.css';
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email format').required('Email is required'),
-    password: Yup.string().notRequired(),
+    // password: Yup.string().notRequired(),
+    password: Yup.string()
+        .min(8, 'Password must be at least 8 characters long')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .matches(/[0-9]/, 'Password must contain at least one number')
+        .matches(/[@$!%*?&#]/, 'Password must contain at least one special character')
+        .notRequired(),
     contactNumber: Yup.string().required('Contact Number is required')
     .matches(/^\d{10}$/, 'Contact Number must be exactly 10 digits'),
     address: Yup.string().required('Address is required'),
@@ -283,6 +290,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                         margin="normal"
                         variant="outlined"
                         className='A-U-Input'
+                        inputProps={{ maxLength: 10 }} 
                     />
                      <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                  ADDRESS

@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import '../App.css';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { styled } from '@mui/material/styles';
@@ -520,6 +522,11 @@ const cRMonth = crDateObj.getMonth();
     },
    
     { field: 'id', headerName: 'ID', width: 40},
+
+
+
+
+    //old
        
     // {
    
@@ -543,22 +550,84 @@ const cRMonth = crDateObj.getMonth();
     //   } 
       
     // },
-    { field: 'cont', headerName: 'VIEW BILL', width: 80,
-      renderCell: (params) => {
-        const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-        const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-return(
-  <Link
-  className="eyeconsumer"
-  to={billURL}
-   target="_blank"
-  >
-   <VisibilityIcon/>
-  </Link>
- 
-)}
 
-     },
+
+
+    // ===========================================
+    //new
+
+
+//     { field: 'cont', headerName: 'VIEW BILL', width: 80,
+//       renderCell: (params) => {
+//         const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+//         const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+// return(
+//   <Link
+//   className="eyeconsumer"
+//   to={billURL}
+//    target="_blank"
+//   >
+//    <VisibilityIcon/>
+//   </Link>
+ 
+// )}
+
+//      },
+// ----------------------------------------------------------
+// testing
+
+// { field: 'id', headerName: 'ID', width: 40, headerClassName: 'view-bill-column',
+//   cellClassName: 'view-bill-cell', },
+
+
+{
+  field: '',
+  headerName: 'VIEW BILL',
+  width: 80,
+  headerClassName: 'view-bill-column',
+  cellClassName: 'view-bill-cell',
+  renderCell: (params) => {
+    const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+
+const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+
+return (
+      <Link
+        to={billURL}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
+      >
+        <VisibilityIcon/>
+      </Link>
+    );
+  } 
+},
+
+
+// ==============================
+    //  {
+    //   field: 'actions',
+    //   headerName: 'Actions',
+    //   width: 200,
+    //   renderCell: (params) => (
+    //     <>
+    //       <IconButton
+    //         sx={{ color: '#FFA534' }}
+    //         onClick={() => handleDeleteBill(params.row._id)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <DeleteIcon />
+    //       </IconButton>
+    //       { }
+    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <EditIcon />
+    //       </IconButton> */}
+    //     </>
+    //   ),
+    // },
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NO.',
