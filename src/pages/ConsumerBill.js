@@ -557,22 +557,22 @@ const cRMonth = crDateObj.getMonth();
     //new
 
 
-//     { field: 'cont', headerName: 'VIEW BILL', width: 80,
-//       renderCell: (params) => {
-//         const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-//         const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-// return(
-//   <Link
-//   className="eyeconsumer"
-//   to={billURL}
-//    target="_blank"
-//   >
-//    <VisibilityIcon/>
-//   </Link>
+    { field: 'cont', headerName: 'VIEW BILL', width: 80,
+      renderCell: (params) => {
+        const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+        const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+return(
+  <Link
+  className="eyeconsumer"
+  to={billURL}
+   target="_blank"
+  >
+   <VisibilityIcon/>
+  </Link>
  
-// )}
+)}
 
-//      },
+     },
 // ----------------------------------------------------------
 // testing
 
@@ -580,29 +580,29 @@ const cRMonth = crDateObj.getMonth();
 //   cellClassName: 'view-bill-cell', },
 
 
-{
-  field: '',
-  headerName: 'VIEW BILL',
-  width: 80,
-  headerClassName: 'view-bill-column',
-  cellClassName: 'view-bill-cell',
-  renderCell: (params) => {
-    const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
+// {
+//   field: '',
+//   headerName: 'VIEW BILL',
+//   width: 80,
+//   headerClassName: 'view-bill-column',
+//   cellClassName: 'view-bill-cell',
+//   renderCell: (params) => {
+//     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
 
-const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
+// const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
 
-return (
-      <Link
-        to={billURL}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
-      >
-        <VisibilityIcon/>
-      </Link>
-    );
-  } 
-},
+// return (
+//       <Link
+//         to={billURL}
+//         target="_blank"
+//         rel="noopener noreferrer"
+//         style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
+//       >
+//         <VisibilityIcon/>
+//       </Link>
+//     );
+//   } 
+// },
 
 
 // ==============================

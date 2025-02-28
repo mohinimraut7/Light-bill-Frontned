@@ -17,8 +17,10 @@ import { styled } from '@mui/material/styles';
 import { CircularProgress} from '@mui/material';
 import * as XLSX from 'xlsx';
 import { baseUrl } from '../config/config';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import { toast } from "react-toastify";
+import ConsumerButton from '../components/ConsumerButton';
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
   {
@@ -118,6 +120,19 @@ const importExcel = async (event) => {
   reader.readAsArrayBuffer(file);
 };
   
+
+const downloadAllTypsOfReport = () => {
+    const worksheet = XLSX.utils.json_to_sheet(rows?.map(row => ({
+      'ID': row.id,
+      'Consumer No.': row.consumerNumber,
+      'Ward': row.ward
+    })));
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+    XLSX.writeFile(workbook, 'Consumers.xlsx');
+  };
+
   const deleteAllConsumers = () => {
     fetch(`${baseUrl}/deleteAll`, {
       method: 'DELETE',
@@ -218,6 +233,10 @@ const importExcel = async (event) => {
       },
     },
   }));
+
+
+
+
   return (
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
@@ -264,11 +283,15 @@ const importExcel = async (event) => {
 <Box sx={{display:'flex',
 width:{
   xl:'45%',
-  lg:'30%',
-  md:'45%',
+  lg:'45%',
+  md:'60%',
   sm:'100%',
   xs:'100%'
-},justifyContent:{
+},
+alignmentCenter:{
+  xs:'center',
+},
+justifyContent:{
   xs:'center',
   sm:'center',
   md:'space-between',
@@ -279,7 +302,7 @@ width:{
       xl:'row',
       md:'row',
       sm:'row',
-      xs:'row'
+      xs:'column'
     }}}>
       
 {/* <Button
@@ -303,6 +326,31 @@ size="small"
 </Button> */}
 
 
+
+{/* <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Consumers</ConsumerButton> */}
+<Button
+            sx={{
+              color: '#23CCEF',
+              border: '0.1px solid #23CCEF',
+              cursor: 'pointer',
+              textTransform: 'none',
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: 'auto',
+              ml:{
+                xs:2,
+                sm:5,
+                md:0,
+                lg:0,
+                xl:0
+                    },
+            }}
+            onClick={downloadAllTypsOfReport}
+          >
+            <DownloadIcon sx={{ }} />
+            <Typography>Consumers</Typography>
+</Button>
+
 <Button
   component="label"
   sx={{
@@ -317,8 +365,24 @@ size="small"
    mb:{
     md:0,
     lg:0,
+    xl:0,
+    xs:1,
+    sm:0,
+   },
+   mt:{
+    md:0,
+    lg:0,
+    xl:0,
+    xs:1,
+    sm:0,
+   },
+   ml:{
+    xs:2,
+    sm:5,
+    md:0,
+    lg:0,
     xl:0
-   }
+        },
    
   }}
 >
