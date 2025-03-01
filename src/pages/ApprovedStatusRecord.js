@@ -14,6 +14,9 @@ import { styled } from '@mui/material/styles';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+
 const ApprovedStatusRecord = () => {
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
@@ -21,6 +24,8 @@ const ApprovedStatusRecord = () => {
   const user = useSelector(state => state.auth.user);
   const [billOpen, setBillOpen] = useState(false);
   const [addPaymentOpen, setAddPaymentOpen] = useState(false);
+    const [currentBill, setCurrentBill] = useState(null);
+  
   const [selectedBill, setSelectedBill] = useState(null);
   const [cBillAmount,setCBillAmount]=useState(0);
   const [tArrears,setArrears]=useState(0);
@@ -80,9 +85,11 @@ const ApprovedStatusRecord = () => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
+  let remark;
   const rows = filteredBills.map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
+    
     consumerNumber: bill.consumerNumber,
     consumerId:bill?.cn,
     email: bill?.email||'-',
@@ -101,9 +108,11 @@ const ApprovedStatusRecord = () => {
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || '-',
     lastReceiptAmount:bill.lastReceiptAmount?bill.lastReceiptAmount:0,
+    lastReceiptDate:bill.lastReceiptDate,
     promptPaymentDate: bill.promptPaymentDate,
     dueDate: formatDate(bill.dueDate),
     netBillAmountWithDPC: bill.netBillAmountWithDPC,
+    remark:remark||"-",
     flagStatus: bill.flagStatus,
   }));
 const handleApproveClick = (bill, yesno) => {
@@ -213,8 +222,14 @@ const handleApproveClick = (bill, yesno) => {
 const flagChange = (billId, flagStatus) => {
   dispatch(updateFlagStatus(billId, flagStatus));
 };
+
+const handleEditBill = (bill) => {
+  setCurrentBill(bill);
+  setBillOpen(true);
+};
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
+   
     { field: 'consumerNumber', headerName: 'CONSUMER ID', width: 140 },
    
     // { field: 'email', headerName: 'EMAIL', width: 130 },
@@ -236,6 +251,8 @@ const columns = [
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
+    { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
+    { field: 'remark', headerName: 'REMARK', width: 140 },
         {
         field: 'actions',
         headerName: 'Actions',
@@ -253,6 +270,7 @@ const columns = [
     </IconButton>
   )
 }
+
 {
   !(
     (user?.role === 'Executive Engineer' && params.row.approvedStatus === 'PendingForExecutiveEngineer') ||
@@ -270,6 +288,19 @@ const columns = [
     <ForwardIcon />
   </IconButton>
   )
+}
+
+
+{
+  
+
+
+
+//   <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+//   disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+// >
+//   <EditIcon />
+// </IconButton>
 }
         </>
         ),
