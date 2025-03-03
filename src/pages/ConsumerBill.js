@@ -406,6 +406,7 @@ const cRMonth = crDateObj.getMonth();
     phaseType:bill?.phaseType||'-',
     receiptNoBillPayment:bill.receiptNoBillPayment||'-',
     lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
+    remark:bill.remark,
     }));
   const handleApproveClick = (bill, yesno) => {
     let approvedStatus;
@@ -672,6 +673,7 @@ return(
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 }, 
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
+    { field: 'remark', headerName: 'REMARK', width: 130 },
       ...(!user?.role === 'Junior Engineer'
       ? [
         {

@@ -1,15 +1,21 @@
 import React from 'react';
 import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
 import AddIcon from '@mui/icons-material/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { baseUrl } from '../../config/config';
+import { fetchBills } from '../../store/actions/billActions';
 
 const validationSchema = Yup.object({
     // remark: Yup.string().required('Remark Number is required'),
 });
 
 const AddRemarkModal = ({ open, handleClose, currentBill }) => {
+     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
+var rname;
     const formik = useFormik({
         initialValues: {
             remark: currentBill ? currentBill.remark : '',
@@ -27,6 +33,7 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
                 const payload = {
                     ...values,
                     _id: currentBill?._id, // Pass _id only if updating
+                    role: user?.role
                 };
 
                 const response = await fetch(url, {
@@ -39,7 +46,8 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
                 
                 if (response.ok) {
                     alert(result.message);
-                    handleClose(); 
+                    handleClose();
+                  dispatch(fetchBills());
                 } else {
                     alert(result.message || "Something went wrong");
                 }
@@ -67,17 +75,17 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
             >
                 <form onSubmit={formik.handleSubmit}>
                     <Typography variant="subtitle1" gutterBottom>
-                        RECEIPT NUMBER
+                        ADD REMARK
                     </Typography>
                     <TextField
                         fullWidth
-                        id="receiptNoBillPayment"
-                        name="receiptNoBillPayment"
-                        label="Receipt Number"
-                        value={formik.values.receiptNoBillPayment}
+                        id="remark"
+                        name="remark"
+                        label="Add Remark"
+                        value={formik.values.remark}
                         onChange={formik.handleChange}
-                        error={formik.touched.receiptNoBillPayment && Boolean(formik.errors.receiptNoBillPayment)}
-                        helperText={formik.touched.receiptNoBillPayment && formik.errors.receiptNoBillPayment}
+                        error={formik.touched.remark && Boolean(formik.errors.remark)}
+                        helperText={formik.touched.remark && formik.errors.remark}
                         margin="normal"
                         variant="outlined"
                     />
@@ -95,7 +103,7 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
                             variant="contained"
                             sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
                         >
-                            {currentBill ? 'Update Receipt' : 'Add Receipt'}
+                            {currentBill ? 'Add Remark' : 'Add Remark'}
                         </Button>
                     </Box>
                 </form>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBills, updateBillStatusAction, updateFlagStatus } from '../store/actions/billActions'; 
+import { fetchBills, updateBillStatusAction, updateFlagStatus,editBill,addBill } from '../store/actions/billActions'; 
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box,Modal } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 import UndoIcon from '@mui/icons-material/Undo';
-import AddBill from '../components/modals/AddBill';
+// import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
 import ForwardIcon from '@mui/icons-material/Forward';
 import './ConsumerBill.css';
@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+// import { AddRemark } from '../components/modals/AddRemark';
+import { AddRemarkModal } from '../components/modals/AddRemark';
 
 const ApprovedStatusRecord = () => {
   const dispatch = useDispatch();
@@ -33,9 +35,11 @@ const ApprovedStatusRecord = () => {
   const [rBillAmount,setRBillAmount]=useState(0);
   const [paidBefore,setPaidBefore]=useState(0);
   const [paidAfter,setPaidAfter]=useState(0);
+
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch]);
+
   useEffect(()=>{
     setCBillAmount(bills?.currentBillAmount)
     // setArrears(bills?.totalArrears)
@@ -44,6 +48,7 @@ const ApprovedStatusRecord = () => {
     setPaidAfter(bills?.netBillAmountWithDPC)
     setPaidBefore(bills?.promptPaymentAmount)
   },[])
+
   const getFilteredBills = () => {
     // if (user?.role === 'Junior Engineer') {
     //   return bills.filter(bill => bill.approvedStatus === 'PendingForJuniorEngineer'|| bill.approvedStatus === 'PendingForExecutiveEngineer');
@@ -63,10 +68,17 @@ const ApprovedStatusRecord = () => {
     }
     return [];
   };
+
   const filteredBills = getFilteredBills();
   // if (loading) {
   //   return <p>Loading...</p>;
   // } 
+
+
+  const handleAddBill = (billData) => {
+      dispatch(addBill(billData));
+      handleAddBillClose();
+    };
 
   if (loading) {
     return (
@@ -112,7 +124,7 @@ const ApprovedStatusRecord = () => {
     promptPaymentDate: bill.promptPaymentDate,
     dueDate: formatDate(bill.dueDate),
     netBillAmountWithDPC: bill.netBillAmountWithDPC,
-    remark:remark||"-",
+    remark:bill.remark,
     flagStatus: bill.flagStatus,
   }));
 const handleApproveClick = (bill, yesno) => {
@@ -252,7 +264,7 @@ const columns = [
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
-    { field: 'remark', headerName: 'REMARK', width: 140 },
+    { field: 'remark', headerName: 'REMARK', width: 130 },
         {
         field: 'actions',
         headerName: 'Actions',
@@ -291,17 +303,15 @@ const columns = [
 }
 
 
-{
+{/* {
   
 
-
-
-//   <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-//   disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-// >
-//   <EditIcon />
-// </IconButton>
-}
+  <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+  disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+>
+  <EditIcon />
+</IconButton>
+} */}
         </>
         ),
       },
@@ -347,8 +357,17 @@ const columns = [
           columns={columns}
           pageSize={5}
         />
-        <Modal open={billOpen} onClose={handleAddBillClose}>
+        {/* <Modal open={billOpen} onClose={handleAddBillClose}>
           <AddBill open={billOpen} handleClose={handleAddBillClose} />
+        </Modal> */}
+        <Modal open={billOpen} onClose={handleAddBillClose}>
+          <AddRemarkModal open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
+            currentBill={currentBill}
+            editBill={(billId, billData) => {
+              dispatch(editBill(billId, billData));
+              dispatch(fetchBills());
+            }}
+          />
         </Modal>
         <Modal open={addPaymentOpen} onClose={handleAddPaymentClose}>
           <AddPayment open={addPaymentOpen} handleClose={handleAddPaymentClose} selectedBill={selectedBill} />
