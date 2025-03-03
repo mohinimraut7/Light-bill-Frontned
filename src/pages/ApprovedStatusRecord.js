@@ -98,6 +98,37 @@ const ApprovedStatusRecord = () => {
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
   let remark;
+
+  let filteredRemarks = [];
+
+  filteredBills.forEach(bill => {
+    switch (user?.role) {
+      case "Junior Engineer":
+        filteredRemarks = bill.remarks?.filter(r => r.role === "Junior Engineer") || [];
+        break;
+  
+      case "Executive Engineer":
+        filteredRemarks = bill.remarks?.filter(r => 
+          r.role === "Junior Engineer" || r.role === "Executive Engineer"
+        ) || [];
+        break;
+  
+      case "Admin":
+        filteredRemarks = bill.remarks?.filter(r => 
+          r.role === "Junior Engineer" || r.role === "Executive Engineer" || r.role === "Admin"
+        ) || [];
+        break;
+  
+      case "Super Admin":
+        filteredRemarks = bill.remarks || []; // Show all remarks for Super Admin
+        break;
+  
+      default:
+        filteredRemarks = [];
+    }
+  });
+  
+
   const rows = filteredBills.map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
@@ -125,8 +156,11 @@ const ApprovedStatusRecord = () => {
     dueDate: formatDate(bill.dueDate),
     netBillAmountWithDPC: bill.netBillAmountWithDPC,
     remark:bill.remark,
+    remarks:JSON.stringify(bill.remarks[1]),
     flagStatus: bill.flagStatus,
   }));
+
+
 const handleApproveClick = (bill, yesno) => {
   console.log("bill",bill)
   let approvedStatus;
@@ -236,6 +270,7 @@ const flagChange = (billId, flagStatus) => {
 };
 
 const handleEditBill = (bill) => {
+  console.log("ahshashahshas>>>>>>>>",bill)
   setCurrentBill(bill);
   setBillOpen(true);
 };
@@ -265,6 +300,7 @@ const columns = [
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
     { field: 'remark', headerName: 'REMARK', width: 130 },
+    { field: 'remarks', headerName: 'REMARKS', width: 130 },
         {
         field: 'actions',
         headerName: 'Actions',
@@ -303,15 +339,14 @@ const columns = [
 }
 
 
-{/* {
-  
+ {
 
   <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
   disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
 >
   <EditIcon />
 </IconButton>
-} */}
+} 
         </>
         ),
       },
@@ -369,9 +404,9 @@ const columns = [
             }}
           />
         </Modal>
-        <Modal open={addPaymentOpen} onClose={handleAddPaymentClose}>
+        {/* <Modal open={addPaymentOpen} onClose={handleAddPaymentClose}>
           <AddPayment open={addPaymentOpen} handleClose={handleAddPaymentClose} selectedBill={selectedBill} />
-        </Modal>
+        </Modal> */}
       </Box>
     </div>
   );
