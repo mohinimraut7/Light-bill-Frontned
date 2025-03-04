@@ -161,6 +161,13 @@ const ChartComponent = () => {
 
   console.log("Current Month-Year:", currentMonthYear); 
 
+
+  currentDate.setMonth(currentDate.getMonth() - 1); // पिछले महीने पर सेट करें
+
+const previousMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+
+const previousMonthYear = `${previousMonth}-${currentYear}`;
+
   // Filter bills matching latest month & year
   // const latestBills = bills.filter(bill => bill.monthAndYear === currentMonthYear);
   const latestBills = bills.filter(bill =>
@@ -192,8 +199,9 @@ const ChartComponent = () => {
           labels: Object.keys(meterStatusCounts),
           datasets: [
             {
-              label: `Meter Status Distribution (${currentMonthYear})`,
-              data: Object.values(meterStatusCounts),
+              // label: `Meter Status Distribution (${currentMonthYear})`,
+              label: `Meter Status Distribution (${previousMonthYear})`,
+                            data: Object.values(meterStatusCounts),
               backgroundColor: '#1CCCF1',
               borderColor: '#0099CC',
               borderWidth: 1,
