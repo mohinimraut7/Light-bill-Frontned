@@ -199,8 +199,8 @@ const previousMonthYear = `${previousMonth}-${currentYear}`;
           labels: Object.keys(meterStatusCounts),
           datasets: [
             {
-              // label: `Meter Status Distribution (${currentMonthYear})`,
-              label: `Meter Status Distribution (${previousMonthYear})`,
+              label: `Meter Status Distribution (${currentMonthYear})`,
+              // label: `Meter Status Distribution (${previousMonthYear})`,
                             data: Object.values(meterStatusCounts),
               backgroundColor: '#1CCCF1',
               borderColor: '#0099CC',
