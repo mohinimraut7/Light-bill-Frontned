@@ -18,7 +18,8 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 // import { AddRemark } from '../components/modals/AddRemark';
 import { AddRemarkModal } from '../components/modals/AddRemark';
-
+import CustomWidthTooltip from '../components/CustomWidthTooltip';
+import { Tooltip } from "@mui/material"; 
 const ApprovedStatusRecord = () => {
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
@@ -101,32 +102,32 @@ const ApprovedStatusRecord = () => {
 
   let filteredRemarks = [];
 
-  filteredBills.forEach(bill => {
-    switch (user?.role) {
-      case "Junior Engineer":
-        filteredRemarks = bill.remarks?.filter(r => r.role === "Junior Engineer") || [];
-        break;
+  // filteredBills.forEach(bill => {
+  //   switch (user?.role) {
+  //     case "Junior Engineer":
+  //       filteredRemarks = bill.remarks?.filter(r => r.role === "Junior Engineer") || [];
+  //       break;
   
-      case "Executive Engineer":
-        filteredRemarks = bill.remarks?.filter(r => 
-          r.role === "Junior Engineer" || r.role === "Executive Engineer"
-        ) || [];
-        break;
+  //     case "Executive Engineer":
+  //       filteredRemarks = bill.remarks?.filter(r => 
+  //         r.role === "Junior Engineer" || r.role === "Executive Engineer"
+  //       ) || [];
+  //       break;
   
-      case "Admin":
-        filteredRemarks = bill.remarks?.filter(r => 
-          r.role === "Junior Engineer" || r.role === "Executive Engineer" || r.role === "Admin"
-        ) || [];
-        break;
+  //     case "Admin":
+  //       filteredRemarks = bill.remarks?.filter(r => 
+  //         r.role === "Junior Engineer" || r.role === "Executive Engineer" || r.role === "Admin"
+  //       ) || [];
+  //       break;
   
-      case "Super Admin":
-        filteredRemarks = bill.remarks || []; // Show all remarks for Super Admin
-        break;
+  //     case "Super Admin":
+  //       filteredRemarks = bill.remarks || []; // Show all remarks for Super Admin
+  //       break;
   
-      default:
-        filteredRemarks = [];
-    }
-  });
+  //     default:
+  //       filteredRemarks = [];
+  //   }
+  // });
   
 
   const rows = filteredBills.map((bill, index) => ({
@@ -156,7 +157,7 @@ const ApprovedStatusRecord = () => {
     dueDate: formatDate(bill.dueDate),
     netBillAmountWithDPC: bill.netBillAmountWithDPC,
     remark:bill.remark,
-    remarks:JSON.stringify(bill.remarks[1]),
+    remarks: bill.remarks,
     flagStatus: bill.flagStatus,
   }));
 
@@ -300,13 +301,52 @@ const columns = [
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
     { field: 'remark', headerName: 'REMARK', width: 130 },
-    { field: 'remarks', headerName: 'REMARKS', width: 130 },
+    // { field: 'remarks', headerName: 'REMARKS', width: 130 },
+    // ------------------------------------------------------------------------
+    // { 
+    //   field: "remarks", 
+    //   headerName: "Remarks", 
+    //   width: 400, 
+    //   renderCell: (params) => {
+    //     if (Array.isArray(params.value) && params.value.length > 0) {
+    //       return params.value.map(remark =>`${remark.role}: ${remark.remark},`)
+    //     }
+    //     return "No Remarks";
+    //   }
+    // },
+ 
+
+{
+  field: "remarks",
+  headerName: "Remarks",
+  width: 400,
+  renderCell: (params) => {
+    if (Array.isArray(params.value) && params.value.length > 0) {
+      const remarksText = params.value.map(remark => `${remark.role}: ${remark.remark}`).join("\n"); // Join with new line
+
+      return (
+        <Tooltip title={<span style={{ whiteSpace: "pre-line"}}>{remarksText}</span>} arrow>
+          <div style={{ display: "flex", flexDirection: "column", cursor: "pointer" }}>
+            {params.value.map((remark, index) => (
+              <span key={index}>{remark.role}: {remark.remark}</span>
+            ))}
+          </div>
+        </Tooltip>
+      );
+    }
+    return "No Remarks";
+  }
+},
+
+    
+    // ------------------------------------------------------------------------------------------
+    
         {
         field: 'actions',
         headerName: 'Actions',
         width: 200,
         renderCell: (params) => (
-          <>
+          <>  
           {
   !(
     (user?.role === 'Executive Engineer' && params.row.approvedStatus === 'PendingForAdmin') ||

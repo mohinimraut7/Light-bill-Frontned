@@ -1,0 +1,6 @@
+.celleditremarks{
+    height:600px !important;
+    background-color: red !important;
+    display:flex !important;
+    flex-direction: column !important;
+}
