@@ -76,7 +76,7 @@ const passedDueDateCount = bills.filter(bill => {
       chartInstance.current = new Chart(chartRef.current, {
         type: 'pie', 
         data: {
-          labels: ['Paid Bills','Upcoming Due Bills','Passed Due Bills', uniqueBills.length], 
+          labels: ['Paid Bills','Upcoming Due Bills','Overdue Bills', uniqueBills.length], 
           datasets: [
             {
               label: 'Metffffer Status Distribution',

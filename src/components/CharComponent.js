@@ -175,16 +175,30 @@ const previousMonthYear = `${previousMonth}-${currentYear}`;
     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward)
   );
 
-  // Meter status count
+  
+  // const meterStatusCounts = {
+  //   FAULTY: 0, NORMAL: 0, R_N_A: 0, METER_CHNG: 0, NO_METER: 0, LOCKED: 0, INACC_RNT: 0
+  // };
+
+  // latestBills.forEach(bill => {
+  //   const status = bill.meterStatus?.toUpperCase().replace(/\s+/g, "_"); // Normalize keys
+  //   if (meterStatusCounts.hasOwnProperty(status)) {
+  //     meterStatusCounts[status]++;
+  //   }
+  // });
+
+
   const meterStatusCounts = {
     FAULTY: 0, NORMAL: 0, R_N_A: 0, METER_CHNG: 0, NO_METER: 0, LOCKED: 0, INACC_RNT: 0
   };
-
+  
   latestBills.forEach(bill => {
-    const status = bill.meterStatus?.toUpperCase().replace(/\s+/g, "_"); // Normalize keys
-    if (meterStatusCounts.hasOwnProperty(status)) {
-      meterStatusCounts[status]++;
-    }
+    if (!bill.meterStatus) return; // Null/undefined status असल्यास skip कर
+    const status = bill.meterStatus.toUpperCase().replace(/\s+/g, "_"); // Normalize key
+  
+    // जर status आधीपासून असेल तर त्याचा count वाढव
+    // नसेल तर नवीन status add कर आणि count 1 ठेवा
+    meterStatusCounts[status] = (meterStatusCounts[status] || 0) + 1;
   });
 
   useEffect(() => {
