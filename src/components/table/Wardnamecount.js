@@ -134,9 +134,7 @@ const WardTable = () => {
 
   return (
     <>
-      {/* <Typography variant="h5" align="center" sx={{ fontWeight: "bold", mt: 3 }}>
-        Ward-Wise Meter Count
-      </Typography> */}
+      
 
       <StyledTableContainer sx={{ width:{lg:"25%",xl:"25%",md:'25%',sm:'60%',xs:'100%'},
       
@@ -146,7 +144,13 @@ const WardTable = () => {
         {loading ? (
           <CircularProgress style={{ display: "block" }} />
         ) : (
+          <>
+       
+          <Typography  align="center" sx={{ fontWeight: "bold",fontSize:'14px',mt:1,mb:1  }}>
+        Total Ward Wise Meter Count
+      </Typography>
           <Table size="small">
+            
             <StyledTableHead>
               <TableRow>
                 <StyledHeaderCell>Ward</StyledHeaderCell>
@@ -162,6 +166,7 @@ const WardTable = () => {
               ))}
             </TableBody>
           </Table>
+          </>
         )}
       </StyledTableContainer>
     </>

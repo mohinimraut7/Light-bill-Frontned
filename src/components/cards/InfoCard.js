@@ -4,10 +4,13 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, useMediaQuery,Avatar } from '@mui/material';
 import CountUp from 'react-countup';
-import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+// import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+// import ElectricMeterOutlinedIcon from '@mui/icons-material/ElectricMeterOutlined';
+// import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+// import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import './InfoCard.css';
 const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
-  backgroundColor
+  backgroundColor,IconComponent 
  }) => {
   const open = useSelector((state) => state.sidebar.isOpen);
   const theme = useTheme();
@@ -33,7 +36,13 @@ const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
       }}
      >
      
-        <Person2OutlinedIcon sx={{ color: 'dodgerblue' }} />
+        {/* <Name sx={{ color: 'dodgerblue' }} /> */}
+        {/* {Name && React.createElement(Name, { sx: { fontSize: 40, color: 'dodgerblue' } })} */}
+        {/* {Name && <Name sx={{ fontSize: 40, color: 'dodgerblue' }} />} */}
+        {IconComponent && (
+        <IconComponent sx={{ fontSize:30, color: 'dodgerblue' }} />
+      )}
+
         <Typography variant="h6">
           <CountUp  style={{fontSize:'20px',color:'#9A9A9A',fontWeight:'bold',color:'black'}} end={count} duration={3.5} />
         </Typography>

@@ -14,7 +14,10 @@ import InfoCard from '../components/cards/InfoCard';
 import { CircularProgress, Box } from '@mui/material';
 import ChartComponent from '../components/CharComponent'; 
 import './Home.css';
-
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+import ElectricMeterOutlinedIcon from '@mui/icons-material/ElectricMeterOutlined';
+import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import PieChartBills from '../components/PieChartBills';
 
 import Wardnamecount from '../components/table/Wardnamecount';
@@ -158,6 +161,7 @@ const passedDueDateCount = bills.filter(bill => {
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
   <InfoCard
   // <PersonIcon sx={{ color: 'white' }} /> {/* User Icon */}
+  IconComponent={Person2OutlinedIcon}
    backgroundColor='#FFEBF0'
     className="container-infocard"
     avatarColor="#FB404B"
@@ -177,6 +181,7 @@ const passedDueDateCount = bills.filter(bill => {
 /> */}
 
 <InfoCard
+IconComponent={ElectricMeterOutlinedIcon}
 backgroundColor="#e3e3fe"
   className="container-infocard"
   avatarColor="#06763C"
@@ -188,6 +193,7 @@ backgroundColor="#e3e3fe"
 
 
 <InfoCard
+IconComponent={ErrorOutlinedIcon}
 backgroundColor="#C9FBE2"
   className="container-infocard"
   avatarColor="#FFA534"
@@ -198,6 +204,7 @@ backgroundColor="#C9FBE2"
 
 
 <InfoCard
+IconComponent={ElectricMeterOutlinedIcon}
 backgroundColor="#DCEBFB"
   className="container-infocard"
   avatarColor="#23CCEF"
@@ -207,6 +214,7 @@ backgroundColor="#DCEBFB"
 />
 
 <InfoCard
+IconComponent={CurrencyRupeeOutlinedIcon}
 backgroundColor="#FFF0D3"
   className="container-infocard"
   avatarColor="#1976D2"
@@ -216,6 +224,7 @@ backgroundColor="#FFF0D3"
 />
 
 <InfoCard
+IconComponent={CurrencyRupeeOutlinedIcon}
 backgroundColor="#f1e1fd"
   className="container-infocard"
   avatarColor="#1976D2"
