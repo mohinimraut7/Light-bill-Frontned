@@ -607,28 +607,28 @@ return(
 
 
 // ==============================
-     {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 200,
-      renderCell: (params) => (
-        <>
-          <IconButton
-            sx={{ color: '#FFA534' }}
-            onClick={() => handleDeleteBill(params.row._id)}
-            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-          >
-            <DeleteIcon />
-          </IconButton>
-          { }
-          {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-          >
-            <EditIcon />
-          </IconButton> */}
-        </>
-      ),
-    },
+    //  {
+    //   field: 'actions',
+    //   headerName: 'Actions',
+    //   width: 200,
+    //   renderCell: (params) => (
+    //     <>
+    //       <IconButton
+    //         sx={{ color: '#FFA534' }}
+    //         onClick={() => handleDeleteBill(params.row._id)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <DeleteIcon />
+    //       </IconButton>
+    //       { }
+    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+    //       >
+    //         <EditIcon />
+    //       </IconButton> */}
+    //     </>
+    //   ),
+    // },
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NO.',

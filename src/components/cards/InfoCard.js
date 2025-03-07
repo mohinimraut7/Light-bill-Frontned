@@ -4,8 +4,11 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, useMediaQuery,Avatar } from '@mui/material';
 import CountUp from 'react-countup';
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import './InfoCard.css';
-const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A' }) => {
+const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
+  backgroundColor
+ }) => {
   const open = useSelector((state) => state.sidebar.isOpen);
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('xs'));
@@ -15,7 +18,9 @@ const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A' }) =
     <Card
     className='container-infocard'
     sx={{
+      backgroundColor:backgroundColor,
         display:'flex',
+        flexDirection:'column',
         justifyContent:'center',
         alignItems:'center',
         boxShadow:4,
@@ -27,22 +32,16 @@ const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A' }) =
         
       }}
      >
-       {/* <Avatar
-        sx={{
-          backgroundColor: avatarColor,
-          width: 51,
-          height: 51,
-        }}
-      >
-        {avatarIcon}
-      </Avatar> */}
-      <CardContent>
-        <Typography variant="h6" component="div" sx={{fontWeight:'bold',color:'black'}}>
-          {title}
-        </Typography>
+     
+        <Person2OutlinedIcon sx={{ color: 'dodgerblue' }} />
         <Typography variant="h6">
           <CountUp  style={{fontSize:'20px',color:'#9A9A9A',fontWeight:'bold',color:'black'}} end={count} duration={3.5} />
         </Typography>
+      <CardContent>
+        <Typography component="div" sx={{fontWeight:'bold',color:'black'}}>
+          {title}
+        </Typography>
+       
       </CardContent>
     </Card>
   );

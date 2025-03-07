@@ -9,7 +9,6 @@ import { fetchRoles } from '../store/actions/roleActions';
 import { fetchMeters } from '../store/actions/meterActions';
 import { fetchConsumers } from '../store/actions/consumerActions';
 
-
 import { getMasters } from '../store/actions/masterActions';
 import InfoCard from '../components/cards/InfoCard';
 import { CircularProgress, Box } from '@mui/material';
@@ -17,6 +16,8 @@ import ChartComponent from '../components/CharComponent';
 import './Home.css';
 
 import PieChartBills from '../components/PieChartBills';
+
+import Wardnamecount from '../components/table/Wardnamecount';
 const Home = () => {
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -146,13 +147,25 @@ const passedDueDateCount = bills.filter(bill => {
     <div style={gridStyle} className="containerhome">
      
      <div className="info-card-container" sx={{width: isSm || isXs? '100%' : '30%'}}>
-     <InfoCard
+     {/* <InfoCard
   className="container-infocard"
   avatarColor="#FB404B"
   avatarIcon="U"
   title="Total Users"
   count={roles.length} 
-/>
+/> */}
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+  <InfoCard
+  // <PersonIcon sx={{ color: 'white' }} /> {/* User Icon */}
+   backgroundColor='#FFEBF0'
+    className="container-infocard"
+    avatarColor="#FB404B"
+    avatarIcon="PersonIcon"
+    title="Total Users"
+    count={roles.length} 
+  />
+)}
 
      {/* <InfoCard
   className="container-infocard"
@@ -162,23 +175,9 @@ const passedDueDateCount = bills.filter(bill => {
   title="Total Meters"
   count={meters.length}
 /> */}
-<InfoCard
-  className="container-infocard"
-  avatarColor="#23CCEF"
-  
-  avatarIcon="M"
-  title="Total Meters"
-  count={filteredConsumers.length}
-/>
-<InfoCard
-  className="container-infocard"
-  avatarColor="#FFA534"
-  avatarIcon="M"
-  title="Total Faulty Meters"
-  count={meterStatusCounts.Faulty}
-/>
 
 <InfoCard
+backgroundColor="#FFF0D3"
   className="container-infocard"
   avatarColor="#06763C"
   avatarIcon="M"
@@ -187,7 +186,28 @@ const passedDueDateCount = bills.filter(bill => {
 />
 
 
+
 <InfoCard
+backgroundColor="#C9FBE2"
+  className="container-infocard"
+  avatarColor="#FFA534"
+  avatarIcon="M"
+  title="Total Faulty Meters"
+  count={meterStatusCounts.Faulty}
+/>
+
+
+<InfoCard
+backgroundColor="#F4E48F"
+  className="container-infocard"
+  avatarColor="#23CCEF"
+  avatarIcon="M"
+  title="Total Meters"
+  count={filteredConsumers.length}
+/>
+
+<InfoCard
+backgroundColor="#1B77D2"
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
@@ -196,6 +216,7 @@ const passedDueDateCount = bills.filter(bill => {
 />
 
 <InfoCard
+backgroundColor="#FDAB45"
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
@@ -203,10 +224,14 @@ const passedDueDateCount = bills.filter(bill => {
   count={passedDueDateCount}
 />
      
+
+
      </div>
+  
+     {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}><Wardnamecount/></Box>)}
 
      
-     <Box sx={{width:'100%',height:'60vh',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:5}}>
+     <Box sx={{width:'100%',height:'60vh',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
       <Box sx={{
         width:{
         xs:'100%',

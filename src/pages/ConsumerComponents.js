@@ -3,7 +3,7 @@ import AddConsumer from '../components/modals/AddConsumer';
 import Button from '@mui/material/Button';
 import {TextField} from '@mui/material';
 
-import Box from '@mui/material/Box';
+
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,16 +11,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConsumer,fetchConsumers,deleteConsumer,editConsumer } from '../store/actions/consumerActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography } from '@mui/material';
+
 import './Rolemaster.css';
 import { styled } from '@mui/material/styles';
 import { CircularProgress} from '@mui/material';
+import { Modal, Box, Typography, MenuItem, Select, InputLabel, FormControl,} from '@mui/material';
+
 import * as XLSX from 'xlsx';
 import { baseUrl } from '../config/config';
 import DownloadIcon from '@mui/icons-material/Download';
 
 import { toast } from "react-toastify";
 import ConsumerButton from '../components/ConsumerButton';
+import wardDataAtoI from '../data/warddataAtoI';
+
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
   {
@@ -57,6 +61,8 @@ const ConsumerComponent = () => {
 const [consumerOpen,setConsumerOpen]=useState(false);
 const [consumer, setConsumer] = useState('');
 const [cnId, setCnId] = useState('');
+const [wardName, setWardName] = useState('');
+
 const [currentConsumer, setCurrentConsumer] = useState(null);
 const [isImporting, setIsImporting] = useState(false); 
   useEffect(() => {
@@ -170,6 +176,10 @@ const downloadAllTypsOfReport = () => {
   const handleChange = (event) => {
     setCnId(event.target.value);
   };
+
+  const handleChangeWard = (event) => {
+    setWardName(event.target.value);
+  };
   
   if (loading) {
     return (
@@ -185,8 +195,9 @@ const downloadAllTypsOfReport = () => {
 
   let filteredData = consumers?.filter(consumer => {
     const matchesConsumerNumber = cnId ? consumer.consumerNumber.includes(cnId) : true;
+    const matchesCNByWard = wardName ? consumer.ward.includes(wardName) : true;
     const matchesWard = user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
-    return matchesConsumerNumber && matchesWard;
+    return matchesConsumerNumber && matchesWard && matchesCNByWard;
   });
   
 
@@ -271,13 +282,7 @@ const downloadAllTypsOfReport = () => {
         lg:1,
       }
       }}><Typography  sx={{color:'#0d2136',
-      //   backgroundColor:{
-      //   xs:'blue',
-      //   sm:'purple',
-      //   md:'yellow',
-      //   lg:'green',
-      //   xl:'pink'
-      // }
+     
       }} className='title-2'>CONSUMER MASTER</Typography></Box>
 
 <Box sx={{display:'flex',
@@ -351,7 +356,7 @@ size="small"
             <Typography>Consumers</Typography>
 </Button>
 
-<Button
+{/* <Button
   component="label"
   sx={{
     color: '#23CCEF',
@@ -389,7 +394,7 @@ size="small"
   <AddIcon sx={{ marginLeft: '2px' }} />
   <Typography>Import Excel</Typography>
   <input type="file" hidden onChange={importExcel} accept=".xlsx, .xls" />
-</Button>
+</Button> */}
 
 
 <Button
@@ -417,12 +422,30 @@ size="small"
 
 </Box>
 
-       
+</Box>
 
+<Box sx={{
+  // border:'1px solid red',
+   display:'flex',
+   flexDirection:{
+    xs:'column',
+     sm:'row',
+     md:'row',
+     lg:'row',
+     xl:'row'
+   },
+   justifyContent:{
+     xs:'center',
+     sm:'center',
+     md:'flex-start',
+     lg:'flex-start',
+     xl:'flex-start'
+   
+   }
+}}>
+  
 
-        </Box>
-
-        <Box sx={{
+{/* <Box sx={{
           display:'flex',
           justifyContent:{
             xs:'center',
@@ -432,7 +455,10 @@ size="small"
             xl:'flex-start'
           
           }
-        }}>
+        }}> */}
+
+
+
 <TextField
     id="consumerNumber"
     name="consumerNumber"
@@ -440,6 +466,68 @@ size="small"
     value={cnId}
     onChange={
       handleChange}
+    variant="outlined"
+    InputProps={{
+      sx: {
+        height: '40px',
+        mb:1
+      },
+    }}
+    InputLabelProps={{
+      sx: {
+        color: 'gray',
+        transform: 'translate(14px, 8px)',
+        fontSize:'17px',
+        transform: 'translate(14px, 8px)',
+        '&.MuiInputLabel-shrink': {
+transform: 'translate(14px, -8px) scale(0.75)', 
+},
+      },
+     
+    }}
+    sx={{
+      width: {
+        xl: '30%',
+        lg: '30%',
+        md: '30%',
+        sm: '40%',
+        xs: '100%'
+      }, 
+      mt:{
+        sm:1
+      }
+      
+    }}
+  />
+
+
+{/* </Box> */}
+
+
+
+{/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+
+
+<Box sx={{
+          display:'flex',
+          justifyContent:{
+            xs:'center',
+            sm:'center',
+            md:'flex-start',
+            lg:'flex-start',
+            xl:'flex-start'
+          
+          }
+        }}> */}
+
+
+{/* <TextField
+    id="ward"
+    name="ward"
+    label="Search Ward"
+    value={wardName}
+    onChange={
+      handleChangeWard}
     variant="outlined"
     InputProps={{
       sx: {
@@ -472,8 +560,64 @@ transform: 'translate(14px, -8px) scale(0.75)',
       }
       
     }}
-  />
+  /> */}
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+  <FormControl
+  fullWidth
+  size="small"
+  variant="outlined"
+  sx={{
+    
+
+    width: {
+      xl: '30%',
+      lg: '30%',
+      md: '30%',
+      sm: '40%',
+      xs: '100%',
+    },
+    mt: { sm: 1 }, 
+    ml:{
+      xl:1,
+      lg:1,
+      md:1,
+      sm:1
+    }
+  }}
+>
+  <InputLabel id="ward-label">Search Ward</InputLabel>
+  <Select
+    labelId="ward-label"
+    id="ward"
+    name="ward"
+    value={wardName}
+    onChange={handleChangeWard}
+    label="Search Ward"
+  >
+    {wardDataAtoI.length > 0 ? (
+      wardDataAtoI.map((ward, index) => (
+        <MenuItem key={index} value={ward.ward}>
+          {ward.ward}
+        </MenuItem>
+      ))
+    ) : (
+      <MenuItem disabled>No Wards Available</MenuItem>
+    )}
+  </Select>
+</FormControl>
+)}
+
+
+{/* </Box>
+)} */}
+
+
+
 </Box>
+
+
+
 
 <StyledDataGrid
 autoHeight  
