@@ -177,7 +177,7 @@ const passedDueDateCount = bills.filter(bill => {
 /> */}
 
 <InfoCard
-backgroundColor="#FFF0D3"
+backgroundColor="#e3e3fe"
   className="container-infocard"
   avatarColor="#06763C"
   avatarIcon="M"
@@ -198,7 +198,7 @@ backgroundColor="#C9FBE2"
 
 
 <InfoCard
-backgroundColor="#F4E48F"
+backgroundColor="#DCEBFB"
   className="container-infocard"
   avatarColor="#23CCEF"
   avatarIcon="M"
@@ -207,7 +207,7 @@ backgroundColor="#F4E48F"
 />
 
 <InfoCard
-backgroundColor="#1B77D2"
+backgroundColor="#FFF0D3"
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
@@ -216,7 +216,7 @@ backgroundColor="#1B77D2"
 />
 
 <InfoCard
-backgroundColor="#FDAB45"
+backgroundColor="#f1e1fd"
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
