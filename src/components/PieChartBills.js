@@ -131,18 +131,133 @@
 
 // export default PieChartBills;
 // ---------------------------------------------------------------------------
+// import React, { useEffect, useRef } from "react";
+// import Chart from "chart.js/auto";
+// import { useSelector } from "react-redux";
+
+// const PieChartBills = () => {
+//   const chartRef = useRef(null);
+//   const chartInstance = useRef(null);
+
+//   const { bills } = useSelector((state) => state.bills);
+//   const user = useSelector((state) => state.auth.user);
+
+//   // 🔹 Generate Month-Year Labels (JAN-2025, FEB-2025, ...)
+//   const getMonthsForCurrentYear = () => {
+//     const currentYear = new Date().getFullYear();
+//     const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+//     return monthNames.map((month) => `${month}-${currentYear}`);
+//   };
+
+//   const monthsForAPI = getMonthsForCurrentYear();
+
+//   // 🔹 Initialize Data Object for Each Month
+//   const monthlyCounts = monthsForAPI.reduce((acc, month) => {
+//     acc[month] = { paid: 0, unpaid: 0, overdue: 0 };
+//     return acc;
+//   }, {});
+
+//   // 🔹 Today's Date for Overdue Calculation
+//   const today = new Date();
+
+//   // 🔹 Process Bills and Count Paid, Unpaid, Overdue for Each Month
+//   bills.forEach((bill) => {
+//     if (monthsForAPI.includes(bill.monthAndYear)) {
+//       const { monthAndYear, paymentStatus, dueDate, ward } = bill;
+
+//       // Apply Role-Based Filtering (For Junior Engineer)
+//       if (user?.role === "Junior Engineer" && user?.ward !== ward) return;
+
+//       if (paymentStatus === "paid") {
+//         monthlyCounts[monthAndYear].paid++;
+//       } else if (paymentStatus === "unpaid") {
+//         const due = new Date(dueDate);
+//         if (due < today) {
+//           monthlyCounts[monthAndYear].overdue++;
+//         } else {
+//           monthlyCounts[monthAndYear].unpaid++;
+//         }
+//       }
+//     }
+//   });
+
+//   // 🔹 Convert Data into Chart.js Format
+//   const labels = monthsForAPI;
+//   const paidData = labels.map((month) => monthlyCounts[month].paid);
+//   const unpaidData = labels.map((month) => monthlyCounts[month].unpaid);
+//   const overdueData = labels.map((month) => monthlyCounts[month].overdue);
+
+//   useEffect(() => {
+//     if (chartRef.current) {
+//       if (chartInstance.current) {
+//         chartInstance.current.destroy();
+//       }
+
+//       chartInstance.current = new Chart(chartRef.current, {
+//         type: "bar",
+//         data: {
+//           labels,
+//           datasets: [
+//             {
+//               label: "Paid Bills",
+//               data: paidData,
+//               backgroundColor: "#23CCEF",
+//             },
+//             {
+//               label: "Unpaid Bills",
+//               data: unpaidData,
+//               backgroundColor: "#FFAE48",
+//             },
+//             {
+//               label: "Overdue Bills",
+//               data: overdueData,
+//               backgroundColor: "#E74C3C",
+//             },
+//           ],
+//         },
+//         options: {
+//           responsive: true,
+//           maintainAspectRatio: false,
+//           plugins: {
+//             legend: { position: "top" },
+//           },
+//           scales: {
+//             x: { stacked: true },
+//             y: { stacked: true },
+//           },
+//         },
+//       });
+//     }
+
+//     return () => {
+//       if (chartInstance.current) {
+//         chartInstance.current.destroy();
+//       }
+//     };
+//   }, [bills]);
+
+//   return (
+//     <div style={{ width: "100%", height: "400px" }}>
+//       <canvas ref={chartRef}></canvas>
+//     </div>
+//   );
+// };
+
+// export default PieChartBills;
+// =============================================================
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
 
-const PieChartBills = () => {
+const BarChartBills = () => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
   const { bills } = useSelector((state) => state.bills);
+  console.log("Total Bills from API:", bills.length);
   const user = useSelector((state) => state.auth.user);
 
-  // 🔹 Generate Month-Year Labels (JAN-2025, FEB-2025, ...)
+  // 🔹 Get all 12 months with year (JAN-2025, FEB-2025, ...)
   const getMonthsForCurrentYear = () => {
     const currentYear = new Date().getFullYear();
     const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
@@ -151,7 +266,7 @@ const PieChartBills = () => {
 
   const monthsForAPI = getMonthsForCurrentYear();
 
-  // 🔹 Initialize Data Object for Each Month
+  // 🔹 Initialize all months with zero values
   const monthlyCounts = monthsForAPI.reduce((acc, month) => {
     acc[month] = { paid: 0, unpaid: 0, overdue: 0 };
     return acc;
@@ -165,6 +280,8 @@ const PieChartBills = () => {
     if (monthsForAPI.includes(bill.monthAndYear)) {
       const { monthAndYear, paymentStatus, dueDate, ward } = bill;
 
+
+    
       // Apply Role-Based Filtering (For Junior Engineer)
       if (user?.role === "Junior Engineer" && user?.ward !== ward) return;
 
@@ -181,11 +298,12 @@ const PieChartBills = () => {
     }
   });
 
-  // 🔹 Convert Data into Chart.js Format
+  // 🔹 Ensure all months have data (even if 0)
   const labels = monthsForAPI;
-  const paidData = labels.map((month) => monthlyCounts[month].paid);
-  const unpaidData = labels.map((month) => monthlyCounts[month].unpaid);
-  const overdueData = labels.map((month) => monthlyCounts[month].overdue);
+  const paidData = labels.map((month) => monthlyCounts[month]?.paid || 0);
+  const unpaidData = labels.map((month) => monthlyCounts[month]?.unpaid || 0);
+  const overdueData = labels.map((month) => monthlyCounts[month]?.overdue || 0);
+  console.log("Processed Bills in Chart:", Object.values(monthlyCounts).reduce((sum, month) => sum + month.paid + month.unpaid + month.overdue, 0));
 
   useEffect(() => {
     if (chartRef.current) {
@@ -243,4 +361,4 @@ const PieChartBills = () => {
   );
 };
 
-export default PieChartBills;
+export default BarChartBills;
