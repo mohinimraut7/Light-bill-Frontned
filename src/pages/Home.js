@@ -21,6 +21,11 @@ import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import PieChartBills from '../components/PieChartBills';
 
 import Wardnamecount from '../components/table/Wardnamecount';
+import PaidBillCurrentMonth from '../components/table/PaidBillCurrentMonth';
+import PaidBillPreviousMonth from '../components/table/PaidBillPreviousMonth';
+import AverageMetersCurrentMonth from '../components/table/AverageMetersCurrentMonth';
+import FaultyMetersCurrentMonth from '../components/table/FaultyMetersCurrentMonth';
+import UpcomingDueBillCurrentMonth from '../components/table/UpcomingDueBillCurrenthMonth';
 const Home = () => {
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -47,6 +52,8 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
 }, { Faulty: 0, Average: 0 });
 
 const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length;
+
+
 
 
 const filteredConsumers = consumers?.filter(consumer => {
@@ -88,6 +95,33 @@ const passedDueDateCount = bills.filter(bill => {
   }
   return isOverdue && isUnpaid;
 }).length;
+
+
+
+// 📌 Get Current Month & Year
+const currentDate = new Date();
+const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+const currentYear = currentDate.getFullYear();
+const currentMonthYear = `${currentMonth}-${currentYear}`;
+
+// 📌 Get Previous Month
+const prevDate = new Date(currentDate);
+prevDate.setMonth(prevDate.getMonth() - 1);
+const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+const previousYear = prevDate.getFullYear();
+const previousMonthCYear = `${previousMonth}-${currentYear}`;
+
+// 📌 Filter Paid Bills for Current and Previous Month
+const currentMonthPaidCount = bills.filter(bill => 
+  bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear
+).length;
+
+const previousMonthPaidCount = bills.filter(bill => 
+  bill.paymentStatus === 'paid' && bill.monthAndYear === previousMonthCYear
+).length;
+
+console.log("Current Month Paid Count:", currentMonthPaidCount);
+console.log("Previous Month Paid Count:", previousMonthPaidCount);
 
 
   const theme = useTheme();
@@ -158,18 +192,10 @@ const passedDueDateCount = bills.filter(bill => {
   count={roles.length} 
 /> */}
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
-  <InfoCard
-  // <PersonIcon sx={{ color: 'white' }} /> {/* User Icon */}
-  IconComponent={Person2OutlinedIcon}
-   backgroundColor='#FFEBF0'
-    className="container-infocard"
-    avatarColor="#FB404B"
-    avatarIcon="PersonIcon"
-    title="Total Users"
-    count={roles.length} 
-  />
-)}
+
+
+
+
 
      {/* <InfoCard
   className="container-infocard"
@@ -181,8 +207,54 @@ const passedDueDateCount = bills.filter(bill => {
 /> */}
 
 <InfoCard
+
 IconComponent={ElectricMeterOutlinedIcon}
-backgroundColor="#e3e3fe"
+backgroundColor="#fff9ed"
+ 
+  className="container-infocard"
+  avatarColor="#23CCEF"
+  avatarIcon="M"
+  title="Total Meters"
+  count={filteredConsumers.length}
+/>
+
+<InfoCard
+IconComponent={CurrencyRupeeOutlinedIcon}
+
+backgroundColor="#f8fffc"
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title={`Paid Bills (${currentMonthYear})`}
+  count={currentMonthPaidCount}
+/>
+
+<InfoCard
+  IconComponent={CurrencyRupeeOutlinedIcon}
+  backgroundColor="#f3f8fe"
+
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title={`Paid Bills (${previousMonthCYear})`}
+  count={previousMonthPaidCount}
+/>
+
+
+
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
+      xl:'row',
+      lg:'row',
+      md:'row',
+      sm:'column',
+      xs:'column'
+     },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}><Wardnamecount/><PaidBillCurrentMonth/><PaidBillPreviousMonth/></Box>)}
+
+<InfoCard
+
+IconComponent={ElectricMeterOutlinedIcon}
+backgroundColor="#FFF9ED"
   className="container-infocard"
   avatarColor="#06763C"
   avatarIcon="M"
@@ -194,7 +266,7 @@ backgroundColor="#e3e3fe"
 
 <InfoCard
 IconComponent={ErrorOutlinedIcon}
-backgroundColor="#C9FBE2"
+backgroundColor="#F8FFFC"
   className="container-infocard"
   avatarColor="#FFA534"
   avatarIcon="M"
@@ -202,34 +274,57 @@ backgroundColor="#C9FBE2"
   count={meterStatusCounts.Faulty}
 />
 
-
-<InfoCard
-IconComponent={ElectricMeterOutlinedIcon}
-backgroundColor="#DCEBFB"
-  className="container-infocard"
-  avatarColor="#23CCEF"
-  avatarIcon="M"
-  title="Total Meters"
-  count={filteredConsumers.length}
-/>
-
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
-backgroundColor="#FFF0D3"
+  backgroundColor='#F3F8FE'
+
   className="container-infocard"
-  avatarColor="#1976D2"
+  avatarColor="#fedadc"
   avatarIcon="M"
   title="Upcoming Due Bills"
   count={dueAlertCount}
 />
 
+
+  {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
+        xl:'row',
+        lg:'row',
+        md:'row',
+        sm:'column',
+        xs:'column'
+      },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}><AverageMetersCurrentMonth/><FaultyMetersCurrentMonth/><UpcomingDueBillCurrentMonth sx={{}}/></Box>)}
+
+
+
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+  <InfoCard
+  // <PersonIcon sx={{ color: 'white' }} /> {/* User Icon */}
+  IconComponent={Person2OutlinedIcon}
+ backgroundColor="#fff9ed"
+    className="container-infocard"
+    avatarColor="#FB404B"
+    avatarIcon="PersonIcon"
+    title="Total Users"
+    count={roles.length} 
+  />
+)}
+
+
+
+
+
+
+
+
+
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
-backgroundColor="#f1e1fd"
+backgroundColor="#f8fffc"
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
-  title="Passed Due Bills"
+  title="Overdue Bills"
   count={passedDueDateCount}
 />
      
@@ -237,8 +332,13 @@ backgroundColor="#f1e1fd"
 
      </div>
   
-     {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}><Wardnamecount/></Box>)}
+    
 
+    
+    
+     {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}></Box>)}
+
+     
      
      <Box sx={{width:'100%',height:'60vh',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
       <Box sx={{

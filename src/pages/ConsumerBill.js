@@ -80,9 +80,9 @@ const ConsumerBill = () => {
       }, {});
 
       setSelectedValues(initialSelectedValues);
-      const normalMeters = bills.filter(bill => bill?.meterStatus === 'Normal')?.length;
-      const faultyMeters = bills.filter(bill => bill?.meterStatus === 'Faulty')?.length;
-      const averageMeters = bills.filter(bill => bill?.meterStatus === 'Average')?.length;
+      const normalMeters = bills.filter(bill => bill?.meterStatus === 'NORMAL')?.length;
+      const faultyMeters = bills.filter(bill => bill?.meterStatus === 'FAULTY')?.length;
+      const averageMeters = bills.filter(bill => bill?.meterStatus === 'AVERAGE')?.length;
       const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
       const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
       setNormalMeterCount(normalMeters);
@@ -724,7 +724,7 @@ return(
   const totalmeters = `${rows.length}`;
 
   const handleDownloadReport = () => {
-    const filteredRows = rows.filter(row => row.meterStatus === 'Faulty' || row.meterStatus === 'Average');
+    const filteredRows = rows.filter(row => row.meterStatus === 'FAULTY' || row.meterStatus === 'AVERAGE');
     const worksheet = XLSX.utils.json_to_sheet(filteredRows?.map(row => ({
       'ID': row.id,
       'Consumer No.': row.consumerNumber,

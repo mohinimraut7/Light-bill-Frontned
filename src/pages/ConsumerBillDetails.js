@@ -77,9 +77,9 @@ const ConsumerBillDetails = () => {
         return acc;
       }, {});
       setSelectedValues(initialSelectedValues);
-      const normalMeters = bills.filter(bill => bill.meterStatus === 'Normal').length;
-      const faultyMeters = bills.filter(bill => bill.meterStatus === 'Faulty').length;
-      const averageMeters = bills.filter(bill => bill.meterStatus === 'Average').length;
+      const normalMeters = bills.filter(bill => bill.meterStatus === 'NORMAL').length;
+      const faultyMeters = bills.filter(bill => bill.meterStatus === 'FAULTY').length;
+      const averageMeters = bills.filter(bill => bill.meterStatus === 'AVERAGE').length;
       const paid = bills.filter(bill => bill.paymentStatus === 'paid').length;
       const unpaid = bills.filter(bill => bill.paymentStatus === 'unpaid').length;
       setNormalMeterCount(normalMeters);
