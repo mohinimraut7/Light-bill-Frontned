@@ -25,6 +25,7 @@ import TarriffMaster from './pages/TarriffMaster';
 import OverdueBills from './pages/Overduebills';
 import Overduebills from './pages/Overduebills';
 import ConsumerComponent from './pages/ConsumerComponents';
+import Formonetwentynew from './pages/Formonetwentynew';
 
 
 const App = () => {
@@ -133,6 +134,7 @@ const App = () => {
             <Route path="/users" element={<User />} />
             <Route path="/consumer-bill-details/:id" element={<ConsumerBillDetails />} />
             <Route path="/specificconsumerbills" element={<ConsumerBillDetails />} />
+            <Route path="/formonetwentynew" element={<Formonetwentynew />} />
             <Route path="/rolemaster" element={<Rolemaster />} />
             <Route path="/bills" element={<ConsumerBill />} />
             <Route path="/tarriffscomponent" element={<TarriffMaster />} />
