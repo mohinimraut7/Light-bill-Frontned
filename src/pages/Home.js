@@ -310,14 +310,6 @@ IconComponent={CurrencyRupeeOutlinedIcon}
   />
 )}
 
-
-
-
-
-
-
-
-
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
 backgroundColor="#f8fffc"
@@ -327,20 +319,12 @@ backgroundColor="#f8fffc"
   title="Overdue Bills"
   count={passedDueDateCount}
 />
-     
-
-
+ 
      </div>
-  
-    
 
-    
-    
      {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}></Box>)}
-
-     
-     
-     <Box sx={{width:'100%',height:'60vh',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
+  
+     <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
       <Box sx={{
         width:{
         xs:'100%',
@@ -349,7 +333,7 @@ backgroundColor="#f8fffc"
         xl:'25%'
       },
       height:'80%',display:'flex',alignItems:'center',alignContent:'center',justifyContent:'center',flexDirection:'column'}}>
-      <h3 style={{color:'black'}}>Meter Status</h3>
+      <h4 style={{color:'black'}}>Meter Status Of Months {previousMonth},{currentMonth}-{currentYear}</h4>
       <ChartComponent />
       </Box>
         
@@ -380,7 +364,7 @@ backgroundColor="#f8fffc"
         lg:1,
         xl:1
       },}}>
-      <h3 style={{color:'black'}}>Bills</h3>
+      <h4 style={{color:'black'}}>Light Bill Payment Status of {currentYear}</h4>
       <PieChartBills />
       </Box>
       </Box>
