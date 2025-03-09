@@ -1036,7 +1036,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
-          pageSizeOptions={[5, 10, 15,rows.length]}
+          pageSizeOptions={[5, 10, 15,25,35,45,55,100]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
         />
         <Modal open={billOpen} onClose={handleAddBillClose}>
