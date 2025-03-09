@@ -226,15 +226,23 @@ const Formonetwentynew = () => {
 
   )
   const combinedData = [...filteredBills, ...data];
+
   const consumerId = consumerData?.consumerNumber || null;
+
   console.log("consumerId testing", consumerId)
-  const rows = combinedData
-    .filter(bill => {
-      return (
-        bill.consumerNumber === consumerId ||
-        bill.consumerNumber === cnId
-      );
-    })
+
+//   const rows = combinedData
+//     .filter(bill => {
+//       return (
+//         bill.consumerNumber === consumerId ||
+//         bill.consumerNumber === cnId
+//       );
+//     })
+
+
+    const rows = (consumerId || cnId ? combinedData.filter(bill => 
+        bill.consumerNumber === consumerId || bill.consumerNumber === cnId
+      ) : combinedData)
     .map((bill, index) => ({
       _id: bill._id,
       id: index + 1,
@@ -833,7 +841,7 @@ const handleDeleteBill = (billId) => {
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
-          pageSizeOptions={[5, 10, 15]}
+          pageSizeOptions={[5, 10, 15,25,35,45,55,100]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5, marginTop: 2 }}
         />
       
