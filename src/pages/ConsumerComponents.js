@@ -399,6 +399,7 @@ size="small"
 
 <Button
             sx={{
+            
               color: '#23CCEF',
               border: '0.1px solid #23CCEF',
               cursor: 'pointer',
@@ -412,6 +413,14 @@ size="small"
                 md:0,
                 lg:0,
                 xl:0
+                    },
+                    mt:{
+                      xs:1,
+                      sm:0,
+                      md:0,
+                      lg:0,
+                      xl:0
+
                     },
             }}
             onClick={handleAddConsumerOpen}
