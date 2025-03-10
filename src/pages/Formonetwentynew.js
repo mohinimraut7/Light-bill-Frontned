@@ -4,7 +4,7 @@ import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill } fro
 import { DataGrid } from '@mui/x-data-grid';
 
 
-import { Typography, Box, Button, Modal, TextField } from '@mui/material';
+import { Typography, Box, Button, Modal, TextField,MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 
 import AddPayment from '../components/modals/AddPayment';
@@ -26,6 +26,8 @@ import ExcelJS from 'exceljs';
 import { CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { AddReceiptModal } from '../components/modals/AddReceipt';
+import wardDataAtoI from '../data/warddataAtoI';
+import MonthYearPicker from '../components/MonthYearPicker';
 
 
 const Formonetwentynew = () => {
@@ -54,10 +56,13 @@ const Formonetwentynew = () => {
   const [rBillAmount, setRBillAmount] = useState(0);
   const [paidBefore, setPaidBefore] = useState(0);
   const [paidAfter, setPaidAfter] = useState(0);
+  const [wardName, setWardName] = useState('');
+  
   const user = useSelector(state => state.auth.user);
   console.log("user>>>testing", user)
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+   const [cRDate, setCRDate] = useState('');
   const [processBtnEnabled, setProcessBtnEnabled] = useState(false);
   const [rollbackBtnEnabled, setRollbackBtnEnabled] = useState(false);
   const [processExeBtnEnabled, setProcessExeBtnEnabled] = useState(false);
@@ -88,6 +93,7 @@ const Formonetwentynew = () => {
       setBillUnPaid(unpaid)
     }
   }, [bills]);
+
   useEffect(() => {
     setCBillAmount(bills?.currentBillAmount)
     setArrears(bills?.totalArrears)
@@ -96,6 +102,7 @@ const Formonetwentynew = () => {
     setPaidAfter(bills?.ifPaidBefore)
     setPaidBefore(bills?.ifPaidAfter)
   }, [])
+
   useEffect(() => {
     const checkProcessBtnEnable = () => {
       if (user.role === 'Junior Engineer') {
@@ -173,6 +180,7 @@ const Formonetwentynew = () => {
     };
     checkProcessBtnEnable();
   }, [bills, user.role]);
+
   const getFilteredBills = () => {
     if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') {
       return bills;
@@ -182,7 +190,11 @@ const Formonetwentynew = () => {
     }
     return [];
   };
+
   const filteredBills = getFilteredBills();
+
+
+ 
 
   if (loading) {
     return (
@@ -240,8 +252,8 @@ const Formonetwentynew = () => {
 //     })
 
 
-    const rows = (consumerId || cnId ? combinedData.filter(bill => 
-        bill.consumerNumber === consumerId || bill.consumerNumber === cnId
+    const rows = (consumerId || cnId ||wardName ? combinedData.filter(bill => 
+        bill.consumerNumber === consumerId || bill.consumerNumber === cnId||bill.ward===wardName
       ) : combinedData)
     .map((bill, index) => ({
       _id: bill._id,
@@ -338,6 +350,7 @@ const Formonetwentynew = () => {
     { field: 'dueDateMonth', headerName: 'महिना', width: 130 },
     { field: 'consumerNumber', headerName: 'ग्राहक क्रमांक', width: 130 },
     { field: 'meterNumber', headerName: 'मीटर क्रमांक', width: 130 },
+    { field: 'ward', headerName: 'प्रभाग समिती', width: 130 },
     { field: 'contactNumber', headerName: 'ग्राहक संपर्क क्रमांक', width: 130 },
     { field: 'totalConsumption', headerName: 'एकूण वापर युनिट संख्या', width: 130 },
     { field: 'previousReadingDate', headerName: 'मागील रीडिंग दिनांक', width: 130 },
@@ -625,6 +638,20 @@ const handleDownloadPDF = () => {
       console.error('Error generating PDF:', error);
   }
 };
+
+
+
+const handleChangeWard = (event) => {
+  setWardName(event.target.value);
+};
+
+
+
+const handleCRDChange = (value) => {
+  console.log("Selected Month-Year:", value);
+  setCRDate(value); 
+};
+
 const handleDeleteBill = (billId) => {
     dispatch(deleteBill(billId));
   };
@@ -720,6 +747,8 @@ const handleDeleteBill = (billId) => {
                 }
               }}>प्रत्येक महिन्याचे / वार्षिक मीटर भाडे </Typography>
             </Box>
+
+        
           </Box>
           <Box sx={{
             display: 'flex',
@@ -746,6 +775,10 @@ const handleDeleteBill = (billId) => {
               xl: 'row'
             }
           }}>
+
+
+          
+            
             {shouldDisplayTextField && (
               <TextField
               size="small"
@@ -834,6 +867,60 @@ const handleDeleteBill = (billId) => {
             </Button>
           </Box>
         </Box>
+
+        <Box>
+            {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+              <FormControl
+              fullWidth
+              size="small"
+              variant="outlined"
+              sx={{
+                
+            
+                width: {
+                  xl: '30%',
+                  lg: '30%',
+                  md: '30%',
+                  sm: '40%',
+                  xs: '100%',
+                },
+                mt: { sm: 1 }, 
+                ml:{
+                  xl:1,
+                  lg:1,
+                  md:1,
+                  sm:1
+                }
+              }}
+            >
+              <InputLabel id="ward-label">Search Ward</InputLabel>
+              <Select
+                labelId="ward-label"
+                id="ward"
+                name="ward"
+                value={wardName}
+                onChange={handleChangeWard}
+                label="Search Ward"
+              >
+                {wardDataAtoI.length > 0 ? (
+                  wardDataAtoI.map((ward, index) => (
+                    <MenuItem key={index} value={ward.ward}>
+                      {ward.ward}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No Wards Available</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+            )}
+            </Box>
+
+
+            {/* <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  /> */}
+
+
+
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
           initialState={{

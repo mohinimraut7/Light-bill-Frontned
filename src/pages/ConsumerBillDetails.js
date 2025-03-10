@@ -340,6 +340,8 @@ const ConsumerBillDetails = () => {
     { field: 'dueDateMonth', headerName: 'महिना', width: 130 },
     { field: 'consumerNumber', headerName: 'ग्राहक क्रमांक', width: 130 },
     { field: 'meterNumber', headerName: 'मीटर क्रमांक', width: 130 },
+    { field: 'ward', headerName: 'प्रभाग समिती', width: 130 },
+
     { field: 'contactNumber', headerName: 'ग्राहक संपर्क क्रमांक', width: 130 },
     { field: 'totalConsumption', headerName: 'एकूण वापर युनिट संख्या', width: 130 },
 
