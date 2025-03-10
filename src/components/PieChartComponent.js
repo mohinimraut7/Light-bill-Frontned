@@ -8,8 +8,6 @@ const PieChartComponent = () => {
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const { bills, loading: loadingBills, error: errorBills } = useSelector((state) => state.bills);
   const { meters, loading: loadingMeters, error: errorUsers } = useSelector((state) => state.meters);
-
-
   const uniqueBills = bills
   .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) 
   .filter((bill, index, self) => {
@@ -23,16 +21,12 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
     }
     return acc;
 }, { Faulty: 0, Average: 0 });
-
-
   useEffect(() => {
     if (chartRef.current) {
      
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
-
-      
       chartInstance.current = new Chart(chartRef.current, {
         type: 'pie', 
         data: {
@@ -56,16 +50,16 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
           ],
         },
         options: {
-          responsive: true, // Make chart responsive
-          maintainAspectRatio: false, // Allow chart to fill parent container
+          responsive: true, 
+          maintainAspectRatio: false,
           plugins: {
             legend: {
-              position: 'top', // Position of the legend
+              position: 'top',
             },
             tooltip: {
               callbacks: {
                 label: function (tooltipItem) {
-                  return `${tooltipItem.label}: ${tooltipItem.raw}%`; // Display percentage on tooltip
+                  return `${tooltipItem.label}: ${tooltipItem.raw}%`;
                 },
               },
             },
@@ -73,19 +67,14 @@ const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
         },
       });
     }
-
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
   }, []);
-
   return (
- 
       <canvas ref={chartRef}></canvas>
-    
   );
 };
-
 export default PieChartComponent;

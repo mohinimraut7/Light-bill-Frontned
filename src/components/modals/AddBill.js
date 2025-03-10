@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl,IconButton } from '@mui/material';
 import { useFormik } from 'formik';
 import FormHelperText from '@mui/material/FormHelperText';
-
 import { useLocation } from 'react-router-dom';
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from 'yup';
@@ -13,7 +12,6 @@ import meterstatus from '../../data/meterstatus';
 import phasetype from '../../data/phasetype';
 import {useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-
 import MonthYearBill from '../MonthYearBill';
 const validationSchema = Yup.object({
     consumerNumber: Yup.string().required('Consumer Number is required'), 
@@ -26,10 +24,7 @@ const validationSchema = Yup.object({
      billingUnit: Yup.string().required('Billing Unit is required'),
      currentReading: Yup.number().required('Current Reading is required'),
     previousReading: Yup.number().required('Previous Reading is required'),
-    
      netBillAmount: Yup.number().required('Net Bill Amount is required'),
-    
-    
     promptPaymentAmount: Yup.number().required('Prompt Payment Amount is required'),
     promptPaymentDate: Yup.date().required('Prompt Payment Date is required'),
     previousReadingDate: Yup.date().required('Previous Reading Date is required'),
@@ -41,14 +36,9 @@ const validationSchema = Yup.object({
     .test('is-valid-date', 'Invalid Month and Year', (value) => {
       return value && dayjs(value, 'MMM-YYYY', true).isValid(); 
     }),
-  
     dueDate: Yup.date().required('Due Date is required').typeError('Invalid date format'),
     lastReceiptDate: Yup.date().required('Last Receipt Date is required').typeError('Invalid date format'),
-
 });
-
-
-
 const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill }) => {
       const [myear,setMyear]=useState('');
     const user = useSelector(state => state.auth.user);
@@ -61,7 +51,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         initialValues: {
             consumerNumber: currentBill ? currentBill.consumerNumber : '',
             consumerName: currentBill ? currentBill.consumerName : '',
-            // consumerAddress: currentBill ? currentBill.consumerAddress : '',
             email: currentBill ? currentBill.email : '',
             contactNumber: currentBill ? currentBill.contactNumber : '',
             ward: currentBill ? currentBill.ward : '',
@@ -70,12 +59,9 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             installationDate: currentBill ? currentBill.installationDate : '',
             meterNumber: currentBill ? currentBill.meterNumber : '',
             meterPurpose: currentBill ? currentBill.meterPurpose : '',
-            // place: currentBill ? currentBill.place : '',
             meterStatus: currentBill ? currentBill.meterStatus : '',
-            
             tarriffDescription: currentBill ? currentBill.tarriffType : '',
             phaseType: currentBill ? currentBill.phaseType : '',
-
             billingUnit: currentBill ? currentBill.billingUnit : '',
             netLoad: currentBill ? currentBill.netLoad : '',
             sanctionedLoad: currentBill ? currentBill.sanctionedLoad : '',
@@ -90,9 +76,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             previousReading: currentBill ? currentBill.previousReading : '',
             currentReadingDate: currentBill ? currentBill.currentReadingDate : '',
             currentReading: currentBill ? currentBill.currentReading : '',
-            // currentBillAmount: currentBill ? currentBill.currentBillAmount : '',
             netBillAmount: currentBill ? currentBill.netBillAmount : '',
-            // roundedBillAmount: currentBill ? currentBill.roundedBillAmount : '',
             dueDate: currentBill ? currentBill.dueDate : '',
             netBillAmountWithDPC: currentBill ? currentBill.netBillAmountWithDPC : '',
             paymentStatus: currentBill ? currentBill.paymentStatus : '',
@@ -107,25 +91,18 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
             handleAddBill(values);
             handleClose();
         },
-
-
         onSubmit: (values) => {
-           
             if (currentBill) {
                 editBill(currentBill._id, values);
             } else {
                 handleAddBill(values);
-
             }
             handleClose();
         },
-
     });
-   
     return (
         <Modal open={open} onClose={handleClose} >
             <Box
-           
                 sx={{
                     width:{
                      xl:"50%",
@@ -133,13 +110,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                       md:"90%",
                       sm:'90%',
                       xs:'90%'
-
                     },
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    
                     bgcolor: 'background.paper',
                     border: '2px solid #000',
                     boxShadow: 24,
@@ -163,7 +138,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                     },
                 }}
             >
-
 <IconButton
           onClick={handleClose}
           sx={{
@@ -176,21 +150,14 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         >
           <CloseIcon />
         </IconButton>
-
                 <Box
-                    sx={{
-                       
-                       
-                    }}
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
                     <Box sx={{dispaly:'flex',justifyContent:'center',alignItems:'center',width:'100%'}}>
                         <Typography variant='h5' sx={{fontWeight:'bold',textAlign:'center'}}>Add Bill</Typography>
                     </Box>
-
                     <Box sx={{mt:1}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -204,14 +171,11 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             margin="normal"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
-                            
                         />
                     </Box>
                     <Box  sx={{mt:0}}>
-                      
                         <TextField
                         size="small"
-                        
                             fullWidth
                             id="consumerName"
                             name="consumerName"
@@ -225,25 +189,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-                    {/* <Box sx={{mt:0}}>
-                       
-                        <TextField
-                         size="small"
-                            fullWidth
-                            id="consumerAddress"
-                            name="consumerAddress"
-                            label="Consumer Address"
-                            value={formik.values.consumerAddress}
-                            onChange={formik.handleChange}
-                            error={formik.touched.consumerAddress && Boolean(formik.errors.consumerAddress)}
-                            helperText={formik.touched.consumerAddress && formik.errors.consumerAddress}
-                            margin="normal"
-                            variant="outlined"
-                            sx={{color:'#1C1C1C'}}
-                        />
-                    </Box> */}
-                    
                     <Box sx={{mt:0}}>
                        
                         <TextField
@@ -261,9 +206,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
                     <Box sx={{mt:0}}>
-                  
                         <TextField
                          size="small"
                         fullWidth
@@ -277,11 +220,8 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         margin="normal"
                         variant="outlined"
                         sx={{color:'#1C1C1C'}}
-                       
                     />
                     </Box>
-
-
 <Box sx={{mt:0}}>
 <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}> 
     <InputLabel id="ward-label">Ward</InputLabel>
@@ -292,7 +232,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
         value={formik.values.ward}
         onChange={formik.handleChange}
         label="Ward"
-        // disabled={formik.values.ward==='All'}
         error={formik.touched.ward && Boolean(formik.errors.ward)}
     >
         {wardData.map((ward, index) => (
@@ -304,9 +243,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
 )}
 </FormControl>
 </Box>
-
 <Box sx={{mt:0}}>
-                       
                         <TextField
                          size="small"
                             fullWidth
@@ -323,10 +260,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
                     <Box sx={{mt:0}}>
-                        
                         <TextField
                          size="small"
                             fullWidth
@@ -343,13 +277,10 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
  <Box sx={{mt:1,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column'}}>
  <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                         Installation Date
                         </Typography>
-                        
                         <TextField
                          size="small"
                             fullWidth
@@ -364,10 +295,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
                     <Box sx={{mt:0}}>
-                      
                         <TextField
                          size="small"
                             fullWidth
@@ -384,7 +312,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         />
                     </Box>
                     <Box sx={{mt:0}}>
-                      
                       <TextField
                        size="small"
                           fullWidth
@@ -400,25 +327,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                           sx={{color:'#1C1C1C'}}
                       />
                   </Box>
-                  {/* <Box sx={{mt:0}}>
-                      
-                      <TextField
-                       size="small"
-                          fullWidth
-                          id="place"
-                          name="place"
-                          label="Place"
-                          value={formik.values.place}
-                          onChange={formik.handleChange}
-                          error={formik.touched.place && Boolean(formik.errors.place)}
-                          helperText={formik.touched.place && formik.errors.place}
-                          margin="normal"
-                          variant="outlined"
-                          sx={{color:'#1C1C1C'}}
-                      />
-                  </Box> */}
                     <Box sx={{mt:0}}>
-                        
                         <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Meter Status</InputLabel>
                             <Select
@@ -427,7 +336,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                                 name="meterStatus"
                                 value={formik.values.meterStatus}
                                 onBlur={formik.handleBlur}
-
                                 onChange={formik.handleChange}
                                 label="Ward"
                             >
@@ -439,13 +347,8 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
       <FormHelperText>{formik.errors.meterStatus}</FormHelperText>
     )}
                         </FormControl>
-
                     </Box>
-
-                  
-
                     <Box sx={{mt:0}}>
-                       
                         <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Phase Type</InputLabel>
                             <Select
@@ -462,10 +365,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             </Select>
                         </FormControl>
                     </Box>
-
-
                     <Box sx={{mt:0}}>
-                       
                         <TextField
                          size="small"
                          sx={{color:'#1C1C1C'}}
@@ -473,33 +373,21 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             id="tariffDescription"
                             name="tariffDescription"
                             label="Tariff Description"
-                            // disabled
                             value={formik.values.tariffDescription}
                             onChange={formik.handleChange}
                             error={formik.touched.tariffDescription && Boolean(formik.errors.tariffDescription)}
                             helperText={formik.touched.tariffDescription && formik.errors.tariffDescription}
                             margin="normal"
                             variant="outlined"
-                            InputLabelProps={{
-                               
-                            }}
-                            
-                            
-
                         />
                     </Box>
-
-                  
-
                     <Box sx={{mt:0}}>
-                        
                         <TextField
                          size="small"
                             fullWidth
                             id="billingUnit"
                             name="billingUnit"
                             label="Billing Unit"
-                            // disabled
                             value={formik.values.billingUnit}
                             onChange={formik.handleChange}
                             error={formik.touched.billingUnit && Boolean(formik.errors.billingUnit)}
@@ -508,11 +396,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-                   
-
                     <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -525,12 +409,9 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             helperText={formik.touched.netLoad && formik.errors.netLoad}
                             margin="normal"
                             variant="outlined"
-                            
-                            
                         />
                     </Box>
                     <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -546,9 +427,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
 <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -564,9 +443,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
 </Box>
-
 <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -582,10 +459,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
 </Box>
-
-
 <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -602,7 +476,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         />
 </Box>
 <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -618,9 +491,7 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
 </Box>
-
 <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -636,9 +507,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                             sx={{color:'#1C1C1C'}}
                         />
 </Box>
-                   
-
-
 <Box sx={{mt:1}}>
 <TextField
 size="small"
@@ -659,10 +527,8 @@ size="small"
     sx={{color:'#1C1C1C'}}
 
 />
-
 </Box>
-
-                    <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+        <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
         <Typography className="Auth-Label" variant="subtitle1" gutterBottom>
           Month and Year
         </Typography>

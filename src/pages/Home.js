@@ -98,20 +98,20 @@ const passedDueDateCount = bills.filter(bill => {
 
 
 
-// 📌 Get Current Month & Year
+
 const currentDate = new Date();
 const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 const currentYear = currentDate.getFullYear();
 const currentMonthYear = `${currentMonth}-${currentYear}`;
 
-// 📌 Get Previous Month
+
 const prevDate = new Date(currentDate);
 prevDate.setMonth(prevDate.getMonth() - 1);
 const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 const previousYear = prevDate.getFullYear();
 const previousMonthCYear = `${previousMonth}-${currentYear}`;
 
-// 📌 Filter Paid Bills for Current and Previous Month
+
 const currentMonthPaidCount = bills.filter(bill => 
   bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear
 ).length;
@@ -168,59 +168,25 @@ console.log("Previous Month Paid Count:", previousMonthPaidCount);
   marginLeft: isSm || isXs ? '60px' : isSidebarOpen ? '20%' : '60px',
  
   display: 'flex',
-  
-
-  // height: isSm ? '100vh' : (isMd ? '100vh' : (isLg ? '80vh' : (isXl ? '60vh' : 'auto'))),
-
-  
   justifyContent: 'center',
-  
   alignContent: 'center',
   alignItems:'center'
-
   };
   
   return (
     <div style={gridStyle} className="containerhome">
-     
      <div className="info-card-container" sx={{width: isSm || isXs? '100%' : '30%'}}>
-     {/* <InfoCard
-  className="container-infocard"
-  avatarColor="#FB404B"
-  avatarIcon="U"
-  title="Total Users"
-  count={roles.length} 
-/> */}
-
-
-
-
-
-
-     {/* <InfoCard
-  className="container-infocard"
-  avatarColor="#23CCEF"
-  
-  avatarIcon="M"
-  title="Total Meters"
-  count={meters.length}
-/> */}
-
 <InfoCard
-
 IconComponent={ElectricMeterOutlinedIcon}
 backgroundColor="#fff9ed"
- 
   className="container-infocard"
   avatarColor="#23CCEF"
   avatarIcon="M"
   title="Total Meters"
   count={filteredConsumers.length}
 />
-
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
-
 backgroundColor="#f8fffc"
   className="container-infocard"
   avatarColor="#1976D2"
@@ -228,21 +194,15 @@ backgroundColor="#f8fffc"
   title={`Paid Bills (${currentMonthYear})`}
   count={currentMonthPaidCount}
 />
-
 <InfoCard
   IconComponent={CurrencyRupeeOutlinedIcon}
   backgroundColor="#f3f8fe"
-
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
   title={`Paid Bills (${previousMonthCYear})`}
   count={previousMonthPaidCount}
 />
-
-
-
-
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
       xl:'row',
       lg:'row',
@@ -250,9 +210,7 @@ backgroundColor="#f8fffc"
       sm:'column',
       xs:'column'
      },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}><Wardnamecount/><PaidBillCurrentMonth/><PaidBillPreviousMonth/></Box>)}
-
 <InfoCard
-
 IconComponent={ElectricMeterOutlinedIcon}
 backgroundColor="#FFF9ED"
   className="container-infocard"
@@ -261,9 +219,6 @@ backgroundColor="#FFF9ED"
   title="Total Average Meters"
   count={meterStatusCounts.Average}
 />
-
-
-
 <InfoCard
 IconComponent={ErrorOutlinedIcon}
 backgroundColor="#F8FFFC"
@@ -273,19 +228,15 @@ backgroundColor="#F8FFFC"
   title="Total Faulty Meters"
   count={meterStatusCounts.Faulty}
 />
-
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
   backgroundColor='#F3F8FE'
-
   className="container-infocard"
   avatarColor="#fedadc"
   avatarIcon="M"
   title="Upcoming Due Bills"
   count={dueAlertCount}
 />
-
-
   {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
         xl:'row',
         lg:'row',
@@ -294,12 +245,8 @@ IconComponent={CurrencyRupeeOutlinedIcon}
         xs:'column'
       },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}><AverageMetersCurrentMonth/><FaultyMetersCurrentMonth/><UpcomingDueBillCurrentMonth sx={{}}/></Box>)}
 
-
-
-
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
   <InfoCard
-  // <PersonIcon sx={{ color: 'white' }} /> {/* User Icon */}
   IconComponent={Person2OutlinedIcon}
  backgroundColor="#fff9ed"
     className="container-infocard"
@@ -309,7 +256,6 @@ IconComponent={CurrencyRupeeOutlinedIcon}
     count={roles.length} 
   />
 )}
-
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
 backgroundColor="#f8fffc"
@@ -319,11 +265,8 @@ backgroundColor="#f8fffc"
   title="Overdue Bills"
   count={passedDueDateCount}
 />
- 
      </div>
-
      {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}></Box>)}
-  
      <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
       <Box sx={{
         width:{
