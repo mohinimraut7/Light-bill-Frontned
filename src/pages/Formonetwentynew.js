@@ -27,7 +27,7 @@ import { CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { AddReceiptModal } from '../components/modals/AddReceipt';
 import wardDataAtoI from '../data/warddataAtoI';
-import MonthYearPicker from '../components/MonthYearPicker';
+import MonthYearPicker from '../components/MonthYearPickerFormoneTwenty';
 
 
 const Formonetwentynew = () => {
@@ -250,12 +250,42 @@ const Formonetwentynew = () => {
 //         bill.consumerNumber === cnId
 //       );
 //     })
+// ==============================================
+
+    // const rows = (consumerId || cnId ||wardName ? combinedData.filter(bill => 
+    //     bill.consumerNumber === consumerId || bill.consumerNumber === cnId||bill.ward===wardName
+    //   ) : combinedData)
+
+// ======================================
+let filteredData = cnId || wardName ||cRDate
+  ? combinedData.filter(bill => 
+      // bill.consumerNumber === cnId || 
+      bill.consumerNumber === cnId || 
+      bill.ward === wardName
+    ) 
+  : combinedData;
+
+if (cRDate) {
+  console.log("cRDate>>>>", cRDate);
+
+  const crDateObj = new Date(cRDate);
+  const cRYear = crDateObj.getFullYear();
+  const cRMonth = crDateObj.getMonth();
+
+  filteredData = filteredData.filter(bill => {
+    if (bill.currentReadingDate) {
+      const billDateObj = new Date(bill.currentReadingDate);
+      const billYear = billDateObj.getFullYear();
+      const billMonth = billDateObj.getMonth();
+
+      return cRYear === billYear && cRMonth === billMonth;
+    }
+    return false;
+  });
+}
 
 
-    const rows = (consumerId || cnId ||wardName ? combinedData.filter(bill => 
-        bill.consumerNumber === consumerId || bill.consumerNumber === cnId||bill.ward===wardName
-      ) : combinedData)
-    .map((bill, index) => ({
+const rows = filteredData.map((bill, index) => ({
       _id: bill._id,
       id: index + 1,
       dueDateMonth: formatDateMonth(bill.currentReadingDate),
@@ -664,12 +694,13 @@ const handleDeleteBill = (billId) => {
     if (screenWidth <= 600) {
       return '100%';
     } else {
-      return isSidebarOpen ? '29%' : '28%';
+      return isSidebarOpen ? '20%' : '18%';
     }
   };
   const responsiveWidth = shouldDisplayTextField === false ? '50%' : '55%';
   return (
     <div style={gridStyle}>
+
       <Box sx={{
         width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center', flexDirection: 'column',
         marginTop: {
@@ -689,21 +720,43 @@ const handleDeleteBill = (billId) => {
             fontWeight: 'bold', color: '#000'
           }}
         >वसई - विरार शहर महानगरपालिका </Typography></Box>
+
         <Box>
           <Typography sx={{ fontSize: { xl: '17px', lg: '17px', md: '20px', sm: '12px', xs: '12px' }, }}>२०-२० या वर्षांची विद्युत  शक्तीच्या खपाची मीटर नोंद </Typography>
         </Box>
       </Box>
+
       <Box sx={innerDivStyle}>
+
+      <Box sx={{
+            // border:'1px solid red',
+            width:'100%',
+              display: 'flex',
+              justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'cener', sm: 'center', xs: 'center' }
+            }}>
+              <Typography sx={{
+                fontSize: {
+                  xl: '16px',
+                  lg: '16px',
+                  md: '15px',
+                  sm: '12px',
+                  xs: '12px'
+                }
+              }}>प्रत्येक महिन्याचे / वार्षिक मीटर भाडे </Typography>
+            </Box>
         <Box sx={{
+          // border:"2px solid green",
           display: 'flex', width: '100%', justifyContent: 'space-between', flexDirection: {
             xs: 'column',
             sm: 'column',
-            md: 'column',
+            md: 'row',
             lg: 'row',
             xl: 'row'
-          }
+          },
+          flexWrap: 'wrap',
+          // gap:2,
         }}>
-          <Box>
+          {/* <Box>
            {location.pathname.includes('/consumer-bill-details/')&&(
             <>
              <Box sx={{
@@ -733,24 +786,13 @@ const handleDeleteBill = (billId) => {
             </Box>
             </>
            )}
-            <Box sx={{
-              display: 'flex',
-              justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'cener', sm: 'center', xs: 'center' }
-            }}>
-              <Typography sx={{
-                fontSize: {
-                  xl: '16px',
-                  lg: '16px',
-                  md: '15px',
-                  sm: '12px',
-                  xs: '12px'
-                }
-              }}>प्रत्येक महिन्याचे / वार्षिक मीटर भाडे </Typography>
-            </Box>
-
+           
         
-          </Box>
-          <Box sx={{
+          </Box> */}
+       
+
+          {/* <Box sx={{
+            border:'5px solid pink',
             display: 'flex',
             justifyContent: {
               xs: 'center',
@@ -774,102 +816,11 @@ const handleDeleteBill = (billId) => {
               lg: 'row',
               xl: 'row'
             }
-          }}>
+          }}> */}
+                        <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  />
 
 
-          
-            
-            {shouldDisplayTextField && (
-              <TextField
-              size="small"
-                id="userId"
-                name="userId"
-                label="Search Consumer ID"
-                value={cnId}
-                onChange={handleChange}
-                variant="outlined"
-                InputProps={{
-                  sx: {
-                    height: '40px',
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    color: '#DDDDDD',
-                  },
-                }}
-                sx={{
-                  width: {
-                    xl: '35%',
-                    lg: '35%',
-                    md: '35%',
-                    sm: '100%',
-                    xs: '100%'
-                  }, display: shouldDisplayTextField === false && 'none',
-                }}
-              />
-            )}
-            <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: getResponsiveWidth(),
-                height: '65%',
-                mt: {
-                  xs: '10px'
-                },
-                mb: {
-                  xs: '10px'
-                },
-                marginLeft: {
-                  xs: '30px',
-                  sm: '30px',
-                  md: shouldDisplayTextField === false ? '10px' : '0px',
-                  lg: shouldDisplayTextField === false ? '10px' : '0px',
-                  xl: shouldDisplayTextField === false ? '10px' : '0px',
-                },
-              }}
-              onClick={handleDownloadReport}
-            >
-              <DownloadIcon sx={{ marginLeft: '1px' }} />
-              <Typography sx={{
-                fontSize: isSidebarOpen ? '12.2px' : '14px',
-              }} >Download Report</Typography>
-            </Button>
-            <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: getResponsiveWidth(),
-                height: '65%',
-                marginLeft: {
-                  xs: '30px',
-                  sm: '30px',
-                  md: shouldDisplayTextField === false ? '10px' : '0px',
-                  lg: shouldDisplayTextField === false ? '10px' : '0px',
-                  xl: shouldDisplayTextField === false ? '10px' : '0px',
-                },
-              }}
-              onClick={handleDownloadPDF}
-            >
-              <DownloadIcon />
-              <Typography sx={{
-                fontSize: isSidebarOpen ? '12.2px' : '14px'
-              }}>Download PDF</Typography>
-            </Button>
-          </Box>
-        </Box>
-
-        <Box>
-            {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
               <FormControl
               fullWidth
               size="small"
@@ -878,18 +829,19 @@ const handleDeleteBill = (billId) => {
                 
             
                 width: {
-                  xl: '30%',
-                  lg: '30%',
-                  md: '30%',
-                  sm: '40%',
+                  xl:isSidebarOpen ? '12%' : '10%',
+                  lg:isSidebarOpen ? '15%' : '15%',
+                  md: '45%',
+                  sm: '100%',
                   xs: '100%',
                 },
-                mt: { sm: 1 }, 
+                mt: { sm: 1,md:0,lg:0,xl:0 }, 
+                mb: { xs:1,sm: 1,lg:0,xl:0 }, 
                 ml:{
                   xl:1,
                   lg:1,
-                  md:1,
-                  sm:1
+                  md:0,
+                  sm:0
                 }
               }}
             >
@@ -914,10 +866,116 @@ const handleDeleteBill = (billId) => {
               </Select>
             </FormControl>
             )}
-            </Box>
+          
+            
+          
+              <TextField
+              size="small"
+                id="userId"
+                name="userId"
+                label="Search Consumer ID"
+                value={cnId}
+                onChange={handleChange}
+                variant="outlined"
+                InputProps={{
+                  sx: {
+                    height: '40px',
+                  },
+                }}
+                InputLabelProps={{
+                  sx: {
+                    color: '#DDDDDD',
+                  },
+                }}
+                sx={{
+                  width: {
+                    xl:isSidebarOpen ? '20%' : '10%',
+                    lg:isSidebarOpen ? '20%' : '16%',
+                    md: '45%',
+                    sm: '100%',
+                    xs: '100%'
+                  }, display: shouldDisplayTextField === false && 'none',
+                }}
+              />
+          
+            <Button
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                justifyContent: 'space-between',
+                // width: getResponsiveWidth(),
+                width: {
+                  xl:isSidebarOpen ? '12%' : '10%',
+                  lg:isSidebarOpen ? '15%' : '15%',
+                  md: '45%',
+                  sm: '100%',
+                  xs: '100%',
+                },
+                height: '65%',
+                mt: {
+                  xs: '10px',lg:0,xl:0
+                },
+                mb: {
+                  xs: '10px'
+                },
+                marginLeft: {
+                  // xs: '30px',
+                  // sm: '30px',
+                  // md: shouldDisplayTextField === false ? '10px' : '0px',
+                  // lg: shouldDisplayTextField === false ? '10px' : '0px',
+                  // xl: shouldDisplayTextField === false ? '10px' : '0px',
+                },
+              }}
+              onClick={handleDownloadReport}
+            >
+              <DownloadIcon sx={{ marginLeft: '1px' }} />
+              <Typography sx={{
+                fontSize: isSidebarOpen ? '12.2px' : '14px',
+              }} >Download Report</Typography>
+            </Button>
+            <Button
+              sx={{
+                color: '#23CCEF',
+                border: '0.1px solid #23CCEF',
+                cursor: 'pointer',
+                textTransform: 'none',
+                display: 'flex',
+                justifyContent: 'space-between',
+                // width: getResponsiveWidth(),
+                width: {
+                  xl:isSidebarOpen ? '12%' : '10%',
+                  lg:isSidebarOpen ? '15%' : '15%',
+                  md: '45%',
+                  sm: '100%',
+                  xs: '100%',
+                },
+                height: '65%',
+                // marginLeft: {
+                //   xs: '30px',
+                //   sm: '30px',
+                //   md: shouldDisplayTextField === false ? '10px' : '0px',
+                //   lg: shouldDisplayTextField === false ? '10px' : '0px',
+                //   xl: shouldDisplayTextField === false ? '10px' : '0px',
+                // },
+              }}
+              onClick={handleDownloadPDF}
+            >
+              <DownloadIcon />
+              <Typography sx={{
+                fontSize: isSidebarOpen ? '12.2px' : '14px'
+              }}>Download PDF</Typography>
+            </Button>
+          {/* </Box> */}
+        </Box>
+
+        {/* <Box>
+           
+            </Box> */}
 
 
-            {/* <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  /> */}
 
 
 

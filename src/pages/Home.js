@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { Button, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +36,13 @@ const Home = () => {
 
   const { roles, loading: loadingRoles, error: errorRoles } = useSelector((state) => state.roles);
   const { masters, loading: loadingMasters, error: errorMasters } = useSelector((state) => state.masters);
+  const [showConsumerTable, setShowConsumerTable] = useState(false);
+  const [showCMonthPaidTable, setShowCMonthPaidTable] = useState(false);
+  const [showPMonthPaidTable, setShowPMonthPaidTable] = useState(false);
+  const [showCMonthAvgTable, setShowCMonthAvgTable] = useState(false);
+  const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
+  const [showCMonthUDueBill, setshowCMonthUDueBill] = useState(false);
+
 const uniqueBills = bills
   .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) 
   .filter((bill, index, self) => {
@@ -184,6 +191,10 @@ backgroundColor="#fff9ed"
   avatarIcon="M"
   title="Total Meters"
   count={filteredConsumers.length}
+  onClick={() => {
+    setShowConsumerTable(prev => !prev);
+    console.log("showConsumerTable:", !showConsumerTable); // Debug log
+  }}
 />
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
@@ -193,6 +204,9 @@ backgroundColor="#f8fffc"
   avatarIcon="M"
   title={`Paid Bills (${currentMonthYear})`}
   count={currentMonthPaidCount}
+  onClick={() => {
+    setShowCMonthPaidTable(prev => !prev);
+  }}
 />
 <InfoCard
   IconComponent={CurrencyRupeeOutlinedIcon}
@@ -202,14 +216,55 @@ backgroundColor="#f8fffc"
   avatarIcon="M"
   title={`Paid Bills (${previousMonthCYear})`}
   count={previousMonthPaidCount}
+
+  onClick={() => {
+    setShowPMonthPaidTable(prev => !prev);
+  }}
 />
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
+
+
+{/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
       xl:'row',
       lg:'row',
       md:'row',
       sm:'column',
       xs:'column'
-     },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}><Wardnamecount/><PaidBillCurrentMonth/><PaidBillPreviousMonth/></Box>)}
+     },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}>
+     {showConsumerTable &&  <Wardnamecount/>}
+     {showCMonthPaidTable && <PaidBillCurrentMonth/>}
+     {showPMonthPaidTable &&  <PaidBillPreviousMonth/>}
+      
+    </Box>)} */}
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') &&
+ (showConsumerTable || showCMonthPaidTable || showPMonthPaidTable) && (
+  <Box sx={{
+    display: 'flex',
+    flexDirection: {
+      xl: 'row',
+      lg: 'row',
+      md: 'row',
+      sm: 'column',
+      xs: 'column'
+    },
+    width: '100%',
+    justifyContent: {
+      lg: 'space-around',
+      xl: 'space-around',
+      sm: 'center',
+      xs: 'space-between'
+    },
+    pl: { xl: '0%', lg: '0%', sm: '0%', xs: '0%' },
+    mt: { xl: 5, lg: 5 },
+    mb: { xl: 8, lg: 8 }
+  }}>
+    {showConsumerTable && <Wardnamecount />}
+    {showCMonthPaidTable && <PaidBillCurrentMonth />}
+    {showPMonthPaidTable && <PaidBillPreviousMonth />}
+  </Box>
+)}
+
+
 <InfoCard
 IconComponent={ElectricMeterOutlinedIcon}
 backgroundColor="#FFF9ED"
@@ -218,6 +273,9 @@ backgroundColor="#FFF9ED"
   avatarIcon="M"
   title="Total Average Meters"
   count={meterStatusCounts.Average}
+  onClick={() => {
+    setShowCMonthAvgTable(prev => !prev);
+  }}
 />
 <InfoCard
 IconComponent={ErrorOutlinedIcon}
@@ -227,6 +285,9 @@ backgroundColor="#F8FFFC"
   avatarIcon="M"
   title="Total Faulty Meters"
   count={meterStatusCounts.Faulty}
+  onClick={() => {
+    setShowCMonthFaultyTable(prev => !prev);
+  }}
 />
 <InfoCard
 IconComponent={CurrencyRupeeOutlinedIcon}
@@ -236,14 +297,57 @@ IconComponent={CurrencyRupeeOutlinedIcon}
   avatarIcon="M"
   title="Upcoming Due Bills"
   count={dueAlertCount}
+  onClick={() => {
+    setshowCMonthUDueBill(prev => !prev);
+  }}
 />
-  {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
+  {/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
         xl:'row',
         lg:'row',
         md:'row',
         sm:'column',
         xs:'column'
-      },width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}><AverageMetersCurrentMonth/><FaultyMetersCurrentMonth/><UpcomingDueBillCurrentMonth sx={{}}/></Box>)}
+      },
+      height:'auto',
+      width:'100%',justifyContent:{lg:'space-around',xl:'space-around',sm:'center',sm:'space-between'},pl:{xl:'0%',lg:'0%',sm:'0%',xs:'0%'},mt:{xl:5,lg:5},mb:{xl:8,lg:8}}}>
+        {showCMonthAvgTable && <AverageMetersCurrentMonth/>}
+
+{showCMonthFaultyTable && <FaultyMetersCurrentMonth/>}
+
+       {showCMonthUDueBill && <UpcomingDueBillCurrentMonth/> } 
+
+        
+        </Box>)} */}
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') &&
+ (showCMonthAvgTable || showCMonthFaultyTable || showCMonthUDueBill) && (
+  <Box sx={{
+    display: 'flex',
+    flexDirection: {
+      xl: 'row',
+      lg: 'row',
+      md: 'row',
+      sm: 'column',
+      xs: 'column'
+    },
+    height: 'auto',
+    width: '100%',
+    justifyContent: {
+      lg: 'space-around',
+      xl: 'space-around',
+      sm: 'center',
+      xs: 'space-between'
+    },
+    pl: { xl: '0%', lg: '0%', sm: '0%', xs: '0%' },
+    mt: { xl: 5, lg: 5 },
+    mb: { xl: 8, lg: 8 }
+  }}>
+    {showCMonthAvgTable && <AverageMetersCurrentMonth />}
+    {showCMonthFaultyTable && <FaultyMetersCurrentMonth />}
+    {showCMonthUDueBill && <UpcomingDueBillCurrentMonth />}
+  </Box>
+)}
+
 
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
   <InfoCard

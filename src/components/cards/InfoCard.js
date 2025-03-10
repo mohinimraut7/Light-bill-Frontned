@@ -6,7 +6,7 @@ import { Box, Button, useMediaQuery,Avatar } from '@mui/material';
 import CountUp from 'react-countup';
 import './InfoCard.css';
 const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
-  backgroundColor,IconComponent 
+  backgroundColor,IconComponent,onClick
  }) => {
   const open = useSelector((state) => state.sidebar.isOpen);
   const theme = useTheme();
@@ -30,6 +30,7 @@ const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
         width: isSm ? '100%': '25%',
         
       }}
+      onClick={onClick}
      >
         {IconComponent && (
         <IconComponent sx={{ fontSize:30, color: 'dodgerblue' }} />

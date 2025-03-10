@@ -364,6 +364,7 @@ const cRMonth = crDateObj.getMonth();
       });
     
     }
+    
   const rows = 
     filteredData.map((bill, index) => ({
     _id: bill._id,
