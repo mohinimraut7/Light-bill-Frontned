@@ -10,7 +10,6 @@ import './AddUser.css';
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email format').required('Email is required'),
-    // password: Yup.string().notRequired(),
     password: Yup.string()
         .min(8, 'Password must be at least 8 characters long')
         .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
@@ -21,9 +20,7 @@ const validationSchema = Yup.object().shape({
     contactNumber: Yup.string().required('Contact Number is required')
     .matches(/^\d{10}$/, 'Contact Number must be exactly 10 digits'),
     address: Yup.string().required('Address is required'),
-    // ward: Yup.string().required('Ward is required'),
   });
-
   const rolesToDisplayField = [
     'Additional Commissioner',
     'Deputy Commissioner',
@@ -37,15 +34,11 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
     
     const formik = useFormik({
         initialValues: {
-        //   cn: currentUser ? currentUser.cn : '',
           username: currentUser ? currentUser.username : '',
           email: currentUser ? currentUser.email : '',
           password: currentUser ? currentUser.password : '',
           contactNumber: currentUser ? currentUser.contactNumber : '',
           address: currentUser ? currentUser.address : '',
-        //   role: currentUser ? currentUser.role : 'User',
-        // roleSupervisor: currentUser ? currentUser.roleSupervisor : 'Junior Engineer',
-        //   ward: currentUser ? currentUser.ward : '',
         },
         validationSchema: validationSchema,
         validateOnChange: true,
@@ -63,17 +56,14 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
           handleClose();
         },
       });
-      
     const shouldDisplayRoleField = rolesToDisplayField.includes(formik.values.role);
     const handleTogglePassword = () => {
         setShowPassword((prev) => !prev);
     };
-
     return (
         <Modal open={open} onClose={handleClose}>   
             <Box
                 sx={{
-                    // mt:5,
                     mb:5,
                     position: 'absolute',
                     top: '50%',
@@ -104,7 +94,6 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                     
                 }}
             >
-                
                 <Box
                     sx={{
                         width: '100%',
@@ -115,24 +104,6 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
-                    
-
-                    {/* <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
-                        Consumer No.
-                    </Typography>
-                     <TextField
-                        fullWidth
-                        id="cn"
-                        name="cn"
-                        label="cn"
-                        value={formik.values.cn}
-                        onChange={formik.handleChange}
-                        error={formik.touched.cn && Boolean(formik.errors.cn)}
-                        helperText={formik.touched.cn && formik.errors.cn}
-                        margin="normal"
-                        variant="outlined"
-                        className='A-U-Input'
-                    /> */}
                     
                      <Typography  className='Auth-Label' variant="subtitle1" gutterBottom>
                         USER NAME

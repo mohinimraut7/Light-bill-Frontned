@@ -9,15 +9,12 @@ import FormHelperText from '@mui/material/FormHelperText'; // Ensure this import
 const validationSchema = Yup.object({
     tarriffCode: Yup.string().required('Tarriff Code is required'),
     tarriffType: Yup.string().required('Tarriff Type is required'),
-   
 });
-
 const AddTarriff = ({ open, handleClose, handleAddTarriff, currentTarriff, editTarriff }) => {
     const formik = useFormik({
         initialValues: {
             tarriffCode: currentTarriff ? currentTarriff.tarriffCode : '',
             tarriffType: currentTarriff ? currentTarriff.tarriffType : '',
-           
         },
         validationSchema: validationSchema,
         enableReinitialize: true,
@@ -38,7 +35,6 @@ const AddTarriff = ({ open, handleClose, handleAddTarriff, currentTarriff, editT
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    // width: 400,
                     width: { xs: '95%', sm: '75%', md: '50%', lg: '53%',xl: '55%' }, 
                     maxWidth: 600,
                     bgcolor: 'background.paper',
@@ -73,33 +69,6 @@ const AddTarriff = ({ open, handleClose, handleAddTarriff, currentTarriff, editT
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
-                   
-
-
-
-{/* <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
-TARRIFF CODE
-</Typography>
-<FormControl fullWidth margin="normal" variant="outlined" className='A-U-Input'>
-    <InputLabel id="role-label">Tarriff Code</InputLabel>
-    <Select
-        labelId="tarriff-label"
-        id="tarriffCode"
-        name="tarriffCode"
-        value={formik.values.tarriffCode}
-        onChange={formik.handleChange}
-        label="Tarriff Code"
-        error={formik.touched.tarriffCode && Boolean(formik.errors.tarriffCode)}
-    >
-        {rolesdata.map((tarriff, index) => (
-            <MenuItem key={tarriff.id} value={tarriff.tarriffCode}>{tarriff.tarriffCode}</MenuItem>
-        ))}
-    </Select>
-    {formik.touched.tarriffCode && formik.errors.tarriffCode ? (
-        <FormHelperText error>{formik.errors.tarriffCode}</FormHelperText>
-    ) : null}
-</FormControl> */}
-
                     <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                     TARRIFF CODE
                     </Typography>
@@ -108,7 +77,6 @@ TARRIFF CODE
                         id="tarriffCode"
                         name="tarriffCode"
                         label="Tarriff Code"
-                        // disabled
                         value={formik.values.tarriffCode}
                         onChange={formik.handleChange}
                         error={formik.touched.tarriffCode && Boolean(formik.errors.tarriffCode)}
@@ -121,9 +89,6 @@ TARRIFF CODE
                             },
                         }}
                     />
-
-                    
-
 <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                     TARRIFF TYPE
                     </Typography>
@@ -132,7 +97,6 @@ TARRIFF CODE
                         id="tarriffType"
                         name="tarriffType"
                         label="Tarriff Type"
-                        // disabled
                         value={formik.values.tarriffType}
                         onChange={formik.handleChange}
                         error={formik.touched.tarriffType && Boolean(formik.errors.tarriffType)}
@@ -145,7 +109,6 @@ TARRIFF CODE
                             },
                         }}
                     />
-                                 
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                         <Button
                             type="button"

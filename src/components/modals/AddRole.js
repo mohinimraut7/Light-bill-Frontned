@@ -10,7 +10,6 @@ const validationSchema = Yup.object({
     name: Yup.string().required('Role name is required'),
     email: Yup.string().required('Email is required'),
 });
-
 const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) => {
     const formik = useFormik({
         initialValues: {
