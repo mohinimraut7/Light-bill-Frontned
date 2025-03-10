@@ -28,6 +28,8 @@ import { useLocation } from 'react-router-dom';
 import { AddReceiptModal } from '../components/modals/AddReceipt';
 import wardDataAtoI from '../data/warddataAtoI';
 import MonthYearPicker from '../components/MonthYearPickerFormoneTwenty';
+import {loadDevanagariFont,notoserifbase} from '../fonts/NotoSerifbase';
+// import devanagariFont from "../fonts/DevanagariFont"; // ✅ Correct Import
 
 
 const Formonetwentynew = () => {
@@ -550,6 +552,127 @@ const rows = filteredData.map((bill, index) => ({
     link.download = 'ConsumerBills.xlsx';
     link.click();
   };
+// const handleDownloadPDF = () => {
+//   try {
+//       const pdfContent = document.createElement('div');
+//       pdfContent.style.fontFamily = 'NotoSerifDevanagari';
+//       pdfContent.style.fontSize = '16px';
+//       pdfContent.style.textAlign = 'center';
+//       pdfContent.style.position = 'absolute';
+//       pdfContent.style.left = '-9999px';
+//       pdfContent.innerHTML = `
+//           <p><strong>नमुना नं १२०</strong></p>
+//           <p>(नियम १४७) (२) पहा )</p>
+//           <p><strong style="font-size: 18px;">वसई विरार शहर महानगरपालिका</strong></p>
+//           <table style="width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 20px;">
+//               <thead>
+//                   <tr>
+//                       <th>ग्राहक क्रमांक</th>
+//                       <th>मीटर क्रमांक</th>
+//                       <th>ग्राहक संपर्क क्रमांक</th>
+//                       <th>मीटरची स्थिती</th>
+//                       <th>मंजूर भार</th>
+//                       <th>फेज प्रकार</th>
+//                   </tr>
+//               </thead>
+//               <tbody id="firstGroupBody"></tbody>
+//           </table>
+//       `;
+//       const firstGroupBody = pdfContent.querySelector("#firstGroupBody");
+//       if (rows.length > 0) {
+//           const firstRow = rows[0]; 
+//           const firstGroupData = [
+//               firstRow.consumerNumber || 'N/A',
+//               firstRow.meterNumber || 'N/A',
+//               firstRow.contactNumber || 'N/A',
+//               firstRow.meterStatus || 'N/A',
+//               firstRow.sanctionedLoad || 'N/A',
+//               firstRow.phaseType || 'N/A'
+//           ];
+//           const firstDataRow = document.createElement('tr');
+//           firstGroupData.forEach((cellData) => {
+//               const td = document.createElement('td');
+//               td.style.border = '1px solid black';
+//               td.style.padding = '5px';
+//               td.textContent = cellData;
+//               firstDataRow.appendChild(td);
+//           });
+//           firstGroupBody.appendChild(firstDataRow);
+//       }
+//       const groupedRows = rows.reduce((acc, row) => {
+//           const year = new Date(row.currentReadingDate).getFullYear();
+//           if (!acc[year]) {
+//               acc[year] = [];
+//           }
+//           acc[year].push(row);
+//           return acc;
+//       }, {});
+//       Object.keys(groupedRows).forEach((year) => {
+//           const yearHeading = document.createElement('table');
+//           yearHeading.innerHTML = `
+//               <thead>
+//                   <tr>
+//                       <th colspan="11" style="text-align: center; background-color: #f2f2f2;">वर्ष: ${year}</th>
+//                   </tr>
+//                   <tr>
+//                       <th>महिना</th>
+//                       <th>एकूण युनिट</th>
+//                       <th>मागील रीडिंग दिनांक</th>
+//                       <th>मागील रीडिंग</th>
+//                       <th>चालू रीडिंग दिनांक</th>
+//                       <th>चालू रीडिंग</th>
+//                       <th>देयकाची रक्कम</th>
+//                       <th>देयकाची अंतिम तारीख</th>
+//                       <th>बिल भरणा तारीख</th>
+//                       <th>एकूण भार</th>
+//                   </tr>
+//               </thead>
+//               <tbody></tbody>
+//           `;
+//           const yearTableBody = yearHeading.querySelector("tbody");
+//           groupedRows[year].forEach((row) => {
+//               const thirdGroupData = [
+//                   row.dueDateMonth || 'N/A',
+//                   row.totalConsumption || 'N/A',
+//                   row.previousReadingDate || 'N/A',
+//                   row.previousReading || 'N/A',
+//                   row.currentReadingDate || 'N/A',
+//                   row.currentReading || 'N/A',
+//                   row.netBillAmount || 'N/A',
+//                   row.dueDate || 'N/A',
+//                   row.lastReceiptDate || 'N/A',
+//                   row.netLoad || 'N/A'
+//               ];
+//               const thirdDataRow = document.createElement('tr');
+//               thirdGroupData.forEach((cellData) => {
+//                   const td = document.createElement('td');
+//                   td.style.border = '1px solid black';
+//                   td.style.padding = '5px';
+//                   td.textContent = cellData;
+//                   thirdDataRow.appendChild(td);
+//               });
+//               yearTableBody.appendChild(thirdDataRow);
+//           });
+//           pdfContent.appendChild(yearHeading);
+//       });
+//       document.body.appendChild(pdfContent);
+//       html2canvas(pdfContent).then((canvas) => {
+//           const doc = new jsPDF({ orientation: 'landscape' });
+//           const imgData = canvas.toDataURL('image/png');
+//           const pageWidth = doc.internal.pageSize.getWidth();
+//           const imgWidth = pageWidth - 20;
+//           const imgHeight = (canvas.height * imgWidth) / canvas.width;
+//           doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+//           doc.save('ConsumerBills.pdf');
+//           document.body.removeChild(pdfContent);
+//       });
+//   } catch (error) {
+//       console.error('Error generating PDF:', error);
+//   }
+// };
+
+// ======================================================
+
 const handleDownloadPDF = () => {
   try {
       const pdfContent = document.createElement('div');
@@ -576,9 +699,12 @@ const handleDownloadPDF = () => {
               <tbody id="firstGroupBody"></tbody>
           </table>
       `;
+
       const firstGroupBody = pdfContent.querySelector("#firstGroupBody");
-      if (rows.length > 0) {
-          const firstRow = rows[0]; 
+      const limitedRows = rows.slice(0, 50); // Limit to 50 records
+
+      if (limitedRows.length > 0) {
+          const firstRow = limitedRows[0]; 
           const firstGroupData = [
               firstRow.consumerNumber || 'N/A',
               firstRow.meterNumber || 'N/A',
@@ -597,7 +723,8 @@ const handleDownloadPDF = () => {
           });
           firstGroupBody.appendChild(firstDataRow);
       }
-      const groupedRows = rows.reduce((acc, row) => {
+
+      const groupedRows = limitedRows.reduce((acc, row) => {
           const year = new Date(row.currentReadingDate).getFullYear();
           if (!acc[year]) {
               acc[year] = [];
@@ -605,6 +732,7 @@ const handleDownloadPDF = () => {
           acc[year].push(row);
           return acc;
       }, {});
+
       Object.keys(groupedRows).forEach((year) => {
           const yearHeading = document.createElement('table');
           yearHeading.innerHTML = `
@@ -653,6 +781,7 @@ const handleDownloadPDF = () => {
           });
           pdfContent.appendChild(yearHeading);
       });
+
       document.body.appendChild(pdfContent);
       html2canvas(pdfContent).then((canvas) => {
           const doc = new jsPDF({ orientation: 'landscape' });
@@ -668,7 +797,111 @@ const handleDownloadPDF = () => {
       console.error('Error generating PDF:', error);
   }
 };
+// ===========================================================
 
+
+// const handleDownloadPDF = () => {
+//   try {
+//     const doc = new jsPDF({ orientation: 'landscape' });
+
+//     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+//     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+//     loadDevanagariFont(doc);
+//     // const doc = new jsPDF();
+
+//         loadDevanagariFont(doc); // ✅ फॉन्ट लोड करा
+//         console.log(doc.getFontList())
+
+// //         console.log(devanagariFont.length);
+// // console.log(devanagariFont.slice(0, 50)); // सुरुवातीचे 50 अक्षरे तपासा
+
+//         doc.setFont("NotoSerifDevanagari", "normal");
+
+//         doc.setFontSize(16);
+//     doc.setFont("NotoSerifDevanagari");
+//       let yPos = 10;
+//       let rowCount = 0;
+
+//       // doc.setFont("NotoSerifDevanagari");
+//       doc.setFontSize(16);
+//       doc.text("नमुना नं १२०", 140, yPos);
+//       yPos += 10;
+//       doc.text("(नियम १४७) (२) पहा )", 140, yPos);
+//       yPos += 10;
+//       doc.setFontSize(18);
+//       doc.text("वसई विरार शहर महानगरपालिका", 110, yPos);
+//       yPos += 15;
+
+//       const tableHeaders = [
+//           "ग्राहक क्रमांक", "मीटर क्रमांक", "ग्राहक संपर्क क्रमांक",
+//           "मीटरची स्थिती", "मंजूर भार", "फेज प्रकार"
+//       ];
+
+//       const tableData = rows.map(row => [
+//           row.consumerNumber || 'N/A',
+//           row.meterNumber || 'N/A',
+//           row.contactNumber || 'N/A',
+//           row.meterStatus || 'N/A',
+//           row.sanctionedLoad || 'N/A',
+//           row.phaseType || 'N/A'
+//       ]);
+
+//       const groupedRows = rows.reduce((acc, row) => {
+//           const year = new Date(row.currentReadingDate).getFullYear();
+//           if (!acc[year]) {
+//               acc[year] = [];
+//           }
+//           acc[year].push(row);
+//           return acc;
+//       }, {});
+
+//       Object.keys(groupedRows).forEach((year) => {
+//           if (rowCount >= 50) {
+//               doc.addPage();
+//               yPos = 10;
+//               rowCount = 0;
+//           }
+
+//           doc.setFontSize(14);
+//           doc.text(`वर्ष: ${year}`, 140, yPos);
+//           yPos += 10;
+
+//           const yearlyTableHeaders = [
+//               "महिना", "एकूण युनिट", "मागील रीडिंग दिनांक", "मागील रीडिंग",
+//               "चालू रीडिंग दिनांक", "चालू रीडिंग", "देयकाची रक्कम",
+//               "देयकाची अंतिम तारीख", "बिल भरणा तारीख", "एकूण भार"
+//           ];
+
+//           const yearlyTableData = groupedRows[year].map(row => [
+//               row.dueDateMonth || 'N/A',
+//               row.totalConsumption || 'N/A',
+//               row.previousReadingDate || 'N/A',
+//               row.previousReading || 'N/A',
+//               row.currentReadingDate || 'N/A',
+//               row.currentReading || 'N/A',
+//               row.netBillAmount || 'N/A',
+//               row.dueDate || 'N/A',
+//               row.lastReceiptDate || 'N/A',
+//               row.netLoad || 'N/A'
+//           ]);
+
+//           doc.autoTable({
+//               head: [yearlyTableHeaders],
+//               body: yearlyTableData,
+//               startY: yPos,
+//               margin: { top: 20 },
+//               styles: { fontSize: 10 }
+//           });
+
+//           yPos = doc.autoTable.previous.finalY + 10;
+//           rowCount += yearlyTableData.length;
+//       });
+
+//       doc.save('ConsumerBills.pdf');
+//   } catch (error) {
+//       console.error('Error generating PDF:', error);
+//   }
+// };
 
 
 const handleChangeWard = (event) => {
