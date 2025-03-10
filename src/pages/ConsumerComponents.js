@@ -288,7 +288,7 @@ const downloadAllTypsOfReport = () => {
 <Box sx={{display:'flex',
 width:{
   xl:'45%',
-  lg:'45%',
+  lg:'30%',
   md:'60%',
   sm:'100%',
   xs:'100%'
