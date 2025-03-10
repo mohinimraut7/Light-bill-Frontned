@@ -1,29 +1,19 @@
 import React, { useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './AddRole.css';
-
-
 import phasetype from '../../data/phasetype';
 import meterpurpose from '../../data/meterpurpose';
-
-
-
-
+import { baseUrl } from '../../config/config';
 const validationSchema = Yup.object({
-
     cn: Yup.string().required('Consumer Number is required'),
     meterNumber: Yup.string().required('meterNumber is required'),
 });
-
 const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }) => {
     const [tarifftype, setTariffType] = React.useState([]);
-
     useEffect(() => {
-        // fetch('http://localhost:2000/api/getTarriffs')
-        fetch('https://lightbillbackend.onrender.com/api/getTarriffs')
+        fetch(`${baseUrl}/getTarriffs`)
         
             .then(response => response.json())
             .then(data => setTariffType(data))
@@ -38,7 +28,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
             tariffType: currentMeter ? currentMeter.tariffType : '',
             sanctionedLoad: currentMeter ? currentMeter.sanctionedLoad : '',
             installationDate: currentMeter ? currentMeter.installationDate : '',
-
         },
         validationSchema: validationSchema,
         enableReinitialize: true,
@@ -59,7 +48,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    // width: 400,
                     width: { xs: '95%', sm: '75%', md: '50%', lg: '53%', xl: '55%' },
                     maxWidth: 600,
                     bgcolor: 'background.paper',
@@ -94,10 +82,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
-
-
-
-
                     <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                         CONSUMER NUMBER
                     </Typography>
@@ -106,7 +90,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                         id="cn"
                         name="cn"
                         label="Consumer Number"
-                        // disabled
                         value={formik.values.cn}
                         onChange={formik.handleChange}
                         error={formik.touched.cn && Boolean(formik.errors.cn)}
@@ -119,9 +102,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             },
                         }}
                     />
-
-
-
                     <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         METER NUMBER
                     </Typography>
@@ -130,7 +110,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                         id="meterNumber"
                         name="meterNumber"
                         label="Meter Number"
-                        // disabled
                         value={formik.values.meterNumber}
                         onChange={formik.handleChange}
                         error={formik.touched.meterNumber && Boolean(formik.errors.meterNumber)}
@@ -143,30 +122,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             },
                         }}
                     />
-
-                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
-                        METER PURPOSE
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        id="meterPurpose"
-                        name="meterPurpose"
-                        label="Meter Purpose"
-                        value={formik.values.meterPurpose}
-                        onChange={formik.handleChange}
-                        error={formik.touched.meterPurpose && Boolean(formik.errors.meterPurpose)}
-                        helperText={formik.touched.meterPurpose && formik.errors.meterPurpose}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            sx: {
-                                color: '#DDDDDD',
-                            },
-                        }}
-                    /> */}
-
-
-
 <Box>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                         METER PURPOSE
@@ -189,8 +144,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             </Select>
                         </FormControl>
                     </Box>
-
-
                     <Box>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             PHASE TYPE
@@ -211,11 +164,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             </Select>
                         </FormControl>
                     </Box>
-
-
-                  
-
-
                     <FormControl fullWidth margin="normal" variant="outlined" className='A-B-Input'>
                         <InputLabel id="tariffType-label">Tariff Type</InputLabel>
                         <Select
@@ -231,7 +179,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             ))}
                         </Select>
                     </FormControl>
-
                     <Box>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             SANCTIONED LOAD
@@ -250,8 +197,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             className='A-B-Input'
                         />
                     </Box>
-
-
                     <Box>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             INSTALLTION DATE
@@ -270,7 +215,6 @@ const AddMeter = ({ open, handleClose, handleAddMeter, currentMeter, editMeter }
                             className='A-B-Input'
                         />
                     </Box>
-
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                         <Button
                             type="button"

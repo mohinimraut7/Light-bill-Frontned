@@ -5,23 +5,17 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './AddRole.css';
 import rolesdata from '../../data/rolesdata';
-import FormHelperText from '@mui/material/FormHelperText'; // Ensure this import is present
+import FormHelperText from '@mui/material/FormHelperText'; 
 const validationSchema = Yup.object({
     name: Yup.string().required('Role name is required'),
     email: Yup.string().required('Email is required'),
-    // password: Yup.string().required('Password is required'),
-    // ward: Yup.string().required('Ward name is required'),
 });
 
 const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) => {
     const formik = useFormik({
         initialValues: {
             name: currentRole ? currentRole.name : '',
-            // firstName: currentRole ? currentRole.firstName : '',
-            // lastName: currentRole ? currentRole.lastName : '',
             email: currentRole ? currentRole.email : '',
-            // contactNumber: currentRole ? currentRole.contactNumber : '',
-            // password: currentRole ? currentRole.password : '',
             ward: currentRole ? currentRole.ward : '',
         },
         validationSchema: validationSchema,
@@ -43,7 +37,6 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    // width: 400,
                     width: { xs: '95%', sm: '75%', md: '50%', lg: '53%',xl: '55%' }, 
                     maxWidth: 600,
                     bgcolor: 'background.paper',
@@ -78,10 +71,6 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
-                   
-
-
-
 <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
     ROLE NAME
 </Typography>
@@ -105,50 +94,6 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
     ) : null}
 </FormControl>
 
-                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
-                        USER NAME
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        id="username"
-                        name="username"
-                        label="User Name"
-                        // disabled
-                        value={formik.values.username}
-                        onChange={formik.handleChange}
-                        error={formik.touched.username && Boolean(formik.errors.username)}
-                        helperText={formik.touched.username && formik.errors.username}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            sx: {
-                                color: '#DDDDDD',
-                            },
-                        }}
-                    /> */}
-
-                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
-                        LAST NAME
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        id="lastName"
-                        name="lastName"
-                        label="Last Name"
-                        // disabled
-                        value={formik.values.lastName}
-                        onChange={formik.handleChange}
-                        error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                        helperText={formik.touched.lastName && formik.errors.lastName}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            sx: {
-                                color: '#DDDDDD',
-                            },
-                        }}
-                    /> */}
-
                     <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         EMAIL
                     </Typography>
@@ -169,50 +114,6 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                             },
                         }}
                     />
-
-                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
-                        CONTACT NUMBER
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        id="contactNumber"
-                        name="contactNumber"
-                        label="Contact Number"
-                        // disabled
-                        value={formik.values.contactNumber}
-                        onChange={formik.handleChange}
-                        error={formik.touched.contactNumber && Boolean(formik.errors.contactNumber)}
-                        helperText={formik.touched.contactNumber && formik.errors.contactNumber}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            sx: {
-                                color: '#DDDDDD',
-                            },
-                        }}
-                    /> */}
-
-                    {/* <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
-                        PASSWORD
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        id="password"
-                        name="password"
-                        label="Password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        error={formik.touched.password && Boolean(formik.errors.password)}
-                        helperText={formik.touched.password && formik.errors.password}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            sx: {
-                                color: '#DDDDDD',
-                            },
-                        }}
-                    /> */}
-
                     <Typography className='A-R-Label' variant="subtitle1" gutterBottom>
                         WARD
                     </Typography>
@@ -231,7 +132,6 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
                             ))}
                         </Select>
                     </FormControl>
-
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                         <Button
                             type="button"
@@ -268,5 +168,4 @@ const AddRole = ({ open, handleClose, handleAddRole, currentRole, editRole }) =>
         </Modal>
     );
 };
-
 export default AddRole;

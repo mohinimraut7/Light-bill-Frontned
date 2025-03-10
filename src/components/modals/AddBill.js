@@ -190,7 +190,6 @@ const AddBill = ({ open, handleClose, handleAddBill, currentBill = [], editBill 
                         />
                     </Box>
                     <Box sx={{mt:0}}>
-                       
                         <TextField
                          size="small"
                             fullWidth
@@ -525,7 +524,6 @@ size="small"
         shrink: true,
     }}
     sx={{color:'#1C1C1C'}}
-
 />
 </Box>
         <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
@@ -540,7 +538,6 @@ size="small"
     error={formik.touched.monthAndYear && Boolean(formik.errors.monthAndYear)}
     helperText={formik.touched.monthAndYear ? formik.errors.monthAndYear : ''}
   />
-
 </Box>
                     <Box sx={{mt:2,display:'flex',flexDirection:'column',alignItems:'flex-start',justifyContent:'flex-end'}}>
                     <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
@@ -628,7 +625,6 @@ size="small"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
-
                     </Box>
                     <Box sx={{mt:1,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column'}}>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>

@@ -1,17 +1,14 @@
 import React from 'react';
 import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-
 import AddIcon from '@mui/icons-material/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { baseUrl } from '../../config/config';
 import { fetchBills } from '../../store/actions/billActions';
-
 const validationSchema = Yup.object({
     // remark: Yup.string().required('Remark Number is required'),
 });
-
 const AddRemarkModal = ({ open, handleClose, currentBill }) => {
      const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
@@ -27,23 +24,18 @@ var rname;
                 const url = currentBill && currentBill._id 
                     ? `${baseUrl}/editRemark` 
                     : `${baseUrl}/addRemark`;
-
                 const method = currentBill && currentBill._id ? "PUT" : "POST";
-                
                 const payload = {
                     ...values,
-                    _id: currentBill?._id, // Pass _id only if updating
+                    _id: currentBill?._id,
                     role: user?.role
                 };
-
                 const response = await fetch(url, {
                     method,
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
                 });
-
                 const result = await response.json();
-                
                 if (response.ok) {
                     alert(result.message);
                     handleClose();
@@ -57,7 +49,6 @@ var rname;
             }
         },
     });
-
     return (
         <Modal open={open} onClose={handleClose}>
             <Box
@@ -111,7 +102,6 @@ var rname;
         </Modal>
     );
 };
-
 const RemarkActions = ({ handleOpenRemarkModal }) => {
     return {
         field: 'actions',
@@ -124,5 +114,4 @@ const RemarkActions = ({ handleOpenRemarkModal }) => {
         ),
     };
 };
-
 export { AddRemarkModal, RemarkActions };

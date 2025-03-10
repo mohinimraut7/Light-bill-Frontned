@@ -9,7 +9,6 @@ const validationSchema = Yup.object({
   bank: Yup.string().required('Bank is required'),
   amount: Yup.number().required('Amount is required').positive('Amount must be positive'),
 });
-
 const AddPayment = ({ open, handleClose, selectedBill }) => {
   const formik = useFormik({
     initialValues: {
@@ -23,7 +22,6 @@ const AddPayment = ({ open, handleClose, selectedBill }) => {
       handleClose();
     },
   });
-
   const handleDownload = async () => {
     if (selectedBill) {
       const billContainer = document.getElementById('bill-details');
@@ -32,8 +30,6 @@ const AddPayment = ({ open, handleClose, selectedBill }) => {
           Bill Details
         </div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-        
-         
           <tr>
             <td style="padding: 5px; border: 1px solid #ddd;">Email:</td>
             <td style="padding: 5px; border: 1px solid #ddd;">${selectedBill.email}</td>
@@ -72,7 +68,6 @@ const AddPayment = ({ open, handleClose, selectedBill }) => {
           </tr>
         </table>
       `;
-
       const doc = new jsPDF();
       const canvas = await html2canvas(billContainer);
       const imgData = canvas.toDataURL('image/png');
@@ -82,7 +77,6 @@ const AddPayment = ({ open, handleClose, selectedBill }) => {
       alert('Please select a bill first.');
     }
   };
-
   return (
     <Box
       sx={{
@@ -106,8 +100,6 @@ const AddPayment = ({ open, handleClose, selectedBill }) => {
       </Typography>
       {selectedBill && (
         <Box id="bill-details" sx={{ mb: 2 }}>
-          {/* <Typography variant="body2">First Name: {selectedBill.firstName}</Typography>
-          <Typography variant="body2">Last Name: {selectedBill.lastName}</Typography> */}
           <Typography variant="body2">Email: {selectedBill.email}</Typography>
           <Typography variant="body2">Username: {selectedBill.username}</Typography>
           <Typography variant="body2">Contact Number: {selectedBill.contactNumber}</Typography>
@@ -132,5 +124,4 @@ const AddPayment = ({ open, handleClose, selectedBill }) => {
     </Box>
   );
 };
-
 export default AddPayment;

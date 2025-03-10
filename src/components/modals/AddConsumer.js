@@ -4,21 +4,12 @@ import wardData from '../../data/warddata';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './AddRole.css';
-
-
 import phasetype from '../../data/phasetype';
 import meterpurpose from '../../data/meterpurpose';
-
-
-
-
 const validationSchema = Yup.object({
-
     consumerNumber: Yup.string().required('Consumer Number is required'),
 });
-
 const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, editConsumer }) => {
-   
     const formik = useFormik({
         initialValues: {
             consumerNumber: currentConsumer ? currentConsumer.consumerNumber : '',
@@ -47,7 +38,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    // width: 400,
                     width: { xs: '95%', sm: '75%', md: '50%', lg: '53%', xl: '55%' },
                     maxWidth: 600,
                     bgcolor: 'background.paper',
@@ -82,9 +72,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                     component='form'
                     onSubmit={formik.handleSubmit}
                 >
-
-
-
                   <Box sx={{mb:1}}>
                   <Typography sx={{height:'5px'}} className='Auth-Label' variant="subtitle1" gutterBottom>
                         CONSUMER NUMBER
@@ -95,7 +82,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         name="consumerNumber"
                         label="Consumer Number"
                         size="small"
-                        // disabled
                         value={formik.values.consumerNumber}
                         onChange={formik.handleChange}
                         error={formik.touched.consumerNumber && Boolean(formik.errors.consumerNumber)}
@@ -109,7 +95,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         }}
                     />
                   </Box>
-                    
 <Box sx={{mb:1}}>
 <Typography sx={{height:'5px'}} className='A-R-Label' variant="subtitle1" gutterBottom>
                         CONSUMER PLACE
@@ -120,7 +105,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         name="consumerPlace"
                         label="Consumer Place"
                         size="small"
-                        // disabled
                         value={formik.values.consumerPlace}
                         onChange={formik.handleChange}
                         error={formik.touched.consumerPlace && Boolean(formik.errors.consumerPlace)}
@@ -134,7 +118,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         }}
                     />
 </Box>
-
               <Box sx={{mb:1}}>
               <Typography sx={{height:'5px'}} className='A-R-Label' variant="subtitle1" gutterBottom>
                         CONSUMER ADDRESS
@@ -145,7 +128,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         name="consumerAddress"
                         label="Consumer Address"
                         size="small"
-                        // disabled
                         value={formik.values.consumerAddress}
                         onChange={formik.handleChange}
                         error={formik.touched.consumerAddress && Boolean(formik.errors.consumerAddress)}
@@ -180,9 +162,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                         </Select>
                     </FormControl>
         </Box>             
- 
-
-
                      <Box sx={{mb:1}}>
                         <Typography sx={{height:'20px'}} className='Auth-Label' variant="subtitle1" gutterBottom>
                         METER PURPOSE
@@ -194,7 +173,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                                name="meterPurpose"
                               labelId="Meter Purpose"
                                size="small"
-                                
                                 value={formik.values.meterPurpose}
                                 onChange={formik.handleChange}
                                 label="meterPurpose"
@@ -205,8 +183,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             </Select>
                         </FormControl>
                     </Box>
-
-
                     <Box>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             PHASE TYPE
@@ -228,9 +204,6 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
                             </Select>
                         </FormControl>
                     </Box>
-
-                  
-
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                         <Button
                             type="button"
@@ -267,5 +240,4 @@ const AddConsumer = ({ open, handleClose, handleAddConsumer, currentConsumer, ed
         </Modal>
     );
 };
-
 export default AddConsumer;

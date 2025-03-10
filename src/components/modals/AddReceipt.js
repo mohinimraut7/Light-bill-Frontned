@@ -4,11 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { baseUrl } from '../../config/config';
-
 const validationSchema = Yup.object({
     receiptNoBillPayment: Yup.string().required('Receipt Number is required'),
 });
-
 const AddReceiptModal = ({ open, handleClose, currentBill }) => {
     const formik = useFormik({
         initialValues: {
@@ -21,22 +19,17 @@ const AddReceiptModal = ({ open, handleClose, currentBill }) => {
                 const url = currentBill && currentBill._id 
                     ? `${baseUrl}/editReceipt` 
                     : `${baseUrl}/addReceipt`;
-
                 const method = currentBill && currentBill._id ? "PUT" : "POST";
-                
                 const payload = {
                     ...values,
-                    _id: currentBill?._id, // Pass _id only if updating
+                    _id: currentBill?._id,
                 };
-
                 const response = await fetch(url, {
                     method,
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
                 });
-
                 const result = await response.json();
-                
                 if (response.ok) {
                     alert(result.message);
                     handleClose(); 
@@ -49,7 +42,6 @@ const AddReceiptModal = ({ open, handleClose, currentBill }) => {
             }
         },
     });
-
     return (
         <Modal open={open} onClose={handleClose}>
             <Box
@@ -103,7 +95,6 @@ const AddReceiptModal = ({ open, handleClose, currentBill }) => {
         </Modal>
     );
 };
-
 const ReceiptActions = ({ handleOpenReceiptModal }) => {
     return {
         field: 'actions',
