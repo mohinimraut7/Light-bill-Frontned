@@ -532,16 +532,6 @@ size="small"
         <Typography className="Auth-Label" variant="subtitle1" gutterBottom>
           Month and Year
         </Typography>
-
-        {/* <MonthYearBill
-          monthAndYear={formik.values.monthAndYear}
-          handleMYChange={formik.handleChange}
-          name="monthAndYear"
-          type="date"
-          error={formik.touched.monthAndYear && Boolean(formik.errors.monthAndYear)}
-          helperText={formik.touched.monthAndYear && formik.errors.monthAndYear}
-        /> */}
-
 <MonthYearBill
     monthAndYear={formik.values.monthAndYear}
     setFieldValue={formik.setFieldValue}
@@ -552,9 +542,6 @@ size="small"
   />
 
 </Box>
-
-
-
                     <Box sx={{mt:2,display:'flex',flexDirection:'column',alignItems:'flex-start',justifyContent:'flex-end'}}>
                     <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             PREVIOUS READING DATE
@@ -564,20 +551,16 @@ size="small"
                             fullWidth
                             id="previousReadingDate"
                             name="previousReadingDate"
-                            // label="Previous Reading Date"
                             type="date"
                             value={formik.values.previousReadingDate}
                             onChange={formik.handleChange}
                             error={formik.touched.previousReadingDate && Boolean(formik.errors.previousReadingDate)}
                             helperText={formik.touched.previousReadingDate && formik.errors.previousReadingDate}
-                            
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
                     <Box sx={{mt:1}}>
-
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -594,8 +577,6 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
                     <Box sx={{mt:2,display:'flex',flexDirection:'column',alignItems:'flex-start',justifyContent:'flex-end'}}>
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             CURRENT READING DATE
@@ -605,19 +586,16 @@ size="small"
                             fullWidth
                             id="currentReadingDate"
                             name="currentReadingDate"
-                            // label="Current Reading Date"
                             type="date"
                             value={formik.values.currentReadingDate}
                             onChange={formik.handleChange}
                             error={formik.touched.currentReadingDate && Boolean(formik.errors.currentReadingDate)}
                             helperText={formik.touched.currentReadingDate && formik.errors.currentReadingDate}
-                            
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
                     <Box sx={{mt:2}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -633,34 +611,7 @@ size="small"
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
-
                     </Box>
-                   
-
-                    
-
-                    {/* <Box sx={{mt:0}}>
-
-                      
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="currentBillAmount"
-                            name="currentBillAmount"
-                            label="Current Bill Amount"
-                            type="number"
-                            value={formik.values.currentBillAmount}
-                            onChange={formik.handleChange}
-                            error={formik.touched.currentBillAmount && Boolean(formik.errors.currentBillAmount)}
-                            helperText={formik.touched.currentBillAmount && formik.errors.currentBillAmount}
-                            margin="normal"
-                            variant="outlined"
-                            sx={{color:'#1C1C1C'}}
-                        />
-
-                    </Box> */}
-
-                    
                     <Box sx={{mt:0}}>
                         <TextField
                         size="small"
@@ -679,36 +630,7 @@ size="small"
                         />
 
                     </Box>
-
-                    {/* <Box sx={{mt:0}}>
-                        
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="roundedBillAmount"
-                            name="roundedBillAmount"
-                            type="number"
-                            label="Rounded Bill Amount"
-                            value={formik.values.roundedBillAmount}
-                            onChange={formik.handleChange}
-                            error={formik.touched.roundedBillAmount && Boolean(formik.errors.roundedBillAmount)}
-                            helperText={formik.touched.roundedBillAmount && formik.errors.roundedBillAmount}
-                            margin="normal"
-                            variant="outlined"
-                            sx={{color:'#1C1C1C'}}
-                        />
-
-                    </Box> */}
-
-                 
-
-
-
-                   
-                    
-
                     <Box sx={{mt:1,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column'}}>
-
                         <Typography className='Auth-Label' variant="subtitle1" gutterBottom>
                             DUE DATE
                         </Typography>
@@ -717,23 +639,16 @@ size="small"
                             fullWidth
                             id="dueDate"
                             name="dueDate"
-                            
                             type="date"
                             value={formik.values.dueDate}
                             onChange={formik.handleChange}
                             error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
                             helperText={formik.touched.dueDate && formik.errors.dueDate}
-                            
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
-
                     </Box>
-
-
-
                     <Box sx={{mt:1}}>
-                      
                         <TextField
                         size="small"
                             fullWidth
@@ -749,10 +664,7 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
                     <Box sx={{mt:1}}>
-                       
                         <FormControl fullWidth margin="normal" variant="outlined" size="small" sx={{color:'#1C1C1C'}}>
                             <InputLabel id="ward-label">Payment Status</InputLabel>
                             <Select
@@ -769,11 +681,8 @@ size="small"
                                 ))}
                             </Select>
                         </FormControl>
-
                     </Box>
-
                     <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -781,18 +690,6 @@ size="small"
                             name="lastReceiptAmount"
                             label="Last Receipt Amount"
                             value={formik.values.lastReceiptAmount}
-                            // value={
-                            //     formik.values.paymentStatus === "Paid"
-                            //         ? formik.values.paidAmount = formik.values.roundedBillAmount
-                            //         : formik.values.paymentStatus === "UnPaid"
-                            //             ? formik.values.paidAmount = 0
-                            //             : formik.values.paymentStatus === "Partial"
-                            //                 ? Math.max(formik.values.paidAmount, formik.values.paidAmount > 0)
-                            //                 : formik.values.paymentStatus === "Pending"
-                            //                     ? Math.min(formik.values.paidAmount, formik.values.roundedBillAmount - 1)
-                            //                     : formik.values.paidAmount
-                            // }
-                            // disabled={formik.values.paymentStatus === "Paid" || formik.values.paymentStatus === "UnPaid"}
                             disabled={formik.values.paymentStatus === "unpaid"}
                             onChange={formik.handleChange}
                             error={formik.touched.lastReceiptAmount && Boolean(formik.errors.lastReceiptAmount)}
@@ -802,36 +699,7 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
-
-
-                    {/* <Box sx={{mt:0}}>
-                        
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="pendingAmount"
-                            name="pendingAmount"
-                            label="Pending Amount"
-                            type="number"
-                            value={
-                                formik.values.paymentStatus === 'UnPaid' ? formik.values.roundedBillAmount :
-                                    formik.values.paymentStatus === 'Paid' ? 0 :
-                                        formik.values.paymentStatus === 'Partial' ? formik.values.roundedBillAmount - formik.values.paidAmount :
-                                            formik.values.paidAmount ? formik.values.roundedBillAmount - formik.values.paidAmount : formik.values.pendingAmount
-                            }
-                            onChange={formik.handleChange}
-                            error={formik.touched.pendingAmount && Boolean(formik.errors.pendingAmount)}
-                            helperText={formik.touched.pendingAmount && formik.errors.pendingAmount}
-                            margin="normal"
-                            variant="outlined"
-                            sx={{color:'#1C1C1C'}}
-                        />
-
-                    </Box> */}
                     <Box sx={{mt:0}}>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -847,7 +715,6 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
                     <Box sx={{display:'flex',alignItems:'flex-start',justifyContent:'flex-end',flexDirection:'column',mt:2}}>
                         <Typography className='Auth-Label' sx={{mb:1}}>
                         LAST RECEIPT DATE
@@ -862,32 +729,11 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.lastReceiptDate && Boolean(formik.errors.lastReceiptDate)}
                             helperText={formik.touched.lastReceiptDate && formik.errors.lastReceiptDate}
-                            
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
-
-                    {/* <Box sx={{mt:1}}>
-                       
-                        <TextField
-                        size="small"
-                            fullWidth
-                            id="receiptNoBillPayment"
-                            name="receiptNoBillPayment"
-                            label="receiptNoBillPayment"
-                            value={formik.values.receiptNoBillPayment}
-                            onChange={formik.handleChange}
-                            error={formik.touched.receiptNoBillPayment && Boolean(formik.errors.receiptNoBillPayment)}
-                            helperText={formik.touched.receiptNoBillPayment && formik.errors.receiptNoBillPayment}
-                            margin="normal"
-                            variant="outlined"
-                            sx={{color:'#1C1C1C'}}
-                        />
-                    </Box> */}
                     <Box sx={{mt:0}}>
-                   
                         <TextField
                         size="small"
                             fullWidth
@@ -904,19 +750,16 @@ size="small"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
                     <Box sx={{
                     display: 'flex',
       flexDirection:'column',
       justifyContent: 'flex-end',
       alignItems: 'flex-start',
       mt:2
-      
       }}>
                     <Typography  sx={{mb:1}} className="Auth-Label"> 
                         Prompt Payment Date
                         </Typography>
-                       
                         <TextField
                         size="small"
                             fullWidth
@@ -927,12 +770,10 @@ size="small"
                             onChange={formik.handleChange}
                             error={formik.touched.promptPaymentDate && Boolean(formik.errors.promptPaymentDate)}
                             helperText={formik.touched.promptPaymentDate && formik.errors.promptPaymentDate}
-                    
                             variant="outlined"
                             sx={{color:'#1C1C1C'}}
                         />
                     </Box>
-
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                         <Button
                             type="button"
@@ -969,6 +810,4 @@ size="small"
         </Modal>
     );
 };
-
-
 export default AddBill;
