@@ -34,6 +34,7 @@ const ConsumerBill = () => {
   console.log("location.pathname",location.pathname )
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
+    const { consumers } = useSelector((state) => state?.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [billOpen, setBillOpen] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
@@ -721,7 +722,7 @@ return(
     },
   }));
 
-  const totalmeters = `${rows.length}`;
+  const totalmeters = `${consumers.length}`;
 
   const handleDownloadReport = () => {
     const filteredRows = rows.filter(row => row.meterStatus === 'FAULTY' || row.meterStatus === 'AVERAGE');
