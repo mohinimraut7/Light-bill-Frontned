@@ -209,8 +209,10 @@ const Formonetwentynew = () => {
     return <p>Error: {error}</p>;
   }
   const handleChange = (event) => {
-    setCnId(event.target.value);
-  };
+    const newValue = event.target.value.trim(); // Remove extra spaces
+    console.log("consumerNumber", newValue);
+    setCnId(newValue);
+};
   const handleAddBillOpen = () => {
     setBillOpen(true);
   };
@@ -259,11 +261,10 @@ const Formonetwentynew = () => {
     //   ) : combinedData)
 
 // ======================================
-let filteredData = cnId || wardName ||cRDate
+let filteredData = cnId || wardName || cRDate
   ? combinedData.filter(bill => 
-      // bill.consumerNumber === cnId || 
-      bill.consumerNumber === cnId || 
-      bill.ward === wardName
+      (cnId && bill.consumerNumber?.toString().trim() === cnId.trim()) ||
+      (wardName && bill.ward === wardName)
     ) 
   : combinedData;
 
@@ -1105,8 +1106,8 @@ const handleDeleteBill = (billId) => {
           
               <TextField
               size="small"
-                id="userId"
-                name="userId"
+                id="consumerNumber"
+                name="consumerNumber"
                 label="Search Consumer ID"
                 value={cnId}
                 onChange={handleChange}
