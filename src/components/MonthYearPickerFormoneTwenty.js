@@ -7,10 +7,12 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MonthYearPickerFormoneTwenty = ({ cRDate, handleCRDChange }) => {
+  console.log("cRDate>>>>",cRDate)
+
     const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
 
   const dateValue = dayjs(cRDate);
-
+console.log("dateValue>>>>",dateValue)
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
@@ -19,8 +21,8 @@ const MonthYearPickerFormoneTwenty = ({ cRDate, handleCRDChange }) => {
       sx={{
         
         width:{
-            xl:isSidebarOpen ? '22%' : '20%',
-         lg:isSidebarOpen ? '22%' : '20%',
+            xl:isSidebarOpen ? '23%' : '20%',
+         lg:isSidebarOpen ? '23%' : '20%',
 
         md:'45%',
         sm:'100%',

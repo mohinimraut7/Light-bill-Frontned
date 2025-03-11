@@ -272,15 +272,16 @@ if (cRDate) {
 
   const crDateObj = new Date(cRDate);
   const cRYear = crDateObj.getFullYear();
-  const cRMonth = crDateObj.getMonth();
+  const cRMonth = crDateObj.getMonth(); // Zero-based month (Jan = 0, Feb = 1)
 
   filteredData = filteredData.filter(bill => {
     if (bill.currentReadingDate) {
-      const billDateObj = new Date(bill.currentReadingDate);
-      const billYear = billDateObj.getFullYear();
-      const billMonth = billDateObj.getMonth();
+      const [billYear, billMonth] = bill.currentReadingDate.split('-').map(Number);
 
-      return cRYear === billYear && cRMonth === billMonth;
+      const billDateObj = new Date(bill.currentReadingDate);
+     
+
+      return cRYear === billYear && cRMonth === billMonth - 1; 
     }
     return false;
   });
