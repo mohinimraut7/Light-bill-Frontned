@@ -75,7 +75,7 @@ const Formonetwentynew = () => {
   const [rollbackSuperAdmBtnEnabled, setRollbackSuperAdmBtnEnabled] = useState(false);
   useEffect(() => {
     dispatch(fetchBills());
-  }, [dispatch, data]);
+  }, [dispatch]);
   useEffect(() => {
     if (bills) {
       const initialSelectedValues = bills.reduce((acc, bill, index) => {
@@ -241,7 +241,7 @@ const Formonetwentynew = () => {
   console.log("shouldDisplayTextField", shouldDisplayTextField
 
   )
-  const combinedData = [...filteredBills, ...data];
+  const combinedData = [...filteredBills];
 
   const consumerId = consumerData?.consumerNumber || null;
 
