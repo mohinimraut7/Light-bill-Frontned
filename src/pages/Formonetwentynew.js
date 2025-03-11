@@ -261,7 +261,7 @@ const Formonetwentynew = () => {
     //   ) : combinedData)
 
 // ======================================
-let filteredData = cnId || wardName || cRDate
+let filteredData = cnId || wardName 
   ? combinedData.filter(bill => 
       (cnId && bill.consumerNumber?.toString().trim() === cnId.trim()) ||
       (wardName && bill.ward === wardName)
@@ -288,7 +288,24 @@ if (cRDate) {
   });
 }
 
+// ---------------------------------------------------------------
 
+// if (cRDate) {
+//   console.log("cRDate>>>>", cRDate);
+
+//   const crDateObj = new Date(cRDate);
+//   const cRYear = crDateObj.getFullYear();
+//   const cRMonth = crDateObj.getMonth(); // Zero-based month (Jan = 0, Feb = 1)
+
+//   filteredData = combinedData.filter(bill => {
+//     if (bill.currentReadingDate && /^\d{4}-\d{2}$/.test(bill.currentReadingDate)) {
+//       const [billYear, billMonth] = bill.currentReadingDate.split('-').map(Number);
+
+//       return cRYear === billYear && cRMonth + 1 === billMonth; // Fix comparison
+//     }
+//     return false;
+//   });
+// }
 const rows = filteredData.map((bill, index) => ({
       _id: bill._id,
       id: index + 1,
