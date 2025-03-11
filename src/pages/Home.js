@@ -375,9 +375,19 @@ backgroundColor="#f8fffc"
       <Box sx={{
         width:{
         xs:'100%',
-        md:'25%',
-        lg:'25%',
-        xl:'25%'
+        sm:'90%',
+        md:'42%',
+        lg:'42%',
+        xl:'42%'
+      },
+      ml:{
+       
+
+        xs:'0%',
+        sm:isSidebarOpen?'13%':'2%',
+        md:isSidebarOpen?'3%':'2%',
+        lg:'0%',
+        xl:'0%'
       },
       height:'80%',display:'flex',alignItems:'center',alignContent:'center',justifyContent:'center',flexDirection:'column'}}>
       <h4 style={{color:'black'}}>Meter Status Of Months {previousMonth},{currentMonth}-{currentYear}</h4>
@@ -402,10 +412,19 @@ backgroundColor="#f8fffc"
 
       <Box sx={{ width:{
         xs:'100%',
-        md:'25%',
-        lg:'25%',
-        xl:'25%'
-      },height:'80%',display:'flex',alignItems:'center',justifyContent:'center',alignContent:'center',flexDirection:'column',mt:{
+        sm:'80%',
+        md:'42%',
+        lg:'42%',
+        xl:'42%'
+      },
+      ml:{
+        xs:'0%',
+        sm:isSidebarOpen?'13%':'2%',
+        md:'0%',
+        lg:'0%',
+        xl:'0%'
+      },
+      height:'80%',display:'flex',alignItems:'center',justifyContent:'center',alignContent:'center',flexDirection:'column',mt:{
         xs:10,
         md:1,
         lg:1,
