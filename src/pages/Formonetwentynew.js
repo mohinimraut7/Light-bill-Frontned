@@ -571,6 +571,8 @@ const rows = filteredData.map((bill, index) => ({
     link.download = 'ConsumerBills.xlsx';
     link.click();
   };
+
+  
 // const handleDownloadPDF = () => {
 //   try {
 //       const pdfContent = document.createElement('div');
@@ -922,6 +924,56 @@ const handleDownloadPDF = () => {
 //   }
 // };
 
+// -------------------------------------------------------------------
+// const handleDownloadPDF = () => {
+//   try {
+//     const doc = new jsPDF({ orientation: 'landscape', encoding: 'UTF-8' });
+
+//     // 🚀 Instead of embedding heavy font, use default fonts
+//     doc.setFont("helvetica"); // Or "times", "courier"
+
+//     let yPos = 10;
+//     doc.setFontSize(16);
+//     doc.text("नमुना नं १२०", 140, yPos, { align: 'center' });
+//     yPos += 10;
+//     doc.text("(नियम १४७) (२) पहा )", 140, yPos, { align: 'center' });
+//     yPos += 10;
+//     doc.setFontSize(18);
+//     doc.text("वसई विरार शहर महानगरपालिका", 110, yPos, { align: 'center' });
+//     yPos += 15;
+
+//     // Table Headers
+//     const tableHeaders = [
+//       "महिना", "एकूण युनिट", "मागील रीडिंग दिनांक", "मागील रीडिंग",
+//       "चालू रीडिंग दिनांक", "चालू रीडिंग", "देयकाची रक्कम",
+//       "देयकाची अंतिम तारीख", "बिल भरणा तारीख", "एकूण भार"
+//     ];
+
+//     const tableData = rows.map(row => [
+//       row.dueDateMonth?.toString() || 'N/A',
+//       row.totalConsumption?.toString() || 'N/A',
+//       row.previousReadingDate?.toString() || 'N/A',
+//       row.previousReading?.toString() || 'N/A',
+//       row.currentReadingDate?.toString() || 'N/A',
+//       row.currentReading?.toString() || 'N/A',
+//       row.netBillAmount?.toString() || 'N/A',
+//       row.dueDate?.toString() || 'N/A',
+//       row.lastReceiptDate?.toString() || 'N/A',
+//       row.netLoad?.toString() || 'N/A'
+//     ]);
+
+//     doc.autoTable({
+//       head: [tableHeaders],
+//       body: tableData,
+//       startY: yPos,
+//       styles: { fontSize: 10 } // ❌ No heavy font needed
+//     });
+
+//     doc.save('ConsumerBills.pdf');
+//   } catch (error) {
+//     console.error('❌ Error generating PDF:', error);
+//   }
+// };
 
 const handleChangeWard = (event) => {
   setWardName(event.target.value);
