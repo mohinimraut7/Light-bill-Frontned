@@ -151,6 +151,8 @@ export const deleteRole = (role_id) => {
             toast.success("Role deleted successfully", { position: "top-center" });
         } catch (error) {
             dispatch(deleteRoleFailure(error.message));
+                  toast.error(error.response.data.message);
+            
         }
     };
 };

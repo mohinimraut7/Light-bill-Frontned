@@ -155,7 +155,7 @@ const [currentRole, setCurrentRole] = useState(null);
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[5,10,30,40,50]}
         checkboxSelection
       />
       <AddRole

@@ -1,5 +1,5 @@
 const rolesdata = [
-    { "rolename": 'Super Admin'},
+    // { "rolename": 'Super Admin'},
     { "rolename": 'Admin'},
     { "rolename": 'Junior Engineer','ward':'Ward-A'},
     {"rolename":"Executive Engineer"},

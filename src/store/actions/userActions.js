@@ -89,9 +89,14 @@ try{
   dispatch(addUserSuccess(response.data.user))
   toast.success("User added successfully.Please check email for verification", { position: "top-center" });
 
-}catch(error){
-  dispatch(addUserFailure(error));
-  toast.error(error.response?.data?.message || "Error adding user", { position: "top-center" });
+}
+
+catch(error) {
+  console.error("API Error:", error); // Debugging साठी
+  const errorMessage = error.response?.data?.message || "Error adding user";
+
+  dispatch(addUserFailure(errorMessage)); // फक्त मेसेज पाठवा, पूर्ण error नाही
+  toast.error(errorMessage, { position: "top-center" });
 }
   }
 }
