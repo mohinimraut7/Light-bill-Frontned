@@ -1,0 +1,44 @@
+{
+    "heading": "वसई विरार शहर महानगरपालिका",
+    "subHeading": "नमुना नं १२० (नियम १४७) (२) पहा )",
+    "columns": [
+        "ग्राहक क्रमांक",
+        "मीटर क्रमांक",
+        "ग्राहक संपर्क क्रमांक",
+        "मीटरची स्थिती",
+        "मंजूर भार",
+        "फेज प्रकार"
+    ],
+    "yearlyColumns": [
+        "महिना",
+        "एकूण युनिट",
+        "मागील रीडिंग दिनांक",
+        "मागील रीडिंग",
+        "चालू रीडिंग दिनांक",
+        "चालू रीडिंग",
+        "देयकाची रक्कम",
+        "देयकाची अंतिम तारीख",
+        "बिल भरणा तारीख",
+        "एकूण भार"
+    ],
+    "data": [
+        {
+            "consumerNumber": "12345",
+            "meterNumber": "MTR001",
+            "contactNumber": "9876543210",
+            "meterStatus": "Active",
+            "sanctionedLoad": "5 kW",
+            "phaseType": "Three Phase",
+            "dueDateMonth": "फेब्रुवारी",
+            "totalConsumption": "150",
+            "previousReadingDate": "2024-01-10",
+            "previousReading": "500",
+            "currentReadingDate": "2024-02-10",
+            "currentReading": "650",
+            "netBillAmount": "₹1200",
+            "dueDate": "2024-02-20",
+            "lastReceiptDate": "2024-02-15",
+            "netLoad": "5 kW"
+        }
+    ]
+}
