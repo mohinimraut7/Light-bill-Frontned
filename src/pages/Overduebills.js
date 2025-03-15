@@ -17,6 +17,10 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
+import BillDatePicker from '../components/BillDatePicker';
+import { useFormikContext } from 'formik';
+
+
 const Overduebills = () => {
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
@@ -32,6 +36,9 @@ const Overduebills = () => {
   const [billPaid, setBillPaid] = useState(0);
   const [billUnPaid, setBillUnPaid] = useState(0);
   const [cBillAmount, setCBillAmount] = useState(0);
+  const { setFieldValue, setFieldTouched } = useFormikContext();
+
+
   const [tArrears, setArrears] = useState(0);
   const [nBillAmount, setNBillAmount] = useState(0);
   const [rBillAmount, setRBillAmount] = useState(0);
@@ -40,6 +47,7 @@ const Overduebills = () => {
   const user = useSelector(state => state.auth.user);
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [billMon, setBillMon] = useState('');
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
@@ -164,8 +172,10 @@ const Overduebills = () => {
     user?.role === 'Done';
 
     const today = new Date(); 
+
+    const filteredData = bills.filter((bill) => bill.monthAndYear === billMon);
     
-  const combinedData = [...filteredBills, ...data];
+  const combinedData = [...filteredData,...filteredBills, ...data];
   const rows = combinedData.filter(bill => new Date(bill.dueDate) < today && bill.paymentStatus==='unpaid').map((bill, index) => ({
     // const rows = combinedData.filter(bill =>bill.overdueAlert===true).map((bill, index) => ({
 
@@ -187,6 +197,7 @@ const Overduebills = () => {
     previousReading: bill.previousReading,
     currentReadingDate: formatDate(bill.currentReadingDate),
     currentReading: bill.currentReading,
+    monthAndYear:bill.monthAndYear,
     billDate: formatDate(bill.billDate),
     currentBillAmount: bill.currentBillAmount,
     totalArrears: bill.totalArrears,
@@ -303,6 +314,7 @@ const Overduebills = () => {
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
+    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
     
@@ -482,6 +494,13 @@ const Overduebills = () => {
     console.log("check function click", data)
   }
 
+
+
+  const handleBMChange = (value) => {
+    console.log("Selected Month-Year:", value);
+    setBillMon(value); 
+  };
+
   return (
     <div style={gridStyle}>
 
@@ -575,6 +594,14 @@ const Overduebills = () => {
 
 
           </Box>
+        </Box>
+        <Box>
+        <BillDatePicker 
+  billMon={billMon} 
+  setFieldValue={setFieldValue} 
+  setFieldTouched={setFieldTouched} 
+  name="monthAndYear"
+/>
         </Box>
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}

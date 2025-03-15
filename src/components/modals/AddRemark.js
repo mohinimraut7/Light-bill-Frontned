@@ -292,7 +292,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { baseUrl } from '../../config/config';
 import { fetchBills } from '../../store/actions/billActions';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const validationSchema = Yup.object({
     remark: Yup.string().required('Remark is required'),
 });
@@ -341,7 +342,8 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
 
                 const result = await response.json();
                 if (response.ok) {
-                    alert(result.message);
+                    toast.success(result.message, { position: "top-center" });
+                    // alert(result.message);
                     handleClose();
                     dispatch(fetchBills());
                 } else {

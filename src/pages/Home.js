@@ -16,8 +16,18 @@ import ChartComponent from '../components/CharComponent';
 import './Home.css';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import ElectricMeterOutlinedIcon from '@mui/icons-material/ElectricMeterOutlined';
+import ElectricMeterIcon from '@mui/icons-material/ElectricMeter';
+
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import UpcomingIcon from '@mui/icons-material/Upcoming';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import PaidIcon from '@mui/icons-material/Paid';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+
+
+
 import PieChartBills from '../components/PieChartBills';
 
 import Wardnamecount from '../components/table/Wardnamecount';
@@ -197,7 +207,8 @@ backgroundColor="#fff9ed"
   }}
 />
 <InfoCard
-IconComponent={CurrencyRupeeOutlinedIcon}
+// IconComponent={PaidIcon}
+IconComponent={FactCheckIcon}
 backgroundColor="#f8fffc"
   className="container-infocard"
   avatarColor="#1976D2"
@@ -209,7 +220,8 @@ backgroundColor="#f8fffc"
   }}
 />
 <InfoCard
-  IconComponent={CurrencyRupeeOutlinedIcon}
+  // IconComponent={CurrencyRupeeOutlinedIcon}
+  IconComponent={FactCheckIcon}
   backgroundColor="#f3f8fe"
   className="container-infocard"
   avatarColor="#1976D2"
@@ -290,7 +302,8 @@ backgroundColor="#F8FFFC"
   }}
 />
 <InfoCard
-IconComponent={CurrencyRupeeOutlinedIcon}
+// IconComponent={CurrencyRupeeOutlinedIcon}
+IconComponent={UpcomingIcon}
   backgroundColor='#F3F8FE'
   className="container-infocard"
   avatarColor="#fedadc"
@@ -361,7 +374,10 @@ IconComponent={CurrencyRupeeOutlinedIcon}
   />
 )}
 <InfoCard
-IconComponent={CurrencyRupeeOutlinedIcon}
+// IconComponent={CurrencyRupeeOutlinedIcon}
+IconComponent={AccessTimeFilledIcon}
+
+
 backgroundColor="#f8fffc"
   className="container-infocard"
   avatarColor="#1976D2"
