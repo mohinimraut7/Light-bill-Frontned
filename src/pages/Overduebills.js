@@ -176,16 +176,16 @@ const Overduebills = () => {
     const today = new Date(); 
 
 
-    const filteredData = bills.filter((bill) => bill.monthAndYear === selectedMonthYear);
+    // const filteredData = bills.filter((bill) => bill.monthAndYear === selectedMonthYear);
     
-  const combinedData = [...filteredData,...filteredBills, ...data];
-  const rows = combinedData.filter(bill => new Date(bill.dueDate) < today && bill.paymentStatus==='unpaid').map((bill, index) => ({
+  const combinedData = [...filteredBills, ...data];
+  const rows = combinedData.filter(bill => new Date(bill.dueDate) < today && bill.paymentStatus==='unpaid' &&
+  (!selectedMonthYear || bill.monthAndYear === selectedMonthYear)).map((bill, index) => ({
 
 
     _id: bill._id,
     id: index + 1,
     consumerNumber:bill.consumerNumber,
-   
     email: bill?.email||'-',
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
@@ -202,7 +202,6 @@ const Overduebills = () => {
     totalArrears: bill.totalArrears,
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
-   
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || 'Initial',
@@ -211,10 +210,8 @@ const Overduebills = () => {
     pendingAmount: bill.lastReceiptAmount ? bill.roundedBillAmount - bill.lastReceiptAmount : bill.roundedBillAmount,
     promptPaymentDate: formatDate(bill.promptPaymentDate),
     promptPaymentAmount: bill.promptPaymentAmount,
-  
     dueDate: formatDate(bill.dueDate),
     netBillAmountWithDPC:bill.netBillAmountWithDPC,
-    
     forwardForGeneration: bill.forwardForGeneration,
   }));
   const handleApproveClick = (bill, yesno) => {
@@ -299,11 +296,8 @@ const Overduebills = () => {
       ),
     },
     { field: 'id', headerName: 'ID', width: 70 },
-    
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
-    
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
-  
     { field: 'ward', headerName: 'WARD', width: 130 },
     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -314,16 +308,13 @@ const Overduebills = () => {
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'monthAndYear', headerName: 'monthAndYear', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
-    
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
     { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
-  
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
     { field: 'netBillAmountWithDPC', headerName: 'NET BILL AMOUNT WITH DPC', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
-
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     
   ];
@@ -340,7 +331,6 @@ const Overduebills = () => {
       return '30px 10px';
     }
   };
-  
   
 
   const gridStyle = {
@@ -409,7 +399,7 @@ const Overduebills = () => {
 
   const handleDateChange = (value) => {
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
-console.log("formattedValue",formattedValue); // "FEB-2025"
+console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
 
     setSelectedMonthYear(formattedValue);
   };
@@ -472,7 +462,7 @@ console.log("formattedValue",formattedValue); // "FEB-2025"
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
-          pageSizeOptions={[5, 10, 15]}
+          pageSizeOptions={[5, 10, 15,25,35,45,55]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
         />
         <Modal open={billOpen} onClose={handleAddBillClose}>
