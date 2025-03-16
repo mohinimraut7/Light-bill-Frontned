@@ -19,7 +19,7 @@ import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
 import BillDatePicker from '../components/BillDatePicker';
 import { useFormikContext } from 'formik';
-
+import dayjs from "dayjs";
 
 const Overduebills = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Overduebills = () => {
   const [billPaid, setBillPaid] = useState(0);
   const [billUnPaid, setBillUnPaid] = useState(0);
   const [cBillAmount, setCBillAmount] = useState(0);
-  const { setFieldValue, setFieldTouched } = useFormikContext();
+  // const { setFieldValue, setFieldTouched } = useFormikContext();
 
 
   const [tArrears, setArrears] = useState(0);
@@ -47,7 +47,9 @@ const Overduebills = () => {
   const user = useSelector(state => state.auth.user);
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [billMon, setBillMon] = useState('');
+  // const [billMon, setBillMon] = useState('');
+  const [selectedMonthYear, setSelectedMonthYear] = useState("");
+
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
@@ -173,20 +175,17 @@ const Overduebills = () => {
 
     const today = new Date(); 
 
-    const filteredData = bills.filter((bill) => bill.monthAndYear === billMon);
+
+    const filteredData = bills.filter((bill) => bill.monthAndYear === selectedMonthYear);
     
   const combinedData = [...filteredData,...filteredBills, ...data];
   const rows = combinedData.filter(bill => new Date(bill.dueDate) < today && bill.paymentStatus==='unpaid').map((bill, index) => ({
-    // const rows = combinedData.filter(bill =>bill.overdueAlert===true).map((bill, index) => ({
 
 
-//   const rows = combinedData.filter(bill => bill.dueAlert === true).map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
-    // userId: bill.userId,
     consumerNumber:bill.consumerNumber,
-    // firstName: bill.firstName,
-    // lastName: bill.lastName,
+   
     email: bill?.email||'-',
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
@@ -203,8 +202,7 @@ const Overduebills = () => {
     totalArrears: bill.totalArrears,
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
-    // address: bill.address || '-',
-    // role: bill.role || '-',
+   
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
     approvedStatus: bill.approvedStatus || 'Initial',
@@ -303,7 +301,7 @@ const Overduebills = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
-    // { field: 'email', headerName: 'EMAIL', width: 130 },
+    
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
   
     { field: 'ward', headerName: 'WARD', width: 130 },
@@ -314,10 +312,8 @@ const Overduebills = () => {
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
-    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
+    { field: 'monthAndYear', headerName: 'monthAndYear', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
-    // { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
-    
     
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
@@ -329,92 +325,7 @@ const Overduebills = () => {
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
 
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
-    // {
-    //   field: 'actions',
-    //   headerName: 'Actions',
-    //   width: 200,
-    //   renderCell: (params) => (
-    //     <>
-    //       <IconButton
-    //         sx={{ color: '#FFA534' }}
-    //         onClick={() => handleDeleteBill(params.row._id)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <DeleteIcon />
-    //       </IconButton>
-    //       { }
-    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <EditIcon />
-    //       </IconButton> */}
-    //     </>
-    //   ),
-    // },
-
-
-    // ...(user?.role === 'Junior Engineer'
-    //   ? [
-    //     {
-    //       field: 'forwardForGeneration',
-    //       headerName: 'FORWARD FOR GENERATION',
-    //       width: 200,
-    //       renderCell: (params) => {
-    //         const isJuniorEngineer = user?.role === 'Junior Engineer';
-    //         const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
-    //         if (!isJuniorEngineer) return null;
-    //         return (
-    //           <Box
-    //             sx={{
-    //               display: 'flex',
-    //               justifyContent: 'center',
-    //               alignItems: 'center',
-    //               gap: 1,
-    //               height: '100%',
-    //             }}
-    //           >
-    //             <IconButton
-    //               sx={{ color: '#23CCEF' }}
-    //               onClick={() => handleApproveClick(params.row, 'Yes')}
-    //               disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
-    //             >
-    //               <Typography>Yes</Typography>
-    //             </IconButton>
-    //             <IconButton
-    //               sx={{ color: '#23CCEF' }}
-    //               onClick={() => handleApproveClick(params.row, 'No')}
-    //               disabled={
-    //                 (params.row.approvedStatus === 'Initial' && params.row.paymentStatus === 'unpaid' && user?.role === 'Junior Engineer') ||
-    //                 (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
-    //               }
-    //             >
-    //               <UndoIcon />
-    //             </IconButton>
-    //           </Box>
-    //         );
-    //       },
-    //     }
-
-    //   ]
-    //   : []),
-    // ...(!user?.role === 'Junior Engineer'
-    //   ? [
-    //     {
-    //       field: 'actions',
-    //       headerName: 'Actions',
-    //       width: 200,
-    //       renderCell: (params) => (
-
-    //         <>
-    //           <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
-    //             <CheckIcon />
-    //           </IconButton>
-    //         </>
-    //       ),
-    //     },
-    //   ]
-    //   : []),
-
+    
   ];
   const getPadding = () => {
     const width = window.innerWidth;
@@ -496,9 +407,11 @@ const Overduebills = () => {
 
 
 
-  const handleBMChange = (value) => {
-    console.log("Selected Month-Year:", value);
-    setBillMon(value); 
+  const handleDateChange = (value) => {
+    const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
+console.log("formattedValue",formattedValue); // "FEB-2025"
+
+    setSelectedMonthYear(formattedValue);
   };
 
   return (
@@ -525,9 +438,7 @@ const Overduebills = () => {
             md:'15px',
             lg:'20px'
           },
-          // marginTop:{
-          //   xs:'100px'
-          // }
+         
 
            }} className="title-2">
             Users with Over Due Bills
@@ -546,62 +457,13 @@ const Overduebills = () => {
               style={{ display: 'none' }}
               id="fileInput"
             />
-            {/* <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: 'auto',
-                fontSize:{
-                  xs:'10px',
-                  sm:'10px',
-                  md:'20px',
-                  lg:'30px'
-                }
-              }}
-              onClick={handleProcessClick}
-              disabled={
-                user.role === 'Junior Engineer' &&
-                selectedItems.length > 0 &&
-                selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')
-              }
-            >
-              <Typography>Process</Typography>
-            </Button> */}
-            {/* <Button
-              sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
-                cursor: 'pointer',
-                textTransform: 'none',
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: 'auto',
-              }}
-              onClick={handleReverseApprovals}
-              disabled={
-                user.role === 'Junior Engineer' &&
-                selectedItems.length > 0 &&
-                selectedItems.every(item => item.approvedStatus === 'Initial')
-              }
-
-            >
-              <Typography>Rollback Approvals</Typography>
-            </Button> */}
-
+           
 
           </Box>
         </Box>
         <Box>
-        <BillDatePicker 
-  billMon={billMon} 
-  setFieldValue={setFieldValue} 
-  setFieldTouched={setFieldTouched} 
-  name="monthAndYear"
-/>
+        <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
+
         </Box>
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
