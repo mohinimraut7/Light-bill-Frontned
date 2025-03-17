@@ -860,7 +860,7 @@ const handleDownloadPDF = () => {
       yPos += 10;
       doc.setFontSize(18);
       // doc.text("वसई विरार शहर महानगरपालिका", 110, yPos);
-      doc.text("Vasai Virar City Corporation", 110, yPos);
+      doc.text("Vasai Virar City Municipal Corporation", 110, yPos);
       yPos += 15;
 
       const tableHeaders = [
