@@ -416,15 +416,15 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
         } }}>
           <Typography sx={{ 
             paddingLeft:{
-              xs:'3px',
+              xs:1,
               sm:'5px',
               md:'10px',
               lg:'20px'
             },
           color: '#0d2136',
           fontSize:{
-            sm:'10px',
-            xs:'10px',
+            sm:'15px',
+            xs:'15px',
             md:'15px',
             lg:'20px'
           },
