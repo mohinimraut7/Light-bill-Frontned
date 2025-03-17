@@ -2,24 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import { CircularProgress,useTheme, useMediaQuery} from '@mui/material';
+import { Typography, Box, Tabs, Tab } from '@mui/material';
+
+import { CircularProgress } from '@mui/material';
+
 const BillingAnomaly = () => {
-  const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down('xs'));
-  const issmall = useMediaQuery(theme.breakpoints.down('sm'));
-  console.log("isXs>>>>>",isXs)
-  const isSm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch]);
-  
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -32,133 +28,83 @@ const BillingAnomaly = () => {
     return <p>Error: {error}</p>;
   }
 
-  const filteredBills = bills.filter((bill) => bill.totalConsumption === 0 );
+  // Sort bills by monthAndYear
+  const sortedBills = [...bills].sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
+  const billMap = new Map();
+  sortedBills.forEach((bill) => {
+    if (!billMap.has(bill.consumerNumber)) {
+      billMap.set(bill.consumerNumber, []);
+    }
+    billMap.get(bill.consumerNumber).push(bill);
+  });
 
+  const highBills = [];
+  const lowBills = [];
+  const zeroConsumptionBills = [];
 
-const gridStyle = {
-  height: 'auto',
-  width: isSidebarOpen ? '80%' : '90%',
-  marginLeft: isSidebarOpen ? '19%' : '7%',
-  transition: 'margin-left 0.3s',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: '30px 0px',
-  paddingLeft: '10px',
-};
-
-const innerDivStyle = {
-  border: '1px solid #F7F7F8',
-  width: '99%',
-  padding: '30px 10px',
-};
-
-const rowColors = ['#F7F9FB', 'white'];
-
-const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-  '& .MuiDataGrid-cell': {
-    padding: theme.spacing(1),
-  },
-  '& .MuiDataGrid-row': {
-    '&:nth-of-type(odd)': {
-      backgroundColor: rowColors[0],
-    },
-    '&:nth-of-type(even)': {
-      backgroundColor: rowColors[1],
-    },
-  },
-}));
-
-const CustomWidthTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))({
-  [`& .${tooltipClasses.tooltip}`]: {
-    maxWidth: 500,
-    // F7F9FB
-    backgroundColor: '#FB404B',
-    color: 'white',
-    fontSize: '14px',
-    padding: '10px 15px',
-    borderRadius: '4px',
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    color: '#FB404B',
+  billMap.forEach((billHistory) => {
+    if (billHistory.length < 2) return;
     
-  },
-});
+    const previousBill = billHistory[billHistory.length - 2];
+    const currentBill = billHistory[billHistory.length - 1];
 
-const formatDate = (dateString) => {
-  const options = { day: '2-digit', month: 'long', year: 'numeric' };
-  return new Date(dateString).toLocaleDateString('en-US', options);
-};
+    const prevAmount = previousBill.netBillAmount;
+    const currAmount = currentBill.netBillAmount;
+    const highThreshold = prevAmount + prevAmount * 0.25;
+    const lowThreshold = prevAmount - prevAmount * 0.25;
+
+    if (currAmount >= highThreshold) {
+      highBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+    } else if (currAmount <= lowThreshold) {
+      lowBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+    }
+
+    if (currentBill.totalConsumption === 0) {
+      zeroConsumptionBills.push(currentBill);
+    }
+  });
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 140 },
-   
-    { field: 'email', headerName: 'EMAIL', width: 130 },
-    { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
-   
+    // { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 130 },
     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
-  
-    { field: 'currentBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 130 },
-    { field: 'totalArrears', headerName: 'TOTAL ARREARS', width: 130 },
-    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
-    { field: 'roundedBillAmount', headerName: 'ROUNDED BILL AMOUNT', width: 130 },
-    { field: 'ifPaidBefore', headerName: 'IF PAID BEFORE', width: 130 },
-    { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
-    { field: 'ifPaidAfter', headerName: 'IF PAID AFTER', width: 130 },
-    { field: 'paymentStatus', headerName: 'Payment Status', width: 130 },
-    { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
-    { field: 'pendingAmount', headerName: 'PENDING AMOUNT', width: 130 },
-    { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
+    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
+    { field: 'prevNetBillAmount', headerName: 'PREVIOUS BILL AMOUNT', width: 150 },
+    { field: 'netBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 150 },
   ];
 
-  const rows = bills.map((bill, index) => ({
-    id: index + 1,
-   
-    cn: bill.cn,
-    email: bill?.userId?.email,
-    contactNumber: bill?.userId?.contactNumber,
-    // address: bill.address,
-    ward: bill.ward,
-    meterNumber: bill?.meterId?.meterNumber,
-    totalConsumption: bill.totalConsumption,
-    meterStatus: bill.meterStatus,
-    currentReading: bill.currentReading,
-    previousReading: bill.previousReading,
-    currentBillAmount: bill.currentBillAmount,
-    totalArrears: bill.totalArrears,
-    netBillAmount: bill.netBillAmount,
-    roundedBillAmount: bill.roundedBillAmount,
-    ifPaidBefore: bill.ifPaidBefore,
-    dueDate: formatDate(bill.dueDate),
-    ifPaidAfter: bill.ifPaidAfter,
-    paymentStatus: bill.paymentStatus || '-',
-    paidAmount:bill.paidAmount?bill.paidAmount:0,
-    pendingAmount:bill.paidAmount?bill.roundedBillAmount-bill.paidAmount:bill.roundedBillAmount,
-    approvedStatus: bill.approvedStatus || '-',
-    flag: bill.flag,
-  }));
-
- 
+  const getRows = () => {
+    switch (tabValue) {
+      case 0:
+        return zeroConsumptionBills;
+      case 1:
+        return highBills;
+      case 2:
+        return lowBills;
+      default:
+        return [];
+    }
+  };
 
   return (
-    <div style={gridStyle}>
-<Box sx={innerDivStyle}>
-      <Typography sx={{
-        marginLeft: issmall && '17px' // Conditional margin
-      }}variant={isXs ? 'h1' : 'h6'} gutterBottom>
-        Paid Bills
-      </Typography>
-      <StyledDataGrid rows={rows} columns={columns} pageSize={5} />
+    <Box sx={{ width: '90%', marginLeft:isSidebarOpen?'250px':'100px',paddingTop: isSidebarOpen?'20px':'50px' }}>
+      <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)}>
+        <Tab label="Zero Consumption Bills" />
+        <Tab label="High Anomaly Bills" />
+        <Tab label="Low Anomaly Bills" />
+      </Tabs>
+
+      <Box sx={{ marginTop: '20px', border: '1px solid #F7F7F8', padding: '20px' }}>
+        {/* <Typography >
+          {tabValue === 0 ? 'ZERO CONSUMPTON BILLS' : tabValue === 1 ? 'HIGH ANOMALY BILLS' : 'LOW ANOMALY BILLS'}
+        </Typography> */}
+        <DataGrid rows={getRows().map((bill, index) => ({ id: index + 1, ...bill }))} columns={columns} pageSize={5} />
+      </Box>
     </Box>
-    </div>
-    
   );
 };
 
