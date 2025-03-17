@@ -399,7 +399,7 @@ const columns = [
         {
         field: 'actions',
         headerName: 'Actions',
-        width: 600,
+        width: 400,
         renderCell: (params) => (
           <>  
          
