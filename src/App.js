@@ -26,6 +26,7 @@ import OverdueBills from './pages/Overduebills';
 import Overduebills from './pages/Overduebills';
 import ConsumerComponent from './pages/ConsumerComponents';
 import Formonetwentynew from './pages/Formonetwentynew';
+import BillingAnomaly from './pages/BillingAnomaly';
 
 
 const App = () => {
@@ -145,6 +146,7 @@ const App = () => {
             <Route path="/massapprovalsbills" element={<MassApprovalsBills />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/pendingapprovals" element={<ApprovedStatusRecord/>} />
+            <Route path='/billinganomaly' element={<BillingAnomaly/>}/>
             <Route path='/paidbills' element={<PaidBills/>}/>
             <Route path='/partialpaidbills' element={<PartialPaidBills/>}/>
             <Route path="/logout" element={<Button sx={{ color: '#0d2136' }} onClick={handleLogout}>Logout</Button>} />
