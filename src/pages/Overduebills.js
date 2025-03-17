@@ -451,7 +451,7 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
 
           </Box>
         </Box>
-        <Box>
+        <Box sx={{width:'20%'}}>
         <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
 
         </Box>

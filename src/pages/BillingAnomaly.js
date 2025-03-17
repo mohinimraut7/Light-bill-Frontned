@@ -59,9 +59,12 @@ const BillingAnomaly = () => {
       lowBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
     }
 
+    // if (currentBill.totalConsumption === 0) {
+    //   zeroConsumptionBills.push(currentBill);
+    // }
     if (currentBill.totalConsumption === 0) {
-      zeroConsumptionBills.push(currentBill);
-    }
+        zeroConsumptionBills.push({ ...currentBill, prevNetBillAmount: previousBill.netBillAmount || 0 });
+      }
   });
 
   const columns = [
@@ -74,7 +77,7 @@ const BillingAnomaly = () => {
     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
     { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
     { field: 'prevNetBillAmount', headerName: 'PREVIOUS BILL AMOUNT', width: 150 },
-    { field: 'netBillAmount', headerName: 'CURRENT BILL AMOUNT', width: 150 },
+    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 150 },
   ];
 
   const getRows = () => {
