@@ -293,118 +293,107 @@ const columns = [
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
    
-{
-  field: "remarks",
-  headerName: "REMARKS",
-  width: 200,
-  renderCell: (params) => {
-    if (Array.isArray(params.value) && params.value.length > 0) {
-      // Filter out remarks where role is 'Super Admin'
-      const filteredRemarks = params.value.filter(remark => remark.role !== "Super Admin");
+// {
+//   field: "remarks",
+//   headerName: "REMARKS",
+//   width: 200,
+//   renderCell: (params) => {
+//     if (Array.isArray(params.value) && params.value.length > 0) {
+//       // Filter out remarks where role is 'Super Admin'
+//       const filteredRemarks = params.value.filter(remark => remark.role !== "Super Admin");
 
-      // If all remarks were from 'Super Admin', show "No Remarks"
-      if (filteredRemarks.length === 0) {
-        return <Typography variant="body2" color="text.secondary">No Remarks</Typography>;
-      }
+//       // If all remarks were from 'Super Admin', show "No Remarks"
+//       if (filteredRemarks.length === 0) {
+//         return <Typography variant="body2" color="text.secondary">No Remarks</Typography>;
+//       }
 
-      return (
-        <Tooltip
-          title={
-            <Box
-              sx={{
-                bgcolor: "white",
-                borderRadius: 2,
-                maxWidth: { xs: 300, sm: 400, md: 500, lg: 600, xl: 700 }, // Responsive width
-              }}
-            >
-              {filteredRemarks.map((remark, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    borderBottom: index !== filteredRemarks.length - 1 ? "1px solid #ddd" : "none",
-                    pb: 1,
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="body2" fontWeight="bold" color="text.primary">
-                    {remark.role}
-                  </Typography>
-                  <Box display="flex" alignItems="center" justifyContent="space-between">
-                    <Typography 
-                      sx={{ 
-                        width: { xs: '900px', lg: '100px', xl: '100px' } 
-                      }} 
-                      variant="body2" 
-                      color="text.secondary"
-                    >
-                      {remark.remark}
-                    </Typography>
-                    {remark.signature && (
-                      <Box
-                        component="img"
-                        src={remark.signature}
-                        alt={`${remark.role}'s signature`}
-                        sx={{
-                          width: 100,
-                          height: 50,
-                          // objectFit: "contain",
-                          border: "1px solid #ddd",
-                          borderRadius: 1,
-                        }}
-                      />
-                    )}
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-          }
-          arrow
-          placement="top"
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "white",
-                color: "rgba(0, 0, 0, 0.87)",
-                boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                "& .MuiTooltip-arrow": {
-                  color: "white",
-                },
-              },
-            },
-          }}
-        >
-          <Box sx={{ cursor: "pointer" }}>
-            {filteredRemarks.map((remark, index) => (
-              <Box key={index} sx={{ display: "flex", flexDirection: "column", mb: 1 }}>
-                <Typography variant="body2" fontWeight="bold">
-                  {remark.role}
-                </Typography>
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Typography sx={{}} variant="body2" color="text.secondary">
-                    {remark.remark}
-                  </Typography>
-                  {/* {remark.signature && (
-                    <Box
-                      component="img"
-                      src={remark.signature}
-                      alt="Signature"
-                      sx={{
-                        width: 20,
-                        height: 20,
-                        objectFit: "contain",
-                      }}
-                    />
-                  )} */}
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Tooltip>
-      );
-    }
-    return <Typography variant="body2" color="text.secondary">No Remarks</Typography>;
-  }
-},
+//       return (
+//         <Tooltip
+//           title={
+//             <Box
+//               sx={{
+//                 bgcolor: "white",
+//                 borderRadius: 2,
+//                 maxWidth: { xs: 300, sm: 400, md: 500, lg: 600, xl: 700 }, // Responsive width
+//               }}
+//             >
+//               {filteredRemarks.map((remark, index) => (
+//                 <Box
+//                   key={index}
+//                   sx={{
+//                     borderBottom: index !== filteredRemarks.length - 1 ? "1px solid #ddd" : "none",
+//                     pb: 1,
+//                     mb: 1,
+//                   }}
+//                 >
+//                   <Typography variant="body2" fontWeight="bold" color="text.primary">
+//                     {remark.role}
+//                   </Typography>
+//                   <Box display="flex" alignItems="center" justifyContent="space-between">
+//                     <Typography 
+//                       sx={{ 
+//                         width: { xs: '900px', lg: '100px', xl: '100px' } 
+//                       }} 
+//                       variant="body2" 
+//                       color="text.secondary"
+//                     >
+//                       {remark.remark}
+//                     </Typography>
+//                     {remark.signature && (
+//                       <Box
+//                         component="img"
+//                         src={remark.signature}
+//                         alt={`${remark.role}'s signature`}
+//                         sx={{
+//                           width: 100,
+//                           height: 50,
+//                           // objectFit: "contain",
+//                           border: "1px solid #ddd",
+//                           borderRadius: 1,
+//                         }}
+//                       />
+//                     )}
+//                   </Box>
+//                 </Box>
+//               ))}
+//             </Box>
+//           }
+//           arrow
+//           placement="top"
+//           componentsProps={{
+//             tooltip: {
+//               sx: {
+//                 bgcolor: "white",
+//                 color: "rgba(0, 0, 0, 0.87)",
+//                 boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+//                 "& .MuiTooltip-arrow": {
+//                   color: "white",
+//                 },
+//               },
+//             },
+//           }}
+//         >
+//           <Box sx={{ cursor: "pointer" }}>
+//             {filteredRemarks.map((remark, index) => (
+//               <Box key={index} sx={{ display: "flex", flexDirection: "column", mb: 1 }}>
+//                 <Typography variant="body2" fontWeight="bold">
+//                   {remark.role}
+//                 </Typography>
+//                 <Box display="flex" alignItems="center" justifyContent="space-between">
+//                   <Typography sx={{}} variant="body2" color="text.secondary">
+//                     {remark.remark}
+//                   </Typography>
+                 
+//                 </Box>
+//               </Box>
+//             ))}
+//           </Box>
+//         </Tooltip>
+//       );
+//     }
+//     return <Typography variant="body2" color="text.secondary">No Remarks</Typography>;
+//   }
+// },
 
     
         {
