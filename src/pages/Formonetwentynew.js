@@ -894,7 +894,8 @@ const handleDownloadPDF = () => {
           }
 
           doc.setFontSize(14);
-          doc.text(`वर्ष: ${year}`, 140, yPos);
+          // doc.text(`वर्ष: ${year}`, 140, yPos);
+          doc.text(`Year: ${year}`, 140, yPos);
           yPos += 10;
 
           // const yearlyTableHeaders = [
