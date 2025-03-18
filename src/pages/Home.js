@@ -50,9 +50,68 @@ const Home = () => {
   const [showCMonthPaidTable, setShowCMonthPaidTable] = useState(false);
   const [showPMonthPaidTable, setShowPMonthPaidTable] = useState(false);
   const [showCMonthAvgTable, setShowCMonthAvgTable] = useState(false);
-  const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
+
   const [showCMonthUDueBill, setshowCMonthUDueBill] = useState(false);
 
+
+ 
+
+
+
+  const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
+  const [wardFaultyCounts, setWardFaultyCounts] = useState({});
+  const [totalFaultyMeters, setTotalFaultyMeters] = useState(0);
+  const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
+  
+  // useEffect(() => {
+  //   if (!loadingBills && bills.length > 0) {
+  //     const counts = bills.reduce((acc, bill) => {
+  //       if (bill.meterStatus === "FAULTY" && bill.monthAndYear === currentMonthYear) {
+  //         const ward = bill.ward;
+  //         acc[ward] = (acc[ward] || 0) + 1;
+  //       }
+  //       return acc;
+  //     }, {});
+  
+  //     // Ensure all wards are present
+  //     const finalCounts = allWards.reduce((acc, ward) => {
+  //       acc[ward] = counts[ward] || 0;
+  //       return acc;
+  //     }, {});
+  
+  //     const totalFaulty = Object.values(finalCounts).reduce((sum, count) => sum + count, 0);
+  
+  //     setWardFaultyCounts(finalCounts);
+  //     setTotalFaultyMeters(totalFaulty);
+  //   }
+  // }, [bills, loadingBills]);
+
+
+  
+
+  useEffect(() => {
+    if (!loadingBills && bills.length > 0) {
+      const counts = bills.reduce((acc, bill) => {
+        if (bill.meterStatus === "FAULTY" && bill.monthAndYear === currentMonthYear) {
+          const ward = bill.ward;
+          acc[ward] = (acc[ward] || 0) + 1;
+        }
+        return acc;
+      }, {});
+  
+      // Ensure all wards are present
+      const finalCounts = allWards.reduce((acc, ward) => {
+        acc[ward] = counts[ward] || 0;
+        return acc;
+      }, {});
+  
+      const totalFaulty = Object.values(finalCounts).reduce((sum, count) => sum + count, 0);
+  
+      setWardFaultyCounts(finalCounts);
+      setTotalFaultyMeters(totalFaulty);
+    }
+  }, [bills, loadingBills]);
+  
 const uniqueBills = bills
   .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) 
   .filter((bill, index, self) => {
@@ -296,7 +355,8 @@ backgroundColor="#F8FFFC"
   avatarColor="#FFA534"
   avatarIcon="M"
   title="Total Faulty Meters"
-  count={meterStatusCounts.Faulty}
+  // count={meterStatusCounts.Faulty}
+  count={ totalFaultyMeters}
   onClick={() => {
     setShowCMonthFaultyTable(prev => !prev);
   }}

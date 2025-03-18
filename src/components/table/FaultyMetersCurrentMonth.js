@@ -10,6 +10,7 @@ const getMonthYear = (date) => {
 };
 
 const currentMonthYear = getMonthYear(new Date());
+console.log("currentMonthYear>>>>>>",currentMonthYear)
 
 // 📌 Styled Components
 const StyledTableContainer = styled(TableContainer)({
