@@ -89,10 +89,37 @@ const Home = () => {
 
   
 
+  // useEffect(() => {
+  //   if (!loadingBills && bills.length > 0) {
+  //     const counts = bills.reduce((acc, bill) => {
+  //       if (bill.meterStatus === "FAULTY" && bill.monthAndYear === currentMonthYear) {
+  //         const ward = bill.ward;
+  //         acc[ward] = (acc[ward] || 0) + 1;
+  //       }
+  //       return acc;
+  //     }, {});
+  
+  //     // Ensure all wards are present
+  //     const finalCounts = allWards.reduce((acc, ward) => {
+  //       acc[ward] = counts[ward] || 0;
+  //       return acc;
+  //     }, {});
+  
+  //     const totalFaulty = Object.values(finalCounts).reduce((sum, count) => sum + count, 0);
+  
+  //     setWardFaultyCounts(finalCounts);
+  //     setTotalFaultyMeters(totalFaulty);
+  //   }
+  // }, [bills, loadingBills]);
+
   useEffect(() => {
-    if (!loadingBills && bills.length > 0) {
+    if (!loadingBills && bills.length > 0 && user) {  // 🔹 user असला पाहिजे
       const counts = bills.reduce((acc, bill) => {
-        if (bill.meterStatus === "FAULTY" && bill.monthAndYear === currentMonthYear) {
+        if (
+          bill.meterStatus === "FAULTY" && 
+          bill.monthAndYear === currentMonthYear && 
+          (user.role !== "Junior Engineer" || bill.ward === user.ward)  // 🔹 जर Junior Engineer असेल, तर फक्त त्याच्या वॉर्डचा डेटा
+        ) {
           const ward = bill.ward;
           acc[ward] = (acc[ward] || 0) + 1;
         }
@@ -110,7 +137,8 @@ const Home = () => {
       setWardFaultyCounts(finalCounts);
       setTotalFaultyMeters(totalFaulty);
     }
-  }, [bills, loadingBills]);
+  }, [bills, loadingBills, user]);
+
   
 const uniqueBills = bills
   .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)) 
@@ -189,11 +217,13 @@ const previousMonthCYear = `${previousMonth}-${currentYear}`;
 
 
 const currentMonthPaidCount = bills.filter(bill => 
-  bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear
+  bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear &&
+  (user.role !== "Junior Engineer" || bill.ward === user.ward) 
 ).length;
 
 const previousMonthPaidCount = bills.filter(bill => 
-  bill.paymentStatus === 'paid' && bill.monthAndYear === previousMonthCYear
+  bill.paymentStatus === 'paid' && bill.monthAndYear === previousMonthCYear &&
+  (user.role !== "Junior Engineer" || bill.ward === user.ward) 
 ).length;
 
 console.log("Current Month Paid Count:", currentMonthPaidCount);

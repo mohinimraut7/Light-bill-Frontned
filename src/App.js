@@ -50,6 +50,7 @@ const App = () => {
     return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid'
   });
   const dueAlertCount = dueAlertrows.length;
+  
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch]);
