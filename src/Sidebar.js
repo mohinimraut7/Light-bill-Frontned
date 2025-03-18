@@ -31,6 +31,9 @@ import Badge from '@mui/material/Badge';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from './store/actions/toggleSidebar';
+import { upComingDueBills } from './utils/DueBillHelper';
+
+
 import './Sidebar.css';
 import drawerbg from './Images/sidebarimg.jpg'
 import logo from './Images/vvcmclogo.jpg';
@@ -171,26 +174,27 @@ export default function Sidebar() {
 
 // const dueAlertCount = dueAlertrows.length;
 // ========================================================
-const dueAlertrows = bills.filter(bill => {
-  const dueDate = new Date(bill.dueDate);
-  dueDate.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
+// const dueAlertrows = bills.filter(bill => {
+//   const dueDate = new Date(bill.dueDate);
+//   dueDate.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
+//   const today = new Date();
+//   today.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
 
-  // Calculate two days before the due date
-  const twoDaysBeforeDue = new Date(dueDate);
-  twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+//   // Calculate two days before the due date
+//   const twoDaysBeforeDue = new Date(dueDate);
+//   twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
   
-  // Check if the bill's due date falls within the range of two days before due date and the due date itself
-  const isWithinRange = today >= twoDaysBeforeDue && today <= dueDate;
+//   // Check if the bill's due date falls within the range of two days before due date and the due date itself
+//   const isWithinRange = today >= twoDaysBeforeDue && today <= dueDate;
 
-  if (user?.role === 'Junior Engineer') {
-      return isWithinRange && bill.paymentStatus === 'unpaid' && user?.ward === bill?.ward;
-  }
+//   if (user?.role === 'Junior Engineer') {
+//       return isWithinRange && bill.paymentStatus === 'unpaid' && user?.ward === bill?.ward;
+//   }
   
-  return isWithinRange && bill.paymentStatus === 'unpaid';
-});
+//   return isWithinRange && bill.paymentStatus === 'unpaid';
+// });
+const dueAlertrows = upComingDueBills(bills, user);
 
 const dueAlertCount = dueAlertrows.length;
 
