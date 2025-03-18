@@ -456,12 +456,12 @@ const cRMonth = crDateObj.getMonth();
     }));
   const handleApproveClick = (bill, yesno) => {
     let approvedStatus;
-    let currentBillAmount;
-    let ifPaidBefore;
-    let ifPaidAfter;
-    let totalArrears;
+    // let currentBillAmount;
+    // let ifPaidBefore;
+    // let ifPaidAfter;
+    // let totalArrears;
     let netBillAmount;
-    let roundedBillAmount;
+    // let roundedBillAmount;
     if (!bill || !bill._id) {
       return;
     }
@@ -485,7 +485,8 @@ const cRMonth = crDateObj.getMonth();
       approvedStatus = 'PendingForAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } else if (user?.role === 'Admin') {
-      approvedStatus = 'PendingForSuperAdmin';
+      // approvedStatus = 'PendingForSuperAdmin';
+      approvedStatus = 'PendingForAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } 
     // else if (user?.role === 'Super Admin' && yesno === 'Yes') {
@@ -502,7 +503,9 @@ const cRMonth = crDateObj.getMonth();
     //   netBillAmount = nBillAmount;
     //   roundedBillAmount = rBillAmount;
     // }
-    dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, currentBillAmount, totalArrears, netBillAmount, roundedBillAmount, ifPaidBefore, ifPaidAfter));
+    // dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, currentBillAmount, totalArrears, netBillAmount, roundedBillAmount, ifPaidBefore, ifPaidAfter));
+    dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, netBillAmount));
+
   };
 
   const handleChange = (event) => {
