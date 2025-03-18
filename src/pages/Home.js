@@ -167,22 +167,46 @@ const filteredConsumers = consumers?.filter(consumer => {
 const today = new Date(); 
 
 
+// =============================================================
+// const dueAlertrows = bills.filter(bill => {
+//   const dueDate = new Date(bill.dueDate);
+//   const twoDaysBeforeDue = new Date(dueDate);
+//   twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
 
+//   const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
+//   const isUnpaid = bill.paymentStatus === 'unpaid';
+
+//   if (user?.role === 'Junior Engineer') {
+//     return isDueSoon && isUnpaid && user?.ward === bill.ward;
+//   }
+//   return isDueSoon && isUnpaid;
+// });
+
+// const dueAlertCount = dueAlertrows.length;
+// ================================================================
 const dueAlertrows = bills.filter(bill => {
   const dueDate = new Date(bill.dueDate);
+  dueDate.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
+
+  // Calculate two days before the due date
   const twoDaysBeforeDue = new Date(dueDate);
   twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
-
-  const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
-  const isUnpaid = bill.paymentStatus === 'unpaid';
+  
+  // Check if the bill's due date falls within the range of two days before due date and the due date itself
+  const isWithinRange = today >= twoDaysBeforeDue && today <= dueDate;
 
   if (user?.role === 'Junior Engineer') {
-    return isDueSoon && isUnpaid && user?.ward === bill.ward;
+      return isWithinRange && bill.paymentStatus === 'unpaid' && user?.ward === bill?.ward;
   }
-  return isDueSoon && isUnpaid;
+  
+  return isWithinRange && bill.paymentStatus === 'unpaid';
 });
 
 const dueAlertCount = dueAlertrows.length;
+// ===============================================================
 
 // const passedDueDateCount = bills.filter(bill => {
 //   const dueDate = new Date(bill.dueDate); 

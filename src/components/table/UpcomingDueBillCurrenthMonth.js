@@ -46,36 +46,118 @@ const UpcomingDueBillCurrentMonth = () => {
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
   const today = new Date();
 
+  // useEffect(() => {
+  //   const dueCounts = bills.reduce((acc, bill) => {
+  //     const dueDate = new Date(bill.dueDate);
+  //     const twoDaysBeforeDue = new Date(dueDate);
+  //     twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+
+  //     const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
+  //     const isUnpaid = bill.paymentStatus === "unpaid";
+
+  //     if (isDueSoon && isUnpaid) {
+  //       if (user?.role === "Junior Engineer" && user?.ward !== bill.ward) {
+  //         return acc;
+  //       }
+        
+  //       const ward = bill.ward;
+  //       acc[ward] = (acc[ward] || 0) + 1;
+  //     }
+  //     return acc;
+  //   }, {});
+
+  //   // Ensure all wards are present
+  //   const finalCounts = allWards.reduce((acc, ward) => {
+  //     acc[ward] = dueCounts[ward] || 0;
+  //     return acc;
+  //   }, {});
+
+  //   setWardDueCounts(finalCounts);
+  //   setLoading(false);
+  // }, [bills, user]);
+
+  // =======================================================================
+  
+  // useEffect(() => {
+  //   const dueCounts = bills.reduce((acc, bill) => {
+  //     const dueDate = new Date(bill.dueDate);
+  //     dueDate.setHours(0, 0, 0, 0); // Reset time for accurate comparison
+  
+  //     const today = new Date();
+  //     today.setHours(0, 0, 0, 0); // Reset time for accurate comparison
+  
+  //     // Calculate two days before the due date
+  //     const twoDaysBeforeDue = new Date(dueDate);
+  //     twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+  //     twoDaysBeforeDue.setHours(0, 0, 0, 0);
+  
+  //     // Check if the due date is today or within the two-day range before due date
+  //     const isDueSoon = (dueDate === today) || (today >= twoDaysBeforeDue && today <= dueDate);
+  //     const isUnpaid = bill.paymentStatus === "unpaid";
+  
+  //     if (isDueSoon && isUnpaid) {
+  //       if (user?.role === "Junior Engineer" && user?.ward !== bill.ward) {
+  //         return acc;
+  //       }
+  
+  //       const ward = bill.ward;
+  //       acc[ward] = (acc[ward] || 0) + 1;
+  //     }
+  //     return acc;
+  //   }, {});
+  
+  //   // Ensure all wards are present
+  //   const finalCounts = allWards.reduce((acc, ward) => {
+  //     acc[ward] = dueCounts[ward] || 0;
+  //     return acc;
+  //   }, {});
+  
+  //   setWardDueCounts(finalCounts);
+  //   setLoading(false);
+  // }, [bills, user]);
+  
+  // ========================================================================
   useEffect(() => {
     const dueCounts = bills.reduce((acc, bill) => {
       const dueDate = new Date(bill.dueDate);
+      dueDate.setHours(0, 0, 0, 0); // Reset time for accurate comparison
+  
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time for accurate comparison
+  
+      // Calculate two days before the due date
       const twoDaysBeforeDue = new Date(dueDate);
       twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
-
-      const isDueSoon = today >= twoDaysBeforeDue && today <= dueDate;
+      twoDaysBeforeDue.setHours(0, 0, 0, 0);
+  
+      // Correct way to check if the due date is today or within the two-day range before due date
+      const isDueSoon = (dueDate.getTime() === today.getTime()) || 
+                        (today >= twoDaysBeforeDue && today <= dueDate);
+      
       const isUnpaid = bill.paymentStatus === "unpaid";
-
+  
       if (isDueSoon && isUnpaid) {
         if (user?.role === "Junior Engineer" && user?.ward !== bill.ward) {
           return acc;
         }
-        
+  
         const ward = bill.ward;
         acc[ward] = (acc[ward] || 0) + 1;
       }
       return acc;
     }, {});
-
+  
     // Ensure all wards are present
     const finalCounts = allWards.reduce((acc, ward) => {
       acc[ward] = dueCounts[ward] || 0;
       return acc;
     }, {});
-
+  
     setWardDueCounts(finalCounts);
     setLoading(false);
   }, [bills, user]);
-
+  
+  
   return (
     <StyledTableContainer component={Paper} sx={{ width: { lg: "25%", xl: "25%", md: "25%", sm: "60%", xs: "100%" } }}>
       {loading ? (
