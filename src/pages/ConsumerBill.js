@@ -487,19 +487,21 @@ const cRMonth = crDateObj.getMonth();
     } else if (user?.role === 'Admin') {
       approvedStatus = 'PendingForSuperAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-    } else if (user?.role === 'Super Admin' && yesno === 'Yes') {
-      approvedStatus = 'Done';
-      paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-    } else if (user?.role === 'Super Admin' && yesno === 'No') {
-      approvedStatus = 'PendingForSuperAdmin';
-      paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-      currentBillAmount = tArrears;
-      ifPaidBefore = paidBefore;
-      ifPaidAfter = paidAfter;
-      totalArrears = tArrears
-      netBillAmount = nBillAmount;
-      roundedBillAmount = rBillAmount;
-    }
+    } 
+    // else if (user?.role === 'Super Admin' && yesno === 'Yes') {
+    //   approvedStatus = 'Done';
+    //   paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
+    // } 
+    // else if (user?.role === 'Super Admin' && yesno === 'No') {
+    //   approvedStatus = 'PendingForSuperAdmin';
+    //   paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
+    //   currentBillAmount = tArrears;
+    //   ifPaidBefore = paidBefore;
+    //   ifPaidAfter = paidAfter;
+    //   totalArrears = tArrears
+    //   netBillAmount = nBillAmount;
+    //   roundedBillAmount = rBillAmount;
+    // }
     dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, currentBillAmount, totalArrears, netBillAmount, roundedBillAmount, ifPaidBefore, ifPaidAfter));
   };
 
