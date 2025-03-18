@@ -34,6 +34,7 @@ const ConsumerBill = () => {
   console.log("location.pathname",location.pathname )
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
+  
     const { consumers } = useSelector((state) => state?.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [billOpen, setBillOpen] = useState(false);
@@ -67,6 +68,18 @@ const ConsumerBill = () => {
   const [cnId, setCnId] = useState('');
   const [cRDate, setCRDate] = useState('');
   const [myear,setMyear]=useState('');
+  const [wardFaultyCounts, setWardFaultyCounts] = useState({});
+  const [totalFaultyMeters, setTotalFaultyMeters] = useState(0);
+  const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
+
+  const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
+ 
+
+  const currentDate = new Date();
+const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+const currentYear = currentDate.getFullYear();
+const currentMonthYear = `${currentMonth}-${currentYear}`;
+
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
@@ -81,18 +94,49 @@ const ConsumerBill = () => {
       }, {});
 
       setSelectedValues(initialSelectedValues);
-      const normalMeters = bills.filter(bill => bill?.meterStatus === 'NORMAL')?.length;
-      const faultyMeters = bills.filter(bill => bill?.meterStatus === 'FAULTY')?.length;
-      const averageMeters = bills.filter(bill => bill?.meterStatus === 'AVERAGE')?.length;
+      // const normalMeters = bills.filter(bill => bill?.meterStatus === 'NORMAL')?.length;
+      // const faultyMeters = bills.filter(bill => bill?.meterStatus === 'FAULTY')?.length;
+      // const averageMeters = bills.filter(bill => bill?.meterStatus === 'AVERAGE')?.length;
       const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
       const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
-      setNormalMeterCount(normalMeters);
-      setFaultyMeterCount(faultyMeters);
-      setAverageMeterCount(averageMeters);
+      // setNormalMeterCount(normalMeters);
+      // setFaultyMeterCount(faultyMeters);
+      // setAverageMeterCount(averageMeters);
       setBillPaid(paid)
       setBillUnPaid(unpaid)
     }
   }, [bills]);
+
+
+
+  useEffect(() => {
+    if (!loading && bills.length > 0 && user) {
+      const counts = { FAULTY: 0, NORMAL: 0, AVERAGE: 0 };
+      
+      const wardCounts = bills.reduce((acc, bill) => {
+        if (bill.monthAndYear === currentMonthYear && 
+            (user.role !== "Junior Engineer" || user.ward === bill.ward)) {  // ✅ Junior Engineer restriction
+          counts[bill.meterStatus] = (counts[bill.meterStatus] || 0) + 1;
+
+          acc[bill.ward] = (acc[bill.ward] || 0) + (bill.meterStatus === "FAULTY" ? 1 : 0);
+        }
+        return acc;
+      }, {});
+
+      // Ensure all wards have a count (even if zero)
+      const finalWardCounts = allWards.reduce((acc, ward) => {
+        acc[ward] = wardCounts[ward] || 0;
+        return acc;
+      }, {});
+
+      setFaultyMeterCount(counts.FAULTY);
+      setNormalMeterCount(counts.NORMAL);
+      setAverageMeterCount(counts.AVERAGE);
+      setWardFaultyCounts(finalWardCounts);
+      setTotalFaultyMeters(counts.FAULTY);
+    }
+}, [bills, loading, user]);
+
 
   useEffect(() => {
     setCBillAmount(bills?.currentBillAmount)
