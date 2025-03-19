@@ -231,11 +231,11 @@ const handleFileChange = (event) => {
   }));
 const columns = () => [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
+    { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 200 },
     { field: 'consumerAddress', headerName: 'CONSUMER ADDRESS', width: 130 },
     { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 130 },
-   { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
+   { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 200 },
    { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
   ];
   const getPadding = () => {
@@ -351,12 +351,13 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
 
 
 
-        <Box sx={{display:'flex',width:'100%',border:'1px solid red'}}>
-        <Box sx={{width:{lg:'20%',xl:'20%',md:'80%',sm:'80%',xs:'100%'},mb:2}}>
+        <Box sx={{display:'flex',flexDirection:{
+            xl:'row',lg:'row',md:'row',sm:'column',xs:'column'
+        },justifyContent:{md:'space-between',lg:'flex-start'}
+        }}>
+        <Box sx={{width:{lg:'20%',xl:'20%',md:'30%',sm:'100%',xs:'100%'},mb:{sm:1,xs:1}}}>
         <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
         </Box>
-
-
 
     {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
                       <FormControl
@@ -369,7 +370,7 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                         width: {
                           xl:isSidebarOpen ? '12%' : '10%',
                           lg:isSidebarOpen ? '15%' : '15%',
-                          md: '45%',
+                          md: '30%',
                           sm: '100%',
                           xs: '100%',
                         },
@@ -404,14 +405,11 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                       </Select>
                     </FormControl>
                     )}
-                
-       
-
 
      <Button
               sx={{
-                color: '#23CCEF',
-                border: '0.1px solid #23CCEF',
+                color: '#757575',
+                border: '0.1px solid #757575',
                 cursor: 'pointer',
                 textTransform: 'none',
                 display: 'flex',
@@ -420,10 +418,16 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                 width: {
                   xl:isSidebarOpen ? '12%' : '10%',
                   lg:isSidebarOpen ? '15%' : '15%',
-                  md: '45%',
+                  md: '30%',
                   sm: '100%',
                   xs: '100%',
                 },
+                ml:{
+                    xl:1,
+                    lg:1,
+                    md:0,
+                    sm:0
+                  },
                 height: '65%',
                 
               }}
@@ -433,7 +437,8 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
               <Typography sx={{
                 fontSize: isSidebarOpen ? '12.2px' : '14px'
               }}>Download PDF</Typography>
-            </Button></Box>
+            </Button>
+            </Box>
 
      
 
