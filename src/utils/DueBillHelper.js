@@ -7,7 +7,7 @@ export const upComingDueBills = (bills, user) => {
       dueDate.setHours(0, 0, 0, 0);
   
       const twoDaysBeforeDue = new Date(dueDate);
-      twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+      twoDaysBeforeDue.setDate(dueDate.getDate() - 5);
   
       const isWithinRange = today >= twoDaysBeforeDue && today <= dueDate;
       const isUnpaid = bill.paymentStatus === 'unpaid';

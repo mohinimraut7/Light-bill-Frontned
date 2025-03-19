@@ -28,6 +28,7 @@ import ConsumerComponent from './pages/ConsumerComponents';
 import Formonetwentynew from './pages/Formonetwentynew';
 import BillingAnomaly from './pages/BillingAnomaly';
 import { upComingDueBills } from './utils/DueBillHelper';
+import RegionalEnergyExpenditure from './pages/RegionalEnergyExpenditure';
 
 
 const App = () => {
@@ -203,7 +204,9 @@ const dueAlertCount = dueAlertrows.length;
             <Route path='/billinganomaly' element={<BillingAnomaly/>}/>
             <Route path='/paidbills' element={<PaidBills/>}/>
             <Route path='/partialpaidbills' element={<PartialPaidBills/>}/>
+            <Route path='/regionalenergyexpenditure' element={<RegionalEnergyExpenditure/>}>Regional Energy Expenditure</Route>
             <Route path="/logout" element={<Button sx={{ color: '#0d2136' }} onClick={handleLogout}>Logout</Button>} />
+           
           </>
         ) : (
           <>

@@ -268,21 +268,24 @@ const dueAlertCount = dueAlertrows.length;
   //   return today >= twoDaysBeforeDue && today <= dueDate && bill.paymentStatus === 'unpaid';
   // })
   
-  const rows = combinedData
-  .filter(bill => {
-    const dueDate = new Date(bill.dueDate);
-    dueDate.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
+  // const rows = combinedData
+  // .filter(bill => {
+  //   const dueDate = new Date(bill.dueDate);
+  //   dueDate.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0); // Reset time for accurate date comparison
 
-    // Calculate two days before due date
-    const twoDaysBeforeDue = new Date(dueDate);
-    twoDaysBeforeDue.setDate(dueDate.getDate() - 2);
+  //   // Calculate two days before due date
+  //   const twoDaysBeforeDue = new Date(dueDate);
+  //   twoDaysBeforeDue.setDate(dueDate.getDate() - 5);
 
-    // Condition: Show bills if due date is today OR within the range (2 days before due date)
-    return (today >= twoDaysBeforeDue && today <= dueDate) && bill.paymentStatus === 'unpaid';
-  }).map((bill, index) => ({
+  //   // Condition: Show bills if due date is today OR within the range (2 days before due date)
+  //   return (today >= twoDaysBeforeDue && today <= dueDate) && bill.paymentStatus === 'unpaid';
+  // })
+  
+  const rows = upComingDueBills(bills, user)
+  .map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
     consumerNumber:bill.consumerNumber,

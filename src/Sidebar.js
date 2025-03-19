@@ -22,11 +22,11 @@ import Person from '@mui/icons-material/Person';
 import PaymentIcon from '@mui/icons-material/Payment';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+
 import VerifiedIcon from '@mui/icons-material/Verified';
 import UpcomingIcon from '@mui/icons-material/Upcoming';
 import ReportIcon from '@mui/icons-material/Report';
-import ElectricMeterIcon from '@mui/icons-material/ElectricMeter';
+
 import Badge from '@mui/material/Badge';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -810,6 +810,28 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     <ReportIcon />
                   </ListItemIcon>
                   <ListItemText primary="Billing Anomaly" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/regionalenergyexpenditure")}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    // px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 0.2 : 'auto',
+                      justifyContent: 'center',
+                      color: '#fff'
+                    }}
+                  >
+                    <ReportIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Energy Expenditure" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
                 </ListItemButton>
               </ListItem>
               
