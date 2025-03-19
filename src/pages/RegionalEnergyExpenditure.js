@@ -407,7 +407,8 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                 
        
 
-<Box sx={{width:{lg:'20%',xl:'20%',md:'80%',sm:'80%',xs:'100%'}}}>  <Button
+
+     <Button
               sx={{
                 color: '#23CCEF',
                 border: '0.1px solid #23CCEF',
@@ -434,7 +435,7 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
               }}>Download PDF</Typography>
             </Button></Box>
 
-        </Box>
+     
 
        
 
