@@ -303,6 +303,9 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
     <div style={gridStyle}>
 
       <Box sx={innerDivStyle}>
+
+
+        
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', mb: 2,flexDirection:{
           lg:'row',
           md:'row',
@@ -325,7 +328,7 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
           },
           
            }} className="title-2">
-            Regional Energy Expenditure
+            Energy Expenditure
           </Typography>
           <Box sx={{ display: 'flex', width: '250px', justifyContent: {
             xs:'space-around',
@@ -344,11 +347,18 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
 
           </Box>
         </Box>
+
+
+
+
+        <Box sx={{display:'flex',width:'100%',border:'1px solid red'}}>
         <Box sx={{width:{lg:'20%',xl:'20%',md:'80%',sm:'80%',xs:'100%'},mb:2}}>
         <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
         </Box>
 
-        {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+
+
+    {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
                       <FormControl
                       fullWidth
                       size="small"
@@ -394,8 +404,10 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                       </Select>
                     </FormControl>
                     )}
+                
+       
 
-<Box>  <Button
+<Box sx={{width:{lg:'20%',xl:'20%',md:'80%',sm:'80%',xs:'100%'}}}>  <Button
               sx={{
                 color: '#23CCEF',
                 border: '0.1px solid #23CCEF',
@@ -421,6 +433,17 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                 fontSize: isSidebarOpen ? '12.2px' : '14px'
               }}>Download PDF</Typography>
             </Button></Box>
+
+        </Box>
+
+       
+
+
+
+
+
+
+
 
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
