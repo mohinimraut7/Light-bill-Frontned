@@ -7,6 +7,7 @@ import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
 import BillDatePicker from '../components/BillDatePicker';
 import wardDataAtoI from '../data/warddataAtoI';
+import meterPurposeData from '../data/meterpurpose';
 import dayjs from "dayjs";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -18,9 +19,16 @@ import { styled } from '@mui/material/styles';
 import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
+import { baseUrl } from '../config/config';
+import axios from 'axios';
+
 const RegionalEnergyExpenditure = () => {
   const dispatch = useDispatch();
-  const { bills, loading, error } = useSelector((state) => state.bills);
+  // const { bills, loading, error } = useSelector((state) => state.bills);
+  const [bills, setBills] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const [billOpen, setBillOpen] = useState(false);
@@ -40,13 +48,32 @@ const RegionalEnergyExpenditure = () => {
   const [paidBefore, setPaidBefore] = useState(0);
   const [paidAfter, setPaidAfter] = useState(0);
   const [wardName, setWardName] = useState('');
+  const [meterPurposeName, setMeterPurposeName] = useState('');
   const user = useSelector(state => state.auth.user);
   const [data, setData] = useState([]);
   const [selectedMonthYear, setSelectedMonthYear] = useState("");
- 
+
+  // useEffect(() => {
+  //   dispatch(fetchBills());
+  // }, [dispatch, data]);
+
+
   useEffect(() => {
-    dispatch(fetchBills());
-  }, [dispatch, data]);
+    const fetchBills = async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}/getBillsWithMeterPurpose`); // Direct API call
+        setBills(data);
+      } catch (err) {
+        console.error("Error fetching bills:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchBills();
+  }, [data]); // Dependency
+  
 
  const getFilteredBills = () => {
     if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') {
@@ -213,12 +240,16 @@ const handleFileChange = (event) => {
     setWardName(event.target.value);
   };
   
- 
+  const handleChangMeterPurpose = (event) => {
+    setMeterPurposeName(event.target.value);
+  };
+  
  
   const rows = filteredBills
   .filter((bill) => 
     (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
-    (!wardName || bill.ward === wardName)
+    (!wardName || bill.ward === wardName) &&
+    (!meterPurposeName || bill.meterPurpose === meterPurposeName)
   ).map((bill, index) => ({
     _id: bill._id,
     id: index + 1,
@@ -226,6 +257,7 @@ const handleFileChange = (event) => {
     consumerAddress:bill.consumerAddress,
     ward: bill?.ward,
     monthAndYear: bill?.monthAndYear,
+    meterPurpose: bill?.meterPurpose,
     netBillAmount: bill.netBillAmount,
     dueDate: formatDate(bill.dueDate),
   }));
@@ -234,6 +266,7 @@ const columns = () => [
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 200 },
     { field: 'consumerAddress', headerName: 'CONSUMER ADDRESS', width: 130 },
     { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
+    { field: 'meterPurpose', headerName: 'METER P', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 130 },
    { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 200 },
    { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
@@ -405,6 +438,55 @@ console.log("formattedValue>>>>",formattedValue); // "FEB-2025"
                       </Select>
                     </FormControl>
                     )}
+
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+                      <FormControl
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      sx={{
+                        
+                    
+                        width: {
+                          xl:isSidebarOpen ? '12%' : '10%',
+                          lg:isSidebarOpen ? '15%' : '15%',
+                          md: '30%',
+                          sm: '100%',
+                          xs: '100%',
+                        },
+                        mt: { sm: 1,md:0,lg:0,xl:0 }, 
+                        mb: { xs:1,sm: 1,lg:0,xl:0 }, 
+                        ml:{
+                          xl:1,
+                          lg:1,
+                          md:0,
+                          sm:0
+                        }
+                      }}
+                    >
+                      <InputLabel id="ward-label">Search Meter Purpose</InputLabel>
+                      <Select
+                        labelId="ward-label"
+                        id="meterPurpose"
+                        name="meterPurpose"
+                        value={meterPurposeName}
+                        onChange={handleChangMeterPurpose}
+                        label="Search Meter Purpose"
+                      >
+                        {meterPurposeData.length > 0 ? (
+                          meterPurposeData.map((meterdata, index) => (
+                            <MenuItem key={index} value={meterdata.purpose}>
+                              {meterdata.purpose}
+                            </MenuItem>
+                          ))
+                        ) : (
+                          <MenuItem disabled>No Meter Purpose Available</MenuItem>
+                        )}
+                      </Select>
+                    </FormControl>
+                    )}
+
 
      <Button
               sx={{
