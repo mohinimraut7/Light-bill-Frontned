@@ -33,5 +33,4 @@ const meterstatus = [
     {"purpose":" Ground"},
     {"purpose":"Anganwadi"}
     ];
-
 export default meterstatus;
