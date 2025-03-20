@@ -700,9 +700,25 @@ const RegionalEnergyExpenditure = () => {
   const handleDownloadPDF = () => {
     const doc = new jsPDF('landscape');
     
-    doc.setFontSize(16);
-    doc.text("Energy Expenditure Report", 140, 20);
-
+    // doc.setFontSize(16);
+    // doc.text("Energy Expenditure Report", 140, 20, { align: "center" });
+  
+    // Ensure rows array is not empty before accessing its values
+    const meterPurpose = rows.length > 0 ? rows[0].meterPurpose : "N/A";
+    const ward = rows.length > 0 ? rows[0].ward : "N/A";
+    const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+  
+    doc.setFontSize(14);
+    const lineHeight = 10; // Space between lines
+    let yPosition = 20; // Initial Y position
+  
+    doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
+    yPosition += lineHeight; // Move down
+    doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
+    yPosition += lineHeight; // Move down
+    doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
+  
+  
     const tableData = rows.map(row => [
       row.consumerNumber,
       row.consumerAddress,
@@ -716,7 +732,7 @@ const RegionalEnergyExpenditure = () => {
     doc.autoTable({
       head: [['Consumer No.', 'Address', 'Month', 'Ward', 'Meter Purpose', 'Amount', 'Due Date']],
       body: tableData,
-      startY: 30,
+      startY: 50,
     });
 
     doc.save('energy-expenditure-report.pdf');
@@ -947,8 +963,8 @@ const RegionalEnergyExpenditure = () => {
                 variant="outlined"
                 sx={{
                   width: {
-                    xl: isSidebarOpen ? '12%' : '10%',
-                    lg: isSidebarOpen ? '15%' : '15%',
+                    xl: isSidebarOpen ? '20%' : '20%',
+                    lg: isSidebarOpen ? '17%' : '17%',
                     md: '30%',
                     sm: '100%',
                     xs: '100%',
