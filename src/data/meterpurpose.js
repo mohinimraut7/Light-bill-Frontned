@@ -12,6 +12,8 @@ const meterstatus = [
     { "purpose": 'Market' },
     { "purpose": 'Lake/Pond' },
     { "purpose": 'Garden' },
+    {"purpose":"UDHYAN BILL"},
+    { "purpose": 'Udyan'},
     { "purpose": 'Samshanbhumi' },
     { "purpose": 'Dafanbhumi' },
     { "purpose": 'Kabrastan' },
@@ -25,12 +27,13 @@ const meterstatus = [
     { "purpose": 'Other'},
     {"purpose":"Samaj Mandir / Cultural Building / Theter"},
     { "purpose": 'Talav'},
-    { "purpose": 'Udyan'},
     {"purpose":"Karyalay / Office"},
     {"purpose":"KARYALAY / EMARAT [ O.M]"},
     {"purpose":"Vachnalay"},
     {"purpose":"Toilet"},
     {"purpose":" Ground"},
     {"purpose":"Anganwadi"}
+  
+    
     ];
 export default meterstatus;
