@@ -408,6 +408,14 @@ const cRMonth = crDateObj.getMonth();
       });
     
     }
+
+
+
+    const toCapitalized = (text) => {
+      return text
+        ?.toLowerCase()
+        .replace(/\b\w/g, (match) => match.toUpperCase());
+    };
     
   const rows = 
     filteredData.map((bill, index) => ({
@@ -442,7 +450,8 @@ const cRMonth = crDateObj.getMonth();
     roundedBillAmount: bill.roundedBillAmount,
     billingUnit:bill.billingUnit,
     ward: bill?.ward,
-    paymentStatus: bill?.paymentStatus || '-',
+    // paymentStatus: bill?.paymentStatus || '-',
+    paymentStatus: bill?.paymentStatus ? toCapitalized(bill.paymentStatus) : '-',
     approvedStatus: bill?.approvedStatus || 'PendingForJuniorEngineer',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     promptPaymentDate:bill.promptPaymentDate,
@@ -452,6 +461,10 @@ const cRMonth = crDateObj.getMonth();
     phaseType:bill?.phaseType||'-',
     receiptNoBillPayment:bill.receiptNoBillPayment||'-',
     lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
+    billPaymentDate:bill.billPaymentDate||'-',
+    paidAmount:bill.paidAmount||'-',
+
+
     // remark:bill.remark,
     }));
   const handleApproveClick = (bill, yesno) => {
@@ -721,8 +734,10 @@ return(
     { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
     { field: 'netBillAmountWithDPC', headerName: 'NET BILL AMOUNT WITH DPC', width: 130 },
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
-    { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
-    { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 }, 
+    { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 180 },
+    { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 180 }, 
+    { field: 'billPaymentDate', headerName: 'BILL PAYMENT DATE', width: 165 }, 
+    { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 }, 
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
     // { field: 'remark', headerName: 'REMARK', width: 130 },
       ...(!user?.role === 'Junior Engineer'

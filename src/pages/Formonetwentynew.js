@@ -343,7 +343,9 @@ const rows = filteredData.map((bill, index) => ({
       dueDate:bill.dueDate,
       netBillAmountWithDPC: bill.netBillAmountWithDPC||'-',
       phaseType:bill?.phaseType||'-',
-      lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
+      // lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
+      billPaymentDate: bill.billPaymentDate||'-',
+      paidAmount:bill.paidAmount||'-',
       forwardForGeneration: bill.forwardForGeneration,
       juniorEngineerContactNumber: bill.juniorEngineerContactNumber
     }));
@@ -416,7 +418,10 @@ const rows = filteredData.map((bill, index) => ({
     { field: 'phaseType', headerName: 'फेज प्रकार', width: 130 },
     { field: 'tariffDescription', headerName: 'टॅरिफ डिस्क्रिप्शन', width: 130 },
     { field: 'receiptNoBillPayment', headerName: 'पावती क्रमांक ', width: 130 },
-    { field: 'lastReceiptDate', headerName: 'बिल भरणा तारीख', width: 130 },
+    // { field: 'lastReceiptDate', headerName: 'बिल भरणा तारीख', width: 130 },
+    { field: 'billPaymentDate', headerName: 'बिल भरणा तारीख', width: 130 },
+    { field: 'paidAmount', headerName: 'भरणा रक्कम', width: 130 },
+
     {
       field: 'actions',
       headerName: 'Actions',
