@@ -7,9 +7,8 @@ import rolesdata from '../../data/rolesdata';
 import rolesupervisors from '../../data/rolesupervisors';
 import wardData from '../../data/warddata';
 import './AddUser.css';
-import SignaturePad from '../SignaturePad';
 // import SignaturePad from '../SignaturePad';
-import SignatureUpload from '../SignatureUpload';
+// import SignatureUpload from '../SignatureUpload';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
