@@ -45,3 +45,5 @@ Marathi text library =>
 npm install i18next react-i18next i18next-http-backend i18next-browser-languagedetector --force
 --------------------------------
 npm install pdfmake
+======================
+ npm install react-cropper react-signature-canvas
