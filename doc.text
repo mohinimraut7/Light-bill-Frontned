@@ -46,4 +46,6 @@ npm install i18next react-i18next i18next-http-backend i18next-browser-languaged
 --------------------------------
 npm install pdfmake
 ======================
- npm install react-cropper react-signature-canvas
+ npm install react-cropper react-signature-canvas --force
+
+ npm install perfect-freehand

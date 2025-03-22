@@ -49,8 +49,8 @@ const SignatureUpload = ({ setSignature, initialSignature = null }) => {
     const handleCrop = () => {
         if (cropperRef.current) {
             const croppedCanvas = cropperRef.current.getCroppedCanvas({
-                width: 600,
-                height: 200,
+                width: 300,
+                height: 100,
                 fillColor: '#fff'
             });
             

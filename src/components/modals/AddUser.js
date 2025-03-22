@@ -7,8 +7,8 @@ import rolesdata from '../../data/rolesdata';
 import rolesupervisors from '../../data/rolesupervisors';
 import wardData from '../../data/warddata';
 import './AddUser.css';
-// import SignaturePad from '../SignaturePad';
-// import SignatureUpload from '../SignatureUpload';
+import SignaturePad from '../SignaturePad';
+import SignatureUpload from '../SignatureUpload';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -34,7 +34,7 @@ const validationSchema = Yup.object().shape({
   ];
 const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
         const [showPassword, setShowPassword] = useState(false);
-        // const [signatureMethod, setSignatureMethod] = useState('draw'); // 'draw' or 'upload'
+        const [signatureMethod, setSignatureMethod] = useState('draw'); // 'draw' or 'upload'
     const formik = useFormik({
         initialValues: {
           username: currentUser ? currentUser.username : '',
@@ -67,6 +67,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
     const handleSignatureChange = (signatureData) => {
         formik.setFieldValue('signature', signatureData);
     };
+    
     return (
         <Modal open={open} onClose={handleClose}>   
             <Box
@@ -76,7 +77,8 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 400,
+                    // width: 400,
+                    width: {xl:'40%',lg:'40%',md:'60%'},
                     bgcolor: 'background.paper',
                     boxShadow: 24,
                     borderRadius:'5px',
@@ -382,7 +384,54 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
                         )}
                     </Box> */}
 
+<Box sx={{ mt: 3, mb: 2 }}>
+      <Typography variant="subtitle1" gutterBottom>
+        Signature
+      </Typography>
+      <Box sx={{ mb: 2 }}>
+        <Button
+          variant={signatureMethod === 'draw' ? 'contained' : 'outlined'}
+          onClick={() => setSignatureMethod('draw')}
+          sx={{ mr: 1 }}
+        >
+          Draw Signature
+        </Button>
+        <Button
+          variant={signatureMethod === 'upload' ? 'contained' : 'outlined'}
+          onClick={() => setSignatureMethod('upload')}
+        >
+          Upload Signature
+        </Button>
+      </Box>
 
+      {signatureMethod === 'draw' ? (
+        <SignaturePad 
+          setSignature={handleSignatureChange}
+          initialSignature={formik.values.signature}
+        />
+      ) : (
+        <SignatureUpload setSignature={handleSignatureChange} />
+      )}
+
+      {formik.touched.signature && formik.errors.signature && (
+        <Typography color="error" variant="caption">
+          {formik.errors.signature}
+        </Typography>
+      )}
+
+      {formik.values.signature && (
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="subtitle2" gutterBottom>
+            Preview:
+          </Typography>
+          <img
+            src={formik.values.signature}
+            alt="Signature Preview"
+            style={{ maxWidth: '100%', maxHeight: '100px' }}
+          />
+        </Box>
+      )}
+    </Box>
                    
                      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center'}}>
                         <Button
