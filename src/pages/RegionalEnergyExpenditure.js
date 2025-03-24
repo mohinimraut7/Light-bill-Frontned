@@ -31,6 +31,8 @@ import axios from 'axios';
 import 'jspdf-autotable';
 
 
+// import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
 
 
 
@@ -39,6 +41,16 @@ import 'jspdf-autotable';
 
 
 import { fetchConsumers } from '../store/actions/consumerActions';
+
+
+
+
+// if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
+//   pdfMake?.vfs = pdfFonts?.pdfMake?.vfs;
+// } else {
+//   console.error("PDFMake Fonts not loaded properly!");
+// }
+
 
 const rowColors = ['#F7F9FB', 'white'];
 
@@ -511,6 +523,95 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
     console.error('Error generating Mudrank PDF:', error);
   }
 };
+
+
+
+
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+// const handleMudrank = () => {
+//   try {
+//     const totalAmount = rows
+//       .filter(row => row.monthAndYear === selectedMonthYear)
+//       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
+
+//     // Marathi format मध्ये रक्कम
+//     const totalAmountFormatted = totalAmount.toLocaleString('hi-IN');
+//     const totalAmountInWords = `${totalAmount}`; // इथे तुमच्या संख्येचे अक्षरी रूपांतर द्या
+
+//     const wardname = [...new Set(
+//       rows.filter(row => row.ward === wardName).map(row => row.ward)
+//     )].join(', ');
+
+//     const documentDefinition = {
+//       content: [
+//         { text: "मा. आयुक्त यांच्याकडे मंजुरीसाठी सादर", style: "header" },
+//         { text: "मी मागणीची तपासणी केली असून ती सर्व बाबतीत अचूक आहे.", style: "content" },
+//         { text: "दिनांक: ____________________", style: "content" },
+//         { text: "\n", style: "spacer" },
+//         { text: "प्र.लेखापाल                           सहा.आयुक्त", style: "signature" },
+//         { text: `प्रभाग समिती-${wardname}`, style: "content" },
+//         { text: "-------------------------------------------------------------", style: "divider" },
+//         { text: `प्रभाग समिती रु. ${totalAmountFormatted}/-`, style: "content" },
+//         { text: `(अक्षरी: ${totalAmountInWords} रुपये देण्यात यावेत)`, style: "content" },
+//         { text: "दिनांक: _______                        उपायुक्त", style: "content" },
+//         { text: "--------------------------------------------------------------", style: "divider" },
+//         { text: `प्रभाग समिती रु. ${totalAmountFormatted}/-`, style: "content" },
+//         { text: `(अक्षरी: ${totalAmountInWords} रुपये मिळाले)`, style: "content" },
+//         { text: "                                मुद्रांक", style: "signature" },
+//         { text: "                                ----------------------", style: "signature" },
+//         { text: "                                पैसे घेणाऱ्याची सही", style: "signature" },
+//         { text: "\n", style: "spacer" },
+
+//         // उजव्या बाजूचे घटक
+//         { text: "निर्णय क्रमांक: ____________________", style: "content" },
+//         { text: `बिलांत दाखवलेली रु. ${totalAmountFormatted}/- ची रक्कम`, style: "content" },
+//         { text: `(अक्षरी रुपये ${totalAmountInWords} मात्र)`, style: "content" },
+//         { text: "मंजूर करण्यात येत आहे.", style: "content" },
+//         { text: "मुख्य लेखाधिकारी ----------------------", style: "signature" },
+//         { text: "दिनांक                          उप-आयुक्त", style: "signature" },
+//         { text: "वसई-विरार शहर महानगरपालिका", style: "signature" },
+//         { text: "\n", style: "spacer" },
+//         { text: "धनादेश क्रमांक ----------  दिनांक  ------------", style: "content" },
+//         { text: "प्रस्तावित रोख वहित नोंद घेतली", style: "content" },
+//         { text: "----------------------                  ---------------------------------", style: "signature" },
+//         { text: "रोखपाल                          उप-आयुक्त", style: "signature" },
+//         { text: "वसई-विरार शहर महानगरपालिका", style: "signature" },
+//       ],
+//       styles: {
+//         header: {
+//           fontSize: 14,
+//           bold: true,
+//           alignment: "left",
+//         },
+//         content: {
+//           fontSize: 12,
+//           margin: [0, 5, 0, 5],
+//         },
+//         signature: {
+//           fontSize: 12,
+//           alignment: "right",
+//           margin: [0, 10, 0, 0],
+//         },
+//         divider: {
+//           fontSize: 12,
+//           alignment: "center",
+//           margin: [0, 10, 0, 10],
+//         },
+//         spacer: {
+//           margin: [0, 10, 0, 10],
+//         },
+//       },
+//     };
+
+//     pdfMake.createPdf(documentDefinition).download("mudrank-report.pdf");
+//   } catch (error) {
+//     console.error("Error generating Mudrank PDF:", error);
+//   }
+// };
+
+
+
 
 
 const convertNumberToMarathiWords = (num) => {
