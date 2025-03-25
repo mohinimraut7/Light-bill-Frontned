@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills, addBill,deleteBill, editBill } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box,Modal,Button,TextField,MenuItem, Select, InputLabel, FormControl} from '@mui/material';
+import { Typography, Box,Modal,Button,TextField,MenuItem, Select, InputLabel, FormControl,Checkbox} from '@mui/material';
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
 import AddForm22 from '../components/modals/Form22modal';
@@ -1013,6 +1013,48 @@ const numberToMarathiWords = (num) => {
               </FormControl>
             </>
           )}
+
+{/* <FormControl
+  fullWidth
+  size="small"
+  variant="outlined"
+  sx={{
+    width: {
+      xl: isSidebarOpen ? '20%' : '20%',
+      lg: isSidebarOpen ? '17%' : '17%',
+      md: '30%',
+      sm: '100%',
+      xs: '100%',
+    },
+    mt: { sm: 1, md: 0, lg: 0, xl: 0 },
+    mb: { xs: 1, sm: 1, lg: 0, xl: 0 },
+    ml: {
+      xl: 1,
+      lg: 1,
+      md: 0,
+      sm: 0
+    }
+  }}
+>
+  <InputLabel id="meter-purpose-label">Search Meter Purpose</InputLabel>
+  <Select
+    labelId="meter-purpose-label"
+    id="meterPurpose"
+    name="meterPurpose"
+    multiple  // ✅ Multiple selection enabled
+    value={meterPurposeName || []} 
+    onChange={handleChangeMeterPurpose}
+    renderValue={(selected) => selected.join(', ')} // ✅ Show selected values as comma separated
+  >
+    {meterPurposeData.map((meterdata, index) => (
+      <MenuItem key={index} value={meterdata.purpose}>
+        <Checkbox checked={meterPurposeName.includes(meterdata.purpose)} />
+        {meterdata.purpose}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl> */}
+
 
           <Button
             sx={{
