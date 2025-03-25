@@ -89,6 +89,7 @@ const RegionalEnergyExpenditure = () => {
 
   const [wardName, setWardName] = useState('');
   const [meterPurposeName, setMeterPurposeName] = useState('');
+  const [meterPurposeManyName, setMeterPurposeManyName] = useState('');
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const [data, setData] = useState([]);
   const [showFormControl, setShowFormControl] = useState(false);
@@ -138,7 +139,7 @@ const RegionalEnergyExpenditure = () => {
 
   const handleChangeMeterPurpose = (event) => setMeterPurposeName(event.target.value);
 
-  const handleChangeManyMeterPurpose = (event) => setMeterPurposeName(event.target.value);
+  const handleChangeManyMeterPurpose = (event) => setMeterPurposeManyName(event.target.value);
 
  
   const handleDateChange = (value) => {
@@ -542,11 +543,14 @@ try {
   doc.setFont("NotoSerifDevanagari");
 
 
+  // const totalAmount = rows
+  // .filter(row => row.monthAndYear === selectedMonthYear && row.ward === wardName && row.meterPurpose === meterPurposeName)
+  // .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
+
   const totalAmount = rows
-  .filter(row => row.monthAndYear === selectedMonthYear && row.ward === wardName && row.meterPurpose === meterPurposeName)
+  .filter(row => row.monthAndYear === selectedMonthYear)
+
   .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
-
-
   const totalAmountInWords = numberToMarathiWords(totalAmount);
 
   const pageWidth = doc.internal.pageSize.width;
@@ -780,6 +784,8 @@ const numberToMarathiWords = (num) => {
         (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
         (!wardName || bill.ward === wardName) &&
         (!meterPurposeName || bill.meterPurpose === meterPurposeName)
+        &&
+        (!meterPurposeManyName.length || meterPurposeManyName.includes(bill.meterPurpose))
       )
       .map((bill, index) => ({
         _id: bill._id,
@@ -1019,7 +1025,7 @@ const numberToMarathiWords = (num) => {
               </FormControl>
 
 
-              <FormControl
+            <FormControl
   fullWidth
   size="small"
   variant="outlined"
@@ -1047,18 +1053,18 @@ const numberToMarathiWords = (num) => {
     id="meterPurpose"
     name="meterPurpose"
     multiple  // ✅ Multiple selection enabled
-    value={meterPurposeName || []} 
+    value={meterPurposeManyName || []} 
     onChange={handleChangeManyMeterPurpose}
     renderValue={(selected) => selected.join(', ')} // ✅ Show selected values as comma separated
   >
     {meterPurposeData.map((meterdata, index) => (
       <MenuItem key={index} value={meterdata.purpose}>
-        <Checkbox checked={meterPurposeName.includes(meterdata.purpose)} />
+        <Checkbox checked={meterPurposeManyName.includes(meterdata.purpose)} />
         {meterdata.purpose}
       </MenuItem>
     ))}
   </Select>
-</FormControl> 
+</FormControl>  
 
             </>
           )}
