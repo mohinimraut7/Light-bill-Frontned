@@ -91,6 +91,7 @@ const RegionalEnergyExpenditure = () => {
   const [meterPurposeName, setMeterPurposeName] = useState('');
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const [data, setData] = useState([]);
+  const [showFormControl, setShowFormControl] = useState(false);
 
   useEffect(() => {
     dispatch(fetchBills());
@@ -134,8 +135,12 @@ const RegionalEnergyExpenditure = () => {
   };
 
   const handleChangeWard = (event) => setWardName(event.target.value);
+
   const handleChangeMeterPurpose = (event) => setMeterPurposeName(event.target.value);
-  
+
+  const handleChangeManyMeterPurpose = (event) => setMeterPurposeName(event.target.value);
+
+ 
   const handleDateChange = (value) => {
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
     setSelectedMonthYear(formattedValue);
@@ -527,6 +532,7 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
 
 
 const downloadKaryalayinTipani = () => {
+  setShowFormControl(true); 
 try {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
@@ -995,7 +1001,7 @@ const numberToMarathiWords = (num) => {
                   }
                 }}
               >
-                <InputLabel id="meter-purpose-label">Search Meter Purpose</InputLabel>
+                <InputLabel id="meter-purpose-label">Single Meter Purpose</InputLabel>
                 <Select
                   labelId="meter-purpose-label"
                   id="meterPurpose"
@@ -1011,10 +1017,9 @@ const numberToMarathiWords = (num) => {
                   ))}
                 </Select>
               </FormControl>
-            </>
-          )}
 
-{/* <FormControl
+
+              <FormControl
   fullWidth
   size="small"
   variant="outlined"
@@ -1036,14 +1041,14 @@ const numberToMarathiWords = (num) => {
     }
   }}
 >
-  <InputLabel id="meter-purpose-label">Search Meter Purpose</InputLabel>
+  <InputLabel id="meter-purpose-label">Multiple Meter Purpose</InputLabel>
   <Select
     labelId="meter-purpose-label"
     id="meterPurpose"
     name="meterPurpose"
     multiple  // ✅ Multiple selection enabled
     value={meterPurposeName || []} 
-    onChange={handleChangeMeterPurpose}
+    onChange={handleChangeManyMeterPurpose}
     renderValue={(selected) => selected.join(', ')} // ✅ Show selected values as comma separated
   >
     {meterPurposeData.map((meterdata, index) => (
@@ -1053,7 +1058,13 @@ const numberToMarathiWords = (num) => {
       </MenuItem>
     ))}
   </Select>
-</FormControl> */}
+</FormControl> 
+
+            </>
+          )}
+
+
+
 
 
           <Button
