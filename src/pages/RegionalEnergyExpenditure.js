@@ -407,11 +407,6 @@ const RegionalEnergyExpenditure = () => {
 };
 
 
-
-  const handleAddFormTtOpen = () => {
-    setAddFormTtOpen(true)
-}
-
 const handleMudrank = () => {
   try {
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -530,6 +525,13 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
   }
 };
 
+
+
+
+
+const handleAddFormTtOpen = () => {
+  setAddFormTtOpen(true)
+}
 
 
 const downloadKaryalayinTipani = () => {
@@ -1025,7 +1027,7 @@ const numberToMarathiWords = (num) => {
               </FormControl>
 
 
-            <FormControl
+ <FormControl
   fullWidth
   size="small"
   variant="outlined"
@@ -1079,8 +1081,8 @@ const numberToMarathiWords = (num) => {
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              display: 'flex',
-              justifyContent: 'space-between',
+              // display: 'flex',
+              // justifyContent: 'space-between',
               width: {
                 xl: isSidebarOpen ? '12%' : '10%',
                 lg: isSidebarOpen ? '15%' : '15%',
@@ -1138,14 +1140,18 @@ const numberToMarathiWords = (num) => {
             </Typography>
           </Button> */}
 
-           <Button
+         
+        </Box>
+
+        <Box sx={{display:'flex'}}>
+        <Button
             sx={{
               color: '#757575',
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              display: 'flex',
-              justifyContent: 'space-between',
+              // display: 'flex',
+              // justifyContent: 'space-between',
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
                 lg: isSidebarOpen ? '17%' : '17%',
@@ -1176,8 +1182,8 @@ const numberToMarathiWords = (num) => {
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              display: 'flex',
-              justifyContent: 'space-between',
+              // display: 'flex',
+              // justifyContent: 'space-between',
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
                 lg: isSidebarOpen ? '17%' : '17%',
@@ -1202,20 +1208,17 @@ const numberToMarathiWords = (num) => {
               Genrate Mudrank
             </Typography>
           </Button>
-        </Box>
-
-        <Box>
         <Button
             sx={{
               color: '#757575',
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              display: 'flex',
-              justifyContent: 'space-between',
+              // display: 'flex',
+              // justifyContent: 'space-between',
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
-                lg: isSidebarOpen ? '17%' : '17%',
+                lg: isSidebarOpen ? '20%' : '20%',
                 md: '30%',
                 sm: '100%',
                 xs: '100%',
