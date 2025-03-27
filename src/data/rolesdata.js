@@ -5,8 +5,8 @@ const rolesdata = [
     {"rolename":"Executive Engineer"},
     {"rolename":"Lipik"},
     {"rolename":"Accountant"},
-    {"rolename":"A.M.C."},
-    {"rolename":"D.M.C."},
+    {"rolename":"Assistant Municipal Commissioner"},
+    {"rolename":"Dy.Municipal Commissioner"},
     // {"rolename":"User"},
     // {"rolename":"None"}
     ];
