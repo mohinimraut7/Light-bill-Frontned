@@ -9,7 +9,7 @@ const wardData = [
     { "ward": 'Ward-G',"wardid":8 },
     { "ward": 'Ward-H',"wardid":9 },
     { "ward": 'Ward-I',"wardid":10 },
-    { "ward": 'Head-Office',"wardid":11 },
+    { "ward": 'Head Office',"wardid":11 },
     ];
 
 export default wardData;
