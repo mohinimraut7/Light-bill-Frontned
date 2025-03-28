@@ -27,7 +27,9 @@ const ApprovedStatusRecord = () => {
   const { bills, loading, error } = useSelector((state) => state.bills);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const user = useSelector(state => state.auth.user);
-  const [billOpen, setBillOpen] = useState(false);
+  // const [billOpen, setBillOpen] = useState(false);
+  const [billRemarkOpen, setBillRemarkOpen] = useState(false);
+  
   const [addPaymentOpen, setAddPaymentOpen] = useState(false);
     const [currentBill, setCurrentBill] = useState(null);
   
@@ -89,9 +91,9 @@ const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   // } 
 
 
-  const handleAddBill = (billData) => {
+  const handleAddBillRemark = (billData) => {
       dispatch(addBill(billData));
-      handleAddBillClose();
+      handleAddBillRemarkClose();
     };
 
   if (loading) {
@@ -104,8 +106,11 @@ const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   if (error) {
     return <p>Error: {error}</p>;
   }
-  const handleAddBillOpen = () => setBillOpen(true);
-  const handleAddBillClose = () => setBillOpen(false);
+  // const handleAddBillOpen = () => setBillOpen(true);
+  const handleAddBillRemarkOpen = () => setBillRemarkOpen(true);
+  
+  // const handleAddBillClose = () => setBillOpen(false);
+  const handleAddBillRemarkClose = () => setBillRemarkOpen(false);
   const handleAddPaymentClose = () => setAddPaymentOpen(false);
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -258,15 +263,19 @@ const handleApproveClick = (bill, yesno) => {
   console.log(`Updating bill status for bill id: ${bill._id} to ${approvedStatus}`);
   dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno ));
 };
+
+
 const flagChange = (billId, flagStatus) => {
   dispatch(updateFlagStatus(billId, flagStatus));
 };
 
-const handleEditBill = (bill) => {
+const handleEditBillRemark = (bill) => {
   console.log("ahshashahshas>>>>>>>>",bill)
   setCurrentBill(bill);
-  setBillOpen(true);
+  setBillRemarkOpen(true);
 };
+
+
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
    
@@ -293,107 +302,7 @@ const columns = [
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 130 },
    
-// {
-//   field: "remarks",
-//   headerName: "REMARKS",
-//   width: 200,
-//   renderCell: (params) => {
-//     if (Array.isArray(params.value) && params.value.length > 0) {
-//       // Filter out remarks where role is 'Super Admin'
-//       const filteredRemarks = params.value.filter(remark => remark.role !== "Super Admin");
 
-//       // If all remarks were from 'Super Admin', show "No Remarks"
-//       if (filteredRemarks.length === 0) {
-//         return <Typography variant="body2" color="text.secondary">No Remarks</Typography>;
-//       }
-
-//       return (
-//         <Tooltip
-//           title={
-//             <Box
-//               sx={{
-//                 bgcolor: "white",
-//                 borderRadius: 2,
-//                 maxWidth: { xs: 300, sm: 400, md: 500, lg: 600, xl: 700 }, // Responsive width
-//               }}
-//             >
-//               {filteredRemarks.map((remark, index) => (
-//                 <Box
-//                   key={index}
-//                   sx={{
-//                     borderBottom: index !== filteredRemarks.length - 1 ? "1px solid #ddd" : "none",
-//                     pb: 1,
-//                     mb: 1,
-//                   }}
-//                 >
-//                   <Typography variant="body2" fontWeight="bold" color="text.primary">
-//                     {remark.role}
-//                   </Typography>
-//                   <Box display="flex" alignItems="center" justifyContent="space-between">
-//                     <Typography 
-//                       sx={{ 
-//                         width: { xs: '900px', lg: '100px', xl: '100px' } 
-//                       }} 
-//                       variant="body2" 
-//                       color="text.secondary"
-//                     >
-//                       {remark.remark}
-//                     </Typography>
-//                     {remark.signature && (
-//                       <Box
-//                         component="img"
-//                         src={remark.signature}
-//                         alt={`${remark.role}'s signature`}
-//                         sx={{
-//                           width: 100,
-//                           height: 50,
-//                           // objectFit: "contain",
-//                           border: "1px solid #ddd",
-//                           borderRadius: 1,
-//                         }}
-//                       />
-//                     )}
-//                   </Box>
-//                 </Box>
-//               ))}
-//             </Box>
-//           }
-//           arrow
-//           placement="top"
-//           componentsProps={{
-//             tooltip: {
-//               sx: {
-//                 bgcolor: "white",
-//                 color: "rgba(0, 0, 0, 0.87)",
-//                 boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-//                 "& .MuiTooltip-arrow": {
-//                   color: "white",
-//                 },
-//               },
-//             },
-//           }}
-//         >
-//           <Box sx={{ cursor: "pointer" }}>
-//             {filteredRemarks.map((remark, index) => (
-//               <Box key={index} sx={{ display: "flex", flexDirection: "column", mb: 1 }}>
-//                 <Typography variant="body2" fontWeight="bold">
-//                   {remark.role}
-//                 </Typography>
-//                 <Box display="flex" alignItems="center" justifyContent="space-between">
-//                   <Typography sx={{}} variant="body2" color="text.secondary">
-//                     {remark.remark}
-//                   </Typography>
-                 
-//                 </Box>
-//               </Box>
-//             ))}
-//           </Box>
-//         </Tooltip>
-//       );
-//     }
-//     return <Typography variant="body2" color="text.secondary">No Remarks</Typography>;
-//   }
-// },
 
     
         {
@@ -403,19 +312,19 @@ const columns = [
         renderCell: (params) => (
           <>  
          
-          {
-  !(
-    (user?.role === 'Executive Engineer' && params.row.approvedStatus === 'PendingForAdmin') ||
-    (user?.role === 'Admin' && params.row.approvedStatus === 'PendingForSuperAdmin')||
-    (user?.role === 'Super Admin' && params.row.approvedStatus === 'Done')
-  ) && (
-    <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row, 'Yes')}>
-      <CheckIcon />
-    </IconButton>
-  )
-}
+  {/* {
+  // !(
+  //   (user?.role === 'Executive Engineer' && params.row.approvedStatus === 'PendingForAdmin') ||
+  //   (user?.role === 'Admin' && params.row.approvedStatus === 'PendingForSuperAdmin')||
+  //   (user?.role === 'Super Admin' && params.row.approvedStatus === 'Done')
+  // ) && (
+  //   <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row, 'Yes')}>
+  //     <CheckIcon />
+  //   </IconButton>
+  // )
+} */}
 
-{
+{/* {
   !(
     (user?.role === 'Executive Engineer' && params.row.approvedStatus === 'PendingForExecutiveEngineer') ||
     (user?.role === 'Admin' && params.row.approvedStatus === 'PendingForAdmin')||
@@ -425,7 +334,7 @@ const columns = [
       <UndoIcon />
     </IconButton>
   )
-}
+} */}
 {
   (user?.role === 'Super Admin' && params.row.approvedStatus === 'Done' && params.row.paymentStatus==='Paid' && params.row.flagStatus===false)&&(
     <IconButton sx={{ color: '#23CCEF' }} onClick={()=>flagChange(params.row._id,true)}>
@@ -436,18 +345,13 @@ const columns = [
 
 
  {
-
-  <Button size="small" sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
+  <Button size="small" sx={{ color: '#23CCEF' }} onClick={() => handleEditBillRemark(params.row)}
   disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
   startIcon={<AddIcon />}
   variant='outlined'
 >
-  {/* <EditIcon /> */}
 Remark
- 
 </Button>
-
-
 } 
 
 <Button 
@@ -508,8 +412,8 @@ Remark
           pageSize={5}
         />
       
-        <Modal open={billOpen} onClose={handleAddBillClose}>
-          <AddRemarkModal open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
+        <Modal open={billRemarkOpen} onClose={handleAddBillRemarkClose}>
+          <AddRemarkModal open={billRemarkOpen} handleClose={handleAddBillRemarkClose} handleAddBill={handleAddBillRemark}
             currentBill={currentBill}
             editBill={(billId, billData) => {
               dispatch(editBill(billId, billData));

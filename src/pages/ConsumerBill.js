@@ -28,6 +28,8 @@ import { CircularProgress} from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
 
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
+import { AddRemarkModal } from '../components/modals/AddRemark';
+import ViewRemarkModal from '../components/modals/ViewRemarkModal';
 
 const ConsumerBill = () => {
   const location = useLocation();
@@ -71,6 +73,9 @@ const ConsumerBill = () => {
   const [wardFaultyCounts, setWardFaultyCounts] = useState({});
   const [totalFaultyMeters, setTotalFaultyMeters] = useState(0);
   const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
+const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
+  const [selectedRemarks, setSelectedRemarks] = useState([]);
+  const [billRemarkOpen, setBillRemarkOpen] = useState(false);
 
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
  
@@ -94,14 +99,10 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       }, {});
 
       setSelectedValues(initialSelectedValues);
-      // const normalMeters = bills.filter(bill => bill?.meterStatus === 'NORMAL')?.length;
-      // const faultyMeters = bills.filter(bill => bill?.meterStatus === 'FAULTY')?.length;
-      // const averageMeters = bills.filter(bill => bill?.meterStatus === 'AVERAGE')?.length;
+     
       const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
       const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
-      // setNormalMeterCount(normalMeters);
-      // setFaultyMeterCount(faultyMeters);
-      // setAverageMeterCount(averageMeters);
+      
       setBillPaid(paid)
       setBillUnPaid(unpaid)
     }
@@ -354,7 +355,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
 
   const generateBillURL = (billType, param1, param2, param3, param4) => {
     if (!billType || !param1 || !param2 || !param3) {
-      return "#"; // Return a placeholder if required parameters are missing
+      return "#"; 
     }
   
     // **Dynamic baseURL based on billType**
@@ -416,7 +417,17 @@ const cRMonth = crDateObj.getMonth();
         ?.toLowerCase()
         .replace(/\b\w/g, (match) => match.toUpperCase());
     };
+
+    const handleEditBillRemark = (bill) => {
+      console.log("ahshashahshas>>>>>>>>",bill)
+      setCurrentBill(bill);
+      setBillRemarkOpen(true);
+    };
     
+    const handleAddBillRemark = (billData) => {
+          dispatch(addBill(billData));
+          handleAddBillRemarkClose();
+        };
   const rows = 
     filteredData.map((bill, index) => ({
     _id: bill._id,
@@ -463,10 +474,12 @@ const cRMonth = crDateObj.getMonth();
     lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
     billPaymentDate:bill.billPaymentDate||'-',
     paidAmount:bill.paidAmount||'-',
-
+    remark:bill.remark,
+    remarks: bill.remarks,
 
     // remark:bill.remark,
     }));
+
   const handleApproveClick = (bill, yesno) => {
     let approvedStatus;
     // let currentBillAmount;
@@ -529,7 +542,7 @@ const cRMonth = crDateObj.getMonth();
     setCRDate(value); 
   };
   
- 
+  const handleAddBillRemarkClose = () => setBillRemarkOpen(false);
   const columns = (handleDeleteBill) => [
     {
       field: 'checkbox',
@@ -638,6 +651,15 @@ return(
 )}
 
      },
+    
+
+
+
+
+
+
+
+
 // ----------------------------------------------------------
 // testing
 
@@ -739,23 +761,55 @@ return(
     { field: 'billPaymentDate', headerName: 'BILL PAYMENT DATE', width: 165 }, 
     { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 }, 
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
+    {
+      field: 'actions',
+      headerName: 'ACTIONS',
+      width: 250,
+      renderCell: (params) => (
+        <>  
+{
+  <Button size="small" sx={{ color: '#23CCEF'}} onClick={() => handleEditBillRemark(params.row)}
+  disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+  startIcon={<AddIcon size="small"/>}
+  variant='outlined'
+>
+Remark
+</Button>
+} 
+
+<Button 
+size="small" 
+sx={{ color: '#23CCEF',ml:1}} 
+onClick={() => handleViewRemark(params.row)} // Function to open the View Remark Modal
+variant='outlined'
+startIcon={  <VisibilityIcon/>}
+>
+Remark
+</Button>
+</>
+      ),
+    },
+
     // { field: 'remark', headerName: 'REMARK', width: 130 },
-      ...(!user?.role === 'Junior Engineer'
-      ? [
-        {
-          field: 'actions',
-          headerName: 'Actions',
-          width: 200,
-          renderCell: (params) => (
-            <>
-              <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
-                <CheckIcon />
-              </IconButton>
-            </>
-          ),
-        },
-      ]
-      : []),
+    
+      // ...(!user?.role === 'Junior Engineer'
+      // ? [
+      //   {
+      //     field: 'actions',
+      //     headerName: 'Actions',
+      //     width: 200,
+      //     renderCell: (params) => (
+      //       <>
+      //         <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
+      //           <CheckIcon />
+      //         </IconButton>
+      //       </>
+      //     ),
+      //   },
+      // ]
+      // : []),
+
+
   ];
   const gridStyle = {
     height: 'auto',
@@ -853,6 +907,17 @@ return(
     setCurrentBill(bill);
     setBillOpen(true);
   };
+
+  const handleViewRemark = (row) => {
+    console.log("row",row)
+    if (Array.isArray(row.remarks)) {
+      setSelectedRemarks(row.remarks);
+    } else {
+      setSelectedRemarks([]); // Handle cases where there are no remarks
+    }
+    setIsRemarkModalOpen(true);
+  };
+
   return (
     <div style={gridStyle}>
       <Box>
@@ -1019,6 +1084,7 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
                 selectedItems.length > 0 &&
                 selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')
               }>Rollback Approvals</ConsumerButton>
+
                 <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Download Reports</ConsumerButton>
  <ConsumerButton  onClick={handleDownloadReport} startIcon={<DownloadIcon/>}>Faulty | Average Bills</ConsumerButton>
   {/* <ConsumerButton  onClick={handleAddBillOpen} startIcon={<AddIcon/>}>Add Bill</ConsumerButton>            */}
@@ -1099,7 +1165,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
           columns={columns(handleDeleteBill, handleEditBill)}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 100 },
             },
           }}
           pageSizeOptions={[5, 10, 15,25,35,45,55,100]}
@@ -1117,6 +1183,21 @@ transform: 'translate(14px, -8px) scale(0.75)',
         <Modal open={addPaymentOpen} onClose={handleAddPaymentClose}>
           <AddPayment open={addPaymentOpen} handleClose={handleAddPaymentClose} selectedBill={selectedBill} />
         </Modal>
+        <Modal open={billRemarkOpen} onClose={handleAddBillRemarkClose}>
+                  <AddRemarkModal open={billRemarkOpen} handleClose={handleAddBillRemarkClose} handleAddBill={handleAddBillRemark}
+                    currentBill={currentBill}
+                    editBill={(billId, billData) => {
+                      dispatch(editBill(billId, billData));
+                      dispatch(fetchBills());
+                    }}
+                  />
+                </Modal>
+
+         <ViewRemarkModal 
+          open={isRemarkModalOpen} 
+          onClose={() => setIsRemarkModalOpen(false)} 
+          remarks={selectedRemarks} 
+        />
       </Box>
     </div>
   );
