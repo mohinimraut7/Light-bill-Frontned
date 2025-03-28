@@ -165,7 +165,10 @@ const upcomingOverdueCount = bills.filter(bill => bill.dueAlert === true).length
 
 
 const filteredConsumers = consumers?.filter(consumer => {
-  return user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
+  // return user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
+  return user?.role === 'Junior Engineer' && user?.ward !== 'Head Office' 
+  ? consumer.ward === user.ward 
+  : true;
 });
 
 const today = new Date(); 
@@ -224,7 +227,7 @@ const passedDueDateCount = bills.filter(bill => {
   const isOverdue = dueDate < today;
   const isUnpaid = bill.paymentStatus === 'unpaid';
 
-  if (user?.role === 'Junior Engineer') {
+  if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') {
     return isOverdue && isUnpaid && user?.ward === bill.ward;
   }
   return isOverdue && isUnpaid;
@@ -248,12 +251,12 @@ const previousMonthCYear = `${previousMonth}-${currentYear}`;
 
 const currentMonthPaidCount = bills.filter(bill => 
   bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear &&
-  (user.role !== "Junior Engineer" || bill.ward === user.ward) 
+  (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
 ).length;
 
 const previousMonthPaidCount = bills.filter(bill => 
   bill.paymentStatus === 'paid' && bill.monthAndYear === previousMonthCYear &&
-  (user.role !== "Junior Engineer" || bill.ward === user.ward) 
+  (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
 ).length;
 
 console.log("Current Month Paid Count:", currentMonthPaidCount);
@@ -367,7 +370,7 @@ backgroundColor="#f8fffc"
       
     </Box>)} */}
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') &&
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) &&
  (showConsumerTable || showCMonthPaidTable || showPMonthPaidTable) && (
   <Box sx={{
     display: 'flex',
@@ -452,7 +455,7 @@ IconComponent={UpcomingIcon}
         
         </Box>)} */}
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') &&
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) &&
  (showCMonthAvgTable || showCMonthFaultyTable || showCMonthUDueBill) && (
   <Box sx={{
     display: 'flex',
@@ -482,7 +485,7 @@ IconComponent={UpcomingIcon}
 )}
 
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
   <InfoCard
   IconComponent={Person2OutlinedIcon}
  backgroundColor="#fff9ed"
