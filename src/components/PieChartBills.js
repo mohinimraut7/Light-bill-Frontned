@@ -22,7 +22,7 @@ const BarChartBills = () => {
   bills.forEach((bill) => {
     if (monthsForAPI.includes(bill.monthAndYear)) {
       const { monthAndYear, paymentStatus, dueDate, ward } = bill;
-      if (user?.role === "Junior Engineer" && user?.ward !== ward) return;
+      if (user?.role === "Junior Engineer" && user?.ward !== ward && user?.ward !== "Head Office") return;
       if (paymentStatus === "paid") {
         monthlyCounts[monthAndYear].paid++;
       } else if (paymentStatus === "unpaid") {

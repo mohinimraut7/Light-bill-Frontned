@@ -122,7 +122,7 @@ const Home = () => {
         if (
           bill.meterStatus === "FAULTY" && 
           bill.monthAndYear === currentMonthYear && 
-          (user.role !== "Junior Engineer" || bill.ward === user.ward)  // 🔹 जर Junior Engineer असेल, तर फक्त त्याच्या वॉर्डचा डेटा
+          (user.role !== "Junior Engineer" || bill.ward === user.ward ||(user.role === "Junior Engineer" && user.ward === "Head Office"))  // 🔹 जर Junior Engineer असेल, तर फक्त त्याच्या वॉर्डचा डेटा
         ) {
           const ward = bill.ward;
           acc[ward] = (acc[ward] || 0) + 1;

@@ -12,7 +12,7 @@ export const upComingDueBills = (bills, user) => {
       const isWithinRange = today >= twoDaysBeforeDue && today <= dueDate;
       const isUnpaid = bill.paymentStatus === 'unpaid';
   
-      if (user?.role === 'Junior Engineer') {
+      if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office' ) {
         return isWithinRange && isUnpaid && user?.ward === bill.ward;
       }
       

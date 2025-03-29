@@ -130,12 +130,12 @@ const ChartComponent = () => {
   // 🏷️ Filter Bills for Current & Previous Month (Within the Current Year)
   const latestBills = bills.filter(bill =>
     bill.monthAndYear === currentMonthYear &&
-    (user?.role !== 'Junior Engineer' || bill.ward === user?.ward)
+    (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
   );
 
   const previousBills = bills.filter(bill =>
     bill.monthAndYear === previousMonthYear &&
-    (user?.role !== 'Junior Engineer' || bill.ward === user?.ward)
+    (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
   );
 
   // ⚡ Define Meter Status Categories

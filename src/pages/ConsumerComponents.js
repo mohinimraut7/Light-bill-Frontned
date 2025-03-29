@@ -196,13 +196,17 @@ const downloadAllTypsOfReport = () => {
   let filteredData = consumers?.filter(consumer => {
     const matchesConsumerNumber = cnId ? consumer.consumerNumber.includes(cnId) : true;
     const matchesCNByWard = wardName ? consumer.ward.includes(wardName) : true;
-    const matchesWard = user?.role === 'Junior Engineer' ? consumer.ward === user.ward : true;
+    const matchesWard = user?.role === 'Junior Engineer' ?user.ward === 'Head Office' ||consumer.ward === user.ward : true;
+  //   const matchesWard = user?.role === 'Junior Engineer' 
+  // ? user?.ward !== 'Head Office' && consumer.ward === user.ward 
+  // : true;
     return matchesConsumerNumber && matchesWard && matchesCNByWard;
   });
   
 
 
   const rows = filteredData?.map((consumer,index) => ({
+    // const rows = consumers?.map((consumer,index) => ({
     id:index+1,
     _id:consumer._id,
     consumerNumber:consumer?.consumerNumber||'-',
