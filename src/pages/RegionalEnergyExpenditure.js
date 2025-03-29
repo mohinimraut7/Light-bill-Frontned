@@ -85,6 +85,7 @@ const RegionalEnergyExpenditure = () => {
 
     if (user?.role.startsWith('Junior Engineer')) {
       if (user?.ward !== 'Head Office') {
+        
       const specificWard = user?.ward;
       filteredBills = bills.filter((bill) => bill.ward === specificWard);
       }
