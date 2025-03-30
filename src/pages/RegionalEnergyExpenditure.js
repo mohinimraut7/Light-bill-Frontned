@@ -1186,7 +1186,7 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
             <>
               <FormControl
                 fullWidth

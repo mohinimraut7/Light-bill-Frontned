@@ -6,12 +6,14 @@ import { baseUrl } from "../../config/config";
 // 📌 Get Previous Month-Year
 const getPreviousMonthYear = () => {
   const prevDate = new Date();
+  console.log("prevDate----table",prevDate)
   prevDate.setMonth(prevDate.getMonth() - 1);
+  console.log(" prevDate.setMonth(prevDate.getMonth() - 1)----table",prevDate.setMonth(prevDate.getMonth() - 1))
   return prevDate.toLocaleString("en-US", { month: "short" }).toUpperCase() + "-" + prevDate.getFullYear();
 };
 
 const previousMonthYear = getPreviousMonthYear();
-
+console.log("previousMonthYear-----table",previousMonthYear)
 // 📌 Styled Components
 const StyledTableContainer = styled(TableContainer)({
   marginTop: "2%",

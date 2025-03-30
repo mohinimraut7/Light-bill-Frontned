@@ -137,7 +137,7 @@ const UpcomingDueBillCurrentMonth = () => {
       const isUnpaid = bill.paymentStatus === "unpaid";
   
       if (isDueSoon && isUnpaid) {
-        if (user?.role === "Junior Engineer" && user?.ward !== bill.ward) {
+        if (user?.role === "Junior Engineer" && user?.ward !== bill.ward && user?.ward !== "Head Office") {
           return acc;
         }
   

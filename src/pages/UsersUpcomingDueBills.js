@@ -443,67 +443,74 @@ const dueAlertCount = dueAlertrows.length;
     //     </>
     //   ),
     // },
-    ...(user?.role === 'Junior Engineer'
-      ? [
-        {
-          field: 'forwardForGeneration',
-          headerName: 'FORWARD FOR GENERATION',
-          width: 200,
-          renderCell: (params) => {
-            const isJuniorEngineer = user?.role === 'Junior Engineer';
-            const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
-            if (!isJuniorEngineer) return null;
-            return (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 1,
-                  height: '100%',
-                }}
-              >
-                <IconButton
-                  sx={{ color: '#23CCEF' }}
-                  onClick={() => handleApproveClick(params.row, 'Yes')}
-                  disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
-                >
-                  <Typography>Yes</Typography>
-                </IconButton>
-                <IconButton
-                  sx={{ color: '#23CCEF' }}
-                  onClick={() => handleApproveClick(params.row, 'No')}
-                  disabled={
-                    (params.row.approvedStatus === 'Initial' && params.row.paymentStatus === 'unpaid' && user?.role === 'Junior Engineer') ||
-                    (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
-                  }
-                >
-                  <UndoIcon />
-                </IconButton>
-              </Box>
-            );
-          },
-        }
 
-      ]
-      : []),
-    ...(!user?.role === 'Junior Engineer'
-      ? [
-        {
-          field: 'actions',
-          headerName: 'Actions',
-          width: 200,
-          renderCell: (params) => (
+//     -----------------------------------------
+//     // Single approval
+//     ...(user?.role === 'Junior Engineer'
+//       ? [
+//         {
+//           field: 'forwardForGeneration',
+//           headerName: 'FORWARD FOR GENERATION',
+//           width: 200,
+//           renderCell: (params) => {
+//             const isJuniorEngineer = user?.role === 'Junior Engineer';
+//             const isDisabled = params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === "PendingForSuperAdmin" || params.row.approvedStatus === "PendingForAdmin" || params.row.approvedStatus === "Done" || params.row.approvedStatus === "PartialDone";
+//             if (!isJuniorEngineer) return null;
+//             return (
+//               <Box
+//                 sx={{
+//                   display: 'flex',
+//                   justifyContent: 'center',
+//                   alignItems: 'center',
+//                   gap: 1,
+//                   height: '100%',
+//                 }}
+//               >
+//                 <IconButton
+//                   sx={{ color: '#23CCEF' }}
+//                   onClick={() => handleApproveClick(params.row, 'Yes')}
+//                   disabled={params.row.forwardForGeneration === 'Yes' || isDisabled}
+//                 >
+//                   <Typography>Yes</Typography>
+//                 </IconButton>
+//                 <IconButton
+//                   sx={{ color: '#23CCEF' }}
+//                   onClick={() => handleApproveClick(params.row, 'No')}
+//                   disabled={
+//                     (params.row.approvedStatus === 'Initial' && params.row.paymentStatus === 'unpaid' && user?.role === 'Junior Engineer') ||
+//                     (user?.role === 'Junior Engineer' && ['PendingForAdmin', 'PendingForSuperAdmin', 'Done'].includes(params.row.approvedStatus))
+//                   }
+//                 >
+//                   <UndoIcon />
+//                 </IconButton>
+//               </Box>
+//             );
+//           },
+//         }
 
-            <>
-              <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
-                <CheckIcon />
-              </IconButton>
-            </>
-          ),
-        },
-      ]
-      : []),
+//       ]
+//       : []),
+//     ...(!user?.role === 'Junior Engineer'
+//       ? [
+//         {
+//           field: 'actions',
+//           headerName: 'Actions',
+//           width: 200,
+//           renderCell: (params) => (
+
+//             <>
+//               <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
+//                 <CheckIcon />
+//               </IconButton>
+//             </>
+//           ),
+//         },
+//       ]
+//       : []),
+// -------------------------------------------------
+
+
+
 
   ];
   const getPadding = () => {
@@ -627,7 +634,7 @@ const dueAlertCount = dueAlertrows.length;
               style={{ display: 'none' }}
               id="fileInput"
             />
-            <Button
+            {/* <Button
               sx={{
                 color: '#23CCEF',
                 border: '0.1px solid #23CCEF',
@@ -651,9 +658,9 @@ const dueAlertCount = dueAlertrows.length;
               }
             >
               <Typography>Process</Typography>
-            </Button>
+            </Button> */}
            
-            <Button
+            {/* <Button
               sx={{
                 color: '#23CCEF',
                 border: '0.1px solid #23CCEF',
@@ -672,7 +679,7 @@ const dueAlertCount = dueAlertrows.length;
 
             >
               <Typography>Rollback Approvals</Typography>
-            </Button>
+            </Button> */}
 
 
           </Box>
