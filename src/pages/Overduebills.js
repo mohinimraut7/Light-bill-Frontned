@@ -204,7 +204,7 @@ const Overduebills = () => {
     roundedBillAmount: bill.roundedBillAmount,
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
-    approvedStatus: bill.approvedStatus || 'Initial',
+    approvedStatus: bill.approvedStatus || '-',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     overDueAmount:bill.overDueAmount,
     pendingAmount: bill.lastReceiptAmount ? bill.roundedBillAmount - bill.lastReceiptAmount : bill.roundedBillAmount,

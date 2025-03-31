@@ -336,10 +336,34 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     }
   };
   const handleProcessClick = () => {
+    console.log("selectedItems----",selectedItems)
+    console.log("user checking<<<<<<<<<",user)
     if (selectedItems.length === 0) {
       toast.warn('No bills selected for processing');
       return;
     }
+    
+      // सर्व बिल्समध्ये remarks आहेत का?
+    const hasRemarks = selectedItems.every(item => item.remarks && item.remarks.length > 0);
+    if (!hasRemarks) {
+        toast.error("Please approve before proceeding");
+        return;
+    }
+
+    // प्रत्येक बिलच्या remarks मध्ये user.role आणि user.signature आहे का तपासा
+    const allHaveUserRoleAndSignature = selectedItems.every(item => 
+        item.remarks.some(remark => remark.role === user.role && remark.signature === user.signature)
+    );
+
+    if (!allHaveUserRoleAndSignature) {
+        toast.error("Your role and signature must be present in remarks before processing");
+        return;
+    }
+
+    // जर सर्व चेक पास झाले, तर पुढील प्रोसेस सुरु करा
+    console.log("Processing selected bills...");
+
+ 
     dispatch(massBillApprovalsAction(selectedItems));
     setSelectedItems([]);
   };
@@ -760,7 +784,7 @@ return(
     { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 180 }, 
     { field: 'billPaymentDate', headerName: 'BILL PAYMENT DATE', width: 165 }, 
     { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 }, 
-    { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
+    { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 230 },
     {
       field: 'actions',
       headerName: 'ACTIONS',

@@ -306,7 +306,7 @@ const dueAlertCount = dueAlertrows.length;
     roundedBillAmount: bill.roundedBillAmount,
     ward: bill?.ward,
     paymentStatus: bill.paymentStatus || '-',
-    approvedStatus: bill.approvedStatus || 'Initial',
+    approvedStatus: bill.approvedStatus || '-',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     pendingAmount: bill.lastReceiptAmount ? bill.roundedBillAmount - bill.lastReceiptAmount : bill.roundedBillAmount,
     promptPaymentDate: formatDate(bill.promptPaymentDate),

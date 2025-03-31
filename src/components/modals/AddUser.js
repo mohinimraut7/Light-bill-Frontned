@@ -42,7 +42,7 @@ const AddUser = ({ open, handleClose, handleAddUser,currentUser,editUser }) => {
           password: currentUser ? currentUser.password : '',
           contactNumber: currentUser ? currentUser.contactNumber : '',
           address: currentUser ? currentUser.address : '',
-        //   signature: currentUser ? currentUser.signature : '',
+          signature: currentUser ? currentUser.signature : '',
         },
         validationSchema: validationSchema,
         validateOnChange: true,
