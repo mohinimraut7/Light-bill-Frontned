@@ -326,6 +326,8 @@ const validationSchema = Yup.object({
 });
 
 const AddRemarkModal = ({ open, handleClose, currentBill }) => {
+
+    console.log("**** -- currentBill",currentBill)
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const [signatureMethod, setSignatureMethod] = useState('draw'); // 'draw' or 'upload'
@@ -334,6 +336,7 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
         initialValues: {
             remark: currentBill?.remark || '',
             signature: '',
+            ward:''
         },
         validationSchema,
         enableReinitialize: true,
@@ -348,6 +351,7 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
                     ...values,
                     _id: currentBill?._id,
                     role: user?.role,
+                    ward:user?.ward
                 };
 
                 const response = await fetch(url, {

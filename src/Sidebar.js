@@ -558,7 +558,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 </ListItemButton>
               </ListItem>
 
-              {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+              {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
                 <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/rolemaster")}>
                   <ListItemButton
                     sx={{

@@ -66,7 +66,8 @@ const ViewRemarkModal = ({ open, onClose, remarks }) => {
                                 }}
                             >
                                 <Grid item xs={4}>
-                                    <Typography variant="body2">{remark.role}</Typography>
+                                    {/* <Typography variant="body2">{remark.role}</Typography> */}
+                                    {remark.role} {remark.role === 'Junior Engineer' && remark.ward === 'Head Office' && remark.ward}
                                 </Grid>
                                 <Grid item xs={5}>
                                     <Typography variant="body2" color="text.secondary">
