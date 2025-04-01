@@ -243,11 +243,8 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
 
 
 const prevDate = new Date(currentDate);
-console.log("prevDate*****",prevDate)
 prevDate.setMonth(prevDate.getMonth() - 1);
-console.log("prevDate.setMonth(prevDate.getMonth() - 1*****",prevDate.setMonth(prevDate.getMonth() - 1))
 const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-console.log("previousMonth*****",previousMonth)
 const previousYear = prevDate.getFullYear();
 const previousMonthCYear = `${previousMonth}-${currentYear}`;
 
