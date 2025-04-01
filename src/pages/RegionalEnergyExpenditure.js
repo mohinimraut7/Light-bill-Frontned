@@ -417,6 +417,7 @@ const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
 
 const handleDownloadForm22 = () => {
   setShowFormControl(true); 
+  
   try {
     // Create PDF in portrait mode
   
@@ -725,14 +726,29 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
     doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता 60 पासून सुरू होईल**
 
 
-    const pdfData = doc.output('datauristring');
+   
+    // const pdfData = doc.output('datauristring');
+    
+    // handlePdfPreview(pdfData);  
+     
+    //  const pdfBlob = doc.output('blob');
+    //  setPdfBlob(pdfBlob);
 
-    // Now, pass the PDF data to the modal for preview
-    handlePdfPreview(pdfData);  
 
-    const pdfBlob = doc.output('blob');
-    setPdfBlob(pdfBlob);
-    // doc.save('form22-report.pdf');
+    const pdfData = doc.output('blob'); // Get Blob format
+
+// Convert Blob to Object URL for preview
+const pdfUrl = URL.createObjectURL(pdfData);
+handlePdfPreview(pdfUrl);
+setPdfBlob(pdfData);
+
+    const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    
+    
+  
   } catch (error) {
     console.error('Error generating Form 22 PDF:', error);
   }
@@ -992,10 +1008,7 @@ yPos += 7;
   
 
   // Save the PDF as a Data URL
-  const pdfData = doc.output('datauristring');
-
-  // Now, pass the PDF data to the modal for preview
-  handlePdfPreview(pdfData);  
+  
 
 
   // // Save the PDF
@@ -1011,7 +1024,10 @@ yPos += 7;
   //  downloadLink.download = "karyalayin_tipani.pdf";
   //  downloadLink.click();
 
+  const pdfData = doc.output('datauristring');
 
+  // Now, pass the PDF data to the modal for preview
+  handlePdfPreview(pdfData);  
    // Store the PDF Blob for download later
    const pdfBlob = doc.output('blob');
    setPdfBlob(pdfBlob);
