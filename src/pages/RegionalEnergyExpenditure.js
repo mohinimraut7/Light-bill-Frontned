@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills, addBill,deleteBill, editBill } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box,Modal,Button,TextField,MenuItem, Select, InputLabel, FormControl,Checkbox,OutlinedInput} from '@mui/material';
+import PdfPreviewModal from '../components/modals/PdfPreviewModal';
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
 import AddForm22 from '../components/modals/Form22modal';
+
+
 import BillDatePicker from '../components/BillDatePicker';
 import wardDataAtoI from '../data/warddataAtoI';
 import meterPurposeData from '../data/meterpurpose';
@@ -26,6 +29,9 @@ import logovvcmc from '../Images/vvcmclogo.jpg';
 // import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import { fetchConsumers } from '../store/actions/consumerActions';
+
+
+
 // if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
 //   pdfMake?.vfs = pdfFonts?.pdfMake?.vfs;
 // } else {
@@ -68,6 +74,12 @@ const RegionalEnergyExpenditure = () => {
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const [data, setData] = useState([]);
   const [showFormControl, setShowFormControl] = useState(false);
+
+  const [pdfPreviewOpen, setPdfPreviewOpen] = useState(false);
+const [pdfContent, setPdfContent] = useState(null);
+const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
+
+
   useEffect(() => {
     dispatch(fetchBills());
     dispatch(fetchConsumers());
@@ -116,6 +128,17 @@ const RegionalEnergyExpenditure = () => {
   };
   
   console.log("meterPurposeManyName",meterPurposeManyName)
+
+
+  const handlePdfPreview = (pdfData) => {
+    setPdfContent(pdfData);  // Pass the PDF content (URL, base64 string, etc.)
+    setPdfPreviewOpen(true);  // Open the modal
+  };
+
+
+
+
+
   const handleDateChange = (value) => {
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
     setSelectedMonthYear(formattedValue);
@@ -138,6 +161,8 @@ const RegionalEnergyExpenditure = () => {
     };
     reader.readAsArrayBuffer(file);
   };
+  
+  
   const handleDownloadPDF = () => {
     const doc = new jsPDF('landscape');
     
@@ -180,6 +205,9 @@ const RegionalEnergyExpenditure = () => {
 
     doc.save('energy-expenditure-report.pdf');
   };
+
+
+
 //   const handleDownloadForm22 = () => {
 //   try {
 //     // Create PDF in portrait mode
@@ -811,9 +839,15 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
     console.error('Error generating Mudrank PDF:', error);
   }
 };
+
+
+
 const handleAddFormTtOpen = () => {
   setAddFormTtOpen(true)
 }
+// --------------------------------------------------------------------
+
+
 const downloadKaryalayinTipani = () => {
   setShowFormControl(true); 
 try {
@@ -939,12 +973,110 @@ yPos += 7;
   doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, yPos);
   doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
-  // Save the PDF
-  doc.save("karyalayin_tipani.pdf");
+  
+
+  // Save the PDF as a Data URL
+  const pdfData = doc.output('datauristring');
+
+  // Now, pass the PDF data to the modal for preview
+  handlePdfPreview(pdfData);  
+
+
+  // // Save the PDF
+  // doc.save("karyalayin_tipani.pdf");
+
+   // For downloading, use the blob method to trigger a download
+
+
+
+  //  const pdfBlob = doc.output('blob');
+  //  const downloadLink = document.createElement('a');
+  //  downloadLink.href = URL.createObjectURL(pdfBlob);
+  //  downloadLink.download = "karyalayin_tipani.pdf";
+  //  downloadLink.click();
+
+
+   // Store the PDF Blob for download later
+   const pdfBlob = doc.output('blob');
+   setPdfBlob(pdfBlob);
+
+
 } catch (error) {
   console.error("Error generating Karyalayin Tipani PDF:", error);
 }
 }
+
+
+
+
+
+// const downloadKaryalayinTipani = () => {
+//   setShowFormControl(true);
+//   try {
+//     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+//     // Load Noto Serif Devanagari Font
+//     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+//     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+//     doc.setFont("NotoSerifDevanagari");
+
+//     const totalAmount = rows
+//       .filter(row => row.monthAndYear === selectedMonthYear)
+//       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
+
+//     const totalAmountInWords = numberToMarathiWords(totalAmount);
+//     const pageWidth = doc.internal.pageSize.width;
+//     const leftSectionWidth = pageWidth * 0.15;
+//     const rightSectionStart = leftSectionWidth + 5;
+//     const rightAlignX = pageWidth - 15;
+//     let yPos = 15;
+
+//     // Left Section (15%)
+//     doc.setFontSize(10);
+//     doc.text("व. वि. श.", 10, yPos);
+//     yPos += 6;
+//     doc.text("महानगरपालिका", 10, yPos);
+//     doc.setDrawColor(0);
+//     doc.setLineWidth(0.2);
+//     doc.line(leftSectionWidth, 10, leftSectionWidth, 290);
+
+//     // Right Section (85%)
+//     doc.setFontSize(16);
+//     doc.text("कार्यालयीन टिपणी", rightSectionStart + 30, 20);
+//     doc.setFontSize(12);
+//     yPos = 30;
+//     const currentDate = new Date().toLocaleDateString('en-IN');
+//     doc.text(`दिनांक: ${currentDate}`, rightAlignX, yPos, { align: "right" });
+//     yPos += 7;
+
+//     const wardname = [...new Set(
+//       rows.filter(row => row.ward === wardName)
+//         .map(row => row.ward)
+//     )].join(', ');
+
+//     doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
+//     yPos += 7;
+//     doc.text("विभाग: दिवाबत्ती", rightAlignX, yPos);
+//     yPos += 10;
+//     doc.text("मा.साहेब,", rightSectionStart, yPos);
+//     yPos += 7;
+
+//     // Add more text content as per your logic...
+    
+//     // Save the PDF as a Data URL
+//     const pdfData = doc.output('datauristring');
+
+//     // Now, pass the PDF data to the modal for preview
+//     handlePdfPreview(pdfData);  // Pass the PDF content (data URL) to the modal
+
+//   } catch (error) {
+//     console.error("Error generating Karyalayin Tipani PDF:", error);
+//   }
+// };
+
+
+// -------------------------------------------------------------------------------------------------
+
 const convertNumberToMarathiWords = (num) => {
   const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
   const marathiTens = ["", "दहा", "वीस", "तीस", "चाळीस", "पन्नास", "साठ", "सत्तर", "ऐंशी", "नव्वद"];
@@ -1186,7 +1318,7 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
             <>
               <FormControl
                 fullWidth
@@ -1482,6 +1614,8 @@ const numberToMarathiWords = (num) => {
               Genrate Mudrank
             </Typography>
           </Button> */}
+
+
         <Button
             sx={{
               color: '#757575',
@@ -1515,6 +1649,23 @@ const numberToMarathiWords = (num) => {
             </Typography>
           </Button> 
         </Box>
+
+        
+        <PdfPreviewModal 
+      open={pdfPreviewOpen} 
+      onClose={() => setPdfPreviewOpen(false)} 
+      pdfUrl={pdfContent} 
+      title="PDF Preview" 
+      onDownload={() => {
+        const doc = new jsPDF();
+        doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+        doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+        doc.setFont("NotoSerifDevanagari");
+        doc.save("karyalayin_tipani.pdf");
+      }}
+    />
+
+
         <StyledDataGrid
           rows={rows}
           columns={columns}
