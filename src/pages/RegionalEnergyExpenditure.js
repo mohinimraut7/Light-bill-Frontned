@@ -164,6 +164,7 @@ const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
   
   
   const handleDownloadPDF = () => {
+    setShowFormControl(true); 
     const doc = new jsPDF('landscape');
     
     // doc.setFontSize(16);
@@ -202,8 +203,15 @@ const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
       body: tableData,
       startY: 50,
     });
+    const pdfData = doc.output('datauristring');
 
-    doc.save('energy-expenditure-report.pdf');
+    // Now, pass the PDF data to the modal for preview
+    handlePdfPreview(pdfData);  
+
+    const pdfBlob = doc.output('blob');
+    setPdfBlob(pdfBlob);
+ 
+    // doc.save('energy-expenditure-report.pdf');
   };
 
 
@@ -408,14 +416,17 @@ const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
 
 
 const handleDownloadForm22 = () => {
+  setShowFormControl(true); 
   try {
     // Create PDF in portrait mode
+  
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
       format: 'a4'
     });
 
+    
     // Add Devanagari font
     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
@@ -714,9 +725,14 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
     doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता 60 पासून सुरू होईल**
 
 
+    const pdfData = doc.output('datauristring');
 
+    // Now, pass the PDF data to the modal for preview
+    handlePdfPreview(pdfData);  
 
-    doc.save('form22-report.pdf');
+    const pdfBlob = doc.output('blob');
+    setPdfBlob(pdfBlob);
+    // doc.save('form22-report.pdf');
   } catch (error) {
     console.error('Error generating Form 22 PDF:', error);
   }
