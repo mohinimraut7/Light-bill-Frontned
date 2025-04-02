@@ -83,10 +83,40 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
 
  const [currentReport, setCurrentReport] = useState(null);
 
+ const [signatures, setSignatures] = useState({});
+
+
   useEffect(() => {
     dispatch(fetchBills());
     dispatch(fetchConsumers());
   }, [dispatch, data]);
+
+// Add this useEffect to fetch reports/signatures when component mounts
+useEffect(() => {
+  const fetchSignatures = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/getReports`);
+      const reports = await response.json();
+      
+      // Get the latest signatures for each role
+      const latestSignatures = {};
+      reports.forEach(report => {
+        report.reportingRemarks.forEach(remark => {
+          if (remark.signature) {
+            latestSignatures[remark.role] = remark.signature;
+          }
+        });
+      });
+      
+      setSignatures(latestSignatures);
+    } catch (error) {
+      console.error('Error fetching signatures:', error);
+    }
+  };
+
+  fetchSignatures();
+}, []);
+
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
@@ -736,6 +766,21 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
      
     //  const pdfBlob = doc.output('blob');
     //  setPdfBlob(pdfBlob);
+
+    if (signatures['Junior Engineer']) {
+      doc.addImage(signatures['Junior Engineer'], 'PNG', 15, yPos, 30, 15);
+      doc.text("Junior Engineer", 15, yPos + 20);
+    }
+
+    if (signatures['Executive Engineer']) {
+      doc.addImage(signatures['Executive Engineer'], 'PNG', 120, yPos, 30, 15);
+      doc.text("Executive Engineer", 120, yPos + 20);
+    }
+
+    if (signatures['Deputy Commissioner']) {
+      doc.addImage(signatures['Deputy Commissioner'], 'PNG', 120, yPos + 40, 30, 15);
+      doc.text("Deputy Commissioner", 120, yPos + 60);
+    }
 
 
     const pdfData = doc.output('blob'); // Get Blob format
