@@ -12,22 +12,22 @@ import "react-toastify/dist/ReactToastify.css";
 import { fetchReports } from '../../store/actions/reportActions';
 
 const validationSchema = Yup.object({
-    remarkreport: Yup.string().required('Remark is required'),
-    signaturereport: Yup.string().required('Signature is required'),
+    remark: Yup.string(),
+    signature: Yup.string()
 });
 
 const AddRemarkReport = ({ open, handleClose, currentReport }) => {
 
-    console.log("**** -- currentReport",currentReport)
+    // console.log("**** -- currentReport",currentReport)
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
     const [signatureMethod, setSignatureMethod] = useState('draw'); // 'draw' or 'upload'
 
     const formik = useFormik({
         initialValues: {
-            remarkreport: currentReport?.remarkreport || '',
-            signaturereport: '',
-            wardreport:''
+            remark: currentReport?.remark || '',
+            signature: '',
+            ward:''
         },
         validationSchema,
         enableReinitialize: true,

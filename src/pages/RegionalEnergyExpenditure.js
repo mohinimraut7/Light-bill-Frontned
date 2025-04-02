@@ -30,6 +30,7 @@ import AddIcon from '@mui/icons-material/Add';
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
+import { addReport, fetchReports } from '../store/actions/reportActions';
 
 
 // if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
@@ -1043,6 +1044,7 @@ yPos += 7;
 
 
 
+
 // const downloadKaryalayinTipani = () => {
 //   setShowFormControl(true);
 //   try {
@@ -1277,9 +1279,9 @@ const numberToMarathiWords = (num) => {
             window.innerWidth <= 900 ? '60px 10px' : '30px 10px',
   };
 
-  const handleAddReportRemark = (report) => {
-    console.log("ahshashahshas>>>>>>>>",report)
-    setCurrentReport(report);
+  const handleAddReportRemark = () => {
+    // console.log("ahshashahshas>>>>>>>>",)
+    // setCurrentReport(report);
     setReportRemarkOpen(true);
   };
 
@@ -1366,7 +1368,7 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward==='Head Office')) && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
             <>
               <FormControl
                 fullWidth
@@ -1406,8 +1408,7 @@ const numberToMarathiWords = (num) => {
                   ))}
                 </Select>
               </FormControl>
-              </>
-          )}
+
 
   {/* -----------------------------//----------------------------- */}
               {/* <FormControl
@@ -1491,8 +1492,6 @@ const numberToMarathiWords = (num) => {
     ))}
   </Select>
 </FormControl>   */}
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' ) && (
-
 <FormControl
       fullWidth
       size="small"
@@ -1534,9 +1533,8 @@ const numberToMarathiWords = (num) => {
         ))}
       </Select>
     </FormControl>
+            </>
           )}
-            {/* </>
-          )} */}
           <Button
             sx={{
               color: '#757575',
@@ -1701,18 +1699,18 @@ const numberToMarathiWords = (num) => {
             </Typography>
           </Button> 
 
-{/* <Box>
+          <Box>
   {
-  <Button size="small" sx={{ color: '#000'}} onClick={() => handleAddReportRemark(rows)}
+  <Button size="small" sx={{ color: '#000'}} onClick={() => handleAddReportRemark()}
   startIcon={<AddIcon size="small"/>}
   variant='outlined'
 >
 Remark
 </Button>
 } 
-</Box> */}
+</Box>
         </Box>
-       
+
         
         <PdfPreviewModal 
       open={pdfPreviewOpen} 
@@ -1768,10 +1766,10 @@ Remark
         </Modal>
         <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
                   <AddRemarkReport open={reportRemarkOpen} handleClose={handleAddReportRemarkClose} handleAddReport={handleAddReportRemark}
-                    // currentReport={currentReport}
-                    editReport={(reportId, reportData) => {
-                      // dispatch(editReport(reportId, reportData));
-                      // dispatch(fetchReports());
+                    currentReport={currentReport}
+                    addReport={(reportId, reportData) => {
+                      dispatch(addReport(reportId, reportData));
+                      dispatch(fetchReports());
                     }}
                   />
                 </Modal>

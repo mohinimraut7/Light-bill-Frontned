@@ -37,3 +37,30 @@ export const fetchReports = () => {
     };
   };
   
+export const addReportRequest = () => ({
+  type: ADD_REPORT_REQUEST,
+})
+export const addReportSuccess = (report) => ({
+  type: ADD_REPORT_SUCCESS,
+  payload: report
+})
+export const addReportFailure = (error) => ({
+  type: ADD_REPORT_ERROR,
+  payload: error.message
+})
+  export const addReport = (reportData) => {
+    return async (dispatch) => {
+      dispatch(addReportRequest());
+      try {
+        const token = getToken();
+        const response = await axios.post(`${baseUrl}/addRemarkReport`, reportData  );
+        dispatch(addReportSuccess(response.data.report))
+        console.log("response.data.report",response.data.report)
+        toast.success(response?.data?.report?.status, { position: "top-center" });
+        dispatch(fetchReports());
+      } catch (error) {
+        dispatch(addReportFailure(error));
+        toast.error(error.response?.data?.message || "Error adding report", { position: "top-center" });
+      }
+    }
+  }
