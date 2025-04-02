@@ -1043,7 +1043,6 @@ yPos += 7;
 
 
 
-
 // const downloadKaryalayinTipani = () => {
 //   setShowFormControl(true);
 //   try {
@@ -1367,7 +1366,7 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward==='Head Office')) && (
             <>
               <FormControl
                 fullWidth
@@ -1407,7 +1406,8 @@ const numberToMarathiWords = (num) => {
                   ))}
                 </Select>
               </FormControl>
-
+              </>
+          )}
 
   {/* -----------------------------//----------------------------- */}
               {/* <FormControl
@@ -1491,6 +1491,8 @@ const numberToMarathiWords = (num) => {
     ))}
   </Select>
 </FormControl>   */}
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' ) && (
+
 <FormControl
       fullWidth
       size="small"
@@ -1532,8 +1534,9 @@ const numberToMarathiWords = (num) => {
         ))}
       </Select>
     </FormControl>
-            </>
           )}
+            {/* </>
+          )} */}
           <Button
             sx={{
               color: '#757575',
@@ -1709,7 +1712,7 @@ Remark
 } 
 </Box> */}
         </Box>
-
+       
         
         <PdfPreviewModal 
       open={pdfPreviewOpen} 
