@@ -7,8 +7,6 @@ import PdfPreviewModal from '../components/modals/PdfPreviewModal';
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
 import AddForm22 from '../components/modals/Form22modal';
-
-
 import BillDatePicker from '../components/BillDatePicker';
 import wardDataAtoI from '../data/warddataAtoI';
 import meterPurposeData from '../data/meterpurpose';
@@ -26,10 +24,12 @@ import { baseUrl } from '../config/config';
 import axios from 'axios';
 import 'jspdf-autotable';
 import logovvcmc from '../Images/vvcmclogo.jpg';
+import AddIcon from '@mui/icons-material/Add';
+
 // import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import { fetchConsumers } from '../store/actions/consumerActions';
-
+import { AddRemarkReport } from '../components/modals/AddRemarkReport';
 
 
 // if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
@@ -78,7 +78,9 @@ const RegionalEnergyExpenditure = () => {
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(false);
 const [pdfContent, setPdfContent] = useState(null);
 const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
+const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
 
+ const [currentReport, setCurrentReport] = useState(null);
 
   useEffect(() => {
     dispatch(fetchBills());
@@ -1109,6 +1111,11 @@ yPos += 7;
 
 // -------------------------------------------------------------------------------------------------
 
+
+
+
+
+
 const convertNumberToMarathiWords = (num) => {
   const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
   const marathiTens = ["", "दहा", "वीस", "तीस", "चाळीस", "पन्नास", "साठ", "सत्तर", "ऐंशी", "नव्वद"];
@@ -1142,6 +1149,9 @@ const convertNumberToMarathiWords = (num) => {
   }
   return result.trim();
 };
+
+const handleAddReportRemarkClose = () => setReportRemarkOpen(false);
+
 
 const numberToMarathiWords = (num) => {
   const marathiNumbers = {
@@ -1267,6 +1277,13 @@ const numberToMarathiWords = (num) => {
             window.innerWidth <= 600 ? '80px 10px' : 
             window.innerWidth <= 900 ? '60px 10px' : '30px 10px',
   };
+
+  const handleAddReportRemark = (report) => {
+    console.log("ahshashahshas>>>>>>>>",report)
+    setCurrentReport(report);
+    setReportRemarkOpen(true);
+  };
+
   return (
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
@@ -1680,6 +1697,17 @@ const numberToMarathiWords = (num) => {
               Genrate Karyalayin Tipani
             </Typography>
           </Button> 
+
+{/* <Box>
+  {
+  <Button size="small" sx={{ color: '#000'}} onClick={() => handleAddReportRemark(rows)}
+  startIcon={<AddIcon size="small"/>}
+  variant='outlined'
+>
+Remark
+</Button>
+} 
+</Box> */}
         </Box>
 
         
@@ -1735,6 +1763,16 @@ const numberToMarathiWords = (num) => {
             selectedBillTt={selectedBillTt}
           />
         </Modal>
+        <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
+                  <AddRemarkReport open={reportRemarkOpen} handleClose={handleAddReportRemarkClose} handleAddReport={handleAddReportRemark}
+                    // currentReport={currentReport}
+                    editReport={(reportId, reportData) => {
+                      // dispatch(editReport(reportId, reportData));
+                      // dispatch(fetchReports());
+                    }}
+                  />
+                </Modal>
+
       </Box>
     </div>
   );
