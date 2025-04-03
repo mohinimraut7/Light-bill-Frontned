@@ -1686,14 +1686,14 @@ const numberToMarathiWords = (num) => {
           </Button> 
 
           <Box>
-  {
+  {/* {
   <Button size="small" sx={{ color: '#000'}} onClick={() => handleAddReportRemark()}
   startIcon={<AddIcon size="small"/>}
   variant='outlined'
 >
 Remark
 </Button>
-} 
+}  */}
 </Box>
         </Box>
 
