@@ -600,23 +600,24 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
 
     // --- Two-Column Section ---
     const leftText = 
-      "१) रक्कमेचे नियम वाट्य _______________ रु.\n" +
-      "२) पूर्वीचा खर्च _______________ रु.\n" +
-      "३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n" +
-      "२ व ३ यांची बेरीज _______________ रु.\n" +
+      "१) रक्कमेचे नियम वाट्य _______________ रु.\n\n" +
+      "२) पूर्वीचा खर्च _______________ रु.\n\n" +
+      "३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n\n" +
+      "२ व ३ यांची बेरीज _______________ रु.\n\n" +
       "उपलब्ध शिल्लक _______________ रु.";
 
     const rightText = 
-      "प्रमाणित करण्यांत येते की या बिलांत\n" +
-      "दर्शविलेले दर व\n" +
-      "परिमाणे ही अचूक आहेत आणि\n" +
-      "सामुग्री, वस्तु यांच्या\n" +
-      "स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n" +
-      "संख्यात्मक लेख्याच्या समर्थित\n" +
-      "पुरवठा नोंदवहीत नमूद\n" +
-      "करण्यात आल्या आहेत.\n" +
-      "दिनांक वस्तु पुरवठा अधिकाऱ्याची सही";
-
+      "प्रमाणित करण्यांत येते की या बिलांत\n\n" +
+      "दर्शविलेले दर व\n\n" +
+      "परिमाणे ही अचूक आहेत आणि\n\n" +
+      "सामुग्री, वस्तु यांच्या\n\n" +
+      "स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n\n" +
+      "संख्यात्मक लेख्याच्या समर्थित\n\n" +
+      "पुरवठा नोंदवहीत नमूद\n\n" +
+      "करण्यात आल्या आहेत.\n\n\n" +
+    "____________________________\n\n\n"+
+      "दिनांक         वस्तु पुरवठा अधिकाऱ्याची सही";
+      yPos += 10;
     const availableWidth = pageWidth - 30;
     const colWidth = availableWidth / 2;
 
@@ -1413,7 +1414,7 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' )  && (
             <>
               <FormControl
                 fullWidth
@@ -1537,6 +1538,8 @@ const numberToMarathiWords = (num) => {
     ))}
   </Select>
 </FormControl>   */}
+
+
 <FormControl
       fullWidth
       size="small"
