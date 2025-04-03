@@ -1007,8 +1007,14 @@ yPos += 7;
   doc.text("-----------------------------------------------------------", rightSectionStart, yPos);
   yPos += 10;
   // Signature Area
+
   doc.text("लिपिक, विद्युत विभाग", rightSectionStart, yPos);
+
+  if (signatures['Junior Engineer']) { 
+    doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+}
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
+
   doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 135, yPos);
   yPos += 7;
   doc.text("प्रभाग समिती (अ)", rightSectionStart, yPos);
@@ -1414,9 +1420,9 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' )  && (
-            <>
-              <FormControl
+
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward==='Head Office') )  && (
+          <FormControl
                 fullWidth
                 size="small"
                 variant="outlined"
@@ -1455,89 +1461,14 @@ const numberToMarathiWords = (num) => {
                 </Select>
               </FormControl>
 
+                )}
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' )  && (
+            <>
+             
+
 
   {/* -----------------------------//----------------------------- */}
-              {/* <FormControl
-                fullWidth
-                size="small"
-                variant="outlined"
-                sx={{
-                  width: {
-                    xl: isSidebarOpen ? '20%' : '20%',
-                    lg: isSidebarOpen ? '17%' : '17%',
-                    md: '30%',
-                    sm: '100%',
-                    xs: '100%',
-                  },
-                  mt: { sm: 1, md: 0, lg: 0, xl: 0 },
-                  mb: { xs: 1, sm: 1, lg: 0, xl: 0 },
-                  ml: {
-                    xl: 1,
-                    lg: 1,
-                    md: 0,
-                    sm: 0
-                  }
-                }}
-              >
-                <InputLabel id="meter-purpose-label">Single Meter Purpose</InputLabel>
-                <Select
-                  labelId="meter-purpose-label"
-                  id="meterPurpose"
-                  name="meterPurpose"
-                  value={meterPurposeName}
-                  onChange={handleChangeMeterPurpose}
-                  label="Search Meter Purpose"
-                >
-                  {meterPurposeData.map((meterdata, index) => (
-                    <MenuItem key={index} value={meterdata.purpose}>
-                      {meterdata.purpose}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl> */}
-{/* -----------------------------//----------------------------- */}
-
-
- {/* <FormControl
-  fullWidth
-  size="small"
-  variant="outlined"
-  sx={{
-    width: {
-      xl: isSidebarOpen ? '20%' : '20%',
-      lg: isSidebarOpen ? '17%' : '17%',
-      md: '30%',
-      sm: '100%',
-      xs: '100%',
-    },
-    mt: { sm: 1, md: 0, lg: 0, xl: 0 },
-    mb: { xs: 1, sm: 1, lg: 0, xl: 0 },
-    ml: {
-      xl: 1,
-      lg: 1,
-      md: 0,
-      sm: 0
-    }
-  }}
->
-  <InputLabel id="meter-purpose-label">Multiple Meter Purpose</InputLabel>
-  <Select
-    labelId="meter-purpose-label"
-    id="meterPurpose"
-    name="meterPurpose"
-    multiple  // ✅ Multiple selection enabled
-    value={meterPurposeManyName || []} 
-    onChange={handleChangeManyMeterPurpose}
-    renderValue={(selected) => selected.join(', ')} // ✅ Show selected values as comma separated
-  >
-    {meterPurposeData.map((meterdata, index) => (
-      <MenuItem key={index} value={meterdata.purpose}>
-        <Checkbox checked={meterPurposeManyName.includes(meterdata.purpose)} />
-        {meterdata.purpose}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>   */}
+             
 
 
 <FormControl
@@ -1579,10 +1510,17 @@ const numberToMarathiWords = (num) => {
             {meterdata.purpose}
           </MenuItem>
         ))}
+        
       </Select>
     </FormControl>
             </>
+
+
+
           )}
+
+
+          
           <Button
             sx={{
               color: '#757575',
