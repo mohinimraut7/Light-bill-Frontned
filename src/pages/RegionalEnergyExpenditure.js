@@ -89,23 +89,55 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
 
 // -----------------------------------------------------------------------------------------------
 // Add this useEffect to fetch reports/signatures when component mounts
+// useEffect(() => {
+//   const fetchSignatures = async () => {
+//     try {
+//       const response = await fetch(`${baseUrl}/getReports`);
+//       const reports = await response.json();
+//       console.log("reports----",reports)
+//       // Get the latest signatures for each role
+//       const latestSignatures = {};
+//       reports.forEach(report => {
+//         report.reportingRemarks.forEach(remark => {
+//           if (remark.signature) {
+//             // latestSignatures[remark.role] = remark.signature;
+//             latestSignatures[remark.role] = remark.signature;
+//           }
+//         });
+//       });
+      
+//       setSignatures(latestSignatures);
+//     } catch (error) {
+//       console.error('Error fetching signatures:', error);
+//     }
+//   };
+
+//   fetchSignatures();
+// }, []);
+// -----------------------------------------
 useEffect(() => {
   const fetchSignatures = async () => {
     try {
       const response = await fetch(`${baseUrl}/getReports`);
       const reports = await response.json();
-      console.log("reports----",reports)
-      // Get the latest signatures for each role
+      console.log("reports----", reports);
+
       const latestSignatures = {};
+
       reports.forEach(report => {
         report.reportingRemarks.forEach(remark => {
           if (remark.signature) {
-            // latestSignatures[remark.role] = remark.signature;
-            latestSignatures[remark.role] = remark.signature;
+            // Overwrites previous same-role signature; latest one remains
+            latestSignatures[remark.role] = {
+              signature: remark.signature,
+              userId: remark.userId,
+              email: remark.email || '', // optional if needed
+              ward: remark.ward || ''
+            };
           }
         });
       });
-      
+
       setSignatures(latestSignatures);
     } catch (error) {
       console.error('Error fetching signatures:', error);
