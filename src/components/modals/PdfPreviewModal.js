@@ -1212,8 +1212,16 @@ const modalStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
-  height: '80%',
+  width: {
+    xs: '80%', // default for small devices
+    lg: '100%',
+    xl: '100%',
+  },
+  height: {
+    xs: '80%', // default for small devices
+    lg: '100%',
+    xl: '100%',
+  },
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,

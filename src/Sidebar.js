@@ -536,7 +536,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 </ListItem>
               )}
 
-              <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/")}>
+
+ {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') &&(
+  <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/")}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -557,6 +559,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
                 </ListItemButton>
               </ListItem>
+ )}
+              
 
               {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
                 <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/rolemaster")}>
@@ -770,6 +774,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 </ListItemButton>
               </ListItem> */}
 
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') 
+&&
+(
               <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/formonetwentynew")}>
                 <ListItemButton
                   sx={{
@@ -791,28 +798,33 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   <ListItemText primary="Form 120 report" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
                 </ListItemButton>
               </ListItem>
-
-              <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/billinganomaly")}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    // px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 0.2 : 'auto',
-                      justifyContent: 'center',
-                      color: '#fff'
-                    }}
-                  >
-                    <ReportIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Billing Anomaly" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
-                </ListItemButton>
-              </ListItem>
+)}
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') 
+&&
+(
+  <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/billinganomaly")}>
+  <ListItemButton
+    sx={{
+      minHeight: 48,
+      justifyContent: open ? 'initial' : 'center',
+      // px: 2.5,
+    }}
+  >
+    <ListItemIcon
+      sx={{
+        minWidth: 0,
+        mr: open ? 0.2 : 'auto',
+        justifyContent: 'center',
+        color: '#fff'
+      }}
+    >
+      <ReportIcon />
+    </ListItemIcon>
+    <ListItemText primary="Billing Anomaly" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
+  </ListItemButton>
+</ListItem>
+)}
+             
 
               <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/regionalenergyexpenditure")}>
                 <ListItemButton
