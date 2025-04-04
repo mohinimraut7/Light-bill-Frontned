@@ -26,19 +26,14 @@ import 'jspdf-autotable';
 import logovvcmc from '../Images/vvcmclogo.jpg';
 import AddIcon from '@mui/icons-material/Add';
 
-// import pdfMake from "pdfmake/build/pdfmake";
-// import pdfFonts from "pdfmake/build/vfs_fonts";
+
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
 import { addReport, fetchReports } from '../store/actions/reportActions';
 import { DVOTSurekhBShip, loadDvoSBShipFont } from '../fonts/DVOTSurekh_B_Ship';
 
 
-// if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
-//   pdfMake?.vfs = pdfFonts?.pdfMake?.vfs;
-// } else {
-//   console.error("PDFMake Fonts not loaded properly!");
-// }
+
 const rowColors = ['#F7F9FB', 'white'];
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-cell': {
@@ -79,7 +74,7 @@ const RegionalEnergyExpenditure = () => {
 
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(false);
 const [pdfContent, setPdfContent] = useState(null);
-const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
+const [pdfBlob, setPdfBlob] = useState(null); 
 const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
 
  const [currentReport, setCurrentReport] = useState(null);
@@ -119,9 +114,6 @@ useEffect(() => {
 
   fetchSignatures();
 }, []);
-
-// -----------------------------------------
-
 
 // ---------------------------------------------------------------------------------------------------
   const formatDate = (dateString) => {
@@ -171,8 +163,8 @@ useEffect(() => {
 
 
   const handlePdfPreview = (pdfData) => {
-    setPdfContent(pdfData);  // Pass the PDF content (URL, base64 string, etc.)
-    setPdfPreviewOpen(true);  // Open the modal
+    setPdfContent(pdfData);  
+    setPdfPreviewOpen(true);  
   };
 
 
@@ -207,24 +199,20 @@ useEffect(() => {
     setShowFormControl(true); 
     const doc = new jsPDF('landscape');
     
-    // doc.setFontSize(16);
-    // doc.text("Energy Expenditure Report", 140, 20, { align: "center" });
-  
-    // Ensure rows array is not empty before accessing its values
-    // const meterPurpose = rows.length > 0 ? rows[0].meterPurpose : "N/A";
+    
     const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
     const ward = rows.length > 0 ? rows[0].ward : "N/A";
     const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
   
     doc.setFontSize(14);
-    const lineHeight = 10; // Space between lines
-    let yPosition = 20; // Initial Y position
+    const lineHeight = 10; 
+    let yPosition = 20; 
   
     doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
-    yPosition += lineHeight; // Move down
+    yPosition += lineHeight; 
     doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
-    yPosition += lineHeight; // Move down
+    yPosition += lineHeight; 
     doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
   
   
@@ -245,7 +233,7 @@ useEffect(() => {
     });
     const pdfData = doc.output('datauristring');
 
-    // Now, pass the PDF data to the modal for preview
+   
     handlePdfPreview(pdfData);  
 
     const pdfBlob = doc.output('blob');
@@ -256,210 +244,11 @@ useEffect(() => {
 
 
 
-//   const handleDownloadForm22 = () => {
-//   try {
-//     // Create PDF in portrait mode
-//     const doc = new jsPDF({
-//       orientation: 'portrait',
-//       unit: 'mm',
-//       format: 'a4'
-//     });
-
-//     // Add Devanagari font
-//     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
-//     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
-//     loadDevanagariFont(doc);
-//     doc.setFont("NotoSerifDevanagari");
-
-//     // Set initial vertical position
-//     let yPos = 15;
-
-//     // --- Header Section ---
-//     doc.setFontSize(10);
-//     doc.text("M.S.C. Form 22 (Rule (1))", 15, yPos);
-//     doc.text("M.S.C. 22", 170, yPos);
-
-//     yPos += 20;
-//     doc.setFontSize(12);
-//     doc.text("नमुना नं. २२", 85, yPos);
-
-//     yPos += 8;
-//     doc.text("(नियम २२ (१))", 85, yPos);
-
-//     yPos += 10;
-//     doc.setFontSize(14);
-//     doc.text("वसई विरार शहर महानगरपालिका", 65, yPos);
-
-//     yPos += 15;
-//     doc.setFontSize(11);
-
-//     // --- Form Details with Lines ---
-//     doc.text("बिल क्रमांक:", 15, yPos);
-//     doc.line(40, yPos, 100, yPos);
-//     doc.text("प्रमाणक क्रमांक:", 105, yPos);
-//     doc.line(140, yPos, 170, yPos);
-//     const currentDate = new Date().toLocaleDateString('en-IN');
-//     doc.text(`दिनांक ${currentDate}`, 150, yPos);
-
-//     yPos += 10;
-//     doc.text("पैसे देणाऱ्याचे नांव : म.रा.वि.वि. कंपनी", 15, yPos);
-//     yPos += 8;
-//     doc.text("पत्ता : प्रभाग समिती (अ)", 15, yPos);
-//     yPos += 8;
-//     doc.text("माल : विद्युत विभाग", 15, yPos);
-//     yPos += 8;
-//     doc.text("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक", 15, yPos);
-
-//     // --- Calculate Total Amount ---
-//     const totalAmount = rows
-//       .filter(row => row.monthAndYear === selectedMonthYear)
-//       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
-
-//     // --- Main Table ---
-//     yPos += 10;
-//     doc.autoTable({
-//       startY: yPos,
-//       head: [[
-//         'अनु.\nक्रमांक',
-//         'कामाचा किंवा वस्तूंचा तपशील',
-//         'परिमाण\nकिंवा वजन',
-//         'दर',
-//         'युनिट',
-//         'रक्कम\nरु.    पै.'
-//       ]],
-//       body: [[
-//         '१',
-//         `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती (अ) विभागातील विरार पश्चिम विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`,
-//         '',
-//         '',
-//         '',
-//         `${totalAmount.toFixed(2)}/-`
-//       ]],
-//       foot: [[
-//         { content: 'एकूण', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
-//         { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
-//       ]],
-//       styles: {
-//         font: 'NotoSerifDevanagari',
-//         fontSize: 10,
-//         cellPadding: 2,
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       headStyles: {
-//         fillColor: [255, 255, 255],
-//         textColor: 0,
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       bodyStyles: {
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       footStyles: {
-//         fillColor: [255, 255, 255],
-//         textColor: 0,
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       columnStyles: {
-//         0: { cellWidth: 15 },
-//         1: { cellWidth: 90 },
-//         2: { cellWidth: 20 },
-//         3: { cellWidth: 15 },
-//         4: { cellWidth: 15 },
-//         5: { cellWidth: 25 }
-//       },
-//       theme: 'grid',
-//       tableLineWidth: 0.1,
-//       tableLineColor: [0, 0, 0]
-//     });
-
-//     // Get the Y position after the table
-//     yPos = doc.autoTable.previous.finalY + 10;
-
-//     // Add the total amount in words with proper spacing
-//     doc.setFontSize(10);
-//     const pageWidth = doc.internal.pageSize.getWidth();
-//     doc.text(
-//       `एकूण रक्कम रुपये (अक्षरी ${totalAmount.toFixed(2)}/-) मात्र`,
-//       pageWidth / 2,
-//       yPos,
-//       { align: 'center' }
-//     );
-
-//     // Add extra gap before the two-column section
-//     yPos += 15;
-
-//     // --- Two-Column Section ---
-//     const leftText = 
-//       "१) रक्कमेचे नियम वाट्य _______________ रु.\n" +
-//       "२) पूर्वीचा खर्च _______________ रु.\n" +
-//       "३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n" +
-//       "२ व ३ यांची बेरीज _______________ रु.\n" +
-//       "उपलब्ध शिल्लक _______________ रु.";
-
-//     const rightText = 
-//       "प्रमाणित करण्यांत येते की या बिलांत\n" +
-//       "दर्शविलेले दर व\n" +
-//       "परिमाणे ही अचूक आहेत आणि\n" +
-//       "सामुग्री, वस्तु यांच्या\n" +
-//       "स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n" +
-//       "संख्यात्मक लेख्याच्या समर्थित\n" +
-//       "पुरवठा नोंदवहीत नमूद\n" +
-//       "करण्यात आल्या आहेत.\n" +
-//       "दिनांक वस्तु पुरवठा अधिकाऱ्याची सही";
-
-//     const availableWidth = pageWidth - 30;
-//     const colWidth = availableWidth / 2;
-
-//     // Create the two-column section
-//     doc.autoTable({
-//       startY: yPos,
-//       head: false,
-//       body: [[ leftText, rightText ]],
-//       styles: {
-//         font: 'NotoSerifDevanagari',
-//         fontSize: 10,
-//         cellPadding: 2
-//       },
-//       columnStyles: {
-//         0: { cellWidth: colWidth, halign: 'left' },
-//         1: { cellWidth: colWidth, halign: 'right' }
-//       },
-//       theme: 'plain'
-//     });
-
-//     // Draw vertical divider line between columns
-//     const breakdownTable = doc.autoTable.previous;
-//     if (
-//       breakdownTable &&
-//       breakdownTable.settings.margin &&
-//       typeof breakdownTable.startY === "number" &&
-//       typeof breakdownTable.finalY === "number"
-//     ) {
-//       const marginLeft = breakdownTable.settings.margin.left;
-//       const verticalLineX = marginLeft + colWidth;
-//       const tableTopY = breakdownTable.startY;
-//       const tableBottomY = breakdownTable.finalY;
-//       doc.setLineWidth(0.1);
-//       doc.setDrawColor(0, 0, 0);
-//       doc.line(verticalLineX, tableTopY, verticalLineX, tableBottomY);
-//     }
-
-//     // Save the PDF
-//     doc.save('form22-report.pdf');
-//   } catch (error) {
-//     console.error('Error generating Form 22 PDF:', error);
-//   }
-// };
-
-
 const handleDownloadForm22 = () => {
   setShowFormControl(true); 
   
   try {
-    // Create PDF in portrait mode
+    
   
     const doc = new jsPDF({
       orientation: 'portrait',

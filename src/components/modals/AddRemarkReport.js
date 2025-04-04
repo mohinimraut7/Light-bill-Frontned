@@ -25,6 +25,7 @@ const AddRemarkReport = ({ open, handleClose, currentReport }) => {
 
     const formik = useFormik({
         initialValues: {
+            userId:user._id,
             remark: currentReport?.remark || '',
             signature: '',
             ward:''
