@@ -881,9 +881,15 @@ if (signatures['Lipik']) {
 }
   doc.text("लिपिक, विद्युत विभाग", rightSectionStart, yPos);
 
-  if (signatures['Junior Engineer']) { 
-    doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
-}
+//   if (signatures['Junior Engineer']) { 
+//     doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
+//   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
+
+
+  if (signatures['Junior Engineer'] && signatures['Junior Engineer'].signature) {
+    doc.addImage(signatures['Junior Engineer'].signature, 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+  }
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
 
   doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 135, yPos);
