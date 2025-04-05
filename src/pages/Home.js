@@ -249,6 +249,13 @@ const previousYear = prevDate.getFullYear();
 const previousMonthCYear = `${previousMonth}-${currentYear}`;
 
 
+const prevDateTwo = new Date(currentDate);
+prevDateTwo.setMonth(prevDateTwo.getMonth() - 2);
+const previousTwoMonth = prevDateTwo.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+// const previousYear = prevDate.getFullYear();
+const previousTwoMonthCYear = `${previousTwoMonth}-${currentYear}`;
+
+
 const currentMonthPaidCount = bills.filter(bill => 
   bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear &&
   (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
@@ -258,6 +265,12 @@ const previousMonthPaidCount = bills.filter(bill =>
   bill.paymentStatus === 'paid' && bill.monthAndYear === previousMonthCYear &&
   (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
 ).length;
+
+const previousTwoMonthPaidCount = bills.filter(bill => 
+  bill.paymentStatus === 'paid' && bill.monthAndYear === previousTwoMonthCYear &&
+  (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
+).length;
+
 
 console.log("Current Month Paid Count:", currentMonthPaidCount);
 console.log("Previous Month Paid Count:", previousMonthPaidCount);
@@ -496,6 +509,22 @@ IconComponent={UpcomingIcon}
     count={roles.length} 
   />
 )}
+
+
+<InfoCard
+  // IconComponent={CurrencyRupeeOutlinedIcon}
+  IconComponent={FactCheckIcon}
+  backgroundColor="#f3f8fe"
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title={`Paid Bills (${previousTwoMonthCYear})`}
+  count={previousTwoMonthPaidCount}
+
+  onClick={() => {
+    setShowPMonthPaidTable(prev => !prev);
+  }}
+/>
 <InfoCard
 // IconComponent={CurrencyRupeeOutlinedIcon}
 IconComponent={AccessTimeFilledIcon}
