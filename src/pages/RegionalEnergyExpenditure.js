@@ -85,7 +85,8 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
  const [currentReport, setCurrentReport] = useState(null);
 
  const [signatures, setSignatures] = useState({});
-
+ const [pdfType, setPdfType] = useState("");
+ const [monthpass,setMonthPass]=useState("");
 
   useEffect(() => {
     dispatch(fetchBills());
@@ -170,8 +171,10 @@ useEffect(() => {
   console.log("meterPurposeManyName",meterPurposeManyName)
 
 
-  const handlePdfPreview = (pdfData) => {
+  const handlePdfPreview = (pdfData,type,selMonthYear) => {
     setPdfContent(pdfData);  // Pass the PDF content (URL, base64 string, etc.)
+    setPdfType(type);
+    setMonthPass(selMonthYear);
     setPdfPreviewOpen(true);  // Open the modal
   };
 
@@ -202,6 +205,7 @@ useEffect(() => {
     reader.readAsArrayBuffer(file);
   };
   
+  let formtype=['form22','tipani','wardbilllist']
   
   const handleDownloadPDF = () => {
     setShowFormControl(true); 
@@ -244,215 +248,15 @@ useEffect(() => {
       startY: 50,
     });
     const pdfData = doc.output('datauristring');
-
+   let type="wardbilllist"
     // Now, pass the PDF data to the modal for preview
-    handlePdfPreview(pdfData);  
+    handlePdfPreview(pdfData,type,monthYear);  
 
     const pdfBlob = doc.output('blob');
     setPdfBlob(pdfBlob);
  
     // doc.save('energy-expenditure-report.pdf');
   };
-
-
-
-//   const handleDownloadForm22 = () => {
-//   try {
-//     // Create PDF in portrait mode
-//     const doc = new jsPDF({
-//       orientation: 'portrait',
-//       unit: 'mm',
-//       format: 'a4'
-//     });
-
-//     // Add Devanagari font
-//     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
-//     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
-//     loadDevanagariFont(doc);
-//     doc.setFont("NotoSerifDevanagari");
-
-//     // Set initial vertical position
-//     let yPos = 15;
-
-//     // --- Header Section ---
-//     doc.setFontSize(10);
-//     doc.text("M.S.C. Form 22 (Rule (1))", 15, yPos);
-//     doc.text("M.S.C. 22", 170, yPos);
-
-//     yPos += 20;
-//     doc.setFontSize(12);
-//     doc.text("नमुना नं. २२", 85, yPos);
-
-//     yPos += 8;
-//     doc.text("(नियम २२ (१))", 85, yPos);
-
-//     yPos += 10;
-//     doc.setFontSize(14);
-//     doc.text("वसई विरार शहर महानगरपालिका", 65, yPos);
-
-//     yPos += 15;
-//     doc.setFontSize(11);
-
-//     // --- Form Details with Lines ---
-//     doc.text("बिल क्रमांक:", 15, yPos);
-//     doc.line(40, yPos, 100, yPos);
-//     doc.text("प्रमाणक क्रमांक:", 105, yPos);
-//     doc.line(140, yPos, 170, yPos);
-//     const currentDate = new Date().toLocaleDateString('en-IN');
-//     doc.text(`दिनांक ${currentDate}`, 150, yPos);
-
-//     yPos += 10;
-//     doc.text("पैसे देणाऱ्याचे नांव : म.रा.वि.वि. कंपनी", 15, yPos);
-//     yPos += 8;
-//     doc.text("पत्ता : प्रभाग समिती (अ)", 15, yPos);
-//     yPos += 8;
-//     doc.text("माल : विद्युत विभाग", 15, yPos);
-//     yPos += 8;
-//     doc.text("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक", 15, yPos);
-
-//     // --- Calculate Total Amount ---
-//     const totalAmount = rows
-//       .filter(row => row.monthAndYear === selectedMonthYear)
-//       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
-
-//     // --- Main Table ---
-//     yPos += 10;
-//     doc.autoTable({
-//       startY: yPos,
-//       head: [[
-//         'अनु.\nक्रमांक',
-//         'कामाचा किंवा वस्तूंचा तपशील',
-//         'परिमाण\nकिंवा वजन',
-//         'दर',
-//         'युनिट',
-//         'रक्कम\nरु.    पै.'
-//       ]],
-//       body: [[
-//         '१',
-//         `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती (अ) विभागातील विरार पश्चिम विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`,
-//         '',
-//         '',
-//         '',
-//         `${totalAmount.toFixed(2)}/-`
-//       ]],
-//       foot: [[
-//         { content: 'एकूण', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
-//         { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
-//       ]],
-//       styles: {
-//         font: 'NotoSerifDevanagari',
-//         fontSize: 10,
-//         cellPadding: 2,
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       headStyles: {
-//         fillColor: [255, 255, 255],
-//         textColor: 0,
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       bodyStyles: {
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       footStyles: {
-//         fillColor: [255, 255, 255],
-//         textColor: 0,
-//         lineWidth: 0.1,
-//         lineColor: [0, 0, 0]
-//       },
-//       columnStyles: {
-//         0: { cellWidth: 15 },
-//         1: { cellWidth: 90 },
-//         2: { cellWidth: 20 },
-//         3: { cellWidth: 15 },
-//         4: { cellWidth: 15 },
-//         5: { cellWidth: 25 }
-//       },
-//       theme: 'grid',
-//       tableLineWidth: 0.1,
-//       tableLineColor: [0, 0, 0]
-//     });
-
-//     // Get the Y position after the table
-//     yPos = doc.autoTable.previous.finalY + 10;
-
-//     // Add the total amount in words with proper spacing
-//     doc.setFontSize(10);
-//     const pageWidth = doc.internal.pageSize.getWidth();
-//     doc.text(
-//       `एकूण रक्कम रुपये (अक्षरी ${totalAmount.toFixed(2)}/-) मात्र`,
-//       pageWidth / 2,
-//       yPos,
-//       { align: 'center' }
-//     );
-
-//     // Add extra gap before the two-column section
-//     yPos += 15;
-
-//     // --- Two-Column Section ---
-//     const leftText = 
-//       "१) रक्कमेचे नियम वाट्य _______________ रु.\n" +
-//       "२) पूर्वीचा खर्च _______________ रु.\n" +
-//       "३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n" +
-//       "२ व ३ यांची बेरीज _______________ रु.\n" +
-//       "उपलब्ध शिल्लक _______________ रु.";
-
-//     const rightText = 
-//       "प्रमाणित करण्यांत येते की या बिलांत\n" +
-//       "दर्शविलेले दर व\n" +
-//       "परिमाणे ही अचूक आहेत आणि\n" +
-//       "सामुग्री, वस्तु यांच्या\n" +
-//       "स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n" +
-//       "संख्यात्मक लेख्याच्या समर्थित\n" +
-//       "पुरवठा नोंदवहीत नमूद\n" +
-//       "करण्यात आल्या आहेत.\n" +
-//       "दिनांक वस्तु पुरवठा अधिकाऱ्याची सही";
-
-//     const availableWidth = pageWidth - 30;
-//     const colWidth = availableWidth / 2;
-
-//     // Create the two-column section
-//     doc.autoTable({
-//       startY: yPos,
-//       head: false,
-//       body: [[ leftText, rightText ]],
-//       styles: {
-//         font: 'NotoSerifDevanagari',
-//         fontSize: 10,
-//         cellPadding: 2
-//       },
-//       columnStyles: {
-//         0: { cellWidth: colWidth, halign: 'left' },
-//         1: { cellWidth: colWidth, halign: 'right' }
-//       },
-//       theme: 'plain'
-//     });
-
-//     // Draw vertical divider line between columns
-//     const breakdownTable = doc.autoTable.previous;
-//     if (
-//       breakdownTable &&
-//       breakdownTable.settings.margin &&
-//       typeof breakdownTable.startY === "number" &&
-//       typeof breakdownTable.finalY === "number"
-//     ) {
-//       const marginLeft = breakdownTable.settings.margin.left;
-//       const verticalLineX = marginLeft + colWidth;
-//       const tableTopY = breakdownTable.startY;
-//       const tableBottomY = breakdownTable.finalY;
-//       doc.setLineWidth(0.1);
-//       doc.setDrawColor(0, 0, 0);
-//       doc.line(verticalLineX, tableTopY, verticalLineX, tableBottomY);
-//     }
-
-//     // Save the PDF
-//     doc.save('form22-report.pdf');
-//   } catch (error) {
-//     console.error('Error generating Form 22 PDF:', error);
-//   }
-// };
 
 
 const handleDownloadForm22 = () => {
@@ -571,7 +375,7 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
       ]],
       body: [[
         '१',
-        `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती (अ) विभागातील विरार पश्चिम विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`,
+        `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${wardname} विभागातील विरार पश्चिम विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`,
         '',
         '',
         '',
@@ -652,7 +456,7 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
       "पुरवठा नोंदवहीत नमूद\n\n" +
       "करण्यात आल्या आहेत.\n\n\n" +
     "____________________________\n\n\n"+
-      "दिनांक         वस्तु पुरवठा अधिकाऱ्याची सही";
+      "दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही";
       yPos += 10;
     const availableWidth = pageWidth - 30;
     const colWidth = availableWidth / 2;
@@ -815,9 +619,9 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
       doc.text("Executive Engineer", 120, yPos + 20);
     }
 
-    if (signatures['Deputy Commissioner']) {
-      doc.addImage(signatures['Deputy Commissioner'], 'PNG', 120, yPos + 40, 30, 15);
-      doc.text("Deputy Commissioner", 120, yPos + 60);
+    if (signatures['Dy.Municipal Commissioner']) {
+      doc.addImage(signatures['Dy.Municipal Commissioner'], 'PNG', 120, yPos + 40, 30, 15);
+      doc.text("Dy.Municipal Commissioner", 120, yPos + 60);
     }
 
     if (user.role === "Lipik") {
@@ -834,7 +638,8 @@ doc.text("धनादेश क्रमांक ----------  दिनां�
 
 // Convert Blob to Object URL for preview
 const pdfUrl = URL.createObjectURL(pdfData);
-handlePdfPreview(pdfUrl);
+let type="form22";
+handlePdfPreview(pdfUrl,type,selectedMonthYear);
 setPdfBlob(pdfData);
 
     const blob = new Blob([pdfBlob], { type: 'application/pdf' });
@@ -1244,9 +1049,9 @@ if (signatures['Lipik']) {
   addSignatures();
  
   const pdfData = doc.output('datauristring');
-
+let type="tipani";
   // Now, pass the PDF data to the modal for preview
-  handlePdfPreview(pdfData);  
+  handlePdfPreview(pdfData,type,selectedMonthYear);  
    // Store the PDF Blob for download later
    const pdfBlob = doc.output('blob');
    setPdfBlob(pdfBlob);
@@ -1256,82 +1061,6 @@ if (signatures['Lipik']) {
   console.error("Error generating Karyalayin Tipani PDF:", error);
 }
 }
-
-
-
-
-
-// const downloadKaryalayinTipani = () => {
-//   setShowFormControl(true);
-//   try {
-//     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-
-//     // Load Noto Serif Devanagari Font
-//     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
-//     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
-//     doc.setFont("NotoSerifDevanagari");
-
-//     const totalAmount = rows
-//       .filter(row => row.monthAndYear === selectedMonthYear)
-//       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
-
-//     const totalAmountInWords = numberToMarathiWords(totalAmount);
-//     const pageWidth = doc.internal.pageSize.width;
-//     const leftSectionWidth = pageWidth * 0.15;
-//     const rightSectionStart = leftSectionWidth + 5;
-//     const rightAlignX = pageWidth - 15;
-//     let yPos = 15;
-
-//     // Left Section (15%)
-//     doc.setFontSize(10);
-//     doc.text("व. वि. श.", 10, yPos);
-//     yPos += 6;
-//     doc.text("महानगरपालिका", 10, yPos);
-//     doc.setDrawColor(0);
-//     doc.setLineWidth(0.2);
-//     doc.line(leftSectionWidth, 10, leftSectionWidth, 290);
-
-//     // Right Section (85%)
-//     doc.setFontSize(16);
-//     doc.text("कार्यालयीन टिपणी", rightSectionStart + 30, 20);
-//     doc.setFontSize(12);
-//     yPos = 30;
-//     const currentDate = new Date().toLocaleDateString('en-IN');
-//     doc.text(`दिनांक: ${currentDate}`, rightAlignX, yPos, { align: "right" });
-//     yPos += 7;
-
-//     const wardname = [...new Set(
-//       rows.filter(row => row.ward === wardName)
-//         .map(row => row.ward)
-//     )].join(', ');
-
-//     doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
-//     yPos += 7;
-//     doc.text("विभाग: दिवाबत्ती", rightAlignX, yPos);
-//     yPos += 10;
-//     doc.text("मा.साहेब,", rightSectionStart, yPos);
-//     yPos += 7;
-
-//     // Add more text content as per your logic...
-    
-//     // Save the PDF as a Data URL
-//     const pdfData = doc.output('datauristring');
-
-//     // Now, pass the PDF data to the modal for preview
-//     handlePdfPreview(pdfData);  // Pass the PDF content (data URL) to the modal
-
-//   } catch (error) {
-//     console.error("Error generating Karyalayin Tipani PDF:", error);
-//   }
-// };
-
-
-// -------------------------------------------------------------------------------------------------
-
-
-
-
-
 
 const convertNumberToMarathiWords = (num) => {
   const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
@@ -1368,7 +1097,6 @@ const convertNumberToMarathiWords = (num) => {
 };
 
 const handleAddReportRemarkClose = () => setReportRemarkOpen(false);
-
 
 const numberToMarathiWords = (num) => {
   const marathiNumbers = {
@@ -1415,6 +1143,9 @@ const numberToMarathiWords = (num) => {
   if (error) {
     return <Typography color="error">Error: {error}</Typography>;
   }
+
+
+  
   const filteredBills = getFilteredBills();
   const rows = [
     ...filteredBills
@@ -1723,7 +1454,7 @@ const numberToMarathiWords = (num) => {
             <Typography sx={{
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>
-              Download PDF
+             Ward Bill Totals
             </Typography>
           </Button>
           {/* <Button
@@ -1875,7 +1606,10 @@ Remark
       open={pdfPreviewOpen} 
       onClose={() => setPdfPreviewOpen(false)} 
       pdfUrl={pdfContent} 
-      title="PDF Preview" 
+      // title="PDF Preview" 
+      monthpassbackend={monthpass}
+      title={pdfType === "tipani" ? "karyalayintipani" : pdfType === "form22" ? "form22" : "wardbilllist"}
+
       onDownload={() => {
         const doc = new jsPDF();
         // doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);

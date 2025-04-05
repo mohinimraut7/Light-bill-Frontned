@@ -1230,7 +1230,7 @@ const modalStyle = {
   flexDirection: 'column',
 };
 
-const PdfPreviewModal = ({ open, onClose, pdfUrl, title, onDownload }) => {
+const PdfPreviewModal = ({ open, onClose, pdfUrl, title,monthpassbackend,onDownload }) => {
   const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -1240,6 +1240,8 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, onDownload }) => {
   const [signatureMethod, setSignatureMethod] = useState('draw');
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
+
+  console.log("title>>>>>",title)
 
   const handleDownload = () => {
     const link = document.createElement('a');
@@ -1266,10 +1268,12 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, onDownload }) => {
       const pdfBlob = await pdfResponse.blob();
       
       // Add the PDF file to FormData
-      formData.append('pdfFile', pdfBlob, `${title || 'document'}.pdf`);
       
+      formData.append('userId', user?._id || '');
+      formData.append('pdfFile', pdfBlob, `${title || 'document'}.pdf`);
       // Add other fields
-      formData.append('formType', 'PDF_REPORT');
+      formData.append('formType',title?title:'PDF_REPORT');
+      formData.append('seleMonth',monthpassbackend);
       formData.append('role', user?.role || '');
       formData.append('ward', user?.ward || '');
       formData.append('remark', remark);
