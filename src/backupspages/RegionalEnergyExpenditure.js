@@ -122,44 +122,54 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
 //   fetchSignatures();
 // }, []);
 // ------------------------------------------------------------------
+// useEffect(() => {
+//   const fetchSignatures = async () => {
+//     try {
+//       const response = await fetch(`${baseUrl}/getReports`);
+//       const reports = await response.json();
+//       console.log("reports----", reports);
+
+//       const latestSignatures = {};
+
+//       reports.forEach(report => {
+//         report.reportingRemarks.forEach(remark => {
+//           if (
+//             remark.signature &&
+//             remark.signature===user.signature &&
+//             remark.role === user.role &&
+//             remark.ward === user.ward
+//           ) {
+//             latestSignatures[remark.role] = remark.signature;
+//           }
+//         });
+//       });
+
+//       setSignatures(latestSignatures);
+//     } catch (error) {
+//       console.error('Error fetching signatures:', error);
+//     }
+//   };
+
+//   fetchSignatures();
+// }, []);
+// ------------------------------------------------------------
 useEffect(() => {
   const fetchSignatures = async () => {
     try {
       const response = await fetch(`${baseUrl}/getReports`);
       const reports = await response.json();
-      console.log("reports----", reports);
-
+      
       const latestSignatures = {};
 
       reports.forEach(report => {
-
-
-
-        // report.reportingRemarks.forEach(remark => {
-        //   if (
-        //     remark.signature &&
-        //     remark.signature===user.signature&&
-        //     remark.role === user.role &&
-        //     remark.ward === user.ward
-        //   ) {
-        //     latestSignatures[remark.role] = remark.signature;
-        //   }
-
-
         report.reportingRemarks.forEach(remark => {
-          if (
-            remark.signature &&
-            remark.role === user.role &&
-            remark.ward === user.ward
-          ) {
+          // Store signatures by ward and role
+          if (remark.signature && remark.ward && remark.role) {
             if (!latestSignatures[remark.ward]) {
               latestSignatures[remark.ward] = {};
             }
             latestSignatures[remark.ward][remark.role] = remark.signature;
           }
-
-
-
         });
       });
 
@@ -803,12 +813,23 @@ if (signatures['Lipik']) {
   if (signatures['Junior Engineer']) { 
     doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
 }
+// if (signatures['Junior Engineer']) { 
+//   doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
 
+
+  
+//   if (signatures['Junior Engineer']) { 
+//     doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
+
+
+if (signatures['Head Office']?.['Junior Engineer']) {
+  doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 150, yPos - 15, 30, 15);
+}
+
   doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 135, yPos);
-  if (signatures['Head Office']?.['Junior Engineer']) {
-    doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 135, yPos - 15, 30, 15);
-  }
   yPos += 7;
   doc.text("प्रभाग समिती (अ)", rightSectionStart, yPos);
   doc.text("प्रभाग समिती (अ)", rightSectionStart + 75, yPos);
@@ -920,50 +941,162 @@ if (signatures['Lipik']) {
 
 
 
-  const addSignatures = () => {
-    let signatureYPos = yPos + 20;
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const spacing = 40;
+  // const addSignatures = () => {
+  //   let signatureYPos = yPos + 20;
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const spacing = 40;
   
-    // Left column signatures
-    if (user.ward && signatures[user.ward]?.["Lipik"]) {
-      doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
-      doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
-    }
+  //   // Left column signatures
+  //   if (user.ward && signatures[user.ward]?.["Lipik"]) {
+  //     doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
+  //     doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
+  //   }
   
-    if (user.ward && signatures[user.ward]?.["Accountant"]) {
-      doc.addImage(signatures[user.ward]["Accountant"], 'PNG', rightSectionStart, signatureYPos + spacing, signatureWidth, signatureHeight);
-      doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
-    }
+  //   if (user.ward && signatures[user.ward]?.["Accountant"]) {
+  //     doc.addImage(signatures[user.ward]["Accountant"], 'PNG', rightSectionStart, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //     doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
+  //   }
   
-    // Middle column signatures
-    if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
-      doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos, signatureWidth, signatureHeight);
-      doc.text("कनिष्ठ अभियंता", rightSectionStart + 75, signatureYPos + signatureHeight + 5);
-    }
+  //   // Middle column signatures
+  //   if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
+  //     doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos, signatureWidth, signatureHeight);
+  //     doc.text("कनिष्ठ अभियंता", rightSectionStart + 75, signatureYPos + signatureHeight + 5);
+  //   }
   
-    if (signatures["Head Office"]?.["Junior Engineer"]) {
-      doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
-      doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 75, signatureYPos + spacing + signatureHeight + 5);
-    }
+  //   if (signatures["Head Office"]?.["Junior Engineer"]) {
+  //     doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //     doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 75, signatureYPos + spacing + signatureHeight + 5);
+  //   }
   
-    // Right column signatures
-    if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
-      doc.addImage(signatures[user.ward]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos, signatureWidth, signatureHeight);
-      doc.text("सहाय्यक आयुक्त", rightSectionStart + 140, signatureYPos + signatureHeight + 5);
-    }
+  //   // Right column signatures
+  //   if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+  //     doc.addImage(signatures[user.ward]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos, signatureWidth, signatureHeight);
+  //     doc.text("सहाय्यक आयुक्त", rightSectionStart + 140, signatureYPos + signatureHeight + 5);
+  //   }
   
-    if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
-      doc.addImage(signatures[user.ward]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos + spacing, signatureWidth, signatureHeight);
-      doc.text("उप आयुक्त", rightSectionStart + 140, signatureYPos + spacing + signatureHeight + 5);
-    }
+  //   if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
+  //     doc.addImage(signatures[user.ward]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //     doc.text("उप आयुक्त", rightSectionStart + 140, signatureYPos + spacing + signatureHeight + 5);
+  //   }
   
-    // Add ward and organization text
-    signatureYPos += spacing * 2;
-    doc.text("प्रभाग समिती (अ)", rightSectionStart, signatureYPos);
-    doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
-  };
+  //   // Add ward and organization text
+  //   signatureYPos += spacing * 2;
+  //   doc.text("प्रभाग समिती (अ)", rightSectionStart, signatureYPos);
+  //   doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
+  // };
+  // ---------------------------------------------
+
+  // const addSignatures = () => {
+  //   let signatureYPos = yPos + 20;
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const spacing = 40;
+  
+  //   // Left column signatures
+  //   if (wardName && signatures[wardName]?.["Lipik"]) {
+  //     doc.addImage(signatures[wardName]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
+  //     doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
+  //   }
+  
+  //   if (wardName && signatures[wardName]?.["Accountant"]) {
+  //     doc.addImage(signatures[wardName]["Accountant"], 'PNG', rightSectionStart, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //     doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
+  //   }
+  
+  //   // Middle column signatures
+  //   // Ward Junior Engineer
+  //   if (wardName && signatures[wardName]?.["Junior Engineer"]) {
+  //     doc.addImage(signatures[wardName]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos, signatureWidth, signatureHeight);
+  //     doc.text("कनिष्ठ अभियंता", rightSectionStart + 75, signatureYPos + signatureHeight + 5);
+  //   }
+  
+  //   // Head Office Junior Engineer
+  //   if (signatures["Head Office"]?.["Junior Engineer"]) {
+  //     doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 135, signatureYPos, signatureWidth, signatureHeight);
+  //     doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 135, signatureYPos + signatureHeight + 5);
+  //   }
+  
+  //   // Right column signatures
+  //   if (wardName && signatures[wardName]?.["Assistant Municipal Commissioner"]) {
+  //     doc.addImage(signatures[wardName]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //     doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, signatureYPos + spacing + signatureHeight + 5);
+  //   }
+  
+  //   if (wardName && signatures[wardName]?.["Dy.Municipal Commissioner"]) {
+  //     doc.addImage(signatures[wardName]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 135, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //     doc.text("उप आयुक्त", rightSectionStart + 135, signatureYPos + spacing + signatureHeight + 5);
+  //   }
+  
+  //   // Add ward and organization text
+  //   signatureYPos += spacing * 2;
+  //   doc.text(`प्रभाग समिती ${wardName}`, rightSectionStart, signatureYPos);
+  //   doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
+  // };
+//  -------------------------------------------------------------- 
+// const addSignatures = () => {
+//   // Base positioning and dimensions
+//   let signatureYPos = yPos + 20;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const spacing = 40;
+  
+//   // Column positions (from left)
+//   const leftCol = rightSectionStart;
+//   const middleCol = rightSectionStart + 75;  
+//   const rightCol = rightSectionStart + 150;
+
+//   // First row of signatures
+//   // Left column - Lipik
+//   if (wardName && signatures[wardName]?.["Lipik"]) {
+//     doc.addImage(signatures[wardName]["Lipik"], 'PNG', leftCol, signatureYPos, signatureWidth, signatureHeight);
+//     doc.text("लिपिक, विद्युत विभाग", leftCol, signatureYPos + signatureHeight + 5);
+//     doc.text("प्रभाग समिती " + wardName, leftCol, signatureYPos + signatureHeight + 12);
+//   }
+
+//   // Middle column - Ward Junior Engineer
+//   if (wardName && signatures[wardName]?.["Junior Engineer"]) {
+//     doc.addImage(signatures[wardName]["Junior Engineer"], 'PNG', middleCol, signatureYPos, signatureWidth, signatureHeight);
+//     doc.text("कनिष्ठ अभियंता", middleCol, signatureYPos + signatureHeight + 5);
+//     doc.text("प्रभाग समिती " + wardName, middleCol, signatureYPos + signatureHeight + 12);
+//   }
+
+//   // Right column - Head Office Junior Engineer
+//   if (signatures["Head Office"]?.["Junior Engineer"]) {
+//     doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightCol, signatureYPos, signatureWidth, signatureHeight);
+//     doc.text("कनिष्ठ अभियंता विद्युत", rightCol, signatureYPos + signatureHeight + 5);
+//     doc.text("(मुख्यालय)", rightCol, signatureYPos + signatureHeight + 12);
+//   }
+
+//   // Second row of signatures
+//   signatureYPos += spacing + 20;
+
+//   // Left column - Accountant
+//   if (wardName && signatures[wardName]?.["Accountant"]) {
+//     doc.addImage(signatures[wardName]["Accountant"], 'PNG', leftCol, signatureYPos, signatureWidth, signatureHeight);
+//     doc.text("लेखापाल", leftCol, signatureYPos + signatureHeight + 5);
+//     doc.text("प्रभाग समिती " + wardName, leftCol, signatureYPos + signatureHeight + 12);
+//   }
+
+//   // Middle column - Assistant Municipal Commissioner
+//   if (wardName && signatures[wardName]?.["Assistant Municipal Commissioner"]) {
+//     doc.addImage(signatures[wardName]["Assistant Municipal Commissioner"], 'PNG', middleCol, signatureYPos, signatureWidth, signatureHeight);
+//     doc.text("सहाय्यक आयुक्त", middleCol, signatureYPos + signatureHeight + 5);
+//     doc.text("प्रभाग समिती " + wardName, middleCol, signatureYPos + signatureHeight + 12);
+//   }
+
+//   // Right column - Deputy Municipal Commissioner
+//   if (wardName && signatures[wardName]?.["Dy.Municipal Commissioner"]) {
+//     doc.addImage(signatures[wardName]["Dy.Municipal Commissioner"], 'PNG', rightCol, signatureYPos, signatureWidth, signatureHeight);
+//     doc.text("उप आयुक्त", rightCol, signatureYPos + signatureHeight + 5);
+//     doc.text("वसई विरार शहर महानगरपालिका", rightCol, signatureYPos + signatureHeight + 12);
+//   }
+
+//   // Footer text
+//   signatureYPos += spacing + 25;
+//   doc.text("वसई विरार शहर महानगरपालिका", middleCol, signatureYPos);
+// };
+
   
 // -----------------------------------------------------
  
@@ -984,7 +1117,7 @@ if (signatures['Lipik']) {
   
 
   // Replace the existing signature section with this call
-  addSignatures();
+  // addSignatures();
  
   const pdfData = doc.output('datauristring');
 let type="tipani";
@@ -999,6 +1132,30 @@ let type="tipani";
   console.error("Error generating Karyalayin Tipani PDF:", error);
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const convertNumberToMarathiWords = (num) => {
   const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];

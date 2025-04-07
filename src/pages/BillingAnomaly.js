@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Tabs, Tab } from '@mui/material';
+import { Typography, Box, Tabs, Tab,Button } from '@mui/material';
 
 import { CircularProgress } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import * as XLSX from 'xlsx';
+import ConsumerButton from '../components/ConsumerButton';
 
 const BillingAnomaly = () => {
   const dispatch = useDispatch();
@@ -66,6 +69,24 @@ const BillingAnomaly = () => {
         zeroConsumptionBills.push({ ...currentBill, prevNetBillAmount: previousBill.netBillAmount || 0 });
       }
   });
+  const downloadAllTypsOfReport = () => {
+    const rows = getRows();
+      const worksheet = XLSX.utils.json_to_sheet(rows.map((row, index) =>({
+        'ID': index+1,
+        'Consumer No.': row.consumerNumber,
+        'Ward': row.ward,
+        'Meter Number': row.meterNumber,
+        'Total Consumption': row.totalConsumption,
+        'Meter Status': row.meterStatus,
+        'billMonth':row.monthAndYear,
+        'previousBillAmount':row.prevNetBillAmount,
+        'Net Bill Amount': row.netBillAmount,
+      })));
+  
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+      XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
+    };
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -100,7 +121,7 @@ const BillingAnomaly = () => {
         <Tab label="High Anomaly Bills" />
         <Tab label="Low Anomaly Bills" />
       </Tabs>
-
+      <Box sx={{mt:1}}><ConsumerButton onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Download Reports</ConsumerButton></Box>
       <Box sx={{ marginTop: '20px', border: '1px solid #F7F7F8', padding: '20px' }}>
         {/* <Typography >
           {tabValue === 0 ? 'ZERO CONSUMPTON BILLS' : tabValue === 1 ? 'HIGH ANOMALY BILLS' : 'LOW ANOMALY BILLS'}
