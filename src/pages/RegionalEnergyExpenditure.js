@@ -1000,6 +1000,65 @@ let type="tipani";
 }
 }
 
+
+const downloadFaultyMeterReport = () => {
+  setShowFormControl(true);
+  try {
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+    // Load Noto Serif Devanagari Font
+    doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+    doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+    doc.setFont("NotoSerifDevanagari");
+
+    doc.setFontSize(12);
+
+    let yPos = 15;
+    let xPos = 10;
+
+    // Header text
+    doc.text("प्रभाग समिती एच नवघर", xPos, yPos);
+    yPos += 6;
+    doc.text("विभागीय कार्यालय, नवघर,", xPos, yPos);
+    yPos += 6;
+    doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", xPos, yPos);
+    yPos += 6;
+    doc.text("ता. वसई, जि. पालघर - पिन ४०१२०२", xPos, yPos);
+    yPos += 10;
+
+
+
+    const logoWidth = 30;
+    const logoHeight = 30;
+    const logoX = 15;
+    const logoY = yPos + 10; // Adjusting Y so it aligns well with "महानगरपालिका" text
+    
+    doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
+
+    // Existing content
+    doc.setFontSize(10);
+    doc.text("व. वि. श.", xPos, yPos);
+    yPos += 6;
+    doc.text("महानगरपालिका", xPos, yPos);
+
+    const pdfData = doc.output('datauristring');
+    let type="tipani";
+      // Now, pass the PDF data to the modal for preview
+      handlePdfPreview(pdfData,type,selectedMonthYear);  
+       // Store the PDF Blob for download later
+       const pdfBlob = doc.output('blob');
+       setPdfBlob(pdfBlob);
+    
+    
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  }
+};
+
+
+
+
+
 const convertNumberToMarathiWords = (num) => {
   const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
   const marathiTens = ["", "दहा", "वीस", "तीस", "चाळीस", "पन्नास", "साठ", "सत्तर", "ऐंशी", "नव्वद"];
@@ -1524,6 +1583,39 @@ const numberToMarathiWords = (num) => {
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>
               Genrate Karyalayin Tipani
+            </Typography>
+          </Button> 
+
+          <Button
+            sx={{
+              color: '#757575',
+              border: '0.1px solid #757575',
+              cursor: 'pointer',
+              textTransform: 'none',
+              // display: 'flex',
+              // justifyContent: 'space-between',
+              width: {
+                xl: isSidebarOpen ? '20%' : '20%',
+                lg: isSidebarOpen ? '20%' : '20%',
+                md: '30%',
+                sm: '100%',
+                xs: '100%',
+              },
+              ml: {
+                xl: 1,
+                lg: 1,
+                md: 0,
+                sm: 0
+              },
+              height: '65%',
+            }}
+            onClick={downloadFaultyMeterReport}
+          >
+            <DownloadIcon />
+            <Typography sx={{
+              fontSize: isSidebarOpen ? '12.2px' : '14px'
+            }}>
+              Generate Faulty Meter Report
             </Typography>
           </Button> 
 
