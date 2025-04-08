@@ -37,6 +37,8 @@ import AverageMetersCurrentMonth from '../components/table/AverageMetersCurrentM
 import FaultyMetersCurrentMonth from '../components/table/FaultyMetersCurrentMonth';
 import UpcomingDueBillCurrentMonth from '../components/table/UpcomingDueBillCurrenthMonth';
 import { upComingDueBills } from '../utils/DueBillHelper';
+import PaidBillpreviousTwoMonthBefore from '../components/table/PaidBillpreviousTwoMonthBefore';
+import FaultyMetersBeforeTwoMonth from '../components/table/FaultyMetersBeforeTwoMonth';
 
 
 
@@ -54,19 +56,16 @@ const Home = () => {
   const [showCMonthPaidTable, setShowCMonthPaidTable] = useState(false);
   const [showPMonthPaidTable, setShowPMonthPaidTable] = useState(false);
   const [showCMonthAvgTable, setShowCMonthAvgTable] = useState(false);
-
   const [showCMonthUDueBill, setshowCMonthUDueBill] = useState(false);
-
-
- 
-
-
-
+const [showPTwoMonthBeforePaidTable,setShowPTwoMonthBeforePaidTable]=useState(false);
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
   const [wardFaultyCounts, setWardFaultyCounts] = useState({});
   const [totalFaultyMeters, setTotalFaultyMeters] = useState(0);
   const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
-  
+  const [totalFaultyMetersBeforeTwo, setTotalFaultyMetersBeforeTwo] = useState(0);
+
+  const [showBeforeTwoMonthFaultyTable, setShowBeforeTwoMonthFaultyTable] = useState(false);
+const[twoMB,setTwoMB]=useState('');
   // useEffect(() => {
   //   if (!loadingBills && bills.length > 0) {
   //     const counts = bills.reduce((acc, bill) => {
@@ -140,6 +139,59 @@ const Home = () => {
   
       setWardFaultyCounts(finalCounts);
       setTotalFaultyMeters(totalFaulty);
+
+
+
+
+//  // 🔹 2 Months Before Faulty Meter Logic
+//  const prevDateTMB = new Date();
+//  prevDate.setMonth(prevDateTMB.getMonth() - 2);
+//  const prevMonthTMB = prevDateTMB.toLocaleString("en-US", { month: "short" }).toUpperCase();
+//  const prevYearTMB = prevDateTMB.getFullYear();
+//  const prevTwoMonthYear = `${prevMonthTMB}-${prevYearTMB}`;
+
+//  const beforeTwoCounts = bills.reduce((acc, bill) => {
+//    if (
+//      bill.meterStatus === "FAULTY" &&
+//      bill.monthAndYear === prevTwoMonthYear &&
+//      (user.role !== "Junior Engineer" || bill.ward === user.ward || (user.role === "Junior Engineer" && user.ward === "Head Office"))
+//    ) {
+//      const ward = bill.ward;
+//      acc[ward] = (acc[ward] || 0) + 1;
+//    }
+//    return acc;
+//  }, {});
+
+//  const totalBeforeTwo = Object.values(beforeTwoCounts).reduce((sum, count) => sum + count, 0);
+//  setTotalFaultyMetersBeforeTwo(totalBeforeTwo);
+
+
+
+
+// 🔹 2 Months Before Faulty Meter Logic (with currentYear)
+const prevDateTMB = new Date();
+prevDateTMB.setMonth(prevDateTMB.getMonth() - 2);  // 👉 2 months back
+
+const prevMonthTMB = prevDateTMB.toLocaleString("en-US", { month: "short" }).toUpperCase();  // eg. FEB
+const prevTwoMonthYear = `${prevMonthTMB}-${currentYear}`;  // 👈 Use currentYear here
+setTwoMB(prevTwoMonthYear);
+const beforeTwoCounts = bills.reduce((acc, bill) => {
+  if (
+    bill.meterStatus === "FAULTY" &&
+    bill.monthAndYear === prevTwoMonthYear &&
+    (user.role !== "Junior Engineer" || bill.ward === user.ward || (user.role === "Junior Engineer" && user.ward === "Head Office"))
+  ) {
+    const ward = bill.ward;
+    acc[ward] = (acc[ward] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+const totalBeforeTwo = Object.values(beforeTwoCounts).reduce((sum, count) => sum + count, 0);
+setTotalFaultyMetersBeforeTwo(totalBeforeTwo);
+
+
+
     }
   }, [bills, loadingBills, user]);
 
@@ -384,7 +436,7 @@ backgroundColor="#f8fffc"
     </Box>)} */}
 
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) &&
- (showConsumerTable || showCMonthPaidTable || showPMonthPaidTable) && (
+ (showConsumerTable || showCMonthPaidTable || showPMonthPaidTable || showPTwoMonthBeforePaidTable) && (
   <Box sx={{
     display: 'flex',
     flexDirection: {
@@ -408,6 +460,7 @@ backgroundColor="#f8fffc"
     {showConsumerTable && <Wardnamecount />}
     {showCMonthPaidTable && <PaidBillCurrentMonth />}
     {showPMonthPaidTable && <PaidBillPreviousMonth />}
+    {/* {showPTwoMonthBeforePaidTable && <PaidBillpreviousTwoMonthBefore />} */}
   </Box>
 )}
 
@@ -450,6 +503,8 @@ IconComponent={UpcomingIcon}
     setshowCMonthUDueBill(prev => !prev);
   }}
 />
+
+
   {/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',flexDirection:{
         xl:'row',
         lg:'row',
@@ -510,6 +565,7 @@ IconComponent={UpcomingIcon}
   />
 )}
 
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
 
 <InfoCard
   // IconComponent={CurrencyRupeeOutlinedIcon}
@@ -520,11 +576,68 @@ IconComponent={UpcomingIcon}
   avatarIcon="M"
   title={`Paid Bills (${previousTwoMonthCYear})`}
   count={previousTwoMonthPaidCount}
-
   onClick={() => {
-    setShowPMonthPaidTable(prev => !prev);
+    setShowPTwoMonthBeforePaidTable(prev => !prev);
   }}
 />
+)}
+
+
+<InfoCard
+IconComponent={ErrorOutlinedIcon}
+backgroundColor="#F8FFFC"
+  className="container-infocard"
+  avatarColor="#FFA534"
+  avatarIcon="M"
+ title={`Faulty Meters ${twoMB}`}
+  // count={meterStatusCounts.Faulty}
+  count={totalFaultyMetersBeforeTwo}
+  onClick={() => {
+    setShowBeforeTwoMonthFaultyTable(prev => !prev);
+  }}
+/>
+
+
+     </div>
+
+
+
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+  <Box sx={{
+    display: 'flex',
+    flexDirection: {
+      xl: 'row',
+      lg: 'row',
+      md: 'row',
+      sm: 'column',
+      xs: 'column'
+    },
+    width: '100%',
+    justifyContent: {
+      lg: 'space-around',
+      xl: 'space-around',
+      sm: 'center',
+      xs: 'space-between'
+    },
+    pl: { xl: '0%', lg: '0%', sm: '0%', xs: '0%' },
+    // mt: { xl: 5, lg: 5 },
+    // mb: { xl: 8, lg: 8 }
+  }}>
+    {showPTwoMonthBeforePaidTable && <PaidBillpreviousTwoMonthBefore />}
+    {showBeforeTwoMonthFaultyTable && <FaultyMetersBeforeTwoMonth />}
+  </Box>
+)}
+
+
+
+
+
+
+
+
+
+
+
 <InfoCard
 // IconComponent={CurrencyRupeeOutlinedIcon}
 IconComponent={AccessTimeFilledIcon}
@@ -537,7 +650,32 @@ backgroundColor="#f8fffc"
   title="Overdue Bills"
   count={passedDueDateCount}
 />
-     </div>
+
+
+{/* <InfoCard
+IconComponent={ErrorOutlinedIcon}
+backgroundColor="#F8FFFC"
+  className="container-infocard"
+  avatarColor="#FFA534"
+  avatarIcon="M"
+  title="Total Faulty Meters Before Two Months"
+  // count={meterStatusCounts.Faulty}
+  count={totalFaultyMetersBeforeTwo}
+  onClick={() => {
+    setShowBeforeTwoMonthFaultyTable(prev => !prev);
+  }}
+/> */}
+
+
+
+
+
+
+
+
+
+
+
      {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (<Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}></Box>)}
      <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
       <Box sx={{
