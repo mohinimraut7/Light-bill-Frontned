@@ -1090,10 +1090,19 @@ const downloadFaultyMeterReport = () => {
     doc.text("जा.क्र. :-", rightX, y + 18);
     doc.text("दिनांक :-", rightX, y + 24);
 
+   let yPos = 15;
+    const logoWidth = 30;
+const logoHeight = 30;
+const logoX = 15;
+const logoY = yPos + 10; 
+// doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
+
     // Center Logo Placeholder (circle)
     doc.setDrawColor(0);
     doc.setFillColor(220);
     doc.circle(centerX, y + 12, 10, 'F');
+
+  
 
     y += 36; // Leave space for logo and header
 
