@@ -1001,55 +1001,184 @@ let type="tipani";
 }
 
 
+// const downloadFaultyMeterReport = () => {
+//   setShowFormControl(true);
+//   try {
+//     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+//     // Load Noto Serif Devanagari Font
+//     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+//     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+//     doc.setFont("NotoSerifDevanagari");
+
+//     doc.setFontSize(12);
+
+//     let yPos = 15;
+//     let xPos = 10;
+
+//     // Header text
+//     doc.text("प्रभाग समिती एच नवघर", xPos, yPos);
+//     yPos += 6;
+//     doc.text("विभागीय कार्यालय, नवघर,", xPos, yPos);
+//     yPos += 6;
+//     doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", xPos, yPos);
+//     yPos += 6;
+//     doc.text("ता. वसई, जि. पालघर - पिन ४०१२०२", xPos, yPos);
+//     yPos += 10;
+
+
+
+   
+
+//     // Existing content
+//     doc.setFontSize(10);
+//     doc.text("व. वि. श.", xPos, yPos);
+//     yPos += 6;
+//     doc.text("महानगरपालिका", xPos, yPos);
+
+//     const pdfData = doc.output('datauristring');
+// let type="tipani";
+//   // Now, pass the PDF data to the modal for preview
+//   handlePdfPreview(pdfData,type,selectedMonthYear);  
+//    // Store the PDF Blob for download later
+//    const pdfBlob = doc.output('blob');
+//    setPdfBlob(pdfBlob);
+    
+    
+//   } catch (error) {
+//     console.error("Error generating PDF:", error);
+//   }
+// };
+
+
+// ------------------------------------------------------------------------------
+
 const downloadFaultyMeterReport = () => {
   setShowFormControl(true);
   try {
     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
     // Load Noto Serif Devanagari Font
-    doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
-    doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
-    doc.setFont("NotoSerifDevanagari");
+    // doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+    // doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+    // doc.setFont("NotoSerifDevanagari");
+    doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
+    doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
+    loadDvoSBShipFont(doc);
+    doc.setFont("DVOTSurekh_B_Ship");
+
 
     doc.setFontSize(12);
 
-    let yPos = 15;
-    let xPos = 10;
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-    // Header text
-    doc.text("प्रभाग समिती एच नवघर", xPos, yPos);
-    yPos += 6;
-    doc.text("विभागीय कार्यालय, नवघर,", xPos, yPos);
-    yPos += 6;
-    doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", xPos, yPos);
-    yPos += 6;
-    doc.text("ता. वसई, जि. पालघर - पिन ४०१२०२", xPos, yPos);
-    yPos += 10;
+    // Header section with left-center-right alignment
+    const leftX = 10;
+    const centerX = pageWidth / 2;
+    const rightX = pageWidth - 60;
+    let y = 20;
+
+    // Left Header Text
+    doc.text("प्रभाग समिती 'एच' नवघर", leftX, y);
+    doc.text("विभागीय कार्यालय, नवघर,", leftX, y + 6);
+    doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", leftX, y + 12);
+    doc.text("ता. वसई, जि. पालघर - पिन ४०१२०२", leftX, y + 18);
+
+    // Right Header Text
+    doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
+    doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
+    doc.text("जा.क्र. :-", rightX, y + 18);
+    doc.text("दिनांक :-", rightX, y + 24);
+
+    // Center Logo Placeholder (circle)
+    doc.setDrawColor(0);
+    doc.setFillColor(220);
+    doc.circle(centerX, y + 12, 10, 'F');
+
+    y += 36; // Leave space for logo and header
+
+    // Address Block
+    doc.text("प्रति,", leftX, y);
+    y += 8;
+    doc.text("मा. उप-कार्यकारी अभियंता", leftX, y);
+    y += 8;
+    doc.text("म.रा.वि.वि.कं.लि,", leftX, y);
+    y += 8;
+    doc.text("वसई प.", leftX, y);
+    y += 12;
+
+    // Subject Line
+    doc.setFontSize(11);
+    doc.text("विषय:- विद्युत मिटर जळाल्याबाबत.", leftX, y);
+    y += 12;
+
+//     // Main Content Paragraph
+//     const content = `महोदय, उपरोक्त विषयान्वये कळविण्यात येते की, वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच' 
+// दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून सदर मिटर बदली करून नविन मिटर बसविणे 
+// गरजेचे आहे. जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल. सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार 
+// नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation) महापालिकेकडे पाठवावे ही विनंती.`;
+
+// Paragraph style with manual vertical spacing
+// doc.text("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,", leftX, y);
+// y += 18;
+// doc.text("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'", leftX, y);
+// y += 18;
+// doc.text("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून", leftX, y);
+// y += 18;
+// doc.text("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे.", leftX, y);
+// y += 18;
+// doc.text("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल.", leftX, y);
+// y += 18;
+// doc.text("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार", leftX, y);
+// y += 8;
+// doc.text("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)", leftX, y);
+// y += 18;
+// doc.text("महापालिकेकडे पाठवावे ही विनंती.", leftX, y);
+// y += 18;
 
 
 
-    const logoWidth = 30;
-    const logoHeight = 30;
-    const logoX = 15;
-    const logoY = yPos + 10; // Adjusting Y so it aligns well with "महानगरपालिका" text
-    
-    doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
+const normalSpacing = 8;
+const extraSpacing = 14; // after every 2 lines
 
-    // Existing content
-    doc.setFontSize(10);
-    doc.text("व. वि. श.", xPos, yPos);
-    yPos += 6;
-    doc.text("महानगरपालिका", xPos, yPos);
+doc.text("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,", leftX, y);
+y += normalSpacing;
+doc.text("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'", leftX, y);
+y += extraSpacing;
 
+doc.text("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून", leftX, y);
+y += normalSpacing;
+doc.text("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे.", leftX, y);
+y += extraSpacing;
+
+doc.text("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल.", leftX, y);
+y += normalSpacing;
+doc.text("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार", leftX, y);
+y += extraSpacing;
+
+doc.text("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)", leftX, y);
+y += normalSpacing;
+doc.text("महापालिकेकडे पाठवावे ही विनंती.", leftX, y);
+y += extraSpacing;
+
+
+
+    // const contentLines = doc.splitTextToSize(content, 180);
+    // doc.text(contentLines, leftX, y);
+    // y += contentLines.length * 6;
+
+    y = 240;
+const signatureX = pageWidth - 60;
+doc.text("अधिक्षक, विद्युत विभाग", signatureX, y);
+doc.text("प्रभाग समिती 'एच'", signatureX, y + 8);
+doc.text("वसई विरार शहर महानगरपालिका", signatureX, y + 16);
     const pdfData = doc.output('datauristring');
-    let type="tipani";
-      // Now, pass the PDF data to the modal for preview
-      handlePdfPreview(pdfData,type,selectedMonthYear);  
-       // Store the PDF Blob for download later
-       const pdfBlob = doc.output('blob');
-       setPdfBlob(pdfBlob);
-    
-    
+    let type = "tipani";
+
+    handlePdfPreview(pdfData, type, selectedMonthYear);
+
+    const pdfBlob = doc.output('blob');
+    setPdfBlob(pdfBlob);
   } catch (error) {
     console.error("Error generating PDF:", error);
   }
