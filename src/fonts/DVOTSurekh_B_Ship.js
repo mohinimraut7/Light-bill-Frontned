@@ -40,15 +40,16 @@ export const reverseDevanagariIfContainsViOrLi = (text) => {
       .replace(/लि/g, "िल")  // "लि" → "िल"
       .replace(/बि/g, "िब") // "बि" → "िब"
       .replace(/शि/g, "िश") // "शि" → "िश"
-      .replace(/रि/g, "िर") // "रि" → "िर"
+      .replace(/रि/g, "िर")               // 
       .replace(/\bनि(?=[क-ह])/g, "िन") // ✅ smart safe
+      .replace(/नि/g, "िन")
       .replace(/मि/g, "िम") // newly added
       .replace(/णि/g, "िण")
       .replace(/धि/g, "िध")    // newly added
       .replace(/दि/g, "िद")    // newly added
       .replace(/हि/g, "िह") // newly added
       .replace(/टि/g, "िट")
-    //   .replace(/पि/g, "िप")    // ✅ newly added: "पि" → "िप
+      .replace(/\bपि(?=[क-ह])/g, "िप")
     .replace(/मि/g, "िम")
       .replace(/भि/g, "िभ"); // ✅ newly added
   };

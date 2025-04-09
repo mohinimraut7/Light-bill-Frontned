@@ -1126,8 +1126,10 @@ const logoY = yPos + 10;
     y += 12;
 
     // Subject Line
+
+    
     doc.setFontSize(11);
-    doc.text(reverseDevanagariIfContainsViOrLi("विषय:- विद्युत मिटर जळाल्याबाबत."), leftX, y);
+    doc.text(reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत."), leftX, y);
     y += 12;
 
 //     // Main Content Paragraph
@@ -1762,7 +1764,7 @@ const numberToMarathiWords = (num) => {
             <Typography sx={{
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>
-              Generate Faulty Meter Report
+             Faulty Meter Report
             </Typography>
           </Button> 
 
