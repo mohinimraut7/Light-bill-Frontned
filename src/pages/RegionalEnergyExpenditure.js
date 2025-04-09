@@ -719,6 +719,8 @@ const handleAddFormTtOpen = () => {
 
 const downloadKaryalayinTipani = () => {
   setShowFormControl(true); 
+  const signatureWidth = 30;
+    const signatureHeight = 15;
 try {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   // Load Noto Serif Devanagari Font
@@ -802,22 +804,94 @@ yPos += 7;
  
 
 
-if (signatures['Lipik']) { 
-  doc.addImage(signatures['Lipik'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
+// if (signatures['Lipik']) { 
+//   doc.addImage(signatures['Lipik'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
+// }
+
+// let signatureYPos = yPos + 20;
+// const signatureWidth = 30;
+// const signatureHeight = 15;
+// const spacing = 40;
+
+// // Left column signatures
+// if (user.ward && signatures[user.ward]?.["Lipik"]) {
+//   doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
+//   doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
+// }
+
+
+if (user.ward && signatures[user.ward]?.["Lipik"]) {
+  const signatureWidth = 30;
+  const signatureHeight = 30;
+
+  // Signature first at yPos
+  doc.addImage(
+    signatures[user.ward]["Lipik"],
+    'PNG',
+    rightSectionStart,
+    yPos - 17,
+    signatureWidth,
+    signatureHeight
+  );
+  // Signature image below the text
+ 
 }
-
-
   doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
 
-  if (signatures['Junior Engineer']) { 
-    doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+//   if (signatures['Junior Engineer']) { 
+//     doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
+
+if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
+  let signatureYPos = yPos + 20;
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+    const spacing = 40;
+  doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, yPos - 15, signatureWidth, signatureHeight);
+  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
 }
+
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
 
-  doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 135, yPos);
-  if (signatures['Head Office']?.['Junior Engineer']) {
-    doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 135, yPos - 15, 30, 15);
+
+  // if (signatures["Head Office"]?.["Junior Engineer"]) {
+  //   let signatureYPos = yPos + 20;
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const spacing = 40;
+  //   doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
+  //   doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 135, signatureYPos + spacing + signatureHeight + 5);
+  // }
+
+  // doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 135, yPos);
+
+  if (signatures["Head Office"]?.["Junior Engineer"]) {
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+  
+    // Signature image added at proper aligned position
+    doc.addImage(
+      signatures["Head Office"]["Junior Engineer"],
+      'PNG',
+      rightSectionStart + 135,
+      yPos - 15,
+      signatureWidth,
+      signatureHeight
+    );
+  
+    // Signature label text at yPos
+    doc.text(
+      reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+      rightSectionStart + 135,
+      yPos
+    );
   }
+  
+
+ 
+  // if (signatures['Head Office']?.['Junior Engineer']) {
+  //   doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 135, yPos - 15, 30, 15);
+  // }
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
   doc.text("प्रभाग समिती (अ)", rightSectionStart + 75, yPos);
@@ -946,16 +1020,15 @@ if (signatures['Lipik']) {
       doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
     }
   
-    // Middle column signatures
-    if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
-      doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos, signatureWidth, signatureHeight);
-      doc.text("कनिष्ठ अभियंता", rightSectionStart + 75, signatureYPos + signatureHeight + 5);
-    }
+    // if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
+    //   doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, yPos - 15, signatureWidth, signatureHeight);
+    //   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
+    // }
   
-    if (signatures["Head Office"]?.["Junior Engineer"]) {
-      doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
-      doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 75, signatureYPos + spacing + signatureHeight + 5);
-    }
+    // if (signatures["Head Office"]?.["Junior Engineer"]) {
+    //   doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
+    //   doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 75, signatureYPos + spacing + signatureHeight + 5);
+    // }
   
     // Right column signatures
     if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
