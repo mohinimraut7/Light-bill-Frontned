@@ -41,7 +41,7 @@ export const reverseDevanagariIfContainsViOrLi = (text) => {
       .replace(/बि/g, "िब") // "बि" → "िब"
       .replace(/शि/g, "िश") // "शि" → "िश"
       .replace(/रि/g, "िर") // "रि" → "िर"
-      .replace(/नि/g, "िन")// "नि" → "िन"
+      .replace(/\bनि(?=[क-ह])/g, "िन") // ✅ smart safe
       .replace(/मि/g, "िम") // newly added
       .replace(/णि/g, "िण")
       .replace(/धि/g, "िध")    // newly added
