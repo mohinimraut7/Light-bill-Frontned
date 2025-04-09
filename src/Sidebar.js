@@ -392,6 +392,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 lg: user?.role === 'Super Admin' ? '85%' : user?.role === 'Executive Engineer' ? '280px' : user?.role === 'Admin' ? '180px' : '260px',
               },
             }}>
+
+
+
               <Box
                 sx={{
                   
@@ -418,12 +421,12 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     lg: '15px'
                   },
                   width:{
-                    lg:'135px',
-                    md:'135px',
+                    lg:'205px',
+                    md:'205px',
                     sm:'100%',
                     xs:'100%'
                   }
-                }}>{user?.role}
+                }}><span style={{marginRight:'10px'}}>{user?.role}</span> {" "}<span>{user?.ward}</span> 
               </Box>
               <Box>
                 {isAuthenticated ? (
@@ -434,6 +437,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   
                       <IconButton sx={{ color: '#FB404B' }} onClick={handleLogout}>
                         <PowerSettingsNewIcon />
+                        
                       </IconButton>
                   
                   </Box>
@@ -447,12 +451,16 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   </>
                 )}
               </Box>
+              
+           
             </Box>
           </Box>
           <IconButton sx={{ color: '#0d2136', display: isSm && open ? 'flex' : 'none', }} onClick={handleLogout}>
             <PowerSettingsNewIcon />
           </IconButton>
+          
         </Toolbar>
+      
       </BlurAppBar>}
       
       

@@ -31,7 +31,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
 import { addReport, fetchReports } from '../store/actions/reportActions';
-import { DVOTSurekhBShip, loadDvoSBShipFont } from '../fonts/DVOTSurekh_B_Ship';
+import { DVOTSurekhBShip, loadDvoSBShipFont ,reverseDevanagariText,reverseDevanagariIfNeeded,reverseDevanagariIfContainsViOrLi,fixPashchim} from '../fonts/DVOTSurekh_B_Ship';
 
 
 // if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
@@ -378,33 +378,33 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     doc.text("नमुना नं. २२", 85, yPos);
 
     yPos += 8;
-    doc.text("(नियम २२ (१))", 85, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("(नियम २२ (१))"), 85, yPos);
 
     yPos += 10;
     doc.setFontSize(14);
-    doc.text("वसई विरार शहर महानगरपालिका", 65, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), 65, yPos);
 
     yPos += 15;
     doc.setFontSize(11);
 
     // --- Form Details with Lines ---
-    doc.text("बिल क्रमांक:", 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("बिल क्रमांक:"), 15, yPos);
     doc.line(40, yPos, 100, yPos);
     doc.text("प्रमाणक क्रमांक:", 105, yPos);
     doc.line(140, yPos, 170, yPos);
     const currentDate = new Date().toLocaleDateString('en-IN');
-    doc.text(`दिनांक ${currentDate}`, 150, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक ${currentDate}`), 150, yPos);
 
     yPos += 10;
-    doc.text("पैसे देणाऱ्याचे नांव : म.रा.वि.वि. कंपनी", 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("पैसे देणाऱ्याचे नांव : म.रा.वि.वि. कंपनी"), 15, yPos);
     yPos += 8;
     // doc.text(`पत्ता : प्रभाग समिती ${wardname}`, 15, yPos);
     doc.text(`पत्ता : ${wardname}`, 15, yPos);
 
     yPos += 8;
-    doc.text("माल : विद्युत विभाग", 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("माल : विद्युत विभाग"), 15, yPos);
     yPos += 8;
-    doc.text("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक", 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक"), 15, yPos);
 
     // --- Calculate Total Amount ---
     const totalAmount = rows
@@ -412,6 +412,7 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
 
       const totalAmountInWords =  (totalAmount); 
+     let l1= fixPashchim(`पश्चिम`);
 
     // --- Main Table ---
     yPos += 10;
@@ -420,14 +421,14 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
       head: [[
         'अनु.\nक्रमांक',
         'कामाचा किंवा वस्तूंचा तपशील',
-        'परिमाण\nकिंवा वजन',
+        reverseDevanagariIfContainsViOrLi('परिमाण\nकिंवा वजन'),
         'दर',
-        'युनिट',
+        reverseDevanagariIfContainsViOrLi('युनिट'),
         'रक्कम\nरु.    पै.'
       ]],
       body: [[
         '१',
-        `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${wardname} विभागातील विरार पश्चिम विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`,
+        reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${wardname} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
         '',
         '',
         '',
@@ -492,23 +493,23 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
 
     // --- Two-Column Section ---
     const leftText = 
-      "१) रक्कमेचे नियम वाट्य _______________ रु.\n\n" +
+      reverseDevanagariIfContainsViOrLi("१) रक्कमेचे नियम वाट्य _______________ रु.\n\n") +
       "२) पूर्वीचा खर्च _______________ रु.\n\n" +
-      "३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n\n" +
+      reverseDevanagariIfContainsViOrLi("३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n\n") +
       "२ व ३ यांची बेरीज _______________ रु.\n\n" +
-      "उपलब्ध शिल्लक _______________ रु.";
+       reverseDevanagariIfContainsViOrLi("उपलब्ध शिल्लक _______________ रु.");
 
     const rightText = 
-      "प्रमाणित करण्यांत येते की या बिलांत\n\n" +
-      "दर्शविलेले दर व\n\n" +
-      "परिमाणे ही अचूक आहेत आणि\n\n" +
+       reverseDevanagariIfContainsViOrLi("प्रमाणित करण्यांत येते की या बिलांत\n\n") +
+       reverseDevanagariIfContainsViOrLi("दर्शविलेले दर व\n\n") +
+       reverseDevanagariIfContainsViOrLi("परिमाणे ही अचूक आहेत आणि\n\n") +
       "सामुग्री, वस्तु यांच्या\n\n" +
-      "स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n\n" +
-      "संख्यात्मक लेख्याच्या समर्थित\n\n" +
+       reverseDevanagariIfContainsViOrLi("स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n\n") +
+       reverseDevanagariIfContainsViOrLi("संख्यात्मक लेख्याच्या समर्थित\n\n") +
       "पुरवठा नोंदवहीत नमूद\n\n" +
       "करण्यात आल्या आहेत.\n\n\n" +
     "____________________________\n\n\n"+
-      "दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही";
+       reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
       yPos += 10;
     const availableWidth = pageWidth - 30;
     const colWidth = availableWidth / 2;
@@ -563,7 +564,7 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     yPos += 7;
     doc.text("अचूक आहे.", 15, yPos);
     yPos += 10;
-    doc.text("दिनांक: ----------------------------", 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
     yPos += 15;
     doc.text("-----------------                     -------------------", 15, yPos);
     yPos += 10;
@@ -582,11 +583,11 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
    
     
     // Dynamic totalAmount in Marathi format
-    doc.text(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`, 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`), 15, yPos);
     yPos += 10;
     doc.text(`(अक्षरी: ${totalAmountInWords} रुपये देण्यात यावेत)`, 15, yPos);
     yPos += 10;
-    doc.text("दिनांक: _______                        उपायुक्त", 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: _______                        उपायुक्त"), 15, yPos);
     yPos += 15;
     doc.text("-------------------------------------------------------", 15, yPos);
     yPos += 10;
@@ -596,9 +597,9 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     yPos += 10;
     
     // Dynamic totalAmount repeated
-    doc.text(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`, 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`), 15, yPos);
     yPos += 10;
-    doc.text(`(अक्षरी: ${totalAmountInWords} रुपये मिळाले)`, 15, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi(`अक्षरी: ${totalAmountInWords} रुपये मिळाले`), 15, yPos);
     yPos += 15;
     doc.text("                                मुद्रांक", 15, yPos);
     yPos += 7;
@@ -609,22 +610,22 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
 
 
     yPos = 30; // Reset yPos for right column
-    doc.text("निर्णय क्रमांक ----------------", 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("निर्णय क्रमांक ----------------"), 120, yPos);
     yPos += 10;
-    doc.text("दिनांक ----------------", 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक ----------------"), 120, yPos);
     yPos += 10;
 
     // Dynamic totalAmount in right section
-    doc.text(`बिलांत दाखवलेली रु. ${totalAmount.toLocaleString('hi-IN')}/- ची रक्कम`, 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi(`बिलांत दाखवलेली रु. ${totalAmount.toLocaleString('hi-IN')}/- ची रक्कम`), 120, yPos);
     yPos += 7;
     doc.text(`(अक्षरी रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
     yPos += 10;
     doc.text("मंजूर करण्यात येत आहे.", 120, yPos);
     yPos += 10;
-    doc.text("मुख्य लेखाधिकारी ----------------------", 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("मुख्य लेखाधिकारी ----------------------"), 120, yPos);
     yPos += 10;
-    doc.text("दिनांक                          उप-आयुक्त", 120, yPos);
-    doc.text("वसई-विरार शहर महानगरपालिका", 120, yPos + 7);
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
 
     yPos += 15;
     doc.text("----------------------------------------------------", 120, yPos);
@@ -632,23 +633,23 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     yPos += 15;
     doc.text("------------------------                  -------------------------", 120, yPos);
     yPos += 10;
-    doc.text("दिनांक                          उप-आयुक्त", 120, yPos);
-    doc.text("वसई-विरार शहर महानगरपालिका", 120, yPos + 7);
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
 
     yPos += 15;
 doc.text("----------------------------------------------------", 120, yPos);
 
 yPos += 10; // इथे गॅप वाढवला
-doc.text("धनादेश क्रमांक ----------  दिनांक  ------------", 120, yPos);
+doc.text(reverseDevanagariIfContainsViOrLi("धनादेश क्रमांक ----------  दिनांक  ------------"), 120, yPos);
 
     yPos += 10;
-    doc.text("द्वारे देण्यात आले आणि ----------------------", 120, yPos);
-    doc.text("प्रस्तावित रोख वहित नोंद घेतली", 120, yPos + 7);
+    doc.text(reverseDevanagariIfContainsViOrLi("द्वारे देण्यात आले आणि ----------------------"), 120, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("प्रस्तावित रोख वहित नोंद घेतली"), 120, yPos + 7);
     yPos += 20;
     doc.text("----------------------                  ---------------------------------", 120, yPos);
     yPos += 10;
     doc.text("रोखपाल                          उप-आयुक्त", 120, yPos);
-    doc.text("वसई-विरार शहर महानगरपालिका", 120, yPos + 7);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
 
     doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता 60 पासून सुरू होईल**
 
@@ -709,6 +710,7 @@ setPdfBlob(pdfData);
 
 
 
+
 const handleAddFormTtOpen = () => {
   setAddFormTtOpen(true)
 }
@@ -720,9 +722,14 @@ const downloadKaryalayinTipani = () => {
 try {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   // Load Noto Serif Devanagari Font
-  doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
-  doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
-  doc.setFont("NotoSerifDevanagari");
+  // doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+  // doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+  // doc.setFont("NotoSerifDevanagari");
+
+  doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
+    doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
+    loadDvoSBShipFont(doc);
+    doc.setFont("DVOTSurekh_B_Ship");
   // const totalAmount = rows
   // .filter(row => row.monthAndYear === selectedMonthYear && row.ward === wardName && row.meterPurpose === meterPurposeName)
   // .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
@@ -737,20 +744,20 @@ try {
   let yPos = 15;
   // Left Section (15%)
   doc.setFontSize(10);
-  doc.text("व. वि. श.", 10, yPos); // "व. वि. श." on top
+  doc.text(reverseDevanagariIfContainsViOrLi("व. वि. श."), 10, yPos); // "व. वि. श." on top
   yPos += 6; // Move down for spacing
-  doc.text("महानगरपालिका", 10, yPos); // "महानगरपालिका" below it
+  doc.text(reverseDevanagariIfContainsViOrLi("महानगरपालिका"), 10, yPos); // "महानगरपालिका" below it
   // Draw vertical line
   doc.setDrawColor(0);
   doc.setLineWidth(0.2);
   doc.line(leftSectionWidth, 10, leftSectionWidth, 290); // Line from top to bottom
   // Right Section (85%) - Main Content
   doc.setFontSize(16);
-  doc.text("कार्यालयीन टिपणी", rightSectionStart + 30, 20);
+  doc.text(reverseDevanagariIfContainsViOrLi("कार्यालयीन टिपणी"), rightSectionStart + 30, 20);
   doc.setFontSize(12);
   yPos = 30;
   const currentDate = new Date().toLocaleDateString('en-IN');
-  doc.text(`दिनांक: ${currentDate}`, rightAlignX, yPos, { align: "right" });
+  doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक: ${currentDate}`), rightAlignX, yPos, { align: "right" });
   yPos += 7;
   const wardname = [...new Set(
     rows.filter(row => row.ward === wardName) // फक्त निवडलेल्या wardName नुसार फिल्टर करणे
@@ -758,7 +765,7 @@ try {
 )].join(', '); // डुप्लिकेट्स काढून "," ने जोडणे
   doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
   yPos += 7;
-  doc.text("विभाग: दिवाबत्ती", rightAlignX, yPos, { align: "right" });
+  doc.text(reverseDevanagariIfContainsViOrLi("विभाग: दिवाबत्ती"), rightAlignX, yPos, { align: "right" });
   yPos += 10;
   doc.text("मा.साहेब,", rightSectionStart, yPos);
   yPos += 7;
@@ -766,25 +773,25 @@ try {
     rows.filter(row => row.meterPurpose === meterPurposeName) // फक्त निवडलेल्या meterPurpose नुसार फिल्टर करणे
         .map(row => row.meterPurpose) // फक्त 'ward' ची व्हॅल्यू काढणे
 )].join(', '); // डुप्लिकेट्स काढून "," ने जोडणे
-  doc.text(`सादर करण्यात येते की, वसई विरार शहर महानगरपालिका ${wardname}`, rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`सादर करण्यात येते की, वसई विरार शहर महानगरपालिका ${wardname}`), rightSectionStart, yPos);
   yPos += 7;
   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
 //  doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
 
-  doc.text(`हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील ${meterPurpose}`, rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील ${meterPurpose}`), rightSectionStart, yPos);
 yPos += 7;
   // doc.text("हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील स्ट्रीटलाईट मीटर/सा.प्रशासन/", rightSectionStart, yPos);
   // yPos += 7;
   // doc.text("सा.भवन/दहन व दफनभूमी/समाज मंदिर/तलाव/मार्केट/उद्यान/वाचनालय वीज मीटर", rightSectionStart, yPos);
   // yPos += 7;
-  doc.text("दिवाबत्तीची सोय केलेली आहे.", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("दिवाबत्तीची सोय केलेली आहे."), rightSectionStart, yPos);
   yPos += 10;
-  doc.text("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा"), rightSectionStart, yPos);
   yPos += 7;
-  doc.text("केलेला आहे. या कामी मा.रा.वी.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी मा.रा.वी.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
   yPos += 7;
-  doc.text(`विभागासाठी माहे मार्च २०२५ रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`, rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी माहे मार्च २०२५ रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
   yPos += 7;
   doc.text(`(अक्षरी रुपये ${totalAmountInWords} फक्त) चे वीज देयक सदर`, rightSectionStart, yPos);
   yPos += 7;
@@ -798,44 +805,46 @@ yPos += 7;
 if (signatures['Lipik']) { 
   doc.addImage(signatures['Lipik'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
 }
-  doc.text("लिपिक, विद्युत विभाग", rightSectionStart, yPos);
+
+
+  doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
 
   if (signatures['Junior Engineer']) { 
     doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
 }
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
 
-  doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 135, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 135, yPos);
   if (signatures['Head Office']?.['Junior Engineer']) {
     doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 135, yPos - 15, 30, 15);
   }
   yPos += 7;
-  doc.text("प्रभाग समिती (अ)", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
   doc.text("प्रभाग समिती (अ)", rightSectionStart + 75, yPos);
-  doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart + 140, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 140, yPos);
   yPos += 7;
-  doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
   yPos += 10;
   // Financial Summary Section
   yPos += 10;
   doc.text("मा.सदर,", rightSectionStart, yPos);
   yPos += 7;
-  doc.text("वसई विरार शहर महानगरपालिकेच्या विद्युत विभागाने सदर केलेल्या अहवालानुसार:", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिकेच्या विद्युत विभागाने सदर केलेल्या अहवालानुसार:"), rightSectionStart, yPos);
   yPos += 7;
   doc.text("१) आर्थिक वर्ष: २०२४-२५", rightSectionStart, yPos);
   yPos += 7;
-  doc.text("२) लेखाशिर्ष: दिवाबत्ती वीज देयक", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("२) लेखाशिर्ष: दिवाबत्ती वीज देयक"), rightSectionStart, yPos);
   yPos += 7;
   doc.text("३) मूळ तरतूद: २,१७,२०,०००/-", rightSectionStart, yPos);
   yPos += 7;
   doc.text("४) आतापर्यंतचा खर्च: ३,१६,४५,०३०/-", rightSectionStart, yPos);
   yPos += 7;
-  doc.text(`५) प्रस्तावित देयक रक्कम: ${totalAmount.toLocaleString('hi-IN')} /-`, rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`५) प्रस्तावित देयक रक्कम: ${totalAmount.toLocaleString('hi-IN')} /-`), rightSectionStart, yPos);
   yPos += 7;
-  doc.text("६) शिल्लक तरतूद: १८,४८,१४,२५०/-", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("६) शिल्लक तरतूद: १८,४८,१४,२५०/-"), rightSectionStart, yPos);
   yPos += 10;
 
-  doc.text("तरी सदरचे देयक महाराष्ट्र राज्य वीज वितरण कंपनी लिमिटेड यांना", rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("तरी सदरचे देयक महाराष्ट्र राज्य वीज वितरण कंपनी लिमिटेड यांना"), rightSectionStart, yPos);
   yPos += 7;
   doc.text("उदाहोण्यासाठी मंजुरीस्तव सदर.", rightSectionStart, yPos);
   yPos += 10;
@@ -854,12 +863,12 @@ if (signatures['Lipik']) {
   doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
-  doc.text("प्रभाग समिती (अ)", rightSectionStart, yPos);
-  doc.text("प्रभाग समिती (अ)", rightSectionStart + 75, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
-  doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, yPos);
-  doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart + 75, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   
 
@@ -1079,16 +1088,16 @@ const downloadFaultyMeterReport = () => {
     let y = 20;
 
     // Left Header Text
-    doc.text("प्रभाग समिती 'एच' नवघर", leftX, y);
-    doc.text("विभागीय कार्यालय, नवघर,", leftX, y + 6);
+    doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच' नवघर"), leftX, y);
+    doc.text(reverseDevanagariIfContainsViOrLi("विभागीय कार्यालय, नवघर,"), leftX, y + 6);
     doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", leftX, y + 12);
-    doc.text("ता. वसई, जि. पालघर - पिन ४०१२०२", leftX, y + 18);
+    doc.text(reverseDevanagariIfContainsViOrLi("ता. वसई, जि. पालघर - पिन ४०१२०२"), leftX, y + 18);
 
     // Right Header Text
     doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
     doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
     doc.text("जा.क्र. :-", rightX, y + 18);
-    doc.text("दिनांक :-", rightX, y + 24);
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक :-"), rightX, y + 24);
 
    let yPos = 15;
     const logoWidth = 30;
@@ -1109,16 +1118,16 @@ const logoY = yPos + 10;
     // Address Block
     doc.text("प्रति,", leftX, y);
     y += 8;
-    doc.text("मा. उप-कार्यकारी अभियंता", leftX, y);
+    doc.text(reverseDevanagariIfContainsViOrLi("मा. उप-कार्यकारी अभियंता"), leftX, y);
     y += 8;
-    doc.text("म.रा.वि.वि.कं.लि,", leftX, y);
+    doc.text(reverseDevanagariIfContainsViOrLi("म.रा.वि.वि.कं.लि,"), leftX, y);
     y += 8;
     doc.text("वसई प.", leftX, y);
     y += 12;
 
     // Subject Line
     doc.setFontSize(11);
-    doc.text("विषय:- विद्युत मिटर जळाल्याबाबत.", leftX, y);
+    doc.text(reverseDevanagariIfContainsViOrLi("विषय:- विद्युत मिटर जळाल्याबाबत."), leftX, y);
     y += 12;
 
 //     // Main Content Paragraph
@@ -1150,24 +1159,24 @@ const logoY = yPos + 10;
 const normalSpacing = 8;
 const extraSpacing = 14; // after every 2 lines
 
-doc.text("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftX, y);
 y += normalSpacing;
-doc.text("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftX, y);
 y += extraSpacing;
 
-doc.text("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून"), leftX, y);
 y += normalSpacing;
-doc.text("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे.", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftX, y);
 y += extraSpacing;
 
-doc.text("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल.", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftX, y);
 y += normalSpacing;
-doc.text("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftX, y);
 y += extraSpacing;
 
-doc.text("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftX, y);
 y += normalSpacing;
-doc.text("महापालिकेकडे पाठवावे ही विनंती.", leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftX, y);
 y += extraSpacing;
 
 
@@ -1178,9 +1187,9 @@ y += extraSpacing;
 
     y = 240;
 const signatureX = pageWidth - 60;
-doc.text("अधिक्षक, विद्युत विभाग", signatureX, y);
-doc.text("प्रभाग समिती 'एच'", signatureX, y + 8);
-doc.text("वसई विरार शहर महानगरपालिका", signatureX, y + 16);
+doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्युत विभाग"), signatureX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच'"), signatureX, y + 8);
+doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), signatureX, y + 16);
     const pdfData = doc.output('datauristring');
     let type = "tipani";
 
@@ -1784,7 +1793,7 @@ Remark
         // doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
         // doc.setFont("NotoSerifDevanagari");
 
-        doc.addFileToVFS("DVOTSurekh_B_Ship.ttf", notoserifbase);
+        doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
         doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
         doc.setFont("DVOTSurekh_B_Ship");
         doc.save("karyalayin_tipani.pdf");
