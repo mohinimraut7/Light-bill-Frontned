@@ -553,17 +553,6 @@ IconComponent={UpcomingIcon}
 )}
 
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
-  <InfoCard
-  IconComponent={Person2OutlinedIcon}
- backgroundColor="#fff9ed"
-    className="container-infocard"
-    avatarColor="#FB404B"
-    avatarIcon="PersonIcon"
-    title="Total Users"
-    count={roles.length} 
-  />
-)}
 
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
 
@@ -597,11 +586,17 @@ backgroundColor="#F8FFFC"
   }}
 />
 
-
-     </div>
-
-
-
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+<InfoCard
+IconComponent={AccessTimeFilledIcon}
+backgroundColor="#f8fffc"
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title="Overdue Bills"
+  count={passedDueDateCount}
+/>
+)}
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
   <Box sx={{
     display: 'flex',
@@ -629,27 +624,43 @@ backgroundColor="#F8FFFC"
 )}
 
 
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+  <InfoCard
+  IconComponent={Person2OutlinedIcon}
+ backgroundColor="#fff9ed"
+    className="container-infocard"
+    avatarColor="#FB404B"
+    avatarIcon="PersonIcon"
+    title="Total Users"
+    count={roles.length} 
+  />
+)}
 
-
-
-
-
-
-
-
-
+{( user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') && (
 <InfoCard
-// IconComponent={CurrencyRupeeOutlinedIcon}
 IconComponent={AccessTimeFilledIcon}
-
-
 backgroundColor="#f8fffc"
   className="container-infocard"
   avatarColor="#1976D2"
   avatarIcon="M"
   title="Overdue Bills"
   count={passedDueDateCount}
-/>
+/>)}
+
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {/* <InfoCard

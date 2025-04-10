@@ -508,8 +508,39 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
        reverseDevanagariIfContainsViOrLi("संख्यात्मक लेख्याच्या समर्थित\n\n") +
       "पुरवठा नोंदवहीत नमूद\n\n" +
       "करण्यात आल्या आहेत.\n\n\n" +
-    "____________________________\n\n\n"+
-       reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
+    "____________________________\n\n\n";
+
+   
+    
+    const labelY = 270; // ~270mm from top is a good spot above the bottom
+    let labelText =reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
+
+    const xStart = pageWidth - 90; // align to right side (adjust as needed)
+
+// Signature just above the label line
+if (user.ward && signatures[user.ward]?.["Lipik"]) {
+  const signatureWidth = 30;
+  const signatureHeight = 30;
+  const signatureX = pageWidth - signatureWidth - 15;
+  const signatureY = labelY - signatureHeight - 0; // just above label
+  const signaturePadding = 5; // change as needed
+
+  doc.addImage(
+    signatures[user.ward]["Lipik"],
+    'PNG',
+    signatureX + signaturePadding,
+    signatureY + signaturePadding,
+    signatureWidth,
+    signatureHeight
+  );
+}
+
+// doc.text("____________________________", xStart, labelY);
+      doc.text(labelText, xStart, labelY);  // xStart = left margin or wherever you want text
+
+
+    
+
       yPos += 10;
     const availableWidth = pageWidth - 30;
     const colWidth = availableWidth / 2;
@@ -677,15 +708,15 @@ doc.text(reverseDevanagariIfContainsViOrLi("धनादेश क्रमा�
       doc.text("Dy.Municipal Commissioner", 120, yPos + 60);
     }
 
-    if (user.role === "Lipik") {
-      const ward = user.ward; // e.g., "Ward-A"
+    // if (user.role === "Lipik") {
+    //   const ward = user.ward; // e.g., "Ward-A"
     
-      // Add Lipik's signature if available for the user's ward
-      if (signatures[ward] && signatures[ward]["Lipik"]) {
-        doc.addImage(signatures[ward]["Lipik"], "PNG", 15, yPos, 30, 15);
-        doc.text("Lipik", 15, yPos + 20);
-      }
-    }
+    //   // Add Lipik's signature if available for the user's ward
+    //   if (signatures[ward] && signatures[ward]["Lipik"]) {
+    //     doc.addImage(signatures[ward]["Lipik"], "PNG", 15, yPos, 30, 15);
+    //     doc.text("Lipik", 15, yPos + 20);
+    //   }
+    // }
 
     const pdfData = doc.output('blob'); // Get Blob format
 
@@ -804,20 +835,6 @@ yPos += 7;
  
 
 
-// if (signatures['Lipik']) { 
-//   doc.addImage(signatures['Lipik'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
-// }
-
-// let signatureYPos = yPos + 20;
-// const signatureWidth = 30;
-// const signatureHeight = 15;
-// const spacing = 40;
-
-// // Left column signatures
-// if (user.ward && signatures[user.ward]?.["Lipik"]) {
-//   doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
-//   doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
-// }
 
 
 if (user.ward && signatures[user.ward]?.["Lipik"]) {
@@ -951,62 +968,6 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
   doc.text("", rightSectionStart + 140, yPos);
   
 
-  // Save the PDF as a Data URL
-  
-
-
-  // // Save the PDF
-  // doc.save("karyalayin_tipani.pdf");
-
-   // For downloading, use the blob method to trigger a download
-
-
-
-  //  const pdfBlob = doc.output('blob');
-  //  const downloadLink = document.createElement('a');
-  //  downloadLink.href = URL.createObjectURL(pdfBlob);
-  //  downloadLink.download = "karyalayin_tipani.pdf";
-  //  downloadLink.click();
-
-
-
-  // if (signatures['Junior Engineer']) {
-  //   doc.addImage(signatures['Junior Engineer'], 'PNG', 15, yPos, 30, 15);
-  //   doc.text("Junior Engineer", 15, yPos + 20);
-  // }
-
-  // if (signatures['Executive Engineer']) {
-  //   doc.addImage(signatures['Executive Engineer'], 'PNG', 120, yPos, 30, 15);
-  //   doc.text("Executive Engineer", 120, yPos + 20);
-  // }
-
-  // if (signatures['Deputy Commissioner']) {
-  //   doc.addImage(signatures['Deputy Commissioner'], 'PNG', 120, yPos + 40, 30, 15);
-  //   doc.text("Deputy Commissioner", 120, yPos + 60);
-  // }
-
- 
-
-
-  // if (signatures['Lipik']) {
-  //   doc.addImage(signatures['Lipik'], 'PNG', 15, yPos, 30, 15);
-  //   doc.text("Lipik", 15, yPos + 20);
-  // }
-
-  // if (signatures['Accountant']) {
-  //   doc.addImage(signatures['Accountant'], 'PNG', 15, yPos, 30, 15);
-  //   doc.text("Accountant", 15, yPos + 20);
-  // }
-
-
-  // if (signatures['Assistant Municipal Commissioner']) {
-  //   doc.addImage(signatures['Assistant Municipal Commissioner'], 'PNG', 15, yPos, 30, 15);
-  //   doc.text("Assistant Municipal Commissioner", 15, yPos + 20);
-  // }
-
-
-
-
 
   const addSignatures = () => {
     let signatureYPos = yPos + 20;
@@ -1025,17 +986,7 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
       doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
     }
   
-    // if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
-    //   doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, yPos - 15, signatureWidth, signatureHeight);
-    //   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
-    // }
-  
-    // if (signatures["Head Office"]?.["Junior Engineer"]) {
-    //   doc.addImage(signatures["Head Office"]["Junior Engineer"], 'PNG', rightSectionStart + 75, signatureYPos + spacing, signatureWidth, signatureHeight);
-    //   doc.text("कनिष्ठ अभियंता विद्युत (मुख्यालय)", rightSectionStart + 75, signatureYPos + spacing + signatureHeight + 5);
-    // }
-  
-    // Right column signatures
+    
     if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
       doc.addImage(signatures[user.ward]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos, signatureWidth, signatureHeight);
       doc.text("सहाय्यक आयुक्त", rightSectionStart + 140, signatureYPos + signatureHeight + 5);

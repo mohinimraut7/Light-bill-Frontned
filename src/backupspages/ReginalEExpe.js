@@ -815,3 +815,22 @@ Remark
   );
 };
 export default RegionalEnergyExpenditure;
+// =========================================
+// 10 March 2025
+let rightSectionStart = leftSectionWidth + 5; // Start right section after vertical line
+let leftSectionWidth = pageWidth * 0.15; // 15% of the page
+
+    if (user.ward && signatures[user.ward]?.["Lipik"]) {
+      const signatureWidth = 30;
+      const signatureHeight = 30;
+    
+      // Signature first at yPos
+      doc.addImage(
+        signatures[user.ward]["Lipik"],
+        'PNG',
+        rightSectionStart,
+        yPos - 17,
+        signatureWidth,
+        signatureHeight
+      );
+     
