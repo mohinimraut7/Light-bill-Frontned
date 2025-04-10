@@ -598,8 +598,20 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
     yPos += 15;
     doc.text("-----------------                     -------------------", 15, yPos);
+
+
+
+
     yPos += 10;
     doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
+
+
+
+
+
+
+
+    
     yPos += 7;
   //   const wardname = [...new Set(
   //     rows.filter(row => row.ward === wardName) // फक्त निवडलेल्या wardName नुसार फिल्टर करणे
