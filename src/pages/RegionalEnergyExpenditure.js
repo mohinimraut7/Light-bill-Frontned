@@ -1880,7 +1880,8 @@ Remark
       }}
     />
 
-
+{["Junior Engineer", "Executive Engineer", "Admin", "Super Admin"].includes(user.role) && (
+  
         <StyledDataGrid
           rows={rows}
           columns={columns}
@@ -1892,6 +1893,7 @@ Remark
           pageSizeOptions={[5, 10, 20, 30, 40, 50, 60, 70, 100]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
         />
+)}
         <Modal open={billOpen} onClose={handleAddBillClose}>
           <AddBill
             open={billOpen}
