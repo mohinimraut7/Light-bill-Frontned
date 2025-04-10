@@ -314,7 +314,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   
                   // border:'2px solid red',
                   width:{
-                    lg:'78%',
+                    lg:'59%',
+                    xl:'59%',
                     md:'78%',
                     sm:'100%',
                     xs:'100%'
@@ -366,8 +367,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
             }
 
             <Box sx={{
-              
-              width: '100%',
+              // border:'2px solid red',
+              // width: '100%',
               display: {
                 xs: 'flex',
                 md: 'flex',
@@ -397,7 +398,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
 
               <Box
                 sx={{
-                  
+                  // border:'1px solid green',
                   color: '#FB404B',
                   alignItems:'center',display:'flex',justifyContent:
                   {
@@ -421,12 +422,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     lg: '15px'
                   },
                   width:{
-                    lg:'205px',
-                    md:'205px',
+                    lg:'800px',
+                    xl:'800px',
+                    md:'600px',
                     sm:'100%',
                     xs:'100%'
                   }
-                }}><span style={{marginRight:'10px'}}>{user?.role}</span> {" "}<span>{user?.ward}</span> 
+                }}><span style={{marginRight:'10px'}}>{user?.role}</span> {" "}<span style={{fontSize:'10px'}}>{user?.ward}</span> 
               </Box>
               <Box>
                 {isAuthenticated ? (
@@ -454,6 +456,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
               
            
             </Box>
+
+
+
           </Box>
           <IconButton sx={{ color: '#0d2136', display: isSm && open ? 'flex' : 'none', }} onClick={handleLogout}>
             <PowerSettingsNewIcon />
