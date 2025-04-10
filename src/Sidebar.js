@@ -428,7 +428,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     sm:'100%',
                     xs:'100%'
                   }
-                }}><span style={{marginRight:'10px'}}>{user?.role}</span> {" "}<span style={{fontSize:'10px'}}>{user?.ward}</span> 
+                }}><span style={{marginRight:'10px'}}>{user?.role}</span> {" "}<span style={{fontSize:'15px'}}>{user?.ward}</span> 
               </Box>
               <Box>
                 {isAuthenticated ? (
