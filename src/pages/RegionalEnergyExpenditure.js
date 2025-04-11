@@ -605,12 +605,39 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
     yPos += 10;
     doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
 
+// ✅ Signature for "प्र.लेखापाल" just above their label
+if (user.ward && signatures[user.ward]?.["Accountant"]) {
+  const accountantSigWidth = 30;
+  const accountantSigHeight = 30;
+  const accountantSigX = 15; // aligned to start of "प्र.लेखापाल"
+  const accountantSigY = yPos - accountantSigHeight;
 
+  doc.addImage(
+    signatures[user.ward]["Accountant"],
+    'PNG',
+    accountantSigX,
+    accountantSigY,
+    accountantSigWidth,
+    accountantSigHeight
+  );
+}
 
+// ✅ Signature for "सहा.आयुक्त" (Assistant Municipal Commissioner)
+if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+  const amcSigWidth = 30;
+  const amcSigHeight = 30;
+  const amcSigX = 80; // Adjust X based on your spacing needs
+  const amcSigY = yPos - amcSigHeight + 5;
 
-
-
-
+  doc.addImage(
+    signatures[user.ward]["Assistant Municipal Commissioner"],
+    'PNG',
+    amcSigX,
+    amcSigY,
+    amcSigWidth,
+    amcSigHeight
+  );
+}
     
     yPos += 7;
   //   const wardname = [...new Set(
@@ -668,6 +695,24 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
     doc.text(reverseDevanagariIfContainsViOrLi("मुख्य लेखाधिकारी ----------------------"), 120, yPos);
     yPos += 10;
     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+
+
+    // ✅ Signature for "Dy. Municipal Commissioner"
+if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
+  const dmcSigWidth = 30;
+  const dmcSigHeight = 30;
+  const dmcSigX = 160; // Adjust X based on alignment with 'उप-आयुक्त'
+  const dmcSigY = yPos - dmcSigHeight + 5; // moved slightly below the label
+
+  doc.addImage(
+    signatures[user.ward]["Dy.Municipal Commissioner"],
+    'PNG',
+    dmcSigX,
+    dmcSigY,
+    dmcSigWidth,
+    dmcSigHeight
+  );
+}
     doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
 
     yPos += 15;
@@ -936,10 +981,10 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
   yPos += 10;
   // doc.text("-----------------------------------------------------------", rightSectionStart, yPos);
   yPos += 10;
-  // Final Signature Section
-  if (signatures['Assistant Municipal Commissioner']) { 
-    doc.addImage(signatures['Assistant Municipal Commissioner'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
-}
+//   // Final Signature Section
+//   if (signatures['Assistant Municipal Commissioner']) { 
+//     doc.addImage(signatures['Assistant Municipal Commissioner'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
+// }
 
 
 
@@ -969,6 +1014,22 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
     doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
 }
   doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
+  if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+    const amcSigWidth = 30;
+    const amcSigHeight = 30;
+    const amcSigX = 120; // Adjust X based on your spacing needs
+    const amcSigY = yPos - amcSigHeight + 5;
+  
+    doc.addImage(
+      signatures[user.ward]["Assistant Municipal Commissioner"],
+      'PNG',
+      amcSigX,
+      amcSigY,
+      amcSigWidth,
+      amcSigHeight
+    );
+  }
+
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
@@ -999,10 +1060,10 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
     }
   
     
-    if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
-      doc.addImage(signatures[user.ward]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos, signatureWidth, signatureHeight);
-      doc.text("सहाय्यक आयुक्त", rightSectionStart + 140, signatureYPos + signatureHeight + 5);
-    }
+    // if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+    //   doc.addImage(signatures[user.ward]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos, signatureWidth, signatureHeight);
+    //   doc.text("सहाय्यक आयुक्त", rightSectionStart + 140, signatureYPos + signatureHeight + 5);
+    // }
   
     if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
       doc.addImage(signatures[user.ward]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos + spacing, signatureWidth, signatureHeight);
@@ -1235,7 +1296,7 @@ doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती '
 doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), signatureX, y + 16);
     const pdfData = doc.output('datauristring');
     let type = "tipani";
-
+    
     handlePdfPreview(pdfData, type, selectedMonthYear);
 
     const pdfBlob = doc.output('blob');
