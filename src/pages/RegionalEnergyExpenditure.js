@@ -30,6 +30,7 @@ import AddIcon from '@mui/icons-material/Add';
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
+import { AddRemarkReportExp } from '../components/modals/AddRemarkReportExp';
 import { addReport, fetchReports } from '../store/actions/reportActions';
 import { DVOTSurekhBShip, loadDvoSBShipFont ,reverseDevanagariText,reverseDevanagariIfNeeded,reverseDevanagariIfContainsViOrLi,fixPashchim} from '../fonts/DVOTSurekh_B_Ship';
 
@@ -1616,8 +1617,6 @@ const numberToMarathiWords = (num) => {
                 )}
           {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user?.role === 'Junior Engineer' )  && (
             <>
-             
-
 
   {/* -----------------------------//----------------------------- */}
              
@@ -1667,11 +1666,7 @@ const numberToMarathiWords = (num) => {
     </FormControl>
             </>
 
-
-
           )}
-
-
           
           <Button
             sx={{
@@ -1904,7 +1899,7 @@ Remark
       }}
     />
 
-{["Junior Engineer", "Executive Engineer", "Admin", "Super Admin"].includes(user.role) && (
+{["Junior Engineer", "Executive Engineer", "Admin", "Super Admin","Lipik"].includes(user.role) && (
   
         <StyledDataGrid
           rows={rows}
@@ -1944,7 +1939,17 @@ Remark
             selectedBillTt={selectedBillTt}
           />
         </Modal>
-        <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
+        {/* <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
+                  <AddRemarkReport open={reportRemarkOpen} handleClose={handleAddReportRemarkClose} handleAddReport={handleAddReportRemark}
+                    currentReport={currentReport}
+                    addReport={(reportId, reportData) => {
+                      dispatch(addReport(reportId, reportData));
+                      dispatch(fetchReports());
+                    }}
+                  />
+                </Modal> */}
+
+                <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
                   <AddRemarkReport open={reportRemarkOpen} handleClose={handleAddReportRemarkClose} handleAddReport={handleAddReportRemark}
                     currentReport={currentReport}
                     addReport={(reportId, reportData) => {
