@@ -1548,7 +1548,7 @@ const numberToMarathiWords = (num) => {
 
 
 {
-(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer'|| user?.role === 'Lipik')
+(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' )
    &&
     (
 
@@ -1614,7 +1614,7 @@ const numberToMarathiWords = (num) => {
               </FormControl>
 
                 )}
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Lipik' || user?.role === 'Junior Engineer' )  && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user?.role === 'Junior Engineer' )  && (
             <>
              
 
