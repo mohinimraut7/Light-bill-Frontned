@@ -35,11 +35,7 @@ import { addReport, fetchReports } from '../store/actions/reportActions';
 import { DVOTSurekhBShip, loadDvoSBShipFont ,reverseDevanagariText,reverseDevanagariIfNeeded,reverseDevanagariIfContainsViOrLi,fixPashchim} from '../fonts/DVOTSurekh_B_Ship';
 
 
-// if (pdfMake && pdfFonts && pdfFonts?.pdfMake) {
-//   pdfMake?.vfs = pdfFonts?.pdfMake?.vfs;
-// } else {
-//   console.error("PDFMake Fonts not loaded properly!");
-// }
+
 const rowColors = ['#F7F9FB', 'white'];
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-cell': {
@@ -95,34 +91,7 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
     dispatch(fetchConsumers());
   }, [dispatch, data]);
 
-// -----------------------------------------------------------------------------------------------
-// Add this useEffect to fetch reports/signatures when component mounts
-// useEffect(() => {
-//   const fetchSignatures = async () => {
-//     try {
-//       const response = await fetch(`${baseUrl}/getReports`);
-//       const reports = await response.json();
-//       console.log("reports----",reports)
-//       // Get the latest signatures for each role
-//       const latestSignatures = {};
-//       reports.forEach(report => {
-//         report.reportingRemarks.forEach(remark => {
-//           if (remark.signature) {
-//             // latestSignatures[remark.role] = remark.signature;
-//             latestSignatures[remark.role] = remark.signature;
-//           }
-//         });
-//       });
-      
-//       setSignatures(latestSignatures);
-//     } catch (error) {
-//       console.error('Error fetching signatures:', error);
-//     }
-//   };
 
-//   fetchSignatures();
-// }, []);
-// ------------------------------------------------------------------
 useEffect(() => {
   const fetchSignatures = async () => {
     try {
@@ -174,10 +143,7 @@ useEffect(() => {
 }, []);
 
 
-// -----------------------------------------
 
-
-// ---------------------------------------------------------------------------------------------------
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
@@ -210,7 +176,7 @@ useEffect(() => {
   };
   const handleChangeWard = (event) => setWardName(event.target.value);
   const handleChangeMeterPurpose = (event) => setMeterPurposeName(event.target.value);
-  // const handleChangeManyMeterPurpose = (event) => setMeterPurposeManyName(event.target.value);
+ 
 
   const handleChangeManyMeterPurpose = (event) => {
     const {
@@ -225,10 +191,10 @@ useEffect(() => {
 
 
   const handlePdfPreview = (pdfData,type,selMonthYear) => {
-    setPdfContent(pdfData);  // Pass the PDF content (URL, base64 string, etc.)
+    setPdfContent(pdfData);  
     setPdfType(type);
     setMonthPass(selMonthYear);
-    setPdfPreviewOpen(true);  // Open the modal
+    setPdfPreviewOpen(true);  
   };
 
 
@@ -263,12 +229,7 @@ useEffect(() => {
   const handleDownloadPDF = () => {
     setShowFormControl(true); 
     const doc = new jsPDF('landscape');
-    
-    // doc.setFontSize(16);
-    // doc.text("Energy Expenditure Report", 140, 20, { align: "center" });
-  
-    // Ensure rows array is not empty before accessing its values
-    // const meterPurpose = rows.length > 0 ? rows[0].meterPurpose : "N/A";
+      
     const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
     const ward = rows.length > 0 ? rows[0].ward : "N/A";
@@ -1700,37 +1661,7 @@ const numberToMarathiWords = (num) => {
              Ward Bill Totals
             </Typography>
           </Button>
-          {/* <Button
-            sx={{
-              color: '#757575',
-              border: '0.1px solid #757575',
-              cursor: 'pointer',
-              textTransform: 'none',
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: {
-                xl: isSidebarOpen ? '12%' : '10%',
-                lg: isSidebarOpen ? '15%' : '15%',
-                md: '30%',
-                sm: '100%',
-                xs: '100%',
-              },
-              ml: {
-                xl: 1,
-                lg: 1,
-                md: 0,
-                sm: 0
-              },
-              height: '65%',
-            }}
-            onClick={handleAddFormTtOpen}
-          >
-            <Typography sx={{
-              fontSize: isSidebarOpen ? '12.2px' : '14px'
-            }}>
-              Generate form 22
-            </Typography>
-          </Button> */}
+         
         </Box>
         <Box sx={{display:'flex'}}>
         <Button
@@ -1739,8 +1670,7 @@ const numberToMarathiWords = (num) => {
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              // display: 'flex',
-              // justifyContent: 'space-between',
+             
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
                 lg: isSidebarOpen ? '17%' : '17%',
@@ -1765,38 +1695,7 @@ const numberToMarathiWords = (num) => {
               Form 22 report PDF
             </Typography>
           </Button>
-          {/* <Button
-            sx={{
-              color: '#757575',
-              border: '0.1px solid #757575',
-              cursor: 'pointer',
-              textTransform: 'none',
-              // display: 'flex',
-              // justifyContent: 'space-between',
-              width: {
-                xl: isSidebarOpen ? '20%' : '20%',
-                lg: isSidebarOpen ? '17%' : '17%',
-                md: '30%',
-                sm: '100%',
-                xs: '100%',
-              },
-              ml: {
-                xl: 1,
-                lg: 1,
-                md: 0,
-                sm: 0
-              },
-              height: '65%',
-            }}
-            onClick={handleMudrank}
-          >
-            <DownloadIcon />
-            <Typography sx={{
-              fontSize: isSidebarOpen ? '12.2px' : '14px'
-            }}>
-              Genrate Mudrank
-            </Typography>
-          </Button> */}
+          
 
 
         <Button
@@ -1805,8 +1704,7 @@ const numberToMarathiWords = (num) => {
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              // display: 'flex',
-              // justifyContent: 'space-between',
+              
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
                 lg: isSidebarOpen ? '20%' : '20%',
@@ -1838,8 +1736,7 @@ const numberToMarathiWords = (num) => {
               border: '0.1px solid #757575',
               cursor: 'pointer',
               textTransform: 'none',
-              // display: 'flex',
-              // justifyContent: 'space-between',
+             
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
                 lg: isSidebarOpen ? '20%' : '20%',
@@ -1866,14 +1763,7 @@ const numberToMarathiWords = (num) => {
           </Button> 
 
           <Box>
-  {/* {
-  <Button size="small" sx={{ color: '#000'}} onClick={() => handleAddReportRemark()}
-  startIcon={<AddIcon size="small"/>}
-  variant='outlined'
->
-Remark
-</Button>
-}  */}
+ 
 </Box>
         </Box>
 
@@ -1939,15 +1829,7 @@ Remark
             selectedBillTt={selectedBillTt}
           />
         </Modal>
-        {/* <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
-                  <AddRemarkReport open={reportRemarkOpen} handleClose={handleAddReportRemarkClose} handleAddReport={handleAddReportRemark}
-                    currentReport={currentReport}
-                    addReport={(reportId, reportData) => {
-                      dispatch(addReport(reportId, reportData));
-                      dispatch(fetchReports());
-                    }}
-                  />
-                </Modal> */}
+       
 
                 <Modal open={reportRemarkOpen} onClose={handleAddReportRemarkClose}>
                   <AddRemarkReport open={reportRemarkOpen} handleClose={handleAddReportRemarkClose} handleAddReport={handleAddReportRemark}
