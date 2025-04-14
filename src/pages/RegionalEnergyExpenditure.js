@@ -71,6 +71,8 @@ const RegionalEnergyExpenditure = () => {
   const [wardName, setWardName] = useState('');
   const [meterPurposeName, setMeterPurposeName] = useState('');
   const [meterPurposeManyName, setMeterPurposeManyName] = useState([]);
+  const [reportsArr, setReportsArr] = useState([]);
+
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const [data, setData] = useState([]);
   const [showFormControl, setShowFormControl] = useState(false);
@@ -103,19 +105,6 @@ useEffect(() => {
 
       reports.forEach(report => {
 
-
-
-        // report.reportingRemarks.forEach(remark => {
-        //   if (
-        //     remark.signature &&
-        //     remark.signature===user.signature&&
-        //     remark.role === user.role &&
-        //     remark.ward === user.ward
-        //   ) {
-        //     latestSignatures[remark.role] = remark.signature;
-        //   }
-
-
         report.reportingRemarks.forEach(remark => {
           if (
             remark.signature &&
@@ -134,6 +123,7 @@ useEffect(() => {
       });
 
       setSignatures(latestSignatures);
+      setReportsArr(reports);
     } catch (error) {
       console.error('Error fetching signatures:', error);
     }
@@ -851,10 +841,6 @@ yPos += 7;
   yPos += 10;
   doc.text("-----------------------------------------------------------", rightSectionStart, yPos);
   yPos += 10;
- 
-
-
-
 
 if (user.ward && signatures[user.ward]?.["Lipik"]) {
   const signatureWidth = 30;
