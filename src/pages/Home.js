@@ -415,7 +415,6 @@ backgroundColor="#f8fffc"
   avatarIcon="M"
   title={`Paid Bills (${previousMonthCYear})`}
   count={previousMonthPaidCount}
-
   onClick={() => {
     setShowPMonthPaidTable(prev => !prev);
   }}

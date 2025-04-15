@@ -60,3 +60,110 @@ Junior Engineer (head office)
 Accountant (ward wise)
 Assistant Municipal commissioner (ward wise)
 Dy. Municipal commissioner (ward wise)
+============================
+ doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+        doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+        doc.setFont("NotoSerifDevanagari");
+==============================================================
+console.log("ahshashahshas>>>>>>>>",)
+    setCurrentReport(report);
+    ===================
+     title="PDF Preview" 
+==========================================
+
+
+//     // Main Content Paragraph
+//     const content = `महोदय, उपरोक्त विषयान्वये कळविण्यात येते की, वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच' 
+// दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून सदर मिटर बदली करून नविन मिटर बसविणे 
+// गरजेचे आहे. जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल. सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार 
+// नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation) महापालिकेकडे पाठवावे ही विनंती.`;
+
+// Paragraph style with manual vertical spacing
+// doc.text("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,", leftX, y);
+// y += 18;
+// doc.text("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'", leftX, y);
+// y += 18;
+// doc.text("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून", leftX, y);
+// y += 18;
+// doc.text("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे.", leftX, y);
+// y += 18;
+// doc.text("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल.", leftX, y);
+// y += 18;
+// doc.text("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार", leftX, y);
+// y += 8;
+// doc.text("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)", leftX, y);
+// y += 18;
+// doc.text("महापालिकेकडे पाठवावे ही विनंती.", leftX, y);
+// y += 18;
+=============================
+Load Noto Serif Devanagari Font
+  doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+  doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+  doc.setFont("NotoSerifDevanagari");
+  ===================
+    // Final Signature Section
+  if (signatures['Assistant Municipal Commissioner']) { 
+    doc.addImage(signatures['Assistant Municipal Commissioner'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
+}
+---------------------------------
+ doc.text("हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील स्ट्रीटलाईट मीटर/सा.प्रशासन/", rightSectionStart, yPos);
+  yPos += 7;
+  doc.text("सा.भवन/दहन व दफनभूमी/समाज मंदिर/तलाव/मार्केट/उद्यान/वाचनालय वीज मीटर", rightSectionStart, yPos);
+  yPos += 7;
+  ----------------------------------
+   // const totalAmount = rows
+  // .filter(row => row.monthAndYear === selectedMonthYear && row.ward === wardName && row.meterPurpose === meterPurposeName)
+  // .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
+  ==============================
+  if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+      doc.addImage(signatures[user.ward]["Assistant Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos, signatureWidth, signatureHeight);
+      doc.text("सहाय्यक आयुक्त", rightSectionStart + 140, signatureYPos + signatureHeight + 5);
+    }
+    ------------------------------------
+     // Load Noto Serif Devanagari Font
+    // doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+    // doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+    // doc.setFont("NotoSerifDevanagari");
+
+    // doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
+    ------------------------------------------------
+     // const contentLines = doc.splitTextToSize(content, 180);
+    // doc.text(contentLines, leftX, y);
+    // y += contentLines.length * 6;
+------------------------
+// const wardname = [...new Set(
+//   rows.filter(row => row.ward === wardName) // फक्त निवडलेल्या wardName नुसार फिल्टर करणे
+//       .map(row => row.ward) // फक्त 'ward' ची व्हॅल्यू काढणे
+// )].join(', '); // डुप्लिकेट्स काढून "," ने जोडणे
+---------------------------------
+//   const wardname = [...new Set(
+  //     rows.filter(row => row.ward === wardName) // फक्त निवडलेल्या wardName नुसार फिल्टर करणे
+  //         .map(row => row.ward) // फक्त 'ward' ची व्हॅल्यू काढणे
+  // )].join(', '); // डुप्लिकेट्स काढून "," ने जोडणे
+  ------------------------------------
+  // const pdfData = doc.output('datauristring');
+    
+    // handlePdfPreview(pdfData);  
+     
+    //  const pdfBlob = doc.output('blob');
+    //  setPdfBlob(pdfBlob);
+-------------------------------
+ // if (user.role === "Lipik") {
+    //   const ward = user.ward; // e.g., "Ward-A"
+    
+    //   // Add Lipik's signature if available for the user's ward
+    //   if (signatures[ward] && signatures[ward]["Lipik"]) {
+    //     doc.addImage(signatures[ward]["Lipik"], "PNG", 15, yPos, 30, 15);
+    //     doc.text("Lipik", 15, yPos + 20);
+    //   }
+    // }
+    ------------------------------------
+    // // Add Devanagari font
+    // doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
+    // doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
+    // loadDevanagariFont(doc);
+    // doc.setFont("NotoSerifDevanagari");
+
+    // ----------------------------------
+
+    // Add Devanagari font

@@ -38,7 +38,7 @@ const modalStyle = {
   flexDirection: 'column',
 };
 
-const PdfPreviewModal = ({ open, onClose, pdfUrl, title,monthpassbackend,onDownload }) => {
+const PdfPreviewModal = ({ open, onClose, pdfUrl, title,monthpassbackend,onDownload,mode }) => {
   const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -48,6 +48,10 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title,monthpassbackend,onDownl
   const [signatureMethod, setSignatureMethod] = useState('draw');
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
+
+  useEffect(() => {
+    console.log("Current mode:", mode); // Log to see the mode in modal
+  }, [mode]);  // Track mode changes in modal
 
   console.log("title>>>>>",title)
 
@@ -86,7 +90,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title,monthpassbackend,onDownl
       formData.append('ward', user?.ward || '');
       formData.append('remark', remark);
       formData.append('signature', signature);
-
+      formData.append('mode', mode);
       const response = await fetch(url, {
         method: 'POST',
         body: formData,
