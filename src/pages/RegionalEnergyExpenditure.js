@@ -181,7 +181,7 @@ useEffect(() => {
   console.log("meterPurposeManyName",meterPurposeManyName)
 
 
-  const handlePdfPreview = (pdfData,type,selMonthYear) => {
+  const handlePdfPreview = (pdfData,type,selMonthYear,wardName) => {
     setPdfContent(pdfData);  
     setPdfType(type);
     setMonthPass(selMonthYear);
@@ -738,14 +738,11 @@ const downloadKaryalayinTipani =async() => {
       if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
       setMode('edit');
     
-    
     } else {
       setMode('create');
     }
-
  
   }
-  
  
   setShowFormControl(true); 
   const signatureWidth = 30;
@@ -813,7 +810,7 @@ yPos += 7;
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी मा.रा.वी.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
   yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी माहे मार्च २०२५ रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी ${selectedMonthYear} रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
   yPos += 7;
   doc.text(`(अक्षरी रुपये ${totalAmountInWords} फक्त) चे वीज देयक सदर`, rightSectionStart, yPos);
   yPos += 7;
@@ -836,7 +833,6 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
     signatureHeight
   );
  
- 
 }
   doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
 
@@ -851,9 +847,6 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
 }
 
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
-
-
- 
 
   if (signatures["Head Office"]?.["Junior Engineer"]) {
     const signatureWidth = 30;
@@ -909,10 +902,6 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
   yPos += 10;
   // doc.text("-----------------------------------------------------------", rightSectionStart, yPos);
   yPos += 10;
-
-
-
-
 if (user.ward && signatures[user.ward]?.["Accountant"]) {
   const signatureWidth = 30;
   const signatureHeight = 15;
@@ -929,11 +918,7 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
   doc.text("लेखापाल", rightSectionStart, yPos);
 }
 
-
-
-
   doc.text("लेखापाल", rightSectionStart, yPos);
-
 
   if (signatures['Accountant']) { 
     doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
@@ -954,7 +939,6 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
       amcSigHeight
     );
   }
-
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
@@ -964,7 +948,6 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
-  
 
 
   const addSignatures = () => {
@@ -1015,14 +998,12 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
     return titles[role] || role;
   };
   
-
-  // Replace the existing signature section with this call
   addSignatures();
  
   const pdfData = doc.output('datauristring');
 let type="tipani";
   // Now, pass the PDF data to the modal for preview
-  handlePdfPreview(pdfData,type,selectedMonthYear);  
+  handlePdfPreview(pdfData,type,selectedMonthYear,wardName);  
    // Store the PDF Blob for download later
    const pdfBlob = doc.output('blob');
    setPdfBlob(pdfBlob);
@@ -1386,7 +1367,7 @@ const numberToMarathiWords = (num) => {
 
 
 {
-(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' )
+(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user.role==='Assistant Municipal Commissioner' || user.role==='Dy.Municipal Commissioner')
    &&
     (
 
@@ -1650,6 +1631,7 @@ const numberToMarathiWords = (num) => {
       onClose={() => setPdfPreviewOpen(false)} 
       pdfUrl={pdfContent} 
       monthpassbackend={monthpass}
+      wardName={wardName}
       title={pdfType === "tipani" ? "karyalayintipani" : pdfType === "form22" ? "form22" : "wardbilllist"}
       onDownload={() => {
         const doc = new jsPDF();
