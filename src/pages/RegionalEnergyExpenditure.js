@@ -24,6 +24,10 @@ import { baseUrl } from '../config/config';
 import axios from 'axios';
 import 'jspdf-autotable';
 import logovvcmc from '../Images/vvcmclogo.jpg';
+// import logote from '../Images/logotest.png';
+import logovvcmccmp from '../Images/logovvcmccmp.png';
+
+
 import AddIcon from '@mui/icons-material/Add';
 
 // import pdfMake from "pdfmake/build/pdfmake";
@@ -353,7 +357,8 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     doc.text(reverseDevanagariIfContainsViOrLi("पैसे देणाऱ्याचे नांव : म.रा.वि.वि. कंपनी"), 15, yPos);
     yPos += 8;
     // doc.text(`पत्ता : प्रभाग समिती ${wardname}`, 15, yPos);
-    doc.text(`पत्ता : ${wardname}`, 15, yPos);
+    // doc.text(`पत्ता : ${wardname}`, 15, yPos);
+     doc.text(`पत्ता : ${user?.ward}`, 15, yPos);
 
     yPos += 8;
     doc.text(reverseDevanagariIfContainsViOrLi("माल : विद्युत विभाग"), 15, yPos);
@@ -382,7 +387,9 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
       ]],
       body: [[
         '१',
-        reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${wardname} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+        // reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${wardname} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+        reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+
         '',
         '',
         '',
@@ -1036,7 +1043,7 @@ const downloadFaultyMeterReport = () => {
 
     // Header section with left-center-right alignment
     const leftX = 10;
-    const centerX = pageWidth / 2;
+    const centerX = pageWidth / 2-10;
     const rightX = pageWidth - 60;
     let y = 20;
 
@@ -1055,18 +1062,17 @@ const downloadFaultyMeterReport = () => {
    let yPos = 15;
     const logoWidth = 30;
 const logoHeight = 30;
-const logoX = 15;
-const logoY = yPos + 10; 
+// Calculate center of the page (X and Y)
+const pageHeight = doc.internal.pageSize.getHeight();
+const centerY = yPos + 0; // Adjust this if you need the logo to move up/down
 
+// Add the logo in the center
+doc.addImage(logovvcmccmp, 'PNG', centerX, centerY, logoWidth, logoHeight);
 
-    // Center Logo Placeholder (circle)
-    doc.setDrawColor(0);
-    doc.setFillColor(220);
-    doc.circle(centerX, y + 12, 10, 'F');
-
-  
-
-    y += 36; // Leave space for logo and header
+y += 36; // Leave space for logo and header
+const lineY = y - 2; // थोडं वरती ठेवण्यासाठी
+doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY); // 10px margin from left and right
+y += 15; // लाईन नंतर थोडं खाली space
 
     // Address Block
     doc.text("प्रति,", leftX, y);
@@ -1081,32 +1087,40 @@ const logoY = yPos + 10;
     // Subject Line
 
     
-    doc.setFontSize(11);
-    doc.text(reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत."), leftX, y);
+    doc.setFontSize(15);
+    // const subjectX = leftX + 5; // left पासून 15px अंतर ठेवलं
+    // doc.text(reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत."), subjectX, y);
+    const subjectText = reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत.");
+
+doc.text(subjectText, pageWidth / 2, y, { align: "center" });
+y += 12;
     y += 12;
 
 
 const normalSpacing = 8;
 const extraSpacing = 14; // after every 2 lines
+ const leftspaceX = leftX + 15; // left पासून 15px अंतर ठेवलं
+ doc.setFontSize(14); // Font size थोडी लहान केली
 
-doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftX, y);
+ 
+doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftspaceX, y);
 y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftspaceX, y);
 y += extraSpacing;
 
-doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर जळालेले असून"), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर फॉल्टी असून"), leftspaceX, y);
 y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftspaceX, y);
 y += extraSpacing;
 
-doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftspaceX, y);
 y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftspaceX, y);
 y += extraSpacing;
 
-doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftspaceX, y);
 y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftX, y);
+doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftspaceX, y);
 y += extraSpacing;
    
     y = 240;
