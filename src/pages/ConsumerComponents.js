@@ -249,15 +249,9 @@ const downloadAllTypsOfReport = () => {
     },
   }));
 
-
-
-
   return (
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
-
-     
-
       <Box sx={{   width:'100%',display:'flex',justifyContent:{
         xl:'space-between',
         lg:'space-between',
@@ -581,8 +575,6 @@ transform: 'translate(14px, -8px) scale(0.75)',
   size="small"
   variant="outlined"
   sx={{
-    
-
     width: {
       xl: '30%',
       lg: '30%',

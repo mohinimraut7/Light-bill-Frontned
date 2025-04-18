@@ -167,3 +167,6 @@ Load Noto Serif Devanagari Font
     // ----------------------------------
 
     // Add Devanagari font
+    ===================
+
+     // rows={getRows().map((bill, index) => ({ id: index + 1, ...bill }))} 
