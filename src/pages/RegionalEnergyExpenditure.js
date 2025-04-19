@@ -736,20 +736,52 @@ const handleAddFormTtOpen = () => {
 
 
 const downloadKaryalayinTipani =async() => {
-  if (selectedMonthYear) {
-    const response = await axios.post(`${baseUrl}/searchReport`, {
-      month: selectedMonthYear,
-    });
-    const foundReport = response.data;
-    
-      if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
-      setMode('edit');
-    
-    } else {
-      setMode('create');
-    }
  
+
+if (selectedMonthYear) {
+  const response = await axios.post(`${baseUrl}/searchReport`, {
+    month: selectedMonthYear,
+  });
+
+  const foundReport = response.data;
+
+  if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
+    setMode('edit');
+
+    // Extract report for current user's ward
+    const wardReport = foundReport.find(
+      report => report.ward === user.ward || wardName && report.monthReport === selectedMonthYear
+    );
+
+    if (wardReport) {
+      // Prepare signatures in object format: { "Lipik": "base64...", "Junior Engineer": "base64..." }
+      const roleSignatures = {};
+      wardReport.reportingRemarks.forEach(remark => {
+        if (remark.role && remark.signature) {
+          roleSignatures[remark.role] = remark.signature;
+        }
+      });
+
+      // Final format: { [ward]: { role: signature } }
+      setSignatures(prev => ({
+        ...prev,
+        [user.ward]: roleSignatures,
+      }));
+
+      console.log("Updated Signatures:", {
+        [user.ward]: roleSignatures,
+      });
+
+
+console.log("roleSignatures--->>>>",roleSignatures)
+
+console.log("signatures test>>>",signatures)
+    }
+  } else {
+    setMode('create');
   }
+}
+
  
   setShowFormControl(true); 
   const signatureWidth = 30;
@@ -842,6 +874,14 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
  
 }
   doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
+
+// Only draw signatures if available
+    // const currentSignatures = signatures[user.ward] || {};
+
+    // if (currentSignatures["Lipik"]) {
+    //   doc.addImage(currentSignatures["Lipik"], 'PNG', rightSectionStart, yPos - 17, signatureWidth, signatureHeight);
+    //   doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
+    // }
 
 
 if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
