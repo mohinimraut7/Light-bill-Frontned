@@ -24,22 +24,13 @@ import { baseUrl } from '../config/config';
 import axios from 'axios';
 import 'jspdf-autotable';
 import logovvcmc from '../Images/vvcmclogo.jpg';
-// import logote from '../Images/logotest.png';
 import logovvcmccmp from '../Images/logovvcmccmp.png';
-
-
 import AddIcon from '@mui/icons-material/Add';
-
-// import pdfMake from "pdfmake/build/pdfmake";
-// import pdfFonts from "pdfmake/build/vfs_fonts";
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
 import { AddRemarkReportExp } from '../components/modals/AddRemarkReportExp';
 import { addReport, fetchReports } from '../store/actions/reportActions';
 import { DVOTSurekhBShip, loadDvoSBShipFont ,reverseDevanagariText,reverseDevanagariIfNeeded,reverseDevanagariIfContainsViOrLi,fixPashchim} from '../fonts/DVOTSurekh_B_Ship';
-
-
-
 const rowColors = ['#F7F9FB', 'white'];
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-cell': {
@@ -76,29 +67,22 @@ const RegionalEnergyExpenditure = () => {
   const [meterPurposeName, setMeterPurposeName] = useState('');
   const [meterPurposeManyName, setMeterPurposeManyName] = useState([]);
   const [reportsArr, setReportsArr] = useState([]);
-
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const [data, setData] = useState([]);
   const [showFormControl, setShowFormControl] = useState(false);
-
   const [pdfPreviewOpen, setPdfPreviewOpen] = useState(false);
   const [mode,setMode] = useState('');
 const [pdfContent, setPdfContent] = useState(null);
 const [pdfBlob, setPdfBlob] = useState(null);  // Define the pdfBlob state
 const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
-
  const [currentReport, setCurrentReport] = useState(null);
-
  const [signatures, setSignatures] = useState({});
  const [pdfType, setPdfType] = useState("");
  const [monthpass,setMonthPass]=useState("");
-
   useEffect(() => {
     dispatch(fetchBills());
     dispatch(fetchConsumers());
   }, [dispatch, data]);
-
-
 useEffect(() => {
   const fetchSignatures = async () => {
     try {
@@ -121,9 +105,6 @@ useEffect(() => {
             }
             latestSignatures[remark.ward][remark.role] = remark.signature;
           }
-
-
-
         });
       });
 
@@ -191,10 +172,6 @@ useEffect(() => {
     setMonthPass(selMonthYear);
     setPdfPreviewOpen(true);  
   };
-
-
-
-
 
   const handleDateChange = (value) => {
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
