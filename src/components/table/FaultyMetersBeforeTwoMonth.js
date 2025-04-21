@@ -3,22 +3,21 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { styled } from "@mui/material/styles";
 import { baseUrl } from "../../config/config";
 
-// 📌 Get Month-Year format
+
 const getMonthYear = (date) => {
   return date.toLocaleString("en-US", { month: "short" }).toUpperCase() + "-" + date.getFullYear();
 };
 
-// 📌 Get Two Months Ago Month-Year
+
 const getPreviousMonthYear = () => {
   const prevBeforeTwoMonthDate = new Date();
   prevBeforeTwoMonthDate.setMonth(prevBeforeTwoMonthDate.getMonth() - 2);
   return getMonthYear(prevBeforeTwoMonthDate);
 };
 
-const currentMonthYear = getPreviousMonthYear(); // ✅ now it fetches 2 months ago
-console.log("currentMonthYear>>>>>>", currentMonthYear);
+const currentMonthYear = getPreviousMonthYear(); 
 
-// 📌 Styled Components
+
 const StyledTableContainer = styled(TableContainer)({
   marginTop: "2%",
   borderRadius: "10px",

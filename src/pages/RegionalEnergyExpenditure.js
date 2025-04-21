@@ -56,7 +56,7 @@ const RegionalEnergyExpenditure = () => {
   const { consumers } = useSelector((state) => state.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const user = useSelector(state => state.auth.user);
-  console.log("user testing >>>> expenditure",user)
+  
   const [billOpen, setBillOpen] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
   const [addPaymentOpen, setAddPaymentOpen] = useState(false);
@@ -88,7 +88,7 @@ useEffect(() => {
     try {
       const response = await fetch(`${baseUrl}/getReports`);
       const reports = await response.json();
-      console.log("reports----", reports);
+      
 
       const latestSignatures = {};
 
@@ -163,7 +163,7 @@ useEffect(() => {
     setMeterPurposeManyName(typeof value === 'string' ? value.split(',') : value);
   };
   
-  console.log("meterPurposeManyName",meterPurposeManyName)
+  
 
 
   const handlePdfPreview = (pdfData,type,selMonthYear,wardName) => {
@@ -725,13 +725,13 @@ if (selectedMonthYear) {
   if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
     setMode('edit');
 
-    // Extract report for current user's ward
+    
     const wardReport = foundReport.find(
       report => report.ward === user.ward || wardName && report.monthReport === selectedMonthYear
     );
 
     if (wardReport) {
-      // Prepare signatures in object format: { "Lipik": "base64...", "Junior Engineer": "base64..." }
+    
       const roleSignatures = {};
       wardReport.reportingRemarks.forEach(remark => {
         if (remark.role && remark.signature) {
@@ -739,7 +739,7 @@ if (selectedMonthYear) {
         }
       });
 
-      // Final format: { [ward]: { role: signature } }
+      
       setSignatures(prev => ({
         ...prev,
         [user.ward]: roleSignatures,
@@ -750,9 +750,9 @@ if (selectedMonthYear) {
       });
 
 
-console.log("roleSignatures--->>>>",roleSignatures)
 
-console.log("signatures test>>>",signatures)
+
+
     }
   } else {
     setMode('create');
@@ -1026,9 +1026,9 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
  
   const pdfData = doc.output('datauristring');
 let type="tipani";
-  // Now, pass the PDF data to the modal for preview
+  
   handlePdfPreview(pdfData,type,selectedMonthYear,wardName);  
-   // Store the PDF Blob for download later
+   
    const pdfBlob = doc.output('blob');
    setPdfBlob(pdfBlob);
 
@@ -1058,7 +1058,7 @@ const downloadFaultyMeterReport = () => {
 
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    // Header section with left-center-right alignment
+    
     const leftX = 10;
     const centerX = pageWidth / 2-10;
     const rightX = pageWidth - 60;

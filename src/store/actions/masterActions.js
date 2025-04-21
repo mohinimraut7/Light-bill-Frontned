@@ -31,7 +31,6 @@ export const getMastersRequest = () => ({
       } catch (error) {
         dispatch(getMastersFailure(error.message));
       } finally {
-        // Optional: add any cleanup or logging code here
         console.log('API call completed');
       }
     };

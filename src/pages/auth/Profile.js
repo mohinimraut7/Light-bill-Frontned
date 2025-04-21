@@ -15,11 +15,7 @@ import PersonIcon from '@mui/icons-material/Person';
 const Profile = () => {
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const user = useSelector((state) => state.auth.user);
-  console.log("user testing",user)
   const dispatch = useDispatch();
-
-  // const [firstName, setFirstName] = useState('');
-  // const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');

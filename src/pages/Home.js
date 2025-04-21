@@ -201,7 +201,7 @@ const uniqueBills = bills
   .filter((bill, index, self) => {
     return index === self.findIndex(b => b.cn === bill.cn);
   });
-  console.log("uniqueBills>>>>",uniqueBills)
+  
 const meterStatusCounts = uniqueBills.reduce((acc, bill) => {
     if (bill.meterStatus === 'Faulty') {
         acc.Faulty += 1;
@@ -322,10 +322,6 @@ const previousTwoMonthPaidCount = bills.filter(bill =>
   bill.paymentStatus === 'paid' && bill.monthAndYear === previousTwoMonthCYear &&
   (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
 ).length;
-
-
-console.log("Current Month Paid Count:", currentMonthPaidCount);
-console.log("Previous Month Paid Count:", previousMonthPaidCount);
 
 
   const theme = useTheme();

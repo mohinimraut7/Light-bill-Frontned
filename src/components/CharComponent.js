@@ -110,24 +110,17 @@ const ChartComponent = () => {
   const chartInstance = useRef(null);
   const { bills } = useSelector((state) => state.bills);
   const user = useSelector(state => state.auth.user);
-
-  // 📌 Get Current Month & Year
+  
   const currentDate = new Date();
   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
   const currentYear = currentDate.getFullYear();
   const currentMonthYear = `${currentMonth}-${currentYear}`;
-
-  console.log("Current Month-Year:", currentMonthYear);
-
-  // 📌 Get Previous Month (Staying in the Same Year)
+  
   const prevDate = new Date();
   prevDate.setMonth(currentDate.getMonth() - 1);
   const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
   const previousMonthYear = `${previousMonth}-${currentYear}`;
 
-  console.log("Previous Month-Year:", previousMonthYear);
-
-  // 🏷️ Filter Bills for Current & Previous Month (Within the Current Year)
   const latestBills = bills.filter(bill =>
     bill.monthAndYear === currentMonthYear &&
     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))

@@ -6,7 +6,6 @@ const BarChartBills = () => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
   const { bills } = useSelector((state) => state.bills);
-  console.log("Total Bills from API:", bills.length);
   const user = useSelector((state) => state.auth.user);
   const getMonthsForCurrentYear = () => {
     const currentYear = new Date().getFullYear();
@@ -39,7 +38,7 @@ const BarChartBills = () => {
   const paidData = labels.map((month) => monthlyCounts[month]?.paid || 0);
   const unpaidData = labels.map((month) => monthlyCounts[month]?.unpaid || 0);
   const overdueData = labels.map((month) => monthlyCounts[month]?.overdue || 0);
-  console.log("Processed Bills in Chart:", Object.values(monthlyCounts).reduce((sum, month) => sum + month.paid + month.unpaid + month.overdue, 0));
+
   useEffect(() => {
     if (chartRef.current) {
       if (chartInstance.current) {

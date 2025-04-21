@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-
-
 import { Typography, Box, Button, Modal, TextField,MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-
 import AddPayment from '../components/modals/AddPayment';
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
@@ -17,21 +13,15 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
-
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import html2canvas from 'html2canvas';
 import ExcelJS from 'exceljs';
-
 import { CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { AddReceiptModal } from '../components/modals/AddReceipt';
 import wardDataAtoI from '../data/warddataAtoI';
 import MonthYearPicker from '../components/MonthYearPickerFormoneTwenty';
 import {loadDevanagariFont,notoserifbase} from '../fonts/NotoSerifbase';
-// import devanagariFont from "../fonts/DevanagariFont"; // ✅ Correct Import
-
-
 const Formonetwentynew = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -59,9 +49,8 @@ const Formonetwentynew = () => {
   const [paidBefore, setPaidBefore] = useState(0);
   const [paidAfter, setPaidAfter] = useState(0);
   const [wardName, setWardName] = useState('');
-  
   const user = useSelector(state => state.auth.user);
-  console.log("user>>>testing", user)
+  
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
    const [cRDate, setCRDate] = useState('');
@@ -209,8 +198,8 @@ const Formonetwentynew = () => {
     return <p>Error: {error}</p>;
   }
   const handleChange = (event) => {
-    const newValue = event.target.value.trim(); // Remove extra spaces
-    console.log("consumerNumber", newValue);
+    const newValue = event.target.value.trim();
+    
     setCnId(newValue);
 };
   const handleAddBillOpen = () => {
@@ -238,29 +227,11 @@ const Formonetwentynew = () => {
     location.pathname === '/specificconsumerbills' ||
     !location.pathname.startsWith('/consumer-bill-details/');
 
-  console.log("shouldDisplayTextField", shouldDisplayTextField
-
-  )
+  
   const combinedData = [...filteredBills];
 
   const consumerId = consumerData?.consumerNumber || null;
 
-  console.log("consumerId testing", consumerId)
-
-//   const rows = combinedData
-//     .filter(bill => {
-//       return (
-//         bill.consumerNumber === consumerId ||
-//         bill.consumerNumber === cnId
-//       );
-//     })
-// ==============================================
-
-    // const rows = (consumerId || cnId ||wardName ? combinedData.filter(bill => 
-    //     bill.consumerNumber === consumerId || bill.consumerNumber === cnId||bill.ward===wardName
-    //   ) : combinedData)
-
-// ======================================
 let filteredData = cnId || wardName 
   ? combinedData.filter(bill => 
       (cnId && bill.consumerNumber?.toString().trim() === cnId.trim()) ||
@@ -269,11 +240,10 @@ let filteredData = cnId || wardName
   : combinedData;
 
 if (cRDate) {
-  console.log("cRDate>>>>", cRDate);
-
+ 
   const crDateObj = new Date(cRDate);
   const cRYear = crDateObj.getFullYear();
-  const cRMonth = crDateObj.getMonth(); // Zero-based month (Jan = 0, Feb = 1)
+  const cRMonth = crDateObj.getMonth(); 
 
   filteredData = filteredData.filter(bill => {
     if (bill.currentReadingDate) {
@@ -288,24 +258,7 @@ if (cRDate) {
   });
 }
 
-// ---------------------------------------------------------------
 
-// if (cRDate) {
-//   console.log("cRDate>>>>", cRDate);
-
-//   const crDateObj = new Date(cRDate);
-//   const cRYear = crDateObj.getFullYear();
-//   const cRMonth = crDateObj.getMonth(); // Zero-based month (Jan = 0, Feb = 1)
-
-//   filteredData = combinedData.filter(bill => {
-//     if (bill.currentReadingDate && /^\d{4}-\d{2}$/.test(bill.currentReadingDate)) {
-//       const [billYear, billMonth] = bill.currentReadingDate.split('-').map(Number);
-
-//       return cRYear === billYear && cRMonth + 1 === billMonth; // Fix comparison
-//     }
-//     return false;
-//   });
-// }
 const rows = filteredData.map((bill, index) => ({
       _id: bill._id,
       id: index + 1,
@@ -343,7 +296,7 @@ const rows = filteredData.map((bill, index) => ({
       dueDate:bill.dueDate,
       netBillAmountWithDPC: bill.netBillAmountWithDPC||'-',
       phaseType:bill?.phaseType||'-',
-      // lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
+     
       billPaymentDate: bill.billPaymentDate||'-',
       paidAmount:bill.paidAmount||'-',
       forwardForGeneration: bill.forwardForGeneration,
@@ -578,259 +531,7 @@ const rows = filteredData.map((bill, index) => ({
   };
 
   
-// const handleDownloadPDF = () => {
-//   try {
-//       const pdfContent = document.createElement('div');
-//       pdfContent.style.fontFamily = 'NotoSerifDevanagari';
-//       pdfContent.style.fontSize = '16px';
-//       pdfContent.style.textAlign = 'center';
-//       pdfContent.style.position = 'absolute';
-//       pdfContent.style.left = '-9999px';
-//       pdfContent.innerHTML = `
-//           <p><strong>नमुना नं १२०</strong></p>
-//           <p>(नियम १४७) (२) पहा )</p>
-//           <p><strong style="font-size: 18px;">वसई विरार शहर महानगरपालिका</strong></p>
-//           <table style="width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 20px;">
-//               <thead>
-//                   <tr>
-//                       <th>ग्राहक क्रमांक</th>
-//                       <th>मीटर क्रमांक</th>
-//                       <th>ग्राहक संपर्क क्रमांक</th>
-//                       <th>मीटरची स्थिती</th>
-//                       <th>मंजूर भार</th>
-//                       <th>फेज प्रकार</th>
-//                   </tr>
-//               </thead>
-//               <tbody id="firstGroupBody"></tbody>
-//           </table>
-//       `;
-//       const firstGroupBody = pdfContent.querySelector("#firstGroupBody");
-//       if (rows.length > 0) {
-//           const firstRow = rows[0]; 
-//           const firstGroupData = [
-//               firstRow.consumerNumber || 'N/A',
-//               firstRow.meterNumber || 'N/A',
-//               firstRow.contactNumber || 'N/A',
-//               firstRow.meterStatus || 'N/A',
-//               firstRow.sanctionedLoad || 'N/A',
-//               firstRow.phaseType || 'N/A'
-//           ];
-//           const firstDataRow = document.createElement('tr');
-//           firstGroupData.forEach((cellData) => {
-//               const td = document.createElement('td');
-//               td.style.border = '1px solid black';
-//               td.style.padding = '5px';
-//               td.textContent = cellData;
-//               firstDataRow.appendChild(td);
-//           });
-//           firstGroupBody.appendChild(firstDataRow);
-//       }
-//       const groupedRows = rows.reduce((acc, row) => {
-//           const year = new Date(row.currentReadingDate).getFullYear();
-//           if (!acc[year]) {
-//               acc[year] = [];
-//           }
-//           acc[year].push(row);
-//           return acc;
-//       }, {});
-//       Object.keys(groupedRows).forEach((year) => {
-//           const yearHeading = document.createElement('table');
-//           yearHeading.innerHTML = `
-//               <thead>
-//                   <tr>
-//                       <th colspan="11" style="text-align: center; background-color: #f2f2f2;">वर्ष: ${year}</th>
-//                   </tr>
-//                   <tr>
-//                       <th>महिना</th>
-//                       <th>एकूण युनिट</th>
-//                       <th>मागील रीडिंग दिनांक</th>
-//                       <th>मागील रीडिंग</th>
-//                       <th>चालू रीडिंग दिनांक</th>
-//                       <th>चालू रीडिंग</th>
-//                       <th>देयकाची रक्कम</th>
-//                       <th>देयकाची अंतिम तारीख</th>
-//                       <th>बिल भरणा तारीख</th>
-//                       <th>एकूण भार</th>
-//                   </tr>
-//               </thead>
-//               <tbody></tbody>
-//           `;
-//           const yearTableBody = yearHeading.querySelector("tbody");
-//           groupedRows[year].forEach((row) => {
-//               const thirdGroupData = [
-//                   row.dueDateMonth || 'N/A',
-//                   row.totalConsumption || 'N/A',
-//                   row.previousReadingDate || 'N/A',
-//                   row.previousReading || 'N/A',
-//                   row.currentReadingDate || 'N/A',
-//                   row.currentReading || 'N/A',
-//                   row.netBillAmount || 'N/A',
-//                   row.dueDate || 'N/A',
-//                   row.lastReceiptDate || 'N/A',
-//                   row.netLoad || 'N/A'
-//               ];
-//               const thirdDataRow = document.createElement('tr');
-//               thirdGroupData.forEach((cellData) => {
-//                   const td = document.createElement('td');
-//                   td.style.border = '1px solid black';
-//                   td.style.padding = '5px';
-//                   td.textContent = cellData;
-//                   thirdDataRow.appendChild(td);
-//               });
-//               yearTableBody.appendChild(thirdDataRow);
-//           });
-//           pdfContent.appendChild(yearHeading);
-//       });
-//       document.body.appendChild(pdfContent);
-//       html2canvas(pdfContent).then((canvas) => {
-//           const doc = new jsPDF({ orientation: 'landscape' });
-//           const imgData = canvas.toDataURL('image/png');
-//           const pageWidth = doc.internal.pageSize.getWidth();
-//           const imgWidth = pageWidth - 20;
-//           const imgHeight = (canvas.height * imgWidth) / canvas.width;
-//           doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-//           doc.save('ConsumerBills.pdf');
-//           document.body.removeChild(pdfContent);
-//       });
-//   } catch (error) {
-//       console.error('Error generating PDF:', error);
-//   }
-// };
 
-// ======================================================
-
-
-
-
-
-// const handleDownloadPDF = () => {
-//   try {
-//       const pdfContent = document.createElement('div');
-//       pdfContent.style.fontFamily = 'NotoSerifDevanagari';
-//       pdfContent.style.fontSize = '16px';
-//       pdfContent.style.textAlign = 'center';
-//       pdfContent.style.position = 'absolute';
-//       pdfContent.style.left = '-9999px';
-//       pdfContent.innerHTML = `
-//           <p><strong>नमुना नं १२०</strong></p>
-//           <p>(नियम १४७) (२) पहा )</p>
-//           <p><strong style="font-size: 18px;">वसई विरार शहर महानगरपालिका</strong></p>
-//           <table style="width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 20px;">
-//               <thead>
-//                   <tr>
-//                       <th>ग्राहक क्रमांक</th>
-//                       <th>मीटर क्रमांक</th>
-//                       <th>ग्राहक संपर्क क्रमांक</th>
-//                       <th>मीटरची स्थिती</th>
-//                       <th>मंजूर भार</th>
-//                       <th>फेज प्रकार</th>
-//                   </tr>
-//               </thead>
-//               <tbody id="firstGroupBody"></tbody>
-//           </table>
-//       `;
-
-//       const firstGroupBody = pdfContent.querySelector("#firstGroupBody");
-//       const limitedRows = rows.slice(0, 50); // Limit to 50 records
-
-//       if (limitedRows.length > 0) {
-//           const firstRow = limitedRows[0]; 
-//           const firstGroupData = [
-//               firstRow.consumerNumber || 'N/A',
-//               firstRow.meterNumber || 'N/A',
-//               firstRow.contactNumber || 'N/A',
-//               firstRow.meterStatus || 'N/A',
-//               firstRow.sanctionedLoad || 'N/A',
-//               firstRow.phaseType || 'N/A'
-//           ];
-//           const firstDataRow = document.createElement('tr');
-//           firstGroupData.forEach((cellData) => {
-//               const td = document.createElement('td');
-//               td.style.border = '1px solid black';
-//               td.style.padding = '5px';
-//               td.textContent = cellData;
-//               firstDataRow.appendChild(td);
-//           });
-//           firstGroupBody.appendChild(firstDataRow);
-//       }
-
-//       const groupedRows = limitedRows.reduce((acc, row) => {
-//           const year = new Date(row.currentReadingDate).getFullYear();
-//           if (!acc[year]) {
-//               acc[year] = [];
-//           }
-//           acc[year].push(row);
-//           return acc;
-//       }, {});
-
-//       Object.keys(groupedRows).forEach((year) => {
-//           const yearHeading = document.createElement('table');
-//           yearHeading.innerHTML = `
-//               <thead>
-//                   <tr>
-//                       <th colspan="11" style="text-align: center; background-color: #f2f2f2;">वर्ष: ${year}</th>
-//                   </tr>
-//                   <tr>
-//                       <th>महिना</th>
-//                       <th>एकूण युनिट</th>
-//                       <th>मागील रीडिंग दिनांक</th>
-//                       <th>मागील रीडिंग</th>
-//                       <th>चालू रीडिंग दिनांक</th>
-//                       <th>चालू रीडिंग</th>
-//                       <th>देयकाची रक्कम</th>
-//                       <th>देयकाची अंतिम तारीख</th>
-//                       <th>बिल भरणा तारीख</th>
-//                       <th>एकूण भार</th>
-//                   </tr>
-//               </thead>
-//               <tbody></tbody>
-//           `;
-//           const yearTableBody = yearHeading.querySelector("tbody");
-//           groupedRows[year].forEach((row) => {
-//               const thirdGroupData = [
-//                   row.dueDateMonth || 'N/A',
-//                   row.totalConsumption || 'N/A',
-//                   row.previousReadingDate || 'N/A',
-//                   row.previousReading || 'N/A',
-//                   row.currentReadingDate || 'N/A',
-//                   row.currentReading || 'N/A',
-//                   row.netBillAmount || 'N/A',
-//                   row.dueDate || 'N/A',
-//                   row.lastReceiptDate || 'N/A',
-//                   row.netLoad || 'N/A'
-//               ];
-//               const thirdDataRow = document.createElement('tr');
-//               thirdGroupData.forEach((cellData) => {
-//                   const td = document.createElement('td');
-//                   td.style.border = '1px solid black';
-//                   td.style.padding = '5px';
-//                   td.textContent = cellData;
-//                   thirdDataRow.appendChild(td);
-//               });
-//               yearTableBody.appendChild(thirdDataRow);
-//           });
-//           pdfContent.appendChild(yearHeading);
-//       });
-
-//       document.body.appendChild(pdfContent);
-//       html2canvas(pdfContent).then((canvas) => {
-//           const doc = new jsPDF({ orientation: 'landscape' });
-//           const imgData = canvas.toDataURL('image/png');
-//           const pageWidth = doc.internal.pageSize.getWidth();
-//           const imgWidth = pageWidth - 20;
-//           const imgHeight = (canvas.height * imgWidth) / canvas.width;
-//           doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-//           doc.save('ConsumerBills.pdf');
-//           document.body.removeChild(pdfContent);
-//       });
-//   } catch (error) {
-//       console.error('Error generating PDF:', error);
-//   }
-// };
-
-
-
-// ===========================================================
 
 
 const handleDownloadPDF = () => {
@@ -840,13 +541,12 @@ const handleDownloadPDF = () => {
     doc.addFileToVFS("NotoSerifDevanagari.ttf", notoserifbase);
     doc.addFont("NotoSerifDevanagari.ttf", "NotoSerifDevanagari", "normal");
     loadDevanagariFont(doc);
-    // const doc = new jsPDF();
+    
 
-        loadDevanagariFont(doc); // ✅ फॉन्ट लोड करा
-        console.log(doc.getFontList())
+        loadDevanagariFont(doc); 
+    
 
-//         console.log(devanagariFont.length);
-// console.log(devanagariFont.slice(0, 50)); // सुरुवातीचे 50 अक्षरे तपासा
+
 
         doc.setFont("NotoSerifDevanagari", "normal");
 
@@ -855,16 +555,16 @@ const handleDownloadPDF = () => {
       let yPos = 10;
       let rowCount = 0;
 
-      // doc.setFont("NotoSerifDevanagari");
+    
       doc.setFontSize(16);
-      // doc.text("नमुना नं १२०", 140, yPos);
+      
       doc.text("Namuna No. 120", 140, yPos);
       yPos += 10;
-      // doc.text("(नियम १४७) (२) पहा )", 140, yPos);
+    
       doc.text("(Rule 147) (2) Look )", 140, yPos);
       yPos += 10;
       doc.setFontSize(18);
-      // doc.text("वसई विरार शहर महानगरपालिका", 110, yPos);
+      
       doc.text("Vasai Virar City Municipal Corporation", 110, yPos);
       yPos += 15;
 
@@ -899,15 +599,11 @@ const handleDownloadPDF = () => {
           }
 
           doc.setFontSize(14);
-          // doc.text(`वर्ष: ${year}`, 140, yPos);
+         
           doc.text(`Year: ${year}`, 140, yPos);
           yPos += 10;
 
-          // const yearlyTableHeaders = [
-          //     "महिना", "एकूण युनिट", "मागील रीडिंग दिनांक", "मागील रीडिंग",
-          //     "चालू रीडिंग दिनांक", "चालू रीडिंग", "देयकाची रक्कम",
-          //     "देयकाची अंतिम तारीख", "बिल भरणा तारीख", "एकूण भार"
-          // ];
+         
           const yearlyTableHeaders = [
             "Month", "Total Consumption", "Previous Reading Date", "Previous Reading",
             "Current Reading Date", "Current Reading", "Netbill Amount",
@@ -945,56 +641,6 @@ const handleDownloadPDF = () => {
   }
 };
 
-// -------------------------------------------------------------------
-// const handleDownloadPDF = () => {
-//   try {
-//     const doc = new jsPDF({ orientation: 'landscape', encoding: 'UTF-8' });
-
-//     // 🚀 Instead of embedding heavy font, use default fonts
-//     doc.setFont("helvetica"); // Or "times", "courier"
-
-//     let yPos = 10;
-//     doc.setFontSize(16);
-//     doc.text("नमुना नं १२०", 140, yPos, { align: 'center' });
-//     yPos += 10;
-//     doc.text("(नियम १४७) (२) पहा )", 140, yPos, { align: 'center' });
-//     yPos += 10;
-//     doc.setFontSize(18);
-//     doc.text("वसई विरार शहर महानगरपालिका", 110, yPos, { align: 'center' });
-//     yPos += 15;
-
-//     // Table Headers
-//     const tableHeaders = [
-//       "महिना", "एकूण युनिट", "मागील रीडिंग दिनांक", "मागील रीडिंग",
-//       "चालू रीडिंग दिनांक", "चालू रीडिंग", "देयकाची रक्कम",
-//       "देयकाची अंतिम तारीख", "बिल भरणा तारीख", "एकूण भार"
-//     ];
-
-//     const tableData = rows.map(row => [
-//       row.dueDateMonth?.toString() || 'N/A',
-//       row.totalConsumption?.toString() || 'N/A',
-//       row.previousReadingDate?.toString() || 'N/A',
-//       row.previousReading?.toString() || 'N/A',
-//       row.currentReadingDate?.toString() || 'N/A',
-//       row.currentReading?.toString() || 'N/A',
-//       row.netBillAmount?.toString() || 'N/A',
-//       row.dueDate?.toString() || 'N/A',
-//       row.lastReceiptDate?.toString() || 'N/A',
-//       row.netLoad?.toString() || 'N/A'
-//     ]);
-
-//     doc.autoTable({
-//       head: [tableHeaders],
-//       body: tableData,
-//       startY: yPos,
-//       styles: { fontSize: 10 } // ❌ No heavy font needed
-//     });
-
-//     doc.save('ConsumerBills.pdf');
-//   } catch (error) {
-//     console.error('❌ Error generating PDF:', error);
-//   }
-// };
 
 const handleChangeWard = (event) => {
   setWardName(event.target.value);
@@ -1003,7 +649,7 @@ const handleChangeWard = (event) => {
 
 
 const handleCRDChange = (value) => {
-  console.log("Selected Month-Year:", value);
+  
   setCRDate(value); 
 };
 
@@ -1014,15 +660,8 @@ const handleDeleteBill = (billId) => {
     setCurrentBill(bill);
     setBillOpen(true);
   };
-  const getResponsiveWidth = () => {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 600) {
-      return '100%';
-    } else {
-      return isSidebarOpen ? '20%' : '18%';
-    }
-  };
-  const responsiveWidth = shouldDisplayTextField === false ? '50%' : '55%';
+  
+  
   return (
     <div style={gridStyle}>
 
@@ -1054,7 +693,7 @@ const handleDeleteBill = (billId) => {
       <Box sx={innerDivStyle}>
 
       <Box sx={{
-            // border:'1px solid red',
+          
             width:'100%',
               display: 'flex',
               justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'cener', sm: 'center', xs: 'center' }
@@ -1070,7 +709,7 @@ const handleDeleteBill = (billId) => {
               }}>प्रत्येक महिन्याचे / वार्षिक मीटर भाडे </Typography>
             </Box>
         <Box sx={{
-          // border:"2px solid green",
+       
           display: 'flex', width: '100%', justifyContent: 'space-between', flexDirection: {
             xs: 'column',
             sm: 'column',
@@ -1079,70 +718,10 @@ const handleDeleteBill = (billId) => {
             xl: 'row'
           },
           flexWrap: 'wrap',
-          // gap:2,
+          
         }}>
-          {/* <Box>
-           {location.pathname.includes('/consumer-bill-details/')&&(
-            <>
-             <Box sx={{
-              display: 'flex',
-              justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'cener', sm: 'center', xs: 'center' }
-            }}>
-              <Typography sx={{
-                fontSize: {
-                  xl: '16px',
-                  lg: '16px',
-                  md: '15px',
-                  sm: '12px',
-                  xs: '12px'
-                }
-              }}>मीटर क्रमांक : </Typography>
-              <Typography sx={{
-                fontSize: {
-                  xl: '16px',
-                  lg: '16px',
-                  md: '15px',
-                  sm: '12px',
-                  xs: '12px'
-                },
-              }}>
-                {consumerData?.meterNumber}
-              </Typography>
-            </Box>
-            </>
-           )}
-           
-        
-          </Box> */}
-       
-
-          {/* <Box sx={{
-            border:'5px solid pink',
-            display: 'flex',
-            justifyContent: {
-              xs: 'center',
-              sm: 'center',
-              md: shouldDisplayTextField === false ? 'flex-end' : 'space-between',
-              lg: shouldDisplayTextField === false ? 'flex-end' : 'space-between',
-              xl: shouldDisplayTextField === false ? 'flex-end' : 'space-between',
-            },
-            width: {
-              xs: '90%',
-              sm: '90%',
-              md: responsiveWidth,
-              lg: responsiveWidth,
-              xl: responsiveWidth,
-            },
-            alignContent: 'center', alignItems: 'center',
-            flexDirection: {
-              xs: 'column',
-              sm: 'column',
-              md: 'row',
-              lg: 'row',
-              xl: 'row'
-            }
-          }}> */}
-                        <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  />
+                        
+<MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  />
 
 
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
@@ -1231,7 +810,7 @@ const handleDeleteBill = (billId) => {
                 textTransform: 'none',
                 display: 'flex',
                 justifyContent: 'space-between',
-                // width: getResponsiveWidth(),
+                
                 width: {
                   xl:isSidebarOpen ? '12%' : '10%',
                   lg:isSidebarOpen ? '15%' : '15%',
@@ -1246,13 +825,7 @@ const handleDeleteBill = (billId) => {
                 mb: {
                   xs: '10px'
                 },
-                marginLeft: {
-                  // xs: '30px',
-                  // sm: '30px',
-                  // md: shouldDisplayTextField === false ? '10px' : '0px',
-                  // lg: shouldDisplayTextField === false ? '10px' : '0px',
-                  // xl: shouldDisplayTextField === false ? '10px' : '0px',
-                },
+             
               }}
               onClick={handleDownloadReport}
             >
@@ -1269,7 +842,7 @@ const handleDeleteBill = (billId) => {
                 textTransform: 'none',
                 display: 'flex',
                 justifyContent: 'space-between',
-                // width: getResponsiveWidth(),
+               
                 width: {
                   xl:isSidebarOpen ? '12%' : '10%',
                   lg:isSidebarOpen ? '15%' : '15%',
@@ -1278,13 +851,7 @@ const handleDeleteBill = (billId) => {
                   xs: '100%',
                 },
                 height: '65%',
-                // marginLeft: {
-                //   xs: '30px',
-                //   sm: '30px',
-                //   md: shouldDisplayTextField === false ? '10px' : '0px',
-                //   lg: shouldDisplayTextField === false ? '10px' : '0px',
-                //   xl: shouldDisplayTextField === false ? '10px' : '0px',
-                // },
+               
               }}
               onClick={handleDownloadPDF}
             >
@@ -1293,16 +860,8 @@ const handleDeleteBill = (billId) => {
                 fontSize: isSidebarOpen ? '12.2px' : '14px'
               }}>Download PDF</Typography>
             </Button>
-          {/* </Box> */}
+        
         </Box>
-
-        {/* <Box>
-           
-            </Box> */}
-
-
-
-
 
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}

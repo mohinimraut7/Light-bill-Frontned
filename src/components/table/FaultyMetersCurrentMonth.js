@@ -4,15 +4,12 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { styled } from "@mui/material/styles";
 import { baseUrl } from "../../config/config";
 
-// 📌 Get Current Month-Year
 const getMonthYear = (date) => {
   return date.toLocaleString("en-US", { month: "short" }).toUpperCase() + "-" + date.getFullYear();
 };
 
 const currentMonthYear = getMonthYear(new Date());
-console.log("currentMonthYear>>>>>>",currentMonthYear)
 
-// 📌 Styled Components
 const StyledTableContainer = styled(TableContainer)({
   marginTop: "2%",
   borderRadius: "10px",
