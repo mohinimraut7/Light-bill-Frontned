@@ -1073,6 +1073,10 @@ const downloadFaultyMeterReport = () => {
     let y = 20;
 
     // Left Header Text
+    if (user?.ward === "Ward-A") {
+      doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती अ"), leftX, y);
+      doc.text(reverseDevanagariIfContainsViOrLi("बोळींज, विरार (प), ता. वसई जि. पालघर पिन कोड ४०१३०३"), leftX, y + 6);
+    }
     doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच' नवघर"), leftX, y);
     doc.text(reverseDevanagariIfContainsViOrLi("विभागीय कार्यालय, नवघर,"), leftX, y + 6);
     doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", leftX, y + 12);
