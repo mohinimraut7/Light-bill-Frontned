@@ -131,13 +131,20 @@ useEffect(() => {
     );
     let filteredBills = bills;
 
-    if (user?.role.startsWith('Junior Engineer')) {
-      if (user?.ward !== 'Head Office') {
+    // if (user?.role.startsWith('Junior Engineer')) {
+    //   if (user?.ward !== 'Head Office') 
+    if (
+      (user?.role?.startsWith('Junior Engineer') && user?.ward !== 'Head Office') ||
+      ['Lipik', 'Accountant', 'Assistant Municipal Commissioner', 'Dy.Municipal Commissioner'].includes(user?.role)
+    ) 
+        
+        {
         
       const specificWard = user?.ward;
       filteredBills = bills.filter((bill) => bill.ward === specificWard);
+
       }
-    }
+    
     return filteredBills.map(bill => ({
       ...bill,
       meterPurpose: consumerMap.get(bill.consumerNumber)?.meterPurpose || 'N/A'
@@ -167,6 +174,7 @@ useEffect(() => {
 
 
   const handlePdfPreview = (pdfData,type,selMonthYear,wardName) => {
+    console.log("typev  ---- ",type)
     setPdfContent(pdfData);  
     setPdfType(type);
     setMonthPass(selMonthYear);
