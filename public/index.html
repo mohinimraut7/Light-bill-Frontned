@@ -30,6 +30,26 @@
     -->
     <title>Lightbill Management</title>
   </head>
+  <!-- <script>
+    // ❌ Disable Right Click
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
+  
+    // ❌ Disable DevTools Shortcuts (but allow typing in input/textarea)
+    document.addEventListener("keydown", function (event) {
+      const isTextField = event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA";
+      if (isTextField) return;
+  
+      if (
+        (event.ctrlKey && (event.key === "u" || event.key === "U")) || // Ctrl+U
+        (event.ctrlKey && event.shiftKey && ["I", "J", "C"].includes(event.key)) || // Ctrl+Shift+I/J/C
+        event.key === "F12" || // F12
+        (event.metaKey && event.altKey && ["I", "J", "C"].includes(event.key)) || // ⌘+⌥+I/J/C
+        (event.metaKey && event.key === "U") // ⌘+U
+      ) {
+        event.preventDefault();
+      }
+    });
+  </script> -->
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>

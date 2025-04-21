@@ -25,9 +25,7 @@ import {loadDevanagariFont,notoserifbase} from '../fonts/NotoSerifbase';
 const Formonetwentynew = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log("location", location)
   const { consumerData = {} } = location?.state || {};
-  console.log("Testing consumerData",consumerData.meterNumber)
   const { bills, loading, error } = useSelector((state) => state.bills);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [userId, setUserId] = useState('');

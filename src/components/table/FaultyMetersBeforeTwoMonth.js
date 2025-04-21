@@ -63,7 +63,7 @@ const FaultyMetersBeforeTwoMonth = () => {
           return acc;
         }, {});
 
-        // Ensure all wards are present
+       
         const finalCounts = allWards.reduce((acc, ward) => {
           acc[ward] = counts[ward] || 0;
           return acc;

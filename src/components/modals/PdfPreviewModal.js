@@ -664,7 +664,7 @@ const modalStyle = {
 };
 
 const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend,wardName,onDownload, mode }) => {
-console.log("title,",title,)
+
   const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -748,7 +748,7 @@ console.log("title,",title,)
     setSignature(signatureData);
   };
 
-  // Fetch existing report on component mount
+  
   useEffect(() => {
     if (monthpassbackend && user?.ward) {
       const fetchReport = async () => {
@@ -763,21 +763,21 @@ console.log("title,",title,)
       fetchReport();
     }
   }, [monthpassbackend, user?.ward]);
-console.log("currentReport testing>>>>",currentReport);
+
 
  const getPdfUrl = () => {
     if (!currentReport) return null;
 
-    // Find the "Lipik" role in reportingRemarks
+   
     const lipikRemark = currentReport[0]?.reportingRemarks?.find(remark => remark.role === 'Lipik');
     if (lipikRemark) {
-      const document = lipikRemark.documents?.[1]; // Assuming the documents array has the required PDF
+      const document = lipikRemark.documents?.[1]; 
       if (document) {
-        // Construct the full URL for the PDF file
+      
         return `${billBaseUrl}/${document.pdfFile.replace('\\', '/')}`;
       }
     }
-    return null; // Return null if no "Lipik" or PDF is found
+    return null;
   };
 
   const pdfUrlnew = getPdfUrl();

@@ -33,7 +33,6 @@ import ViewRemarkModal from '../components/modals/ViewRemarkModal';
 
 const ConsumerBill = () => {
   const location = useLocation();
-  console.log("location.pathname",location.pathname )
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
   
@@ -412,8 +411,6 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
 
     
     if (cRDate) {
-      console.log("cRDate>>>>",cRDate)
-      
       const crDateObj = new Date(cRDate);
 const cRYear = crDateObj.getFullYear();
 const cRMonth = crDateObj.getMonth(); 
