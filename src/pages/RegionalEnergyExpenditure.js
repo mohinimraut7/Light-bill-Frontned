@@ -776,7 +776,7 @@ try {
   .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
   const totalAmountInWords = numberToMarathiWords(totalAmount);
   const pageWidth = doc.internal.pageSize.width;
-  const leftSectionWidth = pageWidth * 0.15; // 15% of the page
+  const leftSectionWidth = pageWidth * 0.15; 
   const rightSectionStart = leftSectionWidth + 5; // Start right section after vertical line
   const rightAlignX = pageWidth - 15; // Right alignment for text
   let yPos = 15;
@@ -1025,7 +1025,7 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
   addSignatures();
  
   const pdfData = doc.output('datauristring');
-let type="tipani";
+let type="karyalayintipani";
   
   handlePdfPreview(pdfData,type,selectedMonthYear,wardName);  
    
@@ -1146,7 +1146,7 @@ doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्�
 doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच'"), signatureX, y + 8);
 doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), signatureX, y + 16);
     const pdfData = doc.output('datauristring');
-    let type = "tipani";
+    let type = "faultymeter";
     
     handlePdfPreview(pdfData, type, selectedMonthYear);
 
@@ -1663,7 +1663,9 @@ const numberToMarathiWords = (num) => {
       pdfUrl={pdfContent} 
       monthpassbackend={monthpass}
       wardName={wardName}
-      title={pdfType === "tipani" ? "karyalayintipani" : pdfType === "form22" ? "form22" : "wardbilllist"}
+      // title={pdfType === "tipani" ? "karyalayintipani" : pdfType === "form22" ? "form22" : "wardbilllist"}
+      title={pdfType}
+
       onDownload={() => {
         const doc = new jsPDF();
         doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);

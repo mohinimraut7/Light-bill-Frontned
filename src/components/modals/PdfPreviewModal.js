@@ -664,7 +664,7 @@ const modalStyle = {
 };
 
 const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend,wardName,onDownload, mode }) => {
-
+console.log("title is >>>>",title)
   const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -771,7 +771,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend,wardNa
    
     const lipikRemark = currentReport[0]?.reportingRemarks?.find(remark => remark.role === 'Lipik');
     if (lipikRemark) {
-      const document = lipikRemark.documents?.[1]; 
+      const document = lipikRemark.documents?.find(doc => doc.formType === title);
       if (document) {
       
         return `${billBaseUrl}/${document.pdfFile.replace('\\', '/')}`;
