@@ -204,6 +204,7 @@ useEffect(() => {
     reader.readAsArrayBuffer(file);
   };
   
+
   let formtype=['form22','tipani','wardbilllist']
   
   const handleDownloadPDF = () => {
@@ -1050,11 +1051,18 @@ useEffect(() => {
   console.log('Mode has been updated:', mode);
 }, [mode]);
 
+
+// const doc = new jsPDF();
+
+// var pageWidth = doc.internal.pageSize.getWidth();
+ 
+
+
 const downloadFaultyMeterReport = () => {
   setShowFormControl(true);
   try {
-    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-
+ 
+    var doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
    
     doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
     doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
@@ -1072,38 +1080,34 @@ const downloadFaultyMeterReport = () => {
     const rightX = pageWidth - 60;
     let y = 20;
 
-    // // Left Header Text
-    // if (user?.ward === "Ward-A") {
-    //   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती अ"), leftX, y);
-    //   doc.text(reverseDevanagariIfContainsViOrLi("बोळींज, विरार (प), ता. वसई जि. पालघर पिन कोड ४०१३०३"), leftX, y + 6);
-    // }
-    // doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच' नवघर"), leftX, y);
-    // doc.text(reverseDevanagariIfContainsViOrLi("विभागीय कार्यालय, नवघर,"), leftX, y + 6);
-    // doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", leftX, y + 12);
-    // doc.text(reverseDevanagariIfContainsViOrLi("ता. वसई, जि. पालघर - पिन ४०१२०२"), leftX, y + 18);
-
-
+    
+    
     let address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती";
 
-    if (user?.ward === "Ward-A") {
-      address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ,बोळींज";
-    } else if (user?.ward === "Ward-B") {
-      address = "प्रभाग समिती बी,\n विरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\n नालासोपारा (पश्चिम)";
-    } else if (user?.ward === "Ward-C") {
-      address = "प्रभाग समिती सी, \n चंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू., \n तालुका वसई, जि. पालघर 401305";
-    } else if (user?.ward === "Ward-D") {
-      address = "प्रभाग समिती (डी), \n आचोळे, आचोळे तलावा जवळ, \n आचोळे गाव, \n नालासोपारा पूर्व";
-    } else if (user?.ward === "Ward-E") {
-      address = "प्रभाग समिती 'ई', \n नालासोपारा (प.), \n वृंदावन गार्डन जवळ, \n नालासोपारा (पश्चिम), \nपिन कोड नं. 401203";
-    } else if (user?.ward === "Ward-F") {
-      address = "प्रभाग समिती एफ, \n धानिव / पेल्हार, \n गावदेवी मंदिर जवळ, पेल्हार गाव, \n डोंगरपाडा रस्ता";
-    } else if (user?.ward === "Ward-G") {
-      address = "प्रभाग समिती जी, \n वालीव, वसई ईस्ट, \n वालीव नाका, \n401208";
-    } else if (user?.ward === "Ward-I") {
-      address = "वसई विरार शहर महानगरपालिका, \n प्रभाग समिती आय कार्यालय, \n सर. डी. एम. पेटीट रुग्णालयाच्या समोर, \n पारनाका, वसई गाव, ता. वसई, जि. पालघर, पिन कोड 401201";
-    }
-    
-    doc.text(reverseDevanagariIfContainsViOrLi(address), leftX, y);
+if (user?.ward === "Ward-A") {
+  address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ, बोळींज";
+} else if (user?.ward === "Ward-B") {
+  address = "प्रभाग समिती बी,\nविरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\nनालासोपारा (पश्चिम)";
+} else if (user?.ward === "Ward-C") {
+  address = "प्रभाग समिती सी,\nचंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू.\nतालुका वसई, जि. पालघर 401305";
+} else if (user?.ward === "Ward-D") {
+  address = "प्रभाग समिती (डी),\nआचोळे, आचोळे तलावा जवळ,\nआचोळे गाव,\nनालासोपारा पूर्व";
+} else if (user?.ward === "Ward-E") {
+  address = "प्रभाग समिती 'ई',\nनालासोपारा (प.),\nवृंदावन गार्डन जवळ,\nनालासोपारा (पश्चिम),\nपिन कोड नं. 401203";
+} else if (user?.ward === "Ward-F") {
+  address = "प्रभाग समिती एफ,\nधानिव / पेल्हार,\nगावदेवी मंदिर जवळ, पेल्हार गाव,\nडोंगरपाडा रस्ता";
+} else if (user?.ward === "Ward-G") {
+  address = "प्रभाग समिती जी,\nवालीव, वसई ईस्ट,\nवालीव नाका,\n401208";
+} else if (user?.ward === "Ward-I") {
+  address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती आय कार्यालय,\nसर. डी. एम. पेटीट रुग्णालयाच्या समोर ,\nपारनाका, वसई गाव, ता. वसई, जि. पालघर,\nपिन कोड 401201";
+}
+
+// Address display in PDF (line by line)
+const addressLines = address.split("\n").map(line => reverseDevanagariIfContainsViOrLi(line));
+addressLines.forEach((line, index) => {
+  doc.text(line, leftX, y + index * 6); // Adjust line spacing as needed
+});
+
     
 
     // Right Header Text
@@ -1178,9 +1182,42 @@ y += extraSpacing;
    
     y = 240;
 const signatureX = pageWidth - 60;
-doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्युत विभाग"), signatureX, y);
-doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच'"), signatureX, y + 8);
-doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), signatureX, y + 16);
+
+
+let prabhagSamitiText = "प्रभाग समिती";
+
+// Set ward-specific label
+if (user?.ward === "Ward-A") {
+  prabhagSamitiText = "प्रभाग समिती अ";
+} else if (user?.ward === "Ward-B") {
+  prabhagSamitiText = "प्रभाग समिती बी";
+} else if (user?.ward === "Ward-C") {
+  prabhagSamitiText = "प्रभाग समिती सी";
+} else if (user?.ward === "Ward-D") {
+  prabhagSamitiText = "प्रभाग समिती डी";
+} else if (user?.ward === "Ward-E") {
+  prabhagSamitiText = "प्रभाग समिती 'ई'";
+} else if (user?.ward === "Ward-F") {
+  prabhagSamitiText = "प्रभाग समिती एफ";
+} else if (user?.ward === "Ward-G") {
+  prabhagSamitiText = "प्रभाग समिती जी";
+} else if (user?.ward === "Ward-H") {
+  prabhagSamitiText = "प्रभाग समिती एच";
+} else if (user?.ward === "Ward-I") {
+  prabhagSamitiText = "प्रभाग समिती आय";
+}
+
+// Then use this in your PDF line
+;
+
+
+const rightPadding = 100; // right side margin
+const rightlX = pageWidth - 10; // उजव्या टोकापासून 10mm अंतर — अगदी margin ला ठेवण्यासाठी
+
+doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्युत विभाग"), rightlX, y, { align: 'right' });
+doc.text(reverseDevanagariIfContainsViOrLi(prabhagSamitiText), rightlX, y + 8, { align: 'right' });
+doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightlX, y + 16, { align: 'right' });
+
     const pdfData = doc.output('datauristring');
     let type = "faultymeter";
     
