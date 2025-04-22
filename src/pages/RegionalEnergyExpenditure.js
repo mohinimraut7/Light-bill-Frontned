@@ -1072,15 +1072,39 @@ const downloadFaultyMeterReport = () => {
     const rightX = pageWidth - 60;
     let y = 20;
 
-    // Left Header Text
+    // // Left Header Text
+    // if (user?.ward === "Ward-A") {
+    //   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती अ"), leftX, y);
+    //   doc.text(reverseDevanagariIfContainsViOrLi("बोळींज, विरार (प), ता. वसई जि. पालघर पिन कोड ४०१३०३"), leftX, y + 6);
+    // }
+    // doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच' नवघर"), leftX, y);
+    // doc.text(reverseDevanagariIfContainsViOrLi("विभागीय कार्यालय, नवघर,"), leftX, y + 6);
+    // doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", leftX, y + 12);
+    // doc.text(reverseDevanagariIfContainsViOrLi("ता. वसई, जि. पालघर - पिन ४०१२०२"), leftX, y + 18);
+
+
+    let address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती";
+
     if (user?.ward === "Ward-A") {
-      doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती अ"), leftX, y);
-      doc.text(reverseDevanagariIfContainsViOrLi("बोळींज, विरार (प), ता. वसई जि. पालघर पिन कोड ४०१३०३"), leftX, y + 6);
+      address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ,बोळींज";
+    } else if (user?.ward === "Ward-B") {
+      address = "प्रभाग समिती बी,\n विरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\n नालासोपारा (पश्चिम)";
+    } else if (user?.ward === "Ward-C") {
+      address = "प्रभाग समिती सी, \n चंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू., \n तालुका वसई, जि. पालघर 401305";
+    } else if (user?.ward === "Ward-D") {
+      address = "प्रभाग समिती (डी), \n आचोळे, आचोळे तलावा जवळ, \n आचोळे गाव, \n नालासोपारा पूर्व";
+    } else if (user?.ward === "Ward-E") {
+      address = "प्रभाग समिती 'ई', \n नालासोपारा (प.), \n वृंदावन गार्डन जवळ, \n नालासोपारा (पश्चिम), \nपिन कोड नं. 401203";
+    } else if (user?.ward === "Ward-F") {
+      address = "प्रभाग समिती एफ, \n धानिव / पेल्हार, \n गावदेवी मंदिर जवळ, पेल्हार गाव, \n डोंगरपाडा रस्ता";
+    } else if (user?.ward === "Ward-G") {
+      address = "प्रभाग समिती जी, \n वालीव, वसई ईस्ट, \n वालीव नाका, \n401208";
+    } else if (user?.ward === "Ward-I") {
+      address = "वसई विरार शहर महानगरपालिका, \n प्रभाग समिती आय कार्यालय, \n सर. डी. एम. पेटीट रुग्णालयाच्या समोर, \n पारनाका, वसई गाव, ता. वसई, जि. पालघर, पिन कोड 401201";
     }
-    doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती 'एच' नवघर"), leftX, y);
-    doc.text(reverseDevanagariIfContainsViOrLi("विभागीय कार्यालय, नवघर,"), leftX, y + 6);
-    doc.text("एस. टी. डेपो जवळ, वसई रोड (प.)", leftX, y + 12);
-    doc.text(reverseDevanagariIfContainsViOrLi("ता. वसई, जि. पालघर - पिन ४०१२०२"), leftX, y + 18);
+    
+    doc.text(reverseDevanagariIfContainsViOrLi(address), leftX, y);
+    
 
     // Right Header Text
     doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);

@@ -375,7 +375,8 @@ const previousTwoMonthPaidCount = bills.filter(bill =>
   
   return (
     <div style={gridStyle} className="containerhome">
-     <div className="info-card-container" sx={{width: isSm || isXs? '100%' : '30%'}}>
+     <div className="info-card-container" sx={{width: isSm || isXs? '100%' : '30%'}}
+     >
 <InfoCard
 IconComponent={ElectricMeterOutlinedIcon}
 backgroundColor="#fff9ed"
