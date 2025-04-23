@@ -537,25 +537,43 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
     yPos += 10;
     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
     yPos += 15;
+
+    if (user.ward && signatures[user.ward]?.["Accountant"]) {
+      const accountantSigWidth = 30;
+      const accountantSigHeight = 30;
+      const accountantSigX = 15; // aligns with "प्र.लेखापाल"
+      const accountantSigY = yPos;
+    
+      doc.addImage(
+        signatures[user.ward]["Accountant"],
+        'PNG',
+        accountantSigX,
+        accountantSigY - accountantSigHeight + 15, // increase this for more downward shift
+        accountantSigWidth,
+        accountantSigHeight
+      );
+    }
+    
+    
     doc.text("-----------------                     -------------------", 15, yPos);
     yPos += 10;
     doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
 
-// ✅ Signature for "प्र.लेखापाल" just above their label
-if (user.ward && signatures[user.ward]?.["Accountant"]) {
-  const accountantSigWidth = 30;
-  const accountantSigHeight = 30;
-  const accountantSigX = 15; // aligned to start of "प्र.लेखापाल"
-  const accountantSigY = yPos - accountantSigHeight;
-  doc.addImage(
-    signatures[user.ward]["Accountant"],
-    'PNG',
-    accountantSigX,
-    accountantSigY,
-    accountantSigWidth,
-    accountantSigHeight
-  );
-}
+// // ✅ Signature for "प्र.लेखापाल" just above their label
+// if (user.ward && signatures[user.ward]?.["Accountant"]) {
+//   const accountantSigWidth = 30;
+//   const accountantSigHeight = 30;
+//   const accountantSigX = 15; // aligned to start of "प्र.लेखापाल"
+//   const accountantSigY = yPos - accountantSigHeight;
+//   doc.addImage(
+//     signatures[user.ward]["Accountant"],
+//     'PNG',
+//     accountantSigX,
+//     accountantSigY,
+//     accountantSigWidth,
+//     accountantSigHeight
+//   );
+// }
 
 // ✅ Signature for "सहा.आयुक्त" (Assistant Municipal Commissioner)
 if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
@@ -730,6 +748,7 @@ if (selectedMonthYear) {
   });
 
   const foundReport = response.data;
+  console.log("foundReport-->>>",foundReport)
 
   if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
     setMode('edit');
@@ -738,12 +757,11 @@ if (selectedMonthYear) {
     const wardReport = foundReport.find(
       report => report.ward === user.ward || wardName && report.monthReport === selectedMonthYear
     );
-
+console.log("wardReport--->>>>",wardReport)
     if (wardReport) {
-    
       const roleSignatures = {};
       wardReport.reportingRemarks.forEach(remark => {
-        if (remark.role && remark.signature) {
+        if (remark.role && remark.signature ) {
           roleSignatures[remark.role] = remark.signature;
         }
       });
@@ -870,14 +888,31 @@ if (user.ward && signatures[user.ward]?.["Lipik"]) {
     // }
 
 
+// if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
+//   let signatureYPos = yPos + 20;
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+//     const spacing = 40;
+//   doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, yPos - 15, signatureWidth, signatureHeight);
+//   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
+// }
+
 if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
-  let signatureYPos = yPos + 20;
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const spacing = 40;
-  doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, yPos - 15, signatureWidth, signatureHeight);
-  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
+  const signatureWidth = 30;
+  const signatureHeight = 30;
+
+  // Signature first at yPos
+  doc.addImage(
+    signatures[user.ward]["Junior Engineer"],
+    'PNG',
+    rightSectionStart,
+    yPos - 17,
+    signatureWidth,
+    signatureHeight
+  );
+ 
 }
+
 
   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
 
@@ -989,26 +1024,23 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
     const signatureHeight = 15;
     const spacing = 40;
   
-    // Left column signatures
-    if (user.ward && signatures[user.ward]?.["Lipik"]) {
-      doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
-      doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
-    }
   
-    if (user.ward && signatures[user.ward]?.["Accountant"]) {
-      doc.addImage(signatures[user.ward]["Accountant"], 'PNG', rightSectionStart, signatureYPos + spacing, signatureWidth, signatureHeight);
-      doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
-    }
+    // if (user.ward && signatures[user.ward]?.["Lipik"]) {
+    //   doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
+    //   doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
+    // }
   
-    
-    
+    // if (user.ward && signatures[user.ward]?.["Accountant"]) {
+    //   doc.addImage(signatures[user.ward]["Accountant"], 'PNG', rightSectionStart, signatureYPos + spacing, signatureWidth, signatureHeight);
+    //   doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
+    // }
   
-    if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
-      doc.addImage(signatures[user.ward]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos + spacing, signatureWidth, signatureHeight);
-      doc.text("उप आयुक्त", rightSectionStart + 140, signatureYPos + spacing + signatureHeight + 5);
-    }
+    // if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
+    //   doc.addImage(signatures[user.ward]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos + spacing, signatureWidth, signatureHeight);
+    //   doc.text("उप आयुक्त", rightSectionStart + 140, signatureYPos + spacing + signatureHeight + 5);
+    // }
   
-    // Add ward and organization text
+   
     signatureYPos += spacing * 2;
     doc.text("प्रभाग समिती (अ)", rightSectionStart, signatureYPos);
     doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
@@ -1624,7 +1656,12 @@ const numberToMarathiWords = (num) => {
           </Button>
          
         </Box>
-        <Box sx={{display:'flex'}}>
+        <Box sx={{display:'flex',flexDirection: {
+      xs: 'column', // mobile
+      sm: 'column', // small tablets
+      md: 'row', // tablets
+     
+    }}}>
         <Button
             sx={{
               color: '#757575',
@@ -1645,11 +1682,18 @@ const numberToMarathiWords = (num) => {
                 md: 0,
                 sm: 0
               },
+              mt:{
+                xl: 0,
+                lg: 0,
+                md: 0,
+                sm: 1,
+                xs:1
+              },
               height: '65%',
             }}
             onClick={handleDownloadForm22}
           >
-            <DownloadIcon />
+            {/* <DownloadIcon /> */}
             <Typography sx={{
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>
@@ -1676,14 +1720,21 @@ const numberToMarathiWords = (num) => {
               ml: {
                 xl: 1,
                 lg: 1,
-                md: 0,
+                md: 1,
                 sm: 0
+              },
+              mt:{
+                xl: 0,
+                lg: 0,
+                md: 0,
+                sm: 1,
+                xs:1
               },
               height: '65%',
             }}
             onClick={downloadKaryalayinTipani}
           >
-            <DownloadIcon />
+            {/* <DownloadIcon /> */}
             <Typography sx={{
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>
@@ -1708,14 +1759,22 @@ const numberToMarathiWords = (num) => {
               ml: {
                 xl: 1,
                 lg: 1,
-                md: 0,
+                md: 1,
                 sm: 0
+              },
+              mt:{
+                xl: 0,
+                lg: 0,
+                md: 0,
+                sm: 1,
+                xs:1
+
               },
               height: '65%',
             }}
             onClick={downloadFaultyMeterReport}
           >
-            <DownloadIcon />
+            {/* <DownloadIcon /> */}
             <Typography sx={{
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>

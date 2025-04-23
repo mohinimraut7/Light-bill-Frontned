@@ -800,12 +800,13 @@ console.log("title is >>>>",title)
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexGrow: 1, gap: 2 }}>
+          <Box sx={{ display: 'flex', flexGrow: 1, gap: 2}}>
             <Box sx={{ flex: '1 1 60%', height: 'calc(100vh - 200px)', overflow: 'hidden', bgcolor: '#f5f5f5', borderRadius: 1 }}>
             <iframe
     // src={user.role === 'Lipik' ? pdfUrl : `${billBaseUrl}/uploads/${currentReport?.pdfUrl}`}
     // src={user.role==='Lipik'?pdfUrl:pdfUrlnew}
-    src={pdfUrlnew}
+    // src={pdfUrlnew}
+    src={pdfUrlnew?pdfUrlnew:pdfUrl}
     style={{ width: '100%', height: '100%', border: 'none' }}
     title="PDF Preview"
   />
