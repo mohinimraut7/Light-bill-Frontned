@@ -640,20 +640,27 @@ import SignaturePad from '../SignaturePad';
 import SignatureUpload from '../SignatureUpload';
 import expstatus from '../../data/expstatus';
 
+
+
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: {
-    xs: '80%', // default for small devices
-    lg: '100%',
-    xl: '100%',
+    xs: '90%',
+    sm: '90%',
+    md: '95%',
+    lg: '95%',
+    xl: '95%',
   },
   height: {
-    xs: '80%', // default for small devices
-    lg: '100%',
-    xl: '100%',
+    xs: '95vh', // mobile साठी जवळपास full height
+    sm: '95vh',
+    md: '95vh',
+    lg: '95vh',
+    xl: '95vh',
   },
   bgcolor: 'background.paper',
   boxShadow: 24,
@@ -661,6 +668,7 @@ const modalStyle = {
   borderRadius: 2,
   display: 'flex',
   flexDirection: 'column',
+  overflowY: 'auto', // 👈 Add this line
 };
 
 const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend,wardName,onDownload, mode }) => {
@@ -785,23 +793,49 @@ console.log("title is >>>>",title)
     <>
       <Modal open={open} onClose={onClose} aria-labelledby="pdf-preview-modal" aria-describedby="modal-to-preview-pdf-before-download">
         <Box sx={modalStyle}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, alignItems: 'center',flexDirection:{
+            xs:'column',md:'row'
+          } }}>
             <Typography variant="h6" component="h2">{title}</Typography>
-            <Box>
+            <Box sx={{display:'flex',flexDirection:'row'}}>
               <Button onClick={handleSaveRemark} size="small" startIcon={<SaveIcon />} variant="contained" sx={{ mr: 1 }} disabled={!remark || !signature}>
                 Save
               </Button>
-              <Button variant="contained" startIcon={<DownloadIcon />} onClick={handleDownload} sx={{ mr: 2 }}>
+              <Button variant="contained" size="small" startIcon={<DownloadIcon />} onClick={handleDownload} sx={{ mr: 2 }}>
                 Download
               </Button>
-              <Button variant="outlined" startIcon={<CloseIcon />} onClick={onClose}>
+              <Button variant="outlined" size="small" startIcon={<CloseIcon />} onClick={onClose}>
                 Close
               </Button>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexGrow: 1, gap: 2}}>
-            <Box sx={{ flex: '1 1 60%', height: 'calc(100vh - 200px)', overflow: 'hidden', bgcolor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{
+    display: 'flex',
+    flexDirection: {
+      xs: 'column',
+      sm: 'column',
+      md: 'row',
+    },
+    flexGrow: 1,
+    gap: 2,
+  }}>
+            <Box 
+           sx={{
+            flex: {
+              md: '1 1 60%',
+            },
+            width: {
+              xs: '100%',
+              sm: '100%',
+              md: '60%',
+            },
+            height: 'calc(100vh - 200px)',
+            overflow: 'hidden',
+            bgcolor: '#f5f5f5',
+            borderRadius: 1,
+          }}
+            >
             <iframe
     // src={user.role === 'Lipik' ? pdfUrl : `${billBaseUrl}/uploads/${currentReport?.pdfUrl}`}
     // src={user.role==='Lipik'?pdfUrl:pdfUrlnew}
@@ -815,7 +849,23 @@ console.log("title is >>>>",title)
            
             </Box>
 
-            <Box sx={{ flex: '1 1 40%', height: 'calc(100vh - 200px)', overflow: 'auto', bgcolor: '#f5f5f5', borderRadius: 1, p: 2 }}>
+            <Box 
+           sx={{
+            flex: {
+              md: '1 1 40%',
+            },
+            width: {
+              xs: '100%',
+              sm: '100%',
+              md: '40%',
+            },
+            height: 'calc(100vh - 200px)',
+            overflow: 'auto',
+            bgcolor: '#f5f5f5',
+            borderRadius: 1,
+            p: 2,
+          }}
+            >
               <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle1" gutterBottom>Add Remark</Typography>
                 <FormControl fullWidth margin="normal" variant="outlined">

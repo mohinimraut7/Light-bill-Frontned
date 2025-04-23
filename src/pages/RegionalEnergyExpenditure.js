@@ -1459,9 +1459,9 @@ const numberToMarathiWords = (num) => {
             },
             color: '#0d2136',
             fontSize: {
-              sm: '10px',
-              xs: '10px',
-              md: '15px',
+              sm: '20px',
+              xs: '20px',
+              md: '20px',
               lg: '20px'
             },
           }}>
