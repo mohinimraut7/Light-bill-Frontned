@@ -1661,7 +1661,11 @@ const numberToMarathiWords = (num) => {
       sm: 'column', // small tablets
       md: 'row', // tablets
      
-    }}}>
+    },
+    mb:{
+      md:1
+    }
+    }}>
         <Button
             sx={{
               color: '#757575',
