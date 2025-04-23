@@ -914,7 +914,7 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
 }
 
 
-  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
+  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
 
   if (signatures["Head Office"]?.["Junior Engineer"]) {
     const signatureWidth = 30;
@@ -924,7 +924,7 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
     doc.addImage(
       signatures["Head Office"]["Junior Engineer"],
       'PNG',
-      rightSectionStart + 135,
+      rightSectionStart + 115,
       yPos - 15, // Signature is slightly above the text
       signatureWidth,
       signatureHeight
@@ -933,15 +933,15 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
     // Signature label text at yPos
     doc.text(
       reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
-      rightSectionStart + 135,
-      yPos
+      rightSectionStart + 115, yPos
     );
+    // doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
   }
 
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
-  doc.text("प्रभाग समिती (अ)", rightSectionStart + 75, yPos);
-  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 140, yPos);
+  doc.text("प्रभाग समिती (अ)", rightSectionStart + 70, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 115, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
   yPos += 10;
