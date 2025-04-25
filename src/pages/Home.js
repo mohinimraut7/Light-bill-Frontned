@@ -627,21 +627,10 @@ backgroundColor="#f8fffc"
       xs: 'space-between'
     },
     pl: { xl: '0%', lg: '0%', sm: '0%', xs: '0%' },
-    // mt: { xl: 5, lg: 5 },
-    // mb: { xl: 8, lg: 8 }
   }}>
     {showPTwoMonthBeforePaidTable && <PaidBillpreviousTwoMonthBefore />}
     {showBeforeTwoMonthFaultyTable && <FaultyMetersBeforeTwoMonth />}
     {showOverdueBill &&  <OverdueBillsTable />}
-
-    {/* {showOverdueBill &&
-  (
-    ["Executive Engineer", "Admin", "Super Admin"].includes(user?.role) ||
-    (user?.role === "Junior Engineer" && user?.ward === "Head Office")
-  ) && (
-    <OverdueBillsTable />
-)} */}
-
   </Box>
 )}
 
