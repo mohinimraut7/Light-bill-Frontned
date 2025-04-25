@@ -345,21 +345,21 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     }
     
       // सर्व बिल्समध्ये remarks आहेत का?
-    const hasRemarks = selectedItems.every(item => item.remarks && item.remarks.length > 0);
-    if (!hasRemarks) {
-        toast.error("Please approve before proceeding");
-        return;
-    }
+    // const hasRemarks = selectedItems.every(item => item.remarks && item.remarks.length > 0);
+    // if (!hasRemarks) {
+    //     toast.error("Please approve before proceeding");
+    //     return;
+    // }
 
     // प्रत्येक बिलच्या remarks मध्ये user.role आणि user.signature आहे का तपासा
-    const allHaveUserRoleAndSignature = selectedItems.every(item => 
-        item.remarks.some(remark => remark.role === user.role && remark.signature === user.signature)
-    );
+    // const allHaveUserRoleAndSignature = selectedItems.every(item => 
+    //     item.remarks.some(remark => remark.role === user.role && remark.signature === user.signature)
+    // );
 
-    if (!allHaveUserRoleAndSignature) {
-        toast.error("Your role and signature must be present in remarks before processing");
-        return;
-    }
+    // if (!allHaveUserRoleAndSignature) {
+    //     toast.error("Your role and signature must be present in remarks before processing");
+    //     return;
+    // }
 
     // जर सर्व चेक पास झाले, तर पुढील प्रोसेस सुरु करा
     console.log("Processing selected bills...");
@@ -758,6 +758,7 @@ return(
     { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 80 },
     { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
+    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
     { field: 'consumerName', headerName: 'CONSUMER NAME', width: 130 },
     { field: 'billingUnit', headerName: 'BILLING UNIT', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -770,7 +771,7 @@ return(
     { field: 'previousReadingDate', headerName: 'PREVIOUS READING DATE', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
-    { field: 'monthAndYear', headerName: 'MONTH AND YEAR', width: 130 },
+   
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
@@ -1218,7 +1219,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
 
          <ViewRemarkModal 
           open={isRemarkModalOpen} 
-          onClose={() => setIsRemarkModalOpen(false)} 
+          onClose={() => setIsRemarkModalOpen(false)}   
           remarks={selectedRemarks} 
         />
       </Box>

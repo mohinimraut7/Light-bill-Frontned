@@ -81,7 +81,7 @@ const Overduebills = () => {
     setPaidBefore(bills?.promptPaymentAmount)
   }, [])
   const getFilteredBills = () => {
-    if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') {
+    if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'||(user.role==='Junior Engineer' && user.ward==='Head Office')) {
       return bills;
     } else if (user?.role.startsWith('Junior Engineer')) {
       const specificWard = user?.ward;
@@ -169,7 +169,7 @@ const Overduebills = () => {
   }
   const isEditIconDisabled =
     user?.role === 'Super Admin' ||
-    user?.role === 'Admin' ||
+    user?.role === 'Admin' || (user.role==='Junior Engineer' && user.ward==='Head Office')||
     user?.role === 'Executive Engineer' ||
     user?.role === 'Done';
 
@@ -306,7 +306,7 @@ const Overduebills = () => {
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
-    { field: 'monthAndYear', headerName: 'monthAndYear', width: 130 },
+    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },

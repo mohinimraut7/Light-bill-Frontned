@@ -217,8 +217,17 @@ const passedDueDateCount = bills.filter(bill => {
   const isOverdue = dueDate < today;
   const isUnpaid = bill.paymentStatus === 'unpaid';
 
+  // if (user?.role === 'Junior Engineer') {
+  //   return isOverdue && isUnpaid && user?.ward === bill.ward;
+  // }
   if (user?.role === 'Junior Engineer') {
-    return isOverdue && isUnpaid && user?.ward === bill.ward;
+    if (user.ward === 'Head Office') {
+      // Head Office Junior Engineer - show all wards
+      return isOverdue && isUnpaid;
+    } else {
+      // Other Junior Engineer - show only their ward
+      return isOverdue && isUnpaid && user.ward === bill.ward;
+    }
   }
   return isOverdue && isUnpaid;
 }).length;
@@ -707,7 +716,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 </ListItem>
               )}
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' || (user?.role === 'Junior Engineer' && user.ward=='Head Office')) && (
                 <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/overduebills")}>
                   <ListItemButton
                     sx={{

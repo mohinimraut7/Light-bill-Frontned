@@ -39,6 +39,7 @@ import UpcomingDueBillCurrentMonth from '../components/table/UpcomingDueBillCurr
 import { upComingDueBills } from '../utils/DueBillHelper';
 import PaidBillpreviousTwoMonthBefore from '../components/table/PaidBillpreviousTwoMonthBefore';
 import FaultyMetersBeforeTwoMonth from '../components/table/FaultyMetersBeforeTwoMonth';
+import OverdueBillsTable from '../components/table/OverdueBillsTable';
 
 
 
@@ -57,6 +58,8 @@ const Home = () => {
   const [showPMonthPaidTable, setShowPMonthPaidTable] = useState(false);
   const [showCMonthAvgTable, setShowCMonthAvgTable] = useState(false);
   const [showCMonthUDueBill, setshowCMonthUDueBill] = useState(false);
+  const [showOverdueBill, setShowOverdueBill] = useState(false);
+
 const [showPTwoMonthBeforePaidTable,setShowPTwoMonthBeforePaidTable]=useState(false);
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
   const [wardFaultyCounts, setWardFaultyCounts] = useState({});
@@ -582,7 +585,7 @@ backgroundColor="#F8FFFC"
   }}
 />
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+{/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
 <InfoCard
 IconComponent={AccessTimeFilledIcon}
 backgroundColor="#f8fffc"
@@ -592,7 +595,20 @@ backgroundColor="#f8fffc"
   title="Overdue Bills"
   count={passedDueDateCount}
 />
-)}
+)} */}
+
+<InfoCard
+IconComponent={AccessTimeFilledIcon}
+backgroundColor="#f8fffc"
+  className="container-infocard"
+  avatarColor="#1976D2"
+  avatarIcon="M"
+  title="Overdue Bills"
+  count={passedDueDateCount}
+  onClick={() => {
+    setShowOverdueBill(prev => !prev);
+  }}
+/>
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
   <Box sx={{
     display: 'flex',
@@ -616,6 +632,16 @@ backgroundColor="#f8fffc"
   }}>
     {showPTwoMonthBeforePaidTable && <PaidBillpreviousTwoMonthBefore />}
     {showBeforeTwoMonthFaultyTable && <FaultyMetersBeforeTwoMonth />}
+    {showOverdueBill &&  <OverdueBillsTable />}
+
+    {/* {showOverdueBill &&
+  (
+    ["Executive Engineer", "Admin", "Super Admin"].includes(user?.role) ||
+    (user?.role === "Junior Engineer" && user?.ward === "Head Office")
+  ) && (
+    <OverdueBillsTable />
+)} */}
+
   </Box>
 )}
 
@@ -632,16 +658,12 @@ backgroundColor="#f8fffc"
   />
 )}
 
-{( user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') && (
-<InfoCard
-IconComponent={AccessTimeFilledIcon}
-backgroundColor="#f8fffc"
-  className="container-infocard"
-  avatarColor="#1976D2"
-  avatarIcon="M"
-  title="Overdue Bills"
-  count={passedDueDateCount}
-/>)}
+{/* {( user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') && ( */}
+
+
+
+{/* )} */}
+
 
      </div>
 

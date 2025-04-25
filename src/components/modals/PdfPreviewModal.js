@@ -789,6 +789,18 @@ console.log("title is >>>>",title)
   };
 
   const pdfUrlnew = getPdfUrl();
+
+
+
+  const headingText =
+  title === 'karyalayintipani'
+    ? 'कार्यालयीन टिपणी'
+    : title === 'form22'
+    ? 'नमुना नं. २२'
+    : title === 'wardbilllist'
+    ? 'Ward Bills List'
+    : '';
+
   return (
     <>
       <Modal open={open} onClose={onClose} aria-labelledby="pdf-preview-modal" aria-describedby="modal-to-preview-pdf-before-download">
@@ -796,7 +808,7 @@ console.log("title is >>>>",title)
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, alignItems: 'center',flexDirection:{
             xs:'column',md:'row'
           } }}>
-            <Typography variant="h6" component="h2">{title}</Typography>
+            <Typography variant="h6" component="h2">{headingText}</Typography>
             <Box sx={{display:'flex',flexDirection:'row'}}>
               <Button onClick={handleSaveRemark} size="small" startIcon={<SaveIcon />} variant="contained" sx={{ mr: 1 }} disabled={!remark || !signature}>
                 Save
