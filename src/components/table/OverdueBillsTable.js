@@ -118,7 +118,7 @@ const OverdueBillsTable = () => {
   return (
     <StyledTableContainer
       component={Paper}
-      sx={{ width: { lg: "45%", md: "60%", sm: "100%", xs: "100%" } }}
+      sx={{ width: { lg: "30%", md: "60%", sm: "100%", xs: "100%" } }}
     >
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
@@ -128,14 +128,14 @@ const OverdueBillsTable = () => {
             align="center"
             sx={{ fontWeight: "bold", fontSize: "14px", mt: 1, mb: 1 }}
           >
-            Overdue Bills Summary
+            Overdue Bills Count
           </Typography>
           <Table size="small">
             <StyledTableHead>
               <TableRow>
                 <StyledHeaderCell>Ward</StyledHeaderCell>
                 <StyledHeaderCell>Month</StyledHeaderCell>
-                <StyledHeaderCell>Overdue Count</StyledHeaderCell>
+                <StyledHeaderCell>Count</StyledHeaderCell>
               </TableRow>
             </StyledTableHead>
             <TableBody>
@@ -151,12 +151,6 @@ const OverdueBillsTable = () => {
                     </StyledRow>
                   ))
                 ) 
-                // : (
-                //   <StyledRow key={`${ward}-none`} index={index}>
-                //     <StyledCell>{ward}</StyledCell>
-                //     <StyledCell colSpan={2}>No Overdue Bills</StyledCell>
-                //   </StyledRow>
-                // );
               })}
             </TableBody>
           </Table>
