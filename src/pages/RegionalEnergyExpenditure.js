@@ -55,8 +55,11 @@ const RegionalEnergyExpenditure = () => {
   const { bills, loading, error } = useSelector((state) => state.bills);
   const { consumers } = useSelector((state) => state.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+
   const user = useSelector(state => state.auth.user);
-  
+  const { users } = useSelector((state) => state.users);
+  console.log("users testing",users)
+
   const [billOpen, setBillOpen] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
   const [addPaymentOpen, setAddPaymentOpen] = useState(false);
@@ -83,31 +86,63 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
     dispatch(fetchBills());
     dispatch(fetchConsumers());
   }, [dispatch, data]);
+
+
+
 useEffect(() => {
   const fetchSignatures = async () => {
     try {
       const response = await fetch(`${baseUrl}/getReports`);
       const reports = await response.json();
+      console.log("response>>>>>",reports.reportingRemarks)
       
+
 
       const latestSignatures = {};
 
-      reports.forEach(report => {
+      // reports.forEach(report => {
 
+      //   report.reportingRemarks.forEach(remark => {
+      //     if (
+      //       remark.signature &&
+      //       remark.role === user.role &&
+      //       remark.ward === user.ward
+      //     ) {
+      //       if (!latestSignatures[remark.ward]) {
+      //         latestSignatures[remark.ward] = {};
+      //       }
+      //       latestSignatures[remark.ward][remark.role] = remark.signature;
+      //     }
+      //   });
+      // });
+
+      
+      
+      reports.forEach(report => {
         report.reportingRemarks.forEach(remark => {
+          // Check if the remark is 'Approved'
           if (
-            remark.signature &&
-            remark.role === user.role &&
-            remark.ward === user.ward
+            remark.remark === "Approved" &&
+            remark.userId === user._id &&   // Match the userId
+            remark.role === user.role &&    // Match the role
+            remark.userWard === user.ward   // Match the ward
           ) {
-            if (!latestSignatures[remark.ward]) {
-              latestSignatures[remark.ward] = {};
+            // Find the corresponding user from the users array
+            const matchedUser = users.find(user => user._id === remark.userId && user.ward === remark.userWard && user.role === remark.role);
+      
+            if (matchedUser && matchedUser.signature) {  // Ensure the user has a signature
+              if (!latestSignatures[remark.userWard]) {
+                latestSignatures[remark.userWard] = {};
+              }
+              latestSignatures[remark.userWard][remark.role] = matchedUser.signature;  // Store the signature from the matched user
             }
-            latestSignatures[remark.ward][remark.role] = remark.signature;
           }
         });
       });
-
+      
+      console.log("latestSignatures=============",latestSignatures);
+      
+      
       setSignatures(latestSignatures);
       setReportsArr(reports);
     } catch (error) {
@@ -1647,7 +1682,7 @@ const numberToMarathiWords = (num) => {
             }}
             onClick={handleDownloadPDF}
           >
-            <DownloadIcon />
+            {/* <DownloadIcon /> */}
             <Typography sx={{
               fontSize: isSidebarOpen ? '12.2px' : '14px'
             }}>

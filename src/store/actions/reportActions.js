@@ -6,9 +6,9 @@ export const FETCH_REPORTS_REQUEST = 'FETCH_REPORTS_REQUEST';
 export const FETCH_REPORTS_SUCCESS = 'FETCH_REPORTS_SUCCESS';
 export const FETCH_REPORTS_ERROR = 'FETCH_REPORTS_ERROR';
 
-export const ADD_REPORT_REQUEST = 'ADD_REPORT_REQUEST';
-export const ADD_REPORT_SUCCESS = 'ADD_REPORT_SUCCESS';
-export const ADD_REPORT_ERROR = 'ADD_REPORT_ERROR';
+export const ADD_REPORT_REMARK_REQUEST = 'ADD_REPORT_REMARK_REQUEST';
+export const ADD_REPORT_REMARK_SUCCESS = 'ADD_REPORT_REMARK_SUCCESS';
+export const ADD_REPORT_REMARK_ERROR = 'ADD_REPORT_REMARK_ERROR';
 
 const getToken = () => {
   const resdata = JSON.parse(localStorage.getItem('resdata'));
@@ -38,14 +38,14 @@ export const fetchReports = () => {
   };
   
 export const addReportRequest = () => ({
-  type: ADD_REPORT_REQUEST,
+  type: ADD_REPORT_REMARK_REQUEST,
 })
 export const addReportSuccess = (report) => ({
-  type: ADD_REPORT_SUCCESS,
+  type:ADD_REPORT_REMARK_SUCCESS,
   payload: report
 })
 export const addReportFailure = (error) => ({
-  type: ADD_REPORT_ERROR,
+  type:ADD_REPORT_REMARK_ERROR,
   payload: error.message
 })
   export const addReport = (reportData) => {

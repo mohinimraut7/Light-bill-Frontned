@@ -639,7 +639,7 @@ import { baseUrl, billBaseUrl } from '../../config/config';
 import SignaturePad from '../SignaturePad';
 import SignatureUpload from '../SignatureUpload';
 import expstatus from '../../data/expstatus';
-
+import AddRemarkExpenditure from './AddRemarkExpenditure';
 
 
 
@@ -678,8 +678,9 @@ console.log("title is >>>>",title)
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [remark, setRemark] = useState('');
-  const [signature, setSignature] = useState('');
-  const [signatureMethod, setSignatureMethod] = useState('draw');
+  const [openRemarkModal, setOpenRemarkModal] = useState(false);
+  // const [signature, setSignature] = useState('');
+  // const [signatureMethod, setSignatureMethod] = useState('draw');
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
@@ -695,10 +696,17 @@ console.log("title is >>>>",title)
     link.click();
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Selected Remark:', remark);
+    setOpenRemarkModal(false);
+  };
+
   const handleSaveRemark = async () => {
     try {
-      if (!remark || !signature) {
-        setSnackbarMessage('Please add both remark and signature');
+      // if (!remark || !signature) {
+        if (!remark) {
+        setSnackbarMessage('Please add remark');
         setSnackbarOpen(true);
         return;
       }
@@ -722,7 +730,7 @@ console.log("title is >>>>",title)
       formData.append('ward', user?.ward || '');
       formData.append('wardName',wardName)
       formData.append('remark', remark);
-      formData.append('signature', signature);
+      // formData.append('signature', signature);
       formData.append('mode', mode);
 
       const response = await fetch(url, {
@@ -741,7 +749,7 @@ console.log("title is >>>>",title)
 
       // Clear form
       setRemark('');
-      setSignature('');
+      // setSignature('');
 
       // Close modal after successful save
       onClose();
@@ -752,9 +760,9 @@ console.log("title is >>>>",title)
     }
   };
 
-  const handleSignatureChange = (signatureData) => {
-    setSignature(signatureData);
-  };
+  // const handleSignatureChange = (signatureData) => {
+  //   setSignature(signatureData);
+  // };
 
   
   useEffect(() => {
@@ -810,10 +818,20 @@ console.log("title is >>>>",title)
           } }}>
             <Typography variant="h6" component="h2">{headingText}</Typography>
             <Box sx={{display:'flex',flexDirection:'row'}}>
-              <Button onClick={handleSaveRemark} size="small" startIcon={<SaveIcon />} variant="contained" sx={{ mr: 1 }} disabled={!remark || !signature}>
+              {/* <Button onClick={handleSaveRemark} size="small" startIcon={<SaveIcon />} variant="contained" sx={{ mr: 1 }} disabled={!remark || !signature}> */}
+              <Button onClick={handleSaveRemark} size="small" startIcon={<SaveIcon />} variant="outlined" sx={{ mr: 1 }} disabled={!remark}>
                 Save
               </Button>
-              <Button variant="contained" size="small" startIcon={<DownloadIcon />} onClick={handleDownload} sx={{ mr: 2 }}>
+              {/* <Button sx={{ mr: 1 }} variant="outlined">Add Remark</Button> */}
+
+              <Button 
+  sx={{ mr: 1 }} 
+  variant="outlined" 
+  onClick={() => setOpenRemarkModal(true)}
+>
+  Add Remark
+</Button>
+              <Button variant="outlined" size="small" startIcon={<DownloadIcon />} onClick={handleDownload} sx={{ mr: 1 }}>
                 Download
               </Button>
               <Button variant="outlined" size="small" startIcon={<CloseIcon />} onClick={onClose}>
@@ -861,7 +879,18 @@ console.log("title is >>>>",title)
            
             </Box>
 
-            <Box 
+
+            <AddRemarkExpenditure
+  open={openRemarkModal}
+  handleClose={() => setOpenRemarkModal(false)}
+  remark={remark}
+  setRemark={setRemark}
+  handleSubmit={handleSubmit}
+/>
+
+
+
+            {/* <Box 
            sx={{
             flex: {
               md: '1 1 40%',
@@ -877,8 +906,12 @@ console.log("title is >>>>",title)
             borderRadius: 1,
             p: 2,
           }}
-            >
-              <Box sx={{ mb: 3 }}>
+            > */}
+
+
+
+              {/* Replaced it by Modal AddRemarkExpenditure Modal */}
+              {/* <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle1" gutterBottom>Add Remark</Typography>
                 <FormControl fullWidth margin="normal" variant="outlined">
                   <InputLabel id="remark-label">Status Name</InputLabel>
@@ -894,9 +927,14 @@ console.log("title is >>>>",title)
                     ))}
                   </Select>
                 </FormControl>
-              </Box>
+              </Box> */}
 
-              <Box>
+{/* -------------------------------------------------- */}
+
+
+
+
+              {/* <Box>
                 <Typography variant="subtitle1" gutterBottom>Signature</Typography>
                 <Box sx={{ mb: 2 }}>
                   <Button variant={signatureMethod === 'draw' ? 'contained' : 'outlined'} onClick={() => setSignatureMethod('draw')} sx={{ mr: 1 }}>
@@ -929,8 +967,11 @@ console.log("title is >>>>",title)
                     </Box>
                   </Box>
                 )}
-              </Box>
-            </Box>
+              </Box> */}
+            {/* </Box> */}
+
+
+            
           </Box>
         </Box>
       </Modal>

@@ -9,7 +9,7 @@ import loginReducer from "./loginReducer";
 import billReducer from "./billReducer";
 import masterReducer from "./masterReducer";
 import tarriffReducer from "./tarriffReducer";
-
+import reportReducer from "./reportReducer";
 const rootReducer=combineReducers({
     posts:postReducer,
     users:userReducer,
@@ -20,7 +20,8 @@ const rootReducer=combineReducers({
     tarriffs:tarriffReducer,
     auth:loginReducer,
     bills:billReducer,
-    masters:masterReducer
+    masters:masterReducer,
+    reports:reportReducer
 });
 
 export default rootReducer;
