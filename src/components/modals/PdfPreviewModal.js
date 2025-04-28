@@ -722,6 +722,7 @@ console.log("title is >>>>",title)
 
       // Add the PDF file to FormData
       formData.append('userId', user?._id || '');
+      formData.append('signature', user?.signature || '');
       formData.append('pdfFile', pdfBlob, `${title || 'document'}.pdf`);
       // Add other fields
       formData.append('formType', title ? title : 'PDF_REPORT');
