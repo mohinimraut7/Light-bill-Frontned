@@ -1771,3 +1771,151 @@ Remark
   );
 };
 export default RegionalEnergyExpenditure;
+// ========================================================
+// 30 Apr 25
+
+const convertNumberToMarathiWords = (num) => {
+  const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
+  const marathiTens = ["", "दहा", "वीस", "तीस", "चाळीस", "पन्नास", "साठ", "सत्तर", "ऐंशी", "नव्वद"];
+  const marathiHundreds = "शंभर";
+  const marathiThousands = "हजार";
+  const marathiLakhs = "लाख";
+  const marathiCrores = "कोटी";
+  let result = "";
+  if (num >= 10000000) {
+    result += Math.floor(num / 10000000) + " " + marathiCrores + " ";
+    num %= 10000000;
+  }
+  if (num >= 100000) {
+    result += Math.floor(num / 100000) + " " + marathiLakhs + " ";
+    num %= 100000;
+  }
+  if (num >= 1000) {
+    result += Math.floor(num / 1000) + " " + marathiThousands + " ";
+    num %= 1000;
+  }
+  if (num >= 100) {
+    result += marathiHundreds + " ";
+    num %= 100;
+  }
+  if (num >= 10) {
+    result += marathiTens[Math.floor(num / 10)] + " ";
+    num %= 10;
+  }
+  if (num > 0) {
+    result += marathiNumbers[num] + " ";
+  }
+  return result.trim();
+};
+====================================
+const handleAddFormTtOpen = () => {
+  setAddFormTtOpen(true)
+}
+
+======================
+ // reports.forEach(report => {
+
+      //   report.reportingRemarks.forEach(remark => {
+      //     if (
+      //       remark.signature &&
+      //       remark.role === user.role &&
+      //       remark.ward === user.ward
+      //     ) {
+      //       if (!latestSignatures[remark.ward]) {
+      //         latestSignatures[remark.ward] = {};
+      //       }
+      //       latestSignatures[remark.ward][remark.role] = remark.signature;
+      //     }
+      //   });
+      // });
+      ===========================================
+      // if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
+//   const signatureWidth = 30;
+//   const signatureHeight = 30;
+
+ 
+//   doc.addImage(
+//     signatures[user.ward]["Junior Engineer"],
+//     'PNG',
+//     rightSectionStart,
+//     yPos - 17,
+//     signatureWidth,
+//     signatureHeight
+//   );
+ 
+// }
+// =================================
+// if (user.ward && signatures[user.ward]?.["Lipik"]) {
+//   const signatureWidth = 30;
+//   const signatureHeight = 30;
+
+ 
+//   doc.addImage(
+//     signatures[user.ward]["Lipik"],
+//     'PNG',
+//     rightSectionStart,
+//     yPos - 17,
+//     signatureWidth,
+//     signatureHeight
+//   );
+ 
+// }
+-----------------------------------------------------
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+//   if (matchedSignature) {
+//     const signatureWidth = 30;
+//     const signatureHeight = 30;
+
+//     const xPos = rightSectionStart + 70; // align with text
+//     const yOffset = yPos - 17; // slightly above the text
+
+//     doc.addImage(
+//       matchedSignature.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// ================================================================================
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+//   if (matchedSignature) {
+//     const signatureWidth = 30;
+//     const signatureHeight = 30;
+
+//     doc.addImage(
+//       matchedSignature.signature,  // use from userSignatures array
+//       'PNG',
+//       rightSectionStart,           // same position as previous logic
+//       yPos - 17,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
+// =======================================================================
+// if (user.role === "Lipik") {
+//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+//   if (matchedSignature) {
+//     const signatureWidth = 30;
+//     const signatureHeight = 30;
+
+//     doc.addImage(
+//       matchedSignature.signature,
+//       'PNG',
+//       rightSectionStart,
+//       yPos - 17,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }

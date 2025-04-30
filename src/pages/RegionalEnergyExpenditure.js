@@ -58,6 +58,8 @@ const RegionalEnergyExpenditure = () => {
 
   const user = useSelector(state => state.auth.user);
   const { users } = useSelector((state) => state.users);
+
+
   console.log("users testing",users)
 
   const [billOpen, setBillOpen] = useState(false);
@@ -82,6 +84,8 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
  const [signatures, setSignatures] = useState({});
  const [pdfType, setPdfType] = useState("");
  const [monthpass,setMonthPass]=useState("");
+ const [userSignatures, setUserSignatures] = useState([]);
+
   useEffect(() => {
     dispatch(fetchBills());
     dispatch(fetchConsumers());
@@ -94,29 +98,12 @@ useEffect(() => {
     try {
       const response = await fetch(`${baseUrl}/getReports`);
       const reports = await response.json();
-      console.log("response>>>>>",reports.reportingRemarks)
+      console.log("response>>>>>",reports)
       
 
 
       const latestSignatures = {};
 
-      // reports.forEach(report => {
-
-      //   report.reportingRemarks.forEach(remark => {
-      //     if (
-      //       remark.signature &&
-      //       remark.role === user.role &&
-      //       remark.ward === user.ward
-      //     ) {
-      //       if (!latestSignatures[remark.ward]) {
-      //         latestSignatures[remark.ward] = {};
-      //       }
-      //       latestSignatures[remark.ward][remark.role] = remark.signature;
-      //     }
-      //   });
-      // });
-
-      
       
       reports.forEach(report => {
         report.reportingRemarks.forEach(remark => {
@@ -153,7 +140,21 @@ useEffect(() => {
   fetchSignatures();
 }, []);
 
+useEffect(() => {
+  if (users && users.length > 0) {
+    const filteredSignatures = users
+      .filter(u => u.signature)
+      .map(u => ({
+        _id: u._id,
+        signature: u.signature
+      }));
+      
+    setUserSignatures(filteredSignatures);
+  }
+}, [users]);
 
+
+console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
 
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -768,9 +769,7 @@ setPdfBlob(pdfData);
 
 
 
-const handleAddFormTtOpen = () => {
-  setAddFormTtOpen(true)
-}
+
 // --------------------------------------------------------------------
 
 
@@ -823,8 +822,8 @@ console.log("wardReport--->>>>",wardReport)
 
  
   setShowFormControl(true); 
-  const signatureWidth = 30;
-    const signatureHeight = 15;
+
+    
 try {
  
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
@@ -839,19 +838,19 @@ try {
   const totalAmountInWords = numberToMarathiWords(totalAmount);
   const pageWidth = doc.internal.pageSize.width;
   const leftSectionWidth = pageWidth * 0.15; 
-  const rightSectionStart = leftSectionWidth + 5; // Start right section after vertical line
-  const rightAlignX = pageWidth - 15; // Right alignment for text
+  const rightSectionStart = leftSectionWidth + 5; 
+  const rightAlignX = pageWidth - 15; 
   let yPos = 15;
-  // Left Section (15%)
+  
   doc.setFontSize(10);
-  doc.text(reverseDevanagariIfContainsViOrLi("व. वि. श."), 10, yPos); // "व. वि. श." on top
-  yPos += 6; // Move down for spacing
-  doc.text(reverseDevanagariIfContainsViOrLi("महानगरपालिका"), 10, yPos); // "महानगरपालिका" below it
-  // Draw vertical line
+  doc.text(reverseDevanagariIfContainsViOrLi("व. वि. श."), 10, yPos); 
+  yPos += 6; 
+  doc.text(reverseDevanagariIfContainsViOrLi("महानगरपालिका"), 10, yPos); 
+  
   doc.setDrawColor(0);
   doc.setLineWidth(0.2);
-  doc.line(leftSectionWidth, 10, leftSectionWidth, 290); // Line from top to bottom
-  // Right Section (85%) - Main Content
+  doc.line(leftSectionWidth, 10, leftSectionWidth, 290); 
+  
   doc.setFontSize(16);
   doc.text(reverseDevanagariIfContainsViOrLi("कार्यालयीन टिपणी"), rightSectionStart + 30, 20);
   doc.setFontSize(12);
@@ -860,9 +859,9 @@ try {
   doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक: ${currentDate}`), rightAlignX, yPos, { align: "right" });
   yPos += 7;
   const wardname = [...new Set(
-    rows.filter(row => row.ward === wardName) // फक्त निवडलेल्या wardName नुसार फिल्टर करणे
-    .map(row => row.ward) // फक्त 'ward' ची व्हॅल्यू काढणे
-)].join(', '); // डुप्लिकेट्स काढून "," ने जोडणे
+    rows.filter(row => row.ward === wardName) 
+    .map(row => row.ward) 
+)].join(', '); 
   doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("विभाग: दिवाबत्ती"), rightAlignX, yPos, { align: "right" });
@@ -870,14 +869,14 @@ try {
   doc.text("मा.साहेब,", rightSectionStart, yPos);
   yPos += 7;
   const meterpurposename = [...new Set(
-    rows.filter(row => row.meterPurpose === meterPurposeName) // फक्त निवडलेल्या meterPurpose नुसार फिल्टर करणे
-        .map(row => row.meterPurpose) // फक्त 'ward' ची व्हॅल्यू काढणे
-)].join(', '); // डुप्लिकेट्स काढून "," ने जोडणे
+    rows.filter(row => row.meterPurpose === meterPurposeName) 
+        .map(row => row.meterPurpose)
+)].join(', '); 
   doc.text(reverseDevanagariIfContainsViOrLi(`सादर करण्यात येते की, वसई विरार शहर महानगरपालिका ${wardname}`), rightSectionStart, yPos);
   yPos += 7;
   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
-//  doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
+
 
   doc.text(reverseDevanagariIfContainsViOrLi(`हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील ${meterPurpose}`), rightSectionStart, yPos);
 yPos += 7;
@@ -894,84 +893,89 @@ yPos += 7;
   yPos += 7;
   doc.text("करून मागणी केलेली आहे.", rightSectionStart, yPos);
   yPos += 10;
-  doc.text("-----------------------------------------------------------", rightSectionStart, yPos);
-  yPos += 10;
-
-if (user.ward && signatures[user.ward]?.["Lipik"]) {
-  const signatureWidth = 30;
-  const signatureHeight = 30;
-
-  // Signature first at yPos
-  doc.addImage(
-    signatures[user.ward]["Lipik"],
-    'PNG',
-    rightSectionStart,
-    yPos - 17,
-    signatureWidth,
-    signatureHeight
-  );
- 
-}
-  doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
-
-// Only draw signatures if available
-    // const currentSignatures = signatures[user.ward] || {};
-
-    // if (currentSignatures["Lipik"]) {
-    //   doc.addImage(currentSignatures["Lipik"], 'PNG', rightSectionStart, yPos - 17, signatureWidth, signatureHeight);
-    //   doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
-    // }
+  doc.text("-----------------------------------------------------------------------------------------------------", rightSectionStart, yPos);
+  yPos += 25;
 
 
-// if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
-//   let signatureYPos = yPos + 20;
-//     const signatureWidth = 30;
-//     const signatureHeight = 15;
-//     const spacing = 40;
-//   doc.addImage(signatures[user.ward]["Junior Engineer"], 'PNG', rightSectionStart + 75, yPos - 15, signatureWidth, signatureHeight);
-//   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 75, yPos);
-// }
+if (user.role === "Lipik") {
+  const matchedSignature = userSignatures.find(sig => sig._id === user._id);
 
-if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
-  const signatureWidth = 30;
-  const signatureHeight = 30;
-
-  // Signature first at yPos
-  doc.addImage(
-    signatures[user.ward]["Junior Engineer"],
-    'PNG',
-    rightSectionStart,
-    yPos - 17,
-    signatureWidth,
-    signatureHeight
-  );
- 
-}
-
-
-  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
-
-  if (signatures["Head Office"]?.["Junior Engineer"]) {
+  if (matchedSignature) {
     const signatureWidth = 30;
     const signatureHeight = 15;
-  
-    // Signature image added at proper aligned position
+
     doc.addImage(
-      signatures["Head Office"]["Junior Engineer"],
+      matchedSignature.signature,
       'PNG',
-      rightSectionStart + 115,
-      yPos - 15, // Signature is slightly above the text
+      rightSectionStart,
+      yPos - 17-5,
       signatureWidth,
       signatureHeight
     );
-  
-    // Signature label text at yPos
-    doc.text(
-      reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
-      rightSectionStart + 115, yPos
-    );
-    // doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
   }
+}
+
+
+  doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
+
+
+
+if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+  const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+  if (matchedSignature) {
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+
+    const xPos = rightSectionStart + 70; // align with text
+    const yOffset = yPos - 17 - 7; // 100px वर
+
+    doc.addImage(
+      matchedSignature.signature,
+      'PNG',
+      xPos,
+      yOffset,
+      signatureWidth,
+      signatureHeight
+    );
+  }
+
+
+
+  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
+}
+
+
+  
+
+  if (user.role === "Junior Engineer" && user.ward === "Head Office") {
+    const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+  
+    if (matchedSignature) {
+      const signatureWidth = 30;
+      const signatureHeight = 15;
+  
+      const xPos = rightSectionStart + 115; // align with text
+      const yOffset = yPos - 17 - 5; // 100px वर
+  
+      doc.addImage(
+        matchedSignature.signature,
+        'PNG',
+        xPos,
+        yOffset,
+        signatureWidth,
+        signatureHeight
+      );
+    }
+  
+  
+  
+     doc.text(
+        reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+        rightSectionStart , yPos
+      );
+  }
+  
 
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
@@ -980,7 +984,7 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
   yPos += 10;
-  // Financial Summary Section
+ 
   yPos += 10;
   doc.text("मा.सदर,", rightSectionStart, yPos);
   yPos += 7;
@@ -1002,46 +1006,109 @@ if (user.ward && signatures[user.ward]?.["Junior Engineer"]) {
   doc.text(reverseDevanagariIfContainsViOrLi("तरी सदरचे देयक महाराष्ट्र राज्य वीज वितरण कंपनी लिमिटेड यांना"), rightSectionStart, yPos);
   yPos += 7;
   doc.text("उदाहोण्यासाठी मंजुरीस्तव सदर.", rightSectionStart, yPos);
-  yPos += 10;
-  // doc.text("-----------------------------------------------------------", rightSectionStart, yPos);
-  yPos += 10;
-if (user.ward && signatures[user.ward]?.["Accountant"]) {
-  const signatureWidth = 30;
-  const signatureHeight = 15;
+  yPos += 25;
+ 
+ 
+// if (user.ward && signatures[user.ward]?.["Accountant"]) {
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
 
-  doc.addImage(
-    signatures[user.ward]["Accountant"],
-    'PNG',
-    rightSectionStart,
-    yPos - signatureHeight - 5,
-    signatureWidth,
-    signatureHeight
-  );
+//   doc.addImage(
+//     signatures[user.ward]["Accountant"],
+//     'PNG',
+//     rightSectionStart,
+//     yPos - signatureHeight - 5,
+//     signatureWidth,
+//     signatureHeight
+//   );
 
-  doc.text("लेखापाल", rightSectionStart, yPos);
-}
+//   doc.text("लेखापाल", rightSectionStart, yPos);
+// }
 
-  doc.text("लेखापाल", rightSectionStart, yPos);
+//   doc.text("लेखापाल", rightSectionStart, yPos);
 
-  if (signatures['Accountant']) { 
-    doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
-}
-  doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
-  if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
-    const amcSigWidth = 30;
-    const amcSigHeight = 30;
-    const amcSigX = 120; // Adjust X based on your spacing needs
-    const amcSigY = yPos - amcSigHeight + 5;
-  
+//   if (signatures['Accountant']) { 
+//     doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
+
+
+
+if (user.role === "Accountant") {
+  const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+  // Use position from signatures[user.ward]["Accountant"]
+  if (matchedSignature && user.ward && signatures[user.ward]?.["Accountant"]) {
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+
+    // Use position from original block
+    const xPos = rightSectionStart;
+    const yOffset = yPos - signatureHeight - 5;
+
     doc.addImage(
-      signatures[user.ward]["Assistant Municipal Commissioner"],
+      matchedSignature.signature,
       'PNG',
-      amcSigX,
-      amcSigY,
-      amcSigWidth,
-      amcSigHeight
+      xPos,
+      yOffset,
+      signatureWidth,
+      signatureHeight
+    );
+
+    doc.text(
+      reverseDevanagariIfContainsViOrLi("लेखापाल"),
+      xPos,
+      yPos
     );
   }
+}
+
+
+  // doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
+  // if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+  //   const amcSigWidth = 30;
+  //   const amcSigHeight = 30;
+  //   const amcSigX = 120; 
+  //   const amcSigY = yPos - amcSigHeight + 5;
+  
+  //   doc.addImage(
+  //     signatures[user.ward]["Assistant Municipal Commissioner"],
+  //     'PNG',
+  //     amcSigX,
+  //     amcSigY,
+  //     amcSigWidth,
+  //     amcSigHeight
+  //   );
+  // }
+
+
+  if (user.role === "Assistant Municipal Commissioner") {
+    const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+  
+    if (matchedSignature) {
+      const signatureWidth = 30;
+      const signatureHeight = 15;
+  
+      const xPos = 120; // याच position वर घ्यायचं आहे
+      const yOffset = yPos - signatureHeight + 5; // आधीच्या logic नुसार
+  
+      doc.addImage(
+        matchedSignature.signature,
+        'PNG',
+        xPos,
+        yOffset,
+        signatureWidth,
+        signatureHeight
+      );
+    }
+  
+    doc.text(
+      reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
+      rightSectionStart + 75, yPos
+    );
+  }
+
+
+
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
@@ -1055,25 +1122,12 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
 
   const addSignatures = () => {
     let signatureYPos = yPos + 20;
-    const signatureWidth = 30;
-    const signatureHeight = 15;
+   
+   
     const spacing = 40;
   
   
-    // if (user.ward && signatures[user.ward]?.["Lipik"]) {
-    //   doc.addImage(signatures[user.ward]["Lipik"], 'PNG', rightSectionStart, signatureYPos, signatureWidth, signatureHeight);
-    //   doc.text("लिपिक, विद्युत विभाग", rightSectionStart, signatureYPos + signatureHeight + 5);
-    // }
   
-    // if (user.ward && signatures[user.ward]?.["Accountant"]) {
-    //   doc.addImage(signatures[user.ward]["Accountant"], 'PNG', rightSectionStart, signatureYPos + spacing, signatureWidth, signatureHeight);
-    //   doc.text("लेखापाल", rightSectionStart, signatureYPos + spacing + signatureHeight + 5);
-    // }
-  
-    // if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
-    //   doc.addImage(signatures[user.ward]["Dy.Municipal Commissioner"], 'PNG', rightSectionStart + 140, signatureYPos + spacing, signatureWidth, signatureHeight);
-    //   doc.text("उप आयुक्त", rightSectionStart + 140, signatureYPos + spacing + signatureHeight + 5);
-    // }
   
    
     signatureYPos += spacing * 2;
@@ -1081,22 +1135,10 @@ if (user.ward && signatures[user.ward]?.["Accountant"]) {
     doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
   };
   
-// -----------------------------------------------------
- 
-  // --------------------------------------------------------------------------------
 
  
-  // Helper function to get the title in Marathi
-  const getRoleTitle = (role) => {
-    const titles = {
-      "Lipik": "लिपिक, विद्युत विभाग",
-      "Accountant": "लेखापाल",
-      "Junior Engineer": "कनिष्ठ अभियंता",
-      "Assistant Municipal Commissioner": "सहाय्यक आयुक्त",
-      "Dy.Municipal Commissioner": "उप आयुक्त"
-    };
-    return titles[role] || role;
-  };
+  
+  
   
   addSignatures();
  
@@ -1119,10 +1161,7 @@ useEffect(() => {
 }, [mode]);
 
 
-// const doc = new jsPDF();
 
-// var pageWidth = doc.internal.pageSize.getWidth();
- 
 
 
 const downloadFaultyMeterReport = () => {
@@ -1169,15 +1208,15 @@ if (user?.ward === "Ward-A") {
   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती आय कार्यालय,\nसर. डी. एम. पेटीट रुग्णालयाच्या समोर ,\nपारनाका, वसई गाव, ता. वसई, जि. पालघर,\nपिन कोड 401201";
 }
 
-// Address display in PDF (line by line)
+
 const addressLines = address.split("\n").map(line => reverseDevanagariIfContainsViOrLi(line));
 addressLines.forEach((line, index) => {
-  doc.text(line, leftX, y + index * 6); // Adjust line spacing as needed
+  doc.text(line, leftX, y + index * 6); 
 });
 
     
 
-    // Right Header Text
+    
     doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
     doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
     doc.text("जा.क्र. :-", rightX, y + 18);
@@ -1186,19 +1225,19 @@ addressLines.forEach((line, index) => {
    let yPos = 15;
     const logoWidth = 30;
 const logoHeight = 30;
-// Calculate center of the page (X and Y)
-const pageHeight = doc.internal.pageSize.getHeight();
-const centerY = yPos + 0; // Adjust this if you need the logo to move up/down
 
-// Add the logo in the center
+const pageHeight = doc.internal.pageSize.getHeight();
+const centerY = yPos + 0;
+
+
 doc.addImage(logovvcmccmp, 'PNG', centerX, centerY, logoWidth, logoHeight);
 
-y += 36; // Leave space for logo and header
-const lineY = y - 2; // थोडं वरती ठेवण्यासाठी
-doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY); // 10px margin from left and right
-y += 15; // लाईन नंतर थोडं खाली space
+y += 36; 
+const lineY = y - 2; 
+doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY); 
+y += 15; 
 
-    // Address Block
+    
     doc.text("प्रति,", leftX, y);
     y += 8;
     doc.text(reverseDevanagariIfContainsViOrLi("मा. उप-कार्यकारी अभियंता"), leftX, y);
@@ -1208,12 +1247,11 @@ y += 15; // लाईन नंतर थोडं खाली space
     doc.text("वसई प.", leftX, y);
     y += 12;
 
-    // Subject Line
+    
 
     
     doc.setFontSize(15);
-    // const subjectX = leftX + 5; // left पासून 15px अंतर ठेवलं
-    // doc.text(reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत."), subjectX, y);
+    
     const subjectText = reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत.");
 
 doc.text(subjectText, pageWidth / 2, y, { align: "center" });
@@ -1222,9 +1260,9 @@ y += 12;
 
 
 const normalSpacing = 8;
-const extraSpacing = 14; // after every 2 lines
- const leftspaceX = leftX + 15; // left पासून 15px अंतर ठेवलं
- doc.setFontSize(14); // Font size थोडी लहान केली
+const extraSpacing = 14; 
+ const leftspaceX = leftX + 15; 
+ doc.setFontSize(14); 
 
  
 doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftspaceX, y);
@@ -1253,7 +1291,7 @@ const signatureX = pageWidth - 60;
 
 let prabhagSamitiText = "प्रभाग समिती";
 
-// Set ward-specific label
+
 if (user?.ward === "Ward-A") {
   prabhagSamitiText = "प्रभाग समिती अ";
 } else if (user?.ward === "Ward-B") {
@@ -1274,12 +1312,12 @@ if (user?.ward === "Ward-A") {
   prabhagSamitiText = "प्रभाग समिती आय";
 }
 
-// Then use this in your PDF line
+
 ;
 
 
-const rightPadding = 100; // right side margin
-const rightlX = pageWidth - 10; // उजव्या टोकापासून 10mm अंतर — अगदी margin ला ठेवण्यासाठी
+const rightPadding = 100;
+const rightlX = pageWidth - 10; 
 
 doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्युत विभाग"), rightlX, y, { align: 'right' });
 doc.text(reverseDevanagariIfContainsViOrLi(prabhagSamitiText), rightlX, y + 8, { align: 'right' });
@@ -1295,44 +1333,6 @@ doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर 
   } catch (error) {
     console.error("Error generating PDF:", error);
   }
-};
-
-
-
-
-
-const convertNumberToMarathiWords = (num) => {
-  const marathiNumbers = ["शून्य", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
-  const marathiTens = ["", "दहा", "वीस", "तीस", "चाळीस", "पन्नास", "साठ", "सत्तर", "ऐंशी", "नव्वद"];
-  const marathiHundreds = "शंभर";
-  const marathiThousands = "हजार";
-  const marathiLakhs = "लाख";
-  const marathiCrores = "कोटी";
-  let result = "";
-  if (num >= 10000000) {
-    result += Math.floor(num / 10000000) + " " + marathiCrores + " ";
-    num %= 10000000;
-  }
-  if (num >= 100000) {
-    result += Math.floor(num / 100000) + " " + marathiLakhs + " ";
-    num %= 100000;
-  }
-  if (num >= 1000) {
-    result += Math.floor(num / 1000) + " " + marathiThousands + " ";
-    num %= 1000;
-  }
-  if (num >= 100) {
-    result += marathiHundreds + " ";
-    num %= 100;
-  }
-  if (num >= 10) {
-    result += marathiTens[Math.floor(num / 10)] + " ";
-    num %= 10;
-  }
-  if (num > 0) {
-    result += marathiNumbers[num] + " ";
-  }
-  return result.trim();
 };
 
 const handleAddReportRemarkClose = () => setReportRemarkOpen(false);
