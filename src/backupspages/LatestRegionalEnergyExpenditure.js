@@ -146,8 +146,6 @@ useEffect(() => {
       .filter(u => u.signature)
       .map(u => ({
         _id: u._id,
-        role:u.role,
-        ward:u.ward,
         signature: u.signature
       }));
       
@@ -796,7 +794,7 @@ if (selectedMonthYear) {
 console.log("wardReport--->>>>",wardReport)
 if (wardReport) {
 
-  const reportingData = wardReport.reportingRemarks.map((remark) => {
+  var reportingData = wardReport.reportingRemarks.map((remark) => {
     return {
       userId:remark.userId,
       ward:remark.userWard,  
@@ -809,7 +807,7 @@ if (wardReport) {
  
   console.log("Reporting Data:", reportingData);
   setReportingDataSM(reportingData)
-
+  console.log(reportingDataSM)
 }
   } else {
     setMode('create');
@@ -896,17 +894,16 @@ yPos += 7;
 
 if (user.role === "Lipik") {
   // Check if the userId exists in reportingRemarks
-  // const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  // const matchedRemark = reportingData.find(remark => remark.userId === user._id);
 
-  const matchedRemark = reportingDataSM.find(remark =>
-    userSignatures.some(sig => sig._id === remark.userId)
-  );
   
-  if (matchedRemark) {
-   
+  if (matchedRemark && matchedRemark.remark === "Approved" && matchedRemark.signature) {
+    // If signature is found in reportingRemarks
     const signatureWidth = 30;
     const signatureHeight = 15;
 
+    console.log("  matchedRemark.signature,", matchedRemark.signature,)
     doc.addImage(
       matchedRemark.signature,
       'PNG',
@@ -940,137 +937,60 @@ if (user.role === "Lipik") {
 
 
 
-// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
-//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
-
-//   if (matchedSignature) {
-//     const signatureWidth = 30;
-//     const signatureHeight = 15;
-
-//     const xPos = rightSectionStart + 70; // align with text
-//     const yOffset = yPos - 17 - 7; // 100px वर
-
-//     doc.addImage(
-//       matchedSignature.signature,
-//       'PNG',
-//       xPos,
-//       yOffset,
-//       signatureWidth,
-//       signatureHeight
-//     );
-//   }
-
-
-
-//   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
-// }
-
 if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
-  // const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
-  const matchedRemark = reportingDataSM.find(remark =>
-    userSignatures.some(sig => sig._id === remark.userId)
-  );
-  
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const xPos = rightSectionStart + 70;
-  const yOffset = yPos - 17 - 7;
+  const matchedSignature = userSignatures.find(sig => sig._id === user._id);
 
-  if (matchedRemark) {
+  if (matchedSignature) {
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+
+    const xPos = rightSectionStart + 70; // align with text
+    const yOffset = yPos - 17 - 7; // 100px वर
+
     doc.addImage(
-      matchedRemark.signature,
+      matchedSignature.signature,
       'PNG',
       xPos,
       yOffset,
       signatureWidth,
       signatureHeight
     );
-  } else {
-    const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-
-    if (defaultSignature) {
-      doc.addImage(
-        defaultSignature.signature,
-        'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
-      );
-    }
   }
 
-  doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+
+
+  doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
 }
 
-  
 
-  // if (user.role === "Junior Engineer" && user.ward === "Head Office") {
-  //   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
-  
-  //   if (matchedSignature) {
-  //     const signatureWidth = 30;
-  //     const signatureHeight = 15;
-  
-  //     const xPos = rightSectionStart + 115; // align with text
-  //     const yOffset = yPos - 17 - 5; // 100px वर
-  
-  //     doc.addImage(
-  //       matchedSignature.signature,
-  //       'PNG',
-  //       xPos,
-  //       yOffset,
-  //       signatureWidth,
-  //       signatureHeight
-  //     );
-  //   }
-  
-  
-  
-  //    doc.text(
-  //       reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
-  //       rightSectionStart , yPos
-  //     );
-  // }
   
 
   if (user.role === "Junior Engineer" && user.ward === "Head Office") {
-    const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+    const matchedSignature = userSignatures.find(sig => sig._id === user._id);
   
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const xPos = rightSectionStart + 115;
-    const yOffset = yPos - 17 - 5;
+    if (matchedSignature) {
+      const signatureWidth = 30;
+      const signatureHeight = 15;
   
-    if (matchedRemark) {
+      const xPos = rightSectionStart + 115; // align with text
+      const yOffset = yPos - 17 - 5; // 100px वर
+  
       doc.addImage(
-        matchedRemark.signature,
+        matchedSignature.signature,
         'PNG',
         xPos,
         yOffset,
         signatureWidth,
         signatureHeight
       );
-    } else {
-      const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-  
-      if (defaultSignature) {
-        doc.addImage(
-          defaultSignature.signature,
-          'PNG',
-          xPos,
-          yOffset,
-          signatureWidth,
-          signatureHeight
-        );
-      }
     }
   
-    doc.text(
-      reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
-      rightSectionStart,
-      yPos
-    );
+  
+  
+     doc.text(
+        reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+        rightSectionStart , yPos
+      );
   }
   
 
@@ -1109,141 +1029,65 @@ if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
 
 
 
-// if (user.role === "Accountant") {
-//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
-
-//   // Use position from signatures[user.ward]["Accountant"]
-//   if (matchedSignature && user.ward && signatures[user.ward]?.["Accountant"]) {
-//     const signatureWidth = 30;
-//     const signatureHeight = 15;
-
-//     // Use position from original block
-//     const xPos = rightSectionStart;
-//     const yOffset = yPos - signatureHeight - 5;
-
-//     doc.addImage(
-//       matchedSignature.signature,
-//       'PNG',
-//       xPos,
-//       yOffset,
-//       signatureWidth,
-//       signatureHeight
-//     );
-
-//     doc.text(
-//       reverseDevanagariIfContainsViOrLi("लेखापाल"),
-//       xPos,
-//       yPos
-//     );
-//   }
-// }
-
-
 if (user.role === "Accountant") {
-  const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  const matchedSignature = userSignatures.find(sig => sig._id === user._id);
 
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const xPos = rightSectionStart;
-  const yOffset = yPos - signatureHeight - 5;
+  // Use position from signatures[user.ward]["Accountant"]
+  if (matchedSignature && user.ward && signatures[user.ward]?.["Accountant"]) {
+    const signatureWidth = 30;
+    const signatureHeight = 15;
 
-  if (matchedRemark) {
+    // Use position from original block
+    const xPos = rightSectionStart;
+    const yOffset = yPos - signatureHeight - 5;
+
     doc.addImage(
-      matchedRemark.signature,
+      matchedSignature.signature,
       'PNG',
       xPos,
       yOffset,
       signatureWidth,
       signatureHeight
     );
-  } else {
-    const defaultSignature = userSignatures.find(sig => sig._id === user._id);
 
-    if (defaultSignature) {
-      doc.addImage(
-        defaultSignature.signature,
-        'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
-      );
-    }
+    doc.text(
+      reverseDevanagariIfContainsViOrLi("लेखापाल"),
+      xPos,
+      yPos
+    );
   }
-
-  doc.text(
-    reverseDevanagariIfContainsViOrLi("लेखापाल"),
-    xPos,
-    yPos
-  );
 }
 
 
-  // if (user.role === "Assistant Municipal Commissioner") {
-  //   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
   
-  //   if (matchedSignature) {
-  //     const signatureWidth = 30;
-  //     const signatureHeight = 15;
-  
-  //     const xPos = 120; // याच position वर घ्यायचं आहे
-  //     const yOffset = yPos - signatureHeight + 5; // आधीच्या logic नुसार
-  
-  //     doc.addImage(
-  //       matchedSignature.signature,
-  //       'PNG',
-  //       xPos,
-  //       yOffset,
-  //       signatureWidth,
-  //       signatureHeight
-  //     );
-  //   }
-  
-  //   doc.text(
-  //     reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
-  //     rightSectionStart + 75, yPos
-  //   );
-  // }
 
   if (user.role === "Assistant Municipal Commissioner") {
-    const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+    const matchedSignature = userSignatures.find(sig => sig._id === user._id);
   
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const xPos = 120; // याच position वर घ्यायचं आहे
-    const yOffset = yPos - signatureHeight + 5;
+    if (matchedSignature) {
+      const signatureWidth = 30;
+      const signatureHeight = 15;
   
-    if (matchedRemark) {
+      const xPos = 120; // याच position वर घ्यायचं आहे
+      const yOffset = yPos - signatureHeight + 5; // आधीच्या logic नुसार
+  
       doc.addImage(
-        matchedRemark.signature,
+        matchedSignature.signature,
         'PNG',
         xPos,
         yOffset,
         signatureWidth,
         signatureHeight
       );
-    } else {
-      const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-  
-      if (defaultSignature) {
-        doc.addImage(
-          defaultSignature.signature,
-          'PNG',
-          xPos,
-          yOffset,
-          signatureWidth,
-          signatureHeight
-        );
-      }
     }
   
     doc.text(
       reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
-      rightSectionStart + 75,
-      yPos
+      rightSectionStart + 75, yPos
     );
   }
-  
+
+
 
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;

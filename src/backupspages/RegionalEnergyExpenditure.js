@@ -1919,3 +1919,133 @@ const handleAddFormTtOpen = () => {
 //     );
 //   }
 // }
+// -----------------------------
+// 1 May 2025
+// if (user.ward && signatures[user.ward]?.["Accountant"]) {
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+
+//   doc.addImage(
+//     signatures[user.ward]["Accountant"],
+//     'PNG',
+//     rightSectionStart,
+//     yPos - signatureHeight - 5,
+//     signatureWidth,
+//     signatureHeight
+//   );
+
+//   doc.text("लेखापाल", rightSectionStart, yPos);
+// }
+
+//   doc.text("लेखापाल", rightSectionStart, yPos);
+
+//   if (signatures['Accountant']) { 
+//     doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
+// =======================
+// doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
+  // if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+  //   const amcSigWidth = 30;
+  //   const amcSigHeight = 30;
+  //   const amcSigX = 120; 
+  //   const amcSigY = yPos - amcSigHeight + 5;
+  
+  //   doc.addImage(
+  //     signatures[user.ward]["Assistant Municipal Commissioner"],
+  //     'PNG',
+  //     amcSigX,
+  //     amcSigY,
+  //     amcSigWidth,
+  //     amcSigHeight
+  //   );
+  // }
+// ============================================================================
+
+[
+  {
+      "_id": "6813545fe58992a1d55f2513",
+      "monthReport": "MAR-2025",
+      "seleMonth": "MAR-2025",
+      "ward": "Ward-A",
+      "reportingRemarks": [
+          {
+              "userId": "67e3a994a34da3fbf60b7700",
+              "role": "Lipik",
+              "remark": "Approved",
+              "userWard": "Ward-A",
+              "signature": "data:image/png;base64,iVB\
+            BuK8FHX2Tpjbg/23vmmtXXn9JFto4THwGA5pb5twCsGSCUwK9/N2rm7nnQap/sFOEtm1v9MmwPFgnb6TbGYeFR/WpCgKfYnJspaFhQ0vJggg==",
+              "date": "2025-05-01T11:00:47.938Z",
+              "documents": [
+                  {
+                      "formType": "karyalayintipani",
+                      "formNumber": "karyalayintipani-20250501-2",
+                      "pdfFile": "uploads\\1746098875338-karyalayintipani.pdf",
+                      "uploadedAt": "2025-05-01T11:27:55.358Z",
+                      "approvedBy": [
+                          "67e3a994a34da3fbf60b7700",
+                          "67b4466aeeba42aa122ff6ea"
+                      ],
+                      "_id": "68135abbe58992a1d55f259b"
+                  }
+              ],
+              "_id": "6813545fe58992a1d55f2514"
+          },
+          {
+              "userId": "67b4466aeeba42aa122ff6ea",
+              "role": "Junior Engineer",
+              "remark": "Approved",
+              "userWard": "Ward-A",
+              "signature": "data:image/png;base64,iVBOK5CYII=",
+              "date": "2025-05-01T11:27:55.357Z",
+              "documents": [],
+              "_id": "68135abbe58992a1d55f259c"
+          }
+      ],
+      "createdAt": "2025-05-01T11:00:47.959Z",
+      "updatedAt": "2025-05-01T11:27:55.361Z",
+      "__v": 1
+  }
+]
+
+=====================
+
+if (user.role === "Lipik") {
+  // Check if the userId exists in reportingRemarks
+  // const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  const matchedRemark = reportingData.find(remark => remark.userId === user._id);
+
+  
+  if (matchedRemark && matchedRemark.Approved) {
+    // If signature is found in reportingRemarks
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+
+    doc.addImage(
+      matchedRemark.signature,
+      'PNG',
+      rightSectionStart,
+      yPos - 17 - 5,
+      signatureWidth,
+      signatureHeight
+    );
+  } 
+  // else {
+  //   // If userId not found or no signature, add default signature
+  //   const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+  //   if (defaultSignature) {
+  //     const signatureWidth = 30;
+  //     const signatureHeight = 15;
+
+  //     doc.addImage(
+  //       defaultSignature.signature,
+  //       'PNG',
+  //       rightSectionStart,
+  //       yPos - 17 - 5,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   }
+  // }
+}
