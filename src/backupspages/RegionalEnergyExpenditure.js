@@ -2049,3 +2049,128 @@ if (user.role === "Lipik") {
   //   }
   // }
 }
+// ============================================
+// 2 May 2025
+
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+//   if (matchedSignature) {
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+
+//     const xPos = rightSectionStart + 70; // align with text
+//     const yOffset = yPos - 17 - 7; // 100px वर
+
+//     doc.addImage(
+//       matchedSignature.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+
+
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", rightSectionStart + 70, yPos);
+// }
+==========================
+please recorrect me ex Lipik Ward-A (Ward wise) yane Approved kel aata yane Junior Engineer Ward-A (Ward wise) Login kel 
+tar specific report open kela jo months cha tyama dhe aata Lipk chi signature usel .aata Junior Engineer Ward-A (Ward wise) Appoved kel.
+Aata Junior Engineer ,ward :Head Office login kel aata ithe to Lipik ne add kelelei pdf open keli ithe Lipik Ward-A (Ward wise)=>Junior Engineer Ward-A (Ward wise) aadhich usatil .Dear pdf open hote pan signature role wise update nahi hot dear pls solved
+
+
+===================
+// Check if the userId exists in reportingRemarks
+  // const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+// If userId not found or no signature, add default signature
+
+  // const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+
+-----------------
+// if (user.role === "Junior Engineer" && user.ward === "Head Office") {
+  //   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+  
+  //   if (matchedSignature) {
+  //     const signatureWidth = 30;
+  //     const signatureHeight = 15;
+  
+  //     const xPos = rightSectionStart + 115; // align with text
+  //     const yOffset = yPos - 17 - 5; // 100px वर
+  
+  //     doc.addImage(
+  //       matchedSignature.signature,
+  //       'PNG',
+  //       xPos,
+  //       yOffset,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   }
+  
+  
+  
+  //    doc.text(
+  //       reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+  //       rightSectionStart , yPos
+  //     );
+  // }
+  -------------------------------------
+// if (user.role === "Accountant") {
+//   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+
+//   // Use position from signatures[user.ward]["Accountant"]
+//   if (matchedSignature && user.ward && signatures[user.ward]?.["Accountant"]) {
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+
+//     // Use position from original block
+//     const xPos = rightSectionStart;
+//     const yOffset = yPos - signatureHeight - 5;
+
+//     doc.addImage(
+//       matchedSignature.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+
+//     doc.text(
+//       reverseDevanagariIfContainsViOrLi("लेखापाल"),
+//       xPos,
+//       yPos
+//     );
+//   }
+// }
+------------------------
+// if (user.role === "Assistant Municipal Commissioner") {
+  //   const matchedSignature = userSignatures.find(sig => sig._id === user._id);
+  
+  //   if (matchedSignature) {
+  //     const signatureWidth = 30;
+  //     const signatureHeight = 15;
+  
+  //     const xPos = 120; // याच position वर घ्यायचं आहे
+  //     const yOffset = yPos - signatureHeight + 5; // आधीच्या logic नुसार
+  
+  //     doc.addImage(
+  //       matchedSignature.signature,
+  //       'PNG',
+  //       xPos,
+  //       yOffset,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   }
+  
+  //   doc.text(
+  //     reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
+  //     rightSectionStart + 75, yPos
+  //   );
+  // }
+
+
