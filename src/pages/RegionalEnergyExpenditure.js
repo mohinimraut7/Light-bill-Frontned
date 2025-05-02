@@ -1061,6 +1061,7 @@ if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
   const matchedRemark = reportingDataSM.find(remark =>
     userSignatures.some(sig => sig._id === remark.userId)
   );
+  
 
   const signatureWidth = 30;
   const signatureHeight = 15;
