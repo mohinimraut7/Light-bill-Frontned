@@ -894,135 +894,211 @@ yPos += 7;
   doc.text("-----------------------------------------------------------------------------------------------------", rightSectionStart, yPos);
   yPos += 25;
 
+  const getSignatureForRole = (role, ward = user.ward) => {
+    return reportingDataSM.find(remark => 
+      remark.role === role && 
+      remark.ward === ward &&
+      remark.remark === "Approved"
+    )?.signature;
+  };
 
-// console.log("foundreport 2 testing",monthArr[0].ward )
-  if (user.role === "Lipik") {
 
-  
+  // Store all approved signatures
+const approvedSignatures = {
+  lipik: getSignatureForRole("Lipik"),
+  wardJE: getSignatureForRole("Junior Engineer"),
+  headOfficeJE: getSignatureForRole("Junior Engineer", "Head Office"),
+  accountant: getSignatureForRole("Accountant"),
+  amc: getSignatureForRole("Assistant Municipal Commissioner")
+};
 
-  const matchedRemark = reportingDataSM.find(remark =>
-    userSignatures.some(sig => sig._id === remark.userId)
-  );
 
- 
-  
-  if (matchedRemark) {
+//   if (user.role === "Lipik") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+//   if (matchedRemark) {
    
-    const signatureWidth = 30;
-    const signatureHeight = 15;
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
 
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      rightSectionStart,
-      yPos - 17 - 5,
-      signatureWidth,
-      signatureHeight
-    );
-  } 
-  else {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       rightSectionStart,
+//       yPos - 17 - 5,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   } 
+//   else {
     
-    const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
    
-    if (defaultSignature) {
-      const signatureWidth = 30;
-      const signatureHeight = 15;
+//     if (defaultSignature) {
+//       const signatureWidth = 30;
+//       const signatureHeight = 15;
 
-      doc.addImage(
-        defaultSignature.signature,
-        'PNG',
-        rightSectionStart,
-        yPos - 17 - 5,
-        signatureWidth,
-        signatureHeight
-      );
-    }
-  }
-}
-else if((user.role === "Junior Engineer")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")){
-  const matchedRemark = reportingDataSM.find(remark =>
-    remark.role === "Lipik" && remark.signature 
-  );
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         rightSectionStart,
+//         yPos - 17 - 5,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+// }
+// else if((user.role === "Junior Engineer")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")){
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Lipik" && remark.signature 
+//   );
 
  
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       // xPos,
+//       yPos - 17 - 5,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+  // Helper function to add the signature
+const addSignatureToPdf = (signature, xPos, yPos) => {
   const signatureWidth = 30;
   const signatureHeight = 15;
 
-  if (matchedRemark?.signature) {
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      // xPos,
-      yPos - 17 - 5,
-      signatureWidth,
-      signatureHeight
-    );
+  if (signature) {
+    doc.addImage(signature, 'PNG', xPos, yPos, signatureWidth, signatureHeight);
   }
+};
+
+
+let y = yPos - 17 - 5;
+
+if (approvedSignatures.lipik) {
+  // Add Lipik's signature at the given position
+  addSignatureToPdf(approvedSignatures.lipik, rightSectionStart, y);
 }
 
-  
 doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
 
-if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
 
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+  
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+  
+//   else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// }
+// else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature 
+//   );
+
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // <- match Lipik position
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+
+
+if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
   const matchedRemark = reportingDataSM.find(remark =>
     userSignatures.some(sig => sig._id === remark.userId)
   );
   
+
   const signatureWidth = 30;
   const signatureHeight = 15;
   const xPos = rightSectionStart + 70;
   const yOffset = yPos - 17 - 7;
 
   if (matchedRemark) {
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      xPos,
-      yOffset,
-      signatureWidth,
-      signatureHeight
-    );
-  }
-  
-  else {
+    addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+  } else {
     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-
     if (defaultSignature) {
-      doc.addImage(
-        defaultSignature.signature,
-        'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
-      );
+      addSignatureToPdf(defaultSignature.signature, xPos, yOffset);
     }
   }
 
   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
-}
-else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+} 
+// Handle other roles (Lipik, Junior Engineer in Head Office, Accountant, Assistant Municipal Commissioner)
+else if (
+  user.role === "Lipik" ||
+  user.role === "Junior Engineer" && user.ward === "Head Office" ||
+  user.role === "Accountant" ||
+  user.role === "Assistant Municipal Commissioner"
+) {
   const matchedRemark = reportingDataSM.find(remark =>
     remark.role === "Junior Engineer" &&
     remark.ward !== "Head Office" &&
-    remark.signature 
+    remark.signature
   );
 
   const xPos = rightSectionStart + 70;
   const signatureWidth = 30;
   const signatureHeight = 15;
-  const yOffset = yPos - 17 - 5; // <- match Lipik position
+  const yOffset = yPos - 17 - 5; // Lipik's position
 
   if (matchedRemark?.signature) {
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      xPos,
-      yOffset,
-      signatureWidth,
-      signatureHeight
-    );
+    addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
   }
 }
 
