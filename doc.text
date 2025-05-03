@@ -586,3 +586,840 @@ if (report) {
 //     );
 //   }
 // }
+=============================
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+  
+  //   const matchedRemark = reportingDataSM.find(remark =>
+  //     userSignatures.some(sig => sig._id === remark.userId)
+  //   );
+    
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const xPos = rightSectionStart + 70;
+  //   const yOffset = yPos - 17 - 7;
+  
+  //   if (matchedRemark) {
+  //     doc.addImage(
+  //       matchedRemark.signature,
+  //       'PNG',
+  //       xPos,
+  //       yOffset,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   }
+    
+  //   else {
+  //     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+  
+  //     if (defaultSignature) {
+  //       doc.addImage(
+  //         defaultSignature.signature,
+  //         'PNG',
+  //         xPos,
+  //         yOffset,
+  //         signatureWidth,
+  //         signatureHeight
+  //       );
+  //     }
+  //   }
+  
+  //   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+  // }
+  // else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+  //   const matchedRemark = reportingDataSM.find(remark =>
+  //     remark.role === "Junior Engineer" &&
+  //     remark.ward !== "Head Office" &&
+  //     remark.signature 
+  //   );
+  
+  //   const xPos = rightSectionStart + 70;
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const yOffset = yPos - 17 - 5; // <- match Lipik position
+  
+  //   if (matchedRemark?.signature) {
+  //     doc.addImage(
+  //       matchedRemark.signature,
+  //       'PNG',
+  //       xPos,
+  //       yOffset,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   }
+  // }
+// =========================================================================  
+  
+  
+  // if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+  //   const matchedRemark = reportingDataSM.find(remark =>
+  //     userSignatures.some(sig => sig._id === remark.userId)
+  //   );
+    
+  
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const xPos = rightSectionStart + 70;
+  //   const yOffset = yPos - 17 - 7;
+  
+  //   if (matchedRemark) {
+  //     addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+  //   } else {
+  //     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+  //     if (defaultSignature) {
+  //       addSignatureToPdf(defaultSignature.signature, xPos, yOffset);
+  //     }
+  //   }
+  
+  //   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+  // } 
+  // // Handle other roles (Lipik, Junior Engineer in Head Office, Accountant, Assistant Municipal Commissioner)
+  // else if (
+  //   user.role === "Lipik" ||
+  //   user.role === "Junior Engineer" && user.ward === "Head Office" ||
+  //   user.role === "Accountant" ||
+  //   user.role === "Assistant Municipal Commissioner"
+  // ) {
+  //   const matchedRemark = reportingDataSM.find(remark =>
+  //     remark.role === "Junior Engineer" &&
+  //     remark.ward !== "Head Office" &&
+  //     remark.signature
+  //   );
+  
+  //   const xPos = rightSectionStart + 70;
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const yOffset = yPos - 17 - 5; // Lipik's position
+  
+  //   if (matchedRemark?.signature) {
+  //     addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+  //   }
+  // }
+  
+  //   if (user.role === "Junior Engineer" && user.ward === "Head Office") {
+  //     const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+    
+  //     const signatureWidth = 30;
+  //     const signatureHeight = 15;
+  //     const xPos = rightSectionStart + 115;
+  //     const yOffset = yPos - 17 - 5;
+    
+  //     if (matchedRemark) {
+  //       doc.addImage(
+  //         matchedRemark.signature,
+  //         'PNG',
+  //         xPos,
+  //         yOffset,
+  //         signatureWidth,
+  //         signatureHeight
+  //       );
+  //     } else {
+  //       const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+    
+  //       if (defaultSignature) {
+  //         doc.addImage(
+  //           defaultSignature.signature,
+  //           'PNG',
+  //           xPos,
+  //           yOffset,
+  //           signatureWidth,
+  //           signatureHeight
+  //         );
+  //       }
+  //     }
+    
+  //     doc.text(
+  //       reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+  //       rightSectionStart,
+  //       yPos
+  //     );
+  //   }
+  // Display Ward Junior Engineer signature if Lipik has approved
+  ===================
+     else if ((user.role === "Lipik") || (user.role === "Junior Engineer" && user.ward !== "Head Office") || (user.role === "Accountant") ||  (user.role === "Assistant Municipal Commissioner")) {
+    const matchedRemark = reportingDataSM.find(
+      remark =>
+        remark.role === "Junior Engineer" &&
+        remark.ward === "Head Office" &&
+        remark.signature
+    );
+  
+    const signatureWidth = 30;
+    const signatureHeight = 15;
+    const xPos = rightSectionStart + 115; // <-- matched with Head Office JE
+    const yOffset = yPos - 17 - 5;         // <-- matched with Head Office JE
+  
+    if (matchedRemark?.signature) {
+      doc.addImage(
+        matchedRemark.signature,
+        'PNG',
+        xPos,
+        yOffset,
+        signatureWidth,
+        signatureHeight
+      );
+    }
+  }
+  ====================
+  //   if (user.role === "Lipik") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+//   if (matchedRemark) {
+   
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       rightSectionStart,
+//       yPos - 17 - 5,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   } 
+//   else {
+    
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+   
+//     if (defaultSignature) {
+//       const signatureWidth = 30;
+//       const signatureHeight = 15;
+
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         rightSectionStart,
+//         yPos - 17 - 5,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+// }
+// else if((user.role === "Junior Engineer")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")){
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Lipik" && remark.signature 
+//   );
+
+ 
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       // xPos,
+//       yPos - 17 - 5,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+  // Helper function to add the signature
+  ==============================
+  // if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+  
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+  
+//   else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// }
+// else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature 
+//   );
+
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // <- match Lipik position
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+========================
+
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+  
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+  
+//   else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// }
+// else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature 
+//   );
+
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // <- match Lipik position
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+======================
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+  
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
+
+//   if (matchedRemark) {
+//     addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+//   } else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+//     if (defaultSignature) {
+//       addSignatureToPdf(defaultSignature.signature, xPos, yOffset);
+//     }
+//   }
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// } 
+// // Handle other roles (Lipik, Junior Engineer in Head Office, Accountant, Assistant Municipal Commissioner)
+// else if (
+//   user.role === "Lipik" ||
+//   user.role === "Junior Engineer" && user.ward === "Head Office" ||
+//   user.role === "Accountant" ||
+//   user.role === "Assistant Municipal Commissioner"
+// ) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature
+//   );
+
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // Lipik's position
+
+//   if (matchedRemark?.signature) {
+//     addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+//   }
+// }
+===================
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+  
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+  
+//   else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// }
+// else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature 
+//   );
+
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // <- match Lipik position
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+===================
+if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+  const matchedRemark = reportingDataSM.find(remark =>
+    userSignatures.some(sig => sig._id === remark.userId)
+  );
+  
+
+  const signatureWidth = 30;
+  const signatureHeight = 15;
+  const xPos = rightSectionStart + 70;
+  const yOffset = yPos - 17 - 7;
+
+  if (matchedRemark) {
+    addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+  } else {
+    const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+    if (defaultSignature) {
+      addSignatureToPdf(defaultSignature.signature, xPos, yOffset);
+    }
+  }
+
+  doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+} 
+// Handle other roles (Lipik, Junior Engineer in Head Office, Accountant, Assistant Municipal Commissioner)
+else if (
+  user.role === "Lipik" ||
+  user.role === "Junior Engineer" && user.ward === "Head Office" ||
+  user.role === "Accountant" ||
+  user.role === "Assistant Municipal Commissioner"
+) {
+  const matchedRemark = reportingDataSM.find(remark =>
+    remark.role === "Junior Engineer" &&
+    remark.ward !== "Head Office" &&
+    remark.signature
+  );
+
+  const xPos = rightSectionStart + 70;
+  const signatureWidth = 30;
+  const signatureHeight = 15;
+  const yOffset = yPos - 17 - 5; // Lipik's position
+
+  if (matchedRemark?.signature) {
+    addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+  }
+}
+=====================
+//   if (user.role === "Junior Engineer" && user.ward === "Head Office") {
+//     const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+//     const xPos = rightSectionStart + 115;
+//     const yOffset = yPos - 17 - 5;
+  
+//     if (matchedRemark) {
+//       doc.addImage(
+//         matchedRemark.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     } else {
+//       const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+  
+//       if (defaultSignature) {
+//         doc.addImage(
+//           defaultSignature.signature,
+//           'PNG',
+//           xPos,
+//           yOffset,
+//           signatureWidth,
+//           signatureHeight
+//         );
+//       }
+//     }
+  
+//     doc.text(
+//       reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+//       rightSectionStart,
+//       yPos
+//     );
+//   }
+//   else if ((user.role === "Lipik") || (user.role === "Junior Engineer" && user.ward !== "Head Office") || (user.role === "Accountant") ||  (user.role === "Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(
+//     remark =>
+//       remark.role === "Junior Engineer" &&
+//       remark.ward === "Head Office" &&
+//       remark.signature
+//   );
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 115; // <-- matched with Head Office JE
+//   const yOffset = yPos - 17 - 5;         // <-- matched with Head Office JE
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+===============
+// if (user.role === "Accountant") {
+//   const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart;
+//   const yOffset = yPos - signatureHeight - 5;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   } else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text(
+//     reverseDevanagariIfContainsViOrLi("लेखापाल"),
+//     xPos,
+//     yPos
+//   );
+// }
+// else if ((user.role === "Lipik") ||(user.role === "Junior Engineer")||(user.role === "Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(
+//     remark =>
+//       remark.role === "Accountant" &&
+//       remark.ward === user.ward &&
+//       remark.signature
+//   );
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart;            // ✅ Same as Accountant
+//   const yOffset = yPos - signatureHeight - 5; // ✅ Same as Accountant
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+============
+ // if (user.role === "Assistant Municipal Commissioner") {
+  //   const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const xPos = 120; // याच position वर घ्यायचं आहे
+  //   const yOffset = yPos - signatureHeight + 5;
+  
+  //   if (matchedRemark) {
+  //     doc.addImage(
+  //       matchedRemark.signature,
+  //       'PNG',
+  //       xPos,
+  //       yOffset,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   } else {
+  //     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+  
+  //     if (defaultSignature) {
+  //       doc.addImage(
+  //         defaultSignature.signature,
+  //         'PNG',
+  //         xPos,
+  //         yOffset,
+  //         signatureWidth,
+  //         signatureHeight
+  //       );
+  //     }
+  //   }
+  
+  //   doc.text(
+  //     reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
+  //     rightSectionStart + 75,
+  //     yPos
+  //   );
+  // }
+  // else if (  (user.role === "Lipik")||(user.role === "Junior Engineer")||(user.role === "Accountant")) {
+  //   const matchedRemark = reportingDataSM.find(
+  //     remark =>
+  //       remark.role === "Assistant Municipal Commissioner" &&
+  //       remark.ward === user.ward &&
+  //       remark.signature
+  //   );
+  
+  //   const signatureWidth = 30;
+  //   const signatureHeight = 15;
+  //   const xPos = 120; // same as AMC's own block
+  //   const yOffset = yPos - signatureHeight + 5;
+  
+  //   if (matchedRemark?.signature) {
+  //     doc.addImage(
+  //       matchedRemark.signature,
+  //       'PNG',
+  //       xPos,
+  //       yOffset,
+  //       signatureWidth,
+  //       signatureHeight
+  //     );
+  //   }
+  
+  //   doc.text(
+  //     reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
+  //     xPos,
+  //     yPos
+  //   );
+  // }
+  ====================
+
+  // if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+  
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+  
+//   else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// }
+// else if((user.role === "Lipik")||(user.role === "Junior Engineer" && user.ward === "Head Office")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature 
+//   );
+
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // <- match Lipik position
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+==================
+//   if (user.role === "Lipik") {
+
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
+//   if (matchedRemark) {
+   
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       rightSectionStart,
+//       yPos - 17 - 5,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   } 
+//   else {
+    
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+   
+//     if (defaultSignature) {
+//       const signatureWidth = 30;
+//       const signatureHeight = 15;
+
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         rightSectionStart,
+//         yPos - 17 - 5,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+// }
+// else if((user.role === "Junior Engineer")||(user.role === "Accountant")||(user.role==="Assistant Municipal Commissioner")){
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Lipik" && remark.signature 
+//   );
+
+ 
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       // xPos,
+//       yPos - 17 - 5,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
