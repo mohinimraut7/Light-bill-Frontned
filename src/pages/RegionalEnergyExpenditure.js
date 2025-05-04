@@ -156,7 +156,10 @@ useEffect(() => {
   }
 }, [users]);
 
-
+const displayWardName =
+  user.ward === "Head Office" && user.role === "Junior Engineer"
+    ? wardName
+    : user.ward;
 console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
 
   const formatDate = (dateString) => {
@@ -841,16 +844,16 @@ try {
   let yPos = 15;
   
   doc.setFontSize(10);
-  doc.text(reverseDevanagariIfContainsViOrLi("व. वि. श."), 10, yPos); 
+  doc.text(reverseDevanagariIfContainsViOrLi(`व. वि. श.`), 4, yPos); 
   yPos += 6; 
-  doc.text(reverseDevanagariIfContainsViOrLi("महानगरपालिका"), 10, yPos); 
+  doc.text(reverseDevanagariIfContainsViOrLi("महानगरपालिका"), 4, yPos); 
   
   doc.setDrawColor(0);
-  doc.setLineWidth(0.2);
-  doc.line(leftSectionWidth, 10, leftSectionWidth, 290); 
+  doc.setLineWidth(0.1);
+  doc.line(leftSectionWidth-2, 10, leftSectionWidth-2, 290); 
   
   doc.setFontSize(16);
-  doc.text(reverseDevanagariIfContainsViOrLi("कार्यालयीन टिपणी"), rightSectionStart + 30, 20);
+  doc.text(reverseDevanagariIfContainsViOrLi(`कार्यालयीन टिपणी`), rightSectionStart + 30, 20);
   doc.setFontSize(12);
   yPos = 30;
   const currentDate = new Date().toLocaleDateString('en-IN');
@@ -861,7 +864,7 @@ try {
     .map(row => row.ward) 
 )].join(', '); 
   doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
-  yPos += 7;
+  // yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("विभाग: दिवाबत्ती"), rightAlignX, yPos, { align: "right" });
   yPos += 10;
   doc.text("मा.साहेब,", rightSectionStart, yPos);
@@ -973,24 +976,24 @@ const approvedSignatures = {
 // }
 
   // Helper function to add the signature
-const addSignatureToPdf = (signature, xPos, yPos) => {
-  const signatureWidth = 30;
-  const signatureHeight = 15;
+// const addSignatureToPdf = (signature, xPos, yPos) => {
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
 
-  if (signature) {
-    doc.addImage(signature, 'PNG', xPos, yPos, signatureWidth, signatureHeight);
-  }
-};
+//   if (signature) {
+//     doc.addImage(signature, 'PNG', xPos, yPos, signatureWidth, signatureHeight);
+//   }
+// };
 
 
-let y = yPos - 17 - 5;
+// let y = yPos - 17 - 5;
 
-if (approvedSignatures.lipik) {
-  // Add Lipik's signature at the given position
-  addSignatureToPdf(approvedSignatures.lipik, rightSectionStart, y);
-}
+// if (approvedSignatures.lipik) {
+//   // Add Lipik's signature at the given position
+//   addSignatureToPdf(approvedSignatures.lipik, rightSectionStart, y);
+// }
 
-doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
+// doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
 
 // if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
 
@@ -1057,122 +1060,191 @@ doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्यु�
 
 
 
-if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
-  const matchedRemark = reportingDataSM.find(remark =>
-    userSignatures.some(sig => sig._id === remark.userId)
-  );
+// if (user.role === "Junior Engineer" && user.ward !== "Head Office") {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     userSignatures.some(sig => sig._id === remark.userId)
+//   );
   
 
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const xPos = rightSectionStart + 70;
-  const yOffset = yPos - 17 - 7;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 70;
+//   const yOffset = yPos - 17 - 7;
 
-  if (matchedRemark) {
-    addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
-  } else {
-    const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-    if (defaultSignature) {
-      addSignatureToPdf(defaultSignature.signature, xPos, yOffset);
-    }
-  }
+//   if (matchedRemark) {
+//     addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+//   } else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+//     if (defaultSignature) {
+//       addSignatureToPdf(defaultSignature.signature, xPos, yOffset);
+//     }
+//   }
 
-  doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
-} 
-// Handle other roles (Lipik, Junior Engineer in Head Office, Accountant, Assistant Municipal Commissioner)
-else if (
-  user.role === "Lipik" ||
-  user.role === "Junior Engineer" && user.ward === "Head Office" ||
-  user.role === "Accountant" ||
-  user.role === "Assistant Municipal Commissioner"
-) {
-  const matchedRemark = reportingDataSM.find(remark =>
-    remark.role === "Junior Engineer" &&
-    remark.ward !== "Head Office" &&
-    remark.signature
-  );
+//   doc.text("कनिष्ठ अभियंता (ठेका)", xPos, yPos);
+// } 
+// // Handle other roles (Lipik, Junior Engineer in Head Office, Accountant, Assistant Municipal Commissioner)
+// else if (
+//   user.role === "Lipik" ||
+//   user.role === "Junior Engineer" && user.ward === "Head Office" ||
+//   user.role === "Accountant" ||
+//   user.role === "Assistant Municipal Commissioner"
+// ) {
+//   const matchedRemark = reportingDataSM.find(remark =>
+//     remark.role === "Junior Engineer" &&
+//     remark.ward !== "Head Office" &&
+//     remark.signature
+//   );
 
-  const xPos = rightSectionStart + 70;
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const yOffset = yPos - 17 - 5; // Lipik's position
+//   const xPos = rightSectionStart + 70;
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const yOffset = yPos - 17 - 5; // Lipik's position
 
-  if (matchedRemark?.signature) {
-    addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
-  }
-}
+//   if (matchedRemark?.signature) {
+//     addSignatureToPdf(matchedRemark.signature, xPos, yOffset);
+//   }
+// }
 
-  if (user.role === "Junior Engineer" && user.ward === "Head Office") {
-    const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+//   if (user.role === "Junior Engineer" && user.ward === "Head Office") {
+//     const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
   
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const xPos = rightSectionStart + 115;
-    const yOffset = yPos - 17 - 5;
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+//     const xPos = rightSectionStart + 115;
+//     const yOffset = yPos - 17 - 5;
   
-    if (matchedRemark) {
-      doc.addImage(
-        matchedRemark.signature,
+//     if (matchedRemark) {
+//       doc.addImage(
+//         matchedRemark.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     } else {
+//       const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+  
+//       if (defaultSignature) {
+//         doc.addImage(
+//           defaultSignature.signature,
+//           'PNG',
+//           xPos,
+//           yOffset,
+//           signatureWidth,
+//           signatureHeight
+//         );
+//       }
+//     }
+  
+//     doc.text(
+//       reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
+//       rightSectionStart,
+//       yPos
+//     );
+//   }
+//   else if ((user.role === "Lipik") || (user.role === "Junior Engineer" && user.ward !== "Head Office") || (user.role === "Accountant") ||  (user.role === "Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(
+//     remark =>
+//       remark.role === "Junior Engineer" &&
+//       remark.ward === "Head Office" &&
+//       remark.signature
+//   );
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart + 115; // <-- matched with Head Office JE
+//   const yOffset = yPos - 17 - 5;         // <-- matched with Head Office JE
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+
+//   yPos += 7;
+  // doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
+  // doc.text("प्रभाग समिती (अ)", rightSectionStart + 70, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 115, yPos);
+  // yPos += 7;
+  // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
+  // yPos += 10;
+
+
+  // if (signatures['Lipik']) { 
+  //   doc.addImage(signatures['Lipik'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
+  // }
+
+  const signatureWidthLI = 30;
+  const signatureHeightLI = 15;
+  const xPosLI = rightSectionStart + 0;
+  const yOffsetLI = yPos - 15;
+doc.addImage(
+       user.signature,
         'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
+        xPosLI,
+        yOffsetLI,
+        signatureWidthLI,
+        signatureHeightLI
       );
-    } else {
-      const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+    doc.text(reverseDevanagariIfContainsViOrLi("लिपिक, विद्युत विभाग"), rightSectionStart, yPos);
   
-      if (defaultSignature) {
-        doc.addImage(
-          defaultSignature.signature,
+  //   if (signatures['Junior Engineer']) { 
+  //     doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+  // }
+  // if (signatures['Junior Engineer']) { 
+  //   doc.addImage(signatures['Junior Engineer'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+  // }
+  const signatureWidthJR = 30;
+    const signatureHeightJR = 15;
+    const xPosJR = rightSectionStart + 60;
+    const yOffsetJR = yPos - 17 - 5;
+  doc.addImage(
+         user.signature,
           'PNG',
-          xPos,
-          yOffset,
-          signatureWidth,
-          signatureHeight
+          xPosJR,
+          yOffsetJR,
+          signatureWidthJR,
+          signatureHeightJR
         );
-      }
-    }
+    doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता (ठेका)"), rightSectionStart + 60, yPos);
   
-    doc.text(
-      reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"),
-      rightSectionStart,
-      yPos
-    );
+  
+    
+    const signatureWidthJRHO = 30;
+    const signatureHeightJRHO = 15;
+    const xPosJRHO = rightSectionStart + 115;
+    const yOffsetJRHO = yPos - 17 - 5;
+  doc.addImage(
+         user.signature,
+          'PNG',
+          xPosJRHO,
+          yOffsetJRHO,
+          signatureWidthJRHO,
+          signatureHeightJRHO
+        );
+  
+  if (signatures['Head Office']?.['Junior Engineer']) {
+    doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 150, yPos - 15, 30, 15);
   }
-  else if ((user.role === "Lipik") || (user.role === "Junior Engineer" && user.ward !== "Head Office") || (user.role === "Accountant") ||  (user.role === "Assistant Municipal Commissioner")) {
-  const matchedRemark = reportingDataSM.find(
-    remark =>
-      remark.role === "Junior Engineer" &&
-      remark.ward === "Head Office" &&
-      remark.signature
-  );
-
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const xPos = rightSectionStart + 115; // <-- matched with Head Office JE
-  const yOffset = yPos - 17 - 5;         // <-- matched with Head Office JE
-
-  if (matchedRemark?.signature) {
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      xPos,
-      yOffset,
-      signatureWidth,
-      signatureHeight
-    );
-  }
-}
-
-
-  yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
-  doc.text("प्रभाग समिती (अ)", rightSectionStart + 70, yPos);
-  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 115, yPos);
-  yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
-  yPos += 10;
+  
+    doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 110, yPos);
+    yPos += 7;
+    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 60, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 110, yPos);
+    yPos += 7;
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
+    yPos += 10;
+    // Financial Summary Section
+    yPos += 10;
  
   yPos += 10;
   doc.text("मा.सदर,", rightSectionStart, yPos);
@@ -1198,160 +1270,52 @@ else if (
   yPos += 25;
  
 
-if (user.role === "Accountant") {
-  const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
 
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const xPos = rightSectionStart;
-  const yOffset = yPos - signatureHeight - 5;
-
-  if (matchedRemark) {
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      xPos,
-      yOffset,
-      signatureWidth,
-      signatureHeight
-    );
-  } else {
-    const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-
-    if (defaultSignature) {
-      doc.addImage(
-        defaultSignature.signature,
-        'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
-      );
-    }
-  }
-
-  doc.text(
-    reverseDevanagariIfContainsViOrLi("लेखापाल"),
-    xPos,
-    yPos
-  );
-}
-else if ((user.role === "Lipik") ||(user.role === "Junior Engineer")||(user.role === "Assistant Municipal Commissioner")) {
-  const matchedRemark = reportingDataSM.find(
-    remark =>
-      remark.role === "Accountant" &&
-      remark.ward === user.ward &&
-      remark.signature
-  );
-
-  const signatureWidth = 30;
-  const signatureHeight = 15;
-  const xPos = rightSectionStart;            // ✅ Same as Accountant
-  const yOffset = yPos - signatureHeight - 5; // ✅ Same as Accountant
-
-  if (matchedRemark?.signature) {
-    doc.addImage(
-      matchedRemark.signature,
-      'PNG',
-      xPos,
-      yOffset,
-      signatureWidth,
-      signatureHeight
-    );
-  }
-}
-
-  if (user.role === "Assistant Municipal Commissioner") {
-    const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
   
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const xPos = 120; // याच position वर घ्यायचं आहे
-    const yOffset = yPos - signatureHeight + 5;
   
-    if (matchedRemark) {
-      doc.addImage(
-        matchedRemark.signature,
-        'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
-      );
-    } else {
-      const defaultSignature = userSignatures.find(sig => sig._id === user._id);
-  
-      if (defaultSignature) {
-        doc.addImage(
-          defaultSignature.signature,
+//   if (signatures['Assistant Municipal Commissioner']) { 
+//     doc.addImage(signatures['Assistant Municipal Commissioner'], 'PNG', rightSectionStart + 0, yPos - 15, 30, 15);
+// }
+const signatureWidthACC = 30;
+    const signatureHeightACC = 15;
+    const xPosACC = rightSectionStart + 0;
+    const yOffsetACC = yPos - 15;
+  doc.addImage(
+         user.signature,
           'PNG',
-          xPos,
-          yOffset,
-          signatureWidth,
-          signatureHeight
+          xPosACC,
+          yOffsetACC,
+          signatureWidthACC,
+          signatureHeightACC
         );
-      }
-    }
-  
-    doc.text(
-      reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
-      rightSectionStart + 75,
-      yPos
-    );
-  }
-  else if (  (user.role === "Lipik")||(user.role === "Junior Engineer")||(user.role === "Accountant")) {
-    const matchedRemark = reportingDataSM.find(
-      remark =>
-        remark.role === "Assistant Municipal Commissioner" &&
-        remark.ward === user.ward &&
-        remark.signature
-    );
-  
-    const signatureWidth = 30;
-    const signatureHeight = 15;
-    const xPos = 120; // same as AMC's own block
-    const yOffset = yPos - signatureHeight + 5;
-  
-    if (matchedRemark?.signature) {
-      doc.addImage(
-        matchedRemark.signature,
-        'PNG',
-        xPos,
-        yOffset,
-        signatureWidth,
-        signatureHeight
-      );
-    }
-  
-    doc.text(
-      reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
-      xPos,
-      yPos
-    );
-  }
+  doc.text("लेखापाल", rightSectionStart, yPos);
 
+
+//   if (signatures['Accountant']) { 
+//     doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
+// }
+const signatureWidthAMC = 30;
+    const signatureHeightAMC = 15;
+    const xPosAMC = rightSectionStart + 75;
+    const yOffsetAMC = yPos - 15;
+  doc.addImage(
+         user.signature,
+          'PNG',
+          xPosAMC,
+          yOffsetAMC,
+          signatureWidthAMC,
+          signatureHeightAMC
+        );
+  doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
-  doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart + 75, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
-
-  const addSignatures = () => {
-    let signatureYPos = yPos + 20;
-   
-    const spacing = 40;
-  
-    signatureYPos += spacing * 2;
-    doc.text("प्रभाग समिती (अ)", rightSectionStart, signatureYPos);
-    doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
-  };
-  
-  addSignatures();
- 
   const pdfData = doc.output('datauristring');
 let type="karyalayintipani";
   

@@ -1103,22 +1103,7 @@ if (signatures['Head Office']?.['Junior Engineer']) {
   // --------------------------------------------------------------------------------
 
  
-  // Helper function to get the title in Marathi
-  const getRoleTitle = (role) => {
-    const titles = {
-      "Lipik": "लिपिक, विद्युत विभाग",
-      "Accountant": "लेखापाल",
-      "Junior Engineer": "कनिष्ठ अभियंता",
-      "Assistant Municipal Commissioner": "सहाय्यक आयुक्त",
-      "Dy.Municipal Commissioner": "उप आयुक्त"
-    };
-    return titles[role] || role;
-  };
   
-
-  // Replace the existing signature section with this call
-  // addSignatures();
- 
   const pdfData = doc.output('datauristring');
 let type="tipani";
   // Now, pass the PDF data to the modal for preview

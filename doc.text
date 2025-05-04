@@ -1423,3 +1423,175 @@ else if (
 //     );
 //   }
 // }
+==========================
+// Helper function to get the title in Marathi
+  const getRoleTitle = (role) => {
+    const titles = {
+      "Lipik": "लिपिक, विद्युत विभाग",
+      "Accountant": "लेखापाल",
+      "Junior Engineer": "कनिष्ठ अभियंता",
+      "Assistant Municipal Commissioner": "सहाय्यक आयुक्त",
+      "Dy.Municipal Commissioner": "उप आयुक्त"
+    };
+    return titles[role] || role;
+  };
+  
+
+  // Replace the existing signature section with this call
+  // addSignatures();
+ =================================
+ // if (user.role === "Accountant") {
+//   const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart;
+//   const yOffset = yPos - signatureHeight - 5;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   } else {
+//     const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+
+//     if (defaultSignature) {
+//       doc.addImage(
+//         defaultSignature.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+//   }
+
+//   doc.text(
+//     reverseDevanagariIfContainsViOrLi("लेखापाल"),
+//     xPos,
+//     yPos
+//   );
+// }
+// else if ((user.role === "Lipik") ||(user.role === "Junior Engineer")||(user.role === "Assistant Municipal Commissioner")) {
+//   const matchedRemark = reportingDataSM.find(
+//     remark =>
+//       remark.role === "Accountant" &&
+//       remark.ward === user.ward &&
+//       remark.signature
+//   );
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart;            // ✅ Same as Accountant
+//   const yOffset = yPos - signatureHeight - 5; // ✅ Same as Accountant
+
+//   if (matchedRemark?.signature) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
+// }
+
+//   if (user.role === "Assistant Municipal Commissioner") {
+//     const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+  
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+//     const xPos = 120; // याच position वर घ्यायचं आहे
+//     const yOffset = yPos - signatureHeight + 5;
+  
+//     if (matchedRemark) {
+//       doc.addImage(
+//         matchedRemark.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     } else {
+//       const defaultSignature = userSignatures.find(sig => sig._id === user._id);
+  
+//       if (defaultSignature) {
+//         doc.addImage(
+//           defaultSignature.signature,
+//           'PNG',
+//           xPos,
+//           yOffset,
+//           signatureWidth,
+//           signatureHeight
+//         );
+//       }
+//     }
+  
+//     doc.text(
+//       reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
+//       rightSectionStart + 75,
+//       yPos
+//     );
+//   }
+//   else if (  (user.role === "Lipik")||(user.role === "Junior Engineer")||(user.role === "Accountant")) {
+//     const matchedRemark = reportingDataSM.find(
+//       remark =>
+//         remark.role === "Assistant Municipal Commissioner" &&
+//         remark.ward === user.ward &&
+//         remark.signature
+//     );
+  
+//     const signatureWidth = 30;
+//     const signatureHeight = 15;
+//     const xPos = 120; // same as AMC's own block
+//     const yOffset = yPos - signatureHeight + 5;
+  
+//     if (matchedRemark?.signature) {
+//       doc.addImage(
+//         matchedRemark.signature,
+//         'PNG',
+//         xPos,
+//         yOffset,
+//         signatureWidth,
+//         signatureHeight
+//       );
+//     }
+  
+//     doc.text(
+//       reverseDevanagariIfContainsViOrLi("सहाय्यक आयुक्त"),
+//       xPos,
+//       yPos
+//     );
+//   }
+
+//   doc.text("", rightSectionStart + 140, yPos);
+//   yPos += 7;
+//   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart, yPos);
+//   doc.text(reverseDevanagariIfContainsViOrLi("प्रभाग समिती (अ)"), rightSectionStart + 75, yPos);
+//   doc.text("", rightSectionStart + 140, yPos);
+//   yPos += 7;
+//   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
+//   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 75, yPos);
+//   doc.text("", rightSectionStart + 140, yPos);
+
+  // const addSignatures = () => {
+  //   let signatureYPos = yPos + 20;
+   
+  //   const spacing = 40;
+  
+  //   signatureYPos += spacing * 2;
+  //   doc.text("प्रभाग समिती (अ)", rightSectionStart, signatureYPos);
+  //   doc.text("वसई विरार शहर महानगरपालिका", rightSectionStart, signatureYPos + 7);
+  // };
+  
+  // addSignatures();
+ 
+  
