@@ -66,3 +66,21 @@ const Test = () => {
 };
 
 export default Test;
+//  if (user.ward === "Accountant") {
+//   const matchedRemark = reportingDataSM.find(remark => remark.userId === user._id);
+
+//   const signatureWidth = 30;
+//   const signatureHeight = 15;
+//   const xPos = rightSectionStart;
+//   const yOffset = yPos - signatureHeight - 5;
+
+//   if (matchedRemark) {
+//     doc.addImage(
+//       matchedRemark.signature,
+//       'PNG',
+//       xPos,
+//       yOffset,
+//       signatureWidth,
+//       signatureHeight
+//     );
+//   }
