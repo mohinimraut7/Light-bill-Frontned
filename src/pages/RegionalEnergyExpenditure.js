@@ -25,6 +25,10 @@ import axios from 'axios';
 import 'jspdf-autotable';
 import logovvcmc from '../Images/vvcmclogo.jpg';
 import logovvcmccmp from '../Images/logovvcmccmp.png';
+import karyalayintipani from '../Images/karyalayintipani.png';
+import maharashtra from '../Images/maharashtra.png';
+import divabatti from '../Images/divabatti.png';
+import pacchim from '../Images/divabatti.png';
 import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
@@ -822,58 +826,19 @@ const fetchReportData = async (selectedMonthYear, user, setMode, setReportingDat
     return { foundReport: [], reportingData: [] };
   }
 };
+
 useEffect(() => {
   if (selectedMonthYear) {
     fetchReportData(selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr);
   }
 }, [selectedMonthYear]);
 
+
 const downloadKaryalayinTipani =async() => {
- 
-
-// if(selectedMonthYear) {
-//   const response = await axios.post(`${baseUrl}/searchReport`, {
-//     month: selectedMonthYear,
-//   });
-
-//   const foundReport = response.data;
-//   // console.log("foundReport-->>>",foundReport)
-//   setMonthArr(foundReport)
-
-//   if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
-//     setMode('edit');
-
-    
-//     const wardReport = foundReport.find(
-//       report => report.ward === user.ward || wardName && report.monthReport === selectedMonthYear
-//     );
-// // console.log("wardReport--->>>>",wardReport)
-// if (wardReport) {
-
-//   const reportingData = wardReport.reportingRemarks.map((remark) => {
-//     return {
-//       userId:remark.userId,
-//       ward:remark.userWard,  
-//       role:remark.role,
-//       remark: remark.remark,
-//       signature:remark.signature
-//     };
-//   }).filter(item => item !== null); 
-
- 
-//   console.log("Reporting Data:", reportingData);
-//   setReportingDataSM(reportingData)
-
-// }
-//   } else {
-//     setMode('create');
-//   }
-// }
 
 const { foundReport, reportingData } = await fetchReportData(selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr);
 
   setShowFormControl(true); 
-
     
 try {
  
@@ -903,7 +868,23 @@ try {
   doc.line(leftSectionWidth-2, 10, leftSectionWidth-2, 290); 
   
   doc.setFontSize(16);
-  doc.text(reverseDevanagariIfContainsViOrLi(`कार्यालयीन टिपणी`), rightSectionStart + 30, 20);
+  // doc.text(reverseDevanagariIfContainsViOrLi(`कार्यालयीन टिपणी`), rightSectionStart + 30, 20);
+  // doc.addImage(karyalayintipani, 'PNG', rightSectionStart + 10, 10, 50, 10); // Adjust width/height as needed
+
+
+  const imageWidthk = 50; 
+const imageHeightk = 10;
+
+
+const pageWidthk = doc.internal.pageSize.getWidth();
+
+
+const centerXk = (pageWidthk - imageWidthk) / 2;
+
+
+doc.addImage(karyalayintipani, 'PNG', centerXk, 10, imageWidthk, imageHeightk);
+
+
   doc.setFontSize(12);
   yPos = 30;
   const currentDate = new Date().toLocaleDateString('en-IN');
@@ -913,9 +894,35 @@ try {
     rows.filter(row => row.ward === wardName) 
     .map(row => row.ward) 
 )].join(', '); 
+
   doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
+
+
+
+
   // yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi("विभाग: दिवाबत्ती"), rightAlignX, yPos, { align: "right" });
+  // doc.text(reverseDevanagariIfContainsViOrLi("विभाग: दिवाबत्ती"), rightAlignX, yPos, { align: "right" });
+
+
+const labelText = reverseDevanagariIfContainsViOrLi("विभाग:");
+const labelWidth = doc.getTextWidth(labelText);
+const imageWidth = 17;
+const imageHeight = 5;
+const spacing = 0;
+
+const totalWidth = labelWidth + spacing + imageWidth;
+const rightMargin = 10;
+
+
+const startX = pageWidth - rightMargin - totalWidth;
+const imageX = startX + labelWidth + spacing - 5; // Move image 5px to the left
+
+// Draw the text
+doc.text(labelText, startX + labelWidth - 7, yPos, { align: "right" });
+
+// Draw the image
+doc.addImage(divabatti, "PNG", imageX, yPos - 4, imageWidth, imageHeight);
+
   yPos += 10;
   doc.text("मा.साहेब,", rightSectionStart, yPos);
   yPos += 7;
@@ -934,8 +941,27 @@ yPos += 7;
  
   doc.text(reverseDevanagariIfContainsViOrLi("दिवाबत्तीची सोय केलेली आहे."), rightSectionStart, yPos);
   yPos += 10;
-  doc.text(reverseDevanagariIfContainsViOrLi("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा"), rightSectionStart, yPos);
-  yPos += 7;
+  // doc.text(reverseDevanagariIfContainsViOrLi("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा"), rightSectionStart, yPos);
+  const beforeText = reverseDevanagariIfContainsViOrLi("यासाठी");
+const afterText = reverseDevanagariIfContainsViOrLi("वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा");
+
+const imageWidthm = 23; // Adjust size as needed
+const imageHeightm = 6;
+const spacingm = 2;
+
+let x = rightSectionStart;
+let y = yPos;
+
+doc.text(beforeText, x, y);
+x += doc.getTextWidth(beforeText) + spacing;
+
+
+doc.addImage(maharashtra, 'PNG', x+1, y - imageHeightm + 1.8, imageWidthm, imageHeightm); 
+x += imageWidthm + spacingm;
+
+
+doc.text(afterText, x, y);
+  yPos += 7;  
   doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी मा.रा.वी.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी ${selectedMonthYear} रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);

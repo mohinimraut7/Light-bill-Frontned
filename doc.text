@@ -1877,3 +1877,52 @@ else if (
 //   if (signatures['Accountant']) { 
 //     doc.addImage(signatures['Accountant'], 'PNG', rightSectionStart + 75, yPos - 15, 30, 15);
 // }
+=======================================
+// if(selectedMonthYear) {
+//   const response = await axios.post(`${baseUrl}/searchReport`, {
+//     month: selectedMonthYear,
+//   });
+
+//   const foundReport = response.data;
+//   // console.log("foundReport-->>>",foundReport)
+//   setMonthArr(foundReport)
+
+//   if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
+//     setMode('edit');
+
+    
+//     const wardReport = foundReport.find(
+//       report => report.ward === user.ward || wardName && report.monthReport === selectedMonthYear
+//     );
+// // console.log("wardReport--->>>>",wardReport)
+// if (wardReport) {
+
+//   const reportingData = wardReport.reportingRemarks.map((remark) => {
+//     return {
+//       userId:remark.userId,
+//       ward:remark.userWard,  
+//       role:remark.role,
+//       remark: remark.remark,
+//       signature:remark.signature
+//     };
+//   }).filter(item => item !== null); 
+
+ 
+//   console.log("Reporting Data:", reportingData);
+//   setReportingDataSM(reportingData)
+
+// }
+//   } else {
+//     setMode('create');
+//   }
+// }
+---------------------
+
+import divabatti from '../Images/divabatti.png'
+======================
+resoluttil text image
+16 mangal body 
+Perpetua Titling MT
+==================
+BASEURL=http://localhost:5000
+API=http://localhost:5000
