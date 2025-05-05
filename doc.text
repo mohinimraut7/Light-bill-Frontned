@@ -1926,3 +1926,15 @@ Perpetua Titling MT
 ==================
 BASEURL=http://localhost:5000
 API=http://localhost:5000
+
+================
+// doc.text(beforeText, x, y);
+// x += doc.getTextWidth(beforeText) + spacing;
+
+// maharashtarlong
+// doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 80, 6); 
+
+// x += imageWidthm + spacingm;
+
+
+// doc.text(afterText, x, y);

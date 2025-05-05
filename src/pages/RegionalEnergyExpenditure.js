@@ -27,6 +27,7 @@ import logovvcmc from '../Images/vvcmclogo.jpg';
 import logovvcmccmp from '../Images/logovvcmccmp.png';
 import karyalayintipani from '../Images/karyalayintipani.png';
 import maharashtra from '../Images/maharashtra.png';
+import maharashtarlong from '../Images/maharashtarlong.png';
 import divabatti from '../Images/divabatti.png';
 import mahanagarpaliketarfe from '../Images/mahanagarpaliketarfe.png';
 import pacchim from '../Images/divabatti.png';
@@ -945,28 +946,26 @@ doc.text(`${meterPurpose}`, rightSectionStart , yPos + 10); // continue after im
 yPos += 18;
  
   doc.text(reverseDevanagariIfContainsViOrLi("दिवाबत्तीची सोय केलेली आहे."), rightSectionStart, yPos);
-  yPos += 8;
+  yPos += 2;
   // doc.text(reverseDevanagariIfContainsViOrLi("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा"), rightSectionStart, yPos);
-  const beforeText = reverseDevanagariIfContainsViOrLi("यासाठी");
-const afterText = reverseDevanagariIfContainsViOrLi("वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा");
+  
+  
+ 
+//   const beforeText = reverseDevanagariIfContainsViOrLi("यासाठी");
+// const afterText = reverseDevanagariIfContainsViOrLi("वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा");
 
-const imageWidthm = 23; // Adjust size as needed
+const imageWidthm = 120; // Adjust size as needed
 const imageHeightm = 6;
 const spacingm = 2;
 
 let x = rightSectionStart;
 let y = yPos;
 
-doc.text(beforeText, x, y);
-x += doc.getTextWidth(beforeText) + spacing;
 
+doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5); // adjust width/height as needed
+// doc.addImage(maharashtarlong, 'PNG', x+1, y - imageHeightm + 1.8, imageWidthm, imageHeightm); 
 
-doc.addImage(maharashtra, 'PNG', x+1, y - imageHeightm + 1.8, imageWidthm, imageHeightm); 
-x += imageWidthm + spacingm;
-
-
-doc.text(afterText, x, y);
-  yPos += 7;  
+  yPos += 12;  
   doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी मा.रा.वी.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी ${selectedMonthYear} रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
