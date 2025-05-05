@@ -28,6 +28,7 @@ import logovvcmccmp from '../Images/logovvcmccmp.png';
 import karyalayintipani from '../Images/karyalayintipani.png';
 import maharashtra from '../Images/maharashtra.png';
 import divabatti from '../Images/divabatti.png';
+import mahanagarpaliketarfe from '../Images/mahanagarpaliketarfe.png';
 import pacchim from '../Images/divabatti.png';
 import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
@@ -926,21 +927,25 @@ doc.addImage(divabatti, "PNG", imageX, yPos - 4, imageWidth, imageHeight);
   yPos += 10;
   doc.text("मा.साहेब,", rightSectionStart, yPos);
   yPos += 7;
+
   const meterpurposename = [...new Set(
     rows.filter(row => row.meterPurpose === meterPurposeName) 
         .map(row => row.meterPurpose)
 )].join(', '); 
+  yPos += 2;
   doc.text(reverseDevanagariIfContainsViOrLi(`सादर करण्यात येते की, वसई विरार शहर महानगरपालिका ${wardname}`), rightSectionStart, yPos);
-  yPos += 7;
+  yPos += 3;
+  doc.addImage(mahanagarpaliketarfe, 'PNG', rightSectionStart, yPos, 80, 6); // adjust width/height as needed
   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
-
-
-  doc.text(reverseDevanagariIfContainsViOrLi(`हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील ${meterPurpose}`), rightSectionStart, yPos);
-yPos += 7;
+  yPos += 2;
+  // doc.text(reverseDevanagariIfContainsViOrLi(`हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील ${meterPurpose}`), rightSectionStart, yPos);
+ 
+doc.text(`${meterPurpose}`, rightSectionStart , yPos + 10); // continue after image
+yPos += 18;
  
   doc.text(reverseDevanagariIfContainsViOrLi("दिवाबत्तीची सोय केलेली आहे."), rightSectionStart, yPos);
-  yPos += 10;
+  yPos += 8;
   // doc.text(reverseDevanagariIfContainsViOrLi("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा"), rightSectionStart, yPos);
   const beforeText = reverseDevanagariIfContainsViOrLi("यासाठी");
 const afterText = reverseDevanagariIfContainsViOrLi("वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा");
@@ -1093,7 +1098,7 @@ if (lipikData?.signature) {
     // Financial Summary Section
     yPos += 10;
  
-  yPos += 10;
+
   doc.text("मा.सदर,", rightSectionStart, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिकेच्या विद्युत विभागाने सदर केलेल्या अहवालानुसार:"), rightSectionStart, yPos);
