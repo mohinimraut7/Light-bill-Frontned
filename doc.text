@@ -1938,3 +1938,49 @@ API=http://localhost:5000
 
 
 // doc.text(afterText, x, y);
+======================================
+
+vaarthikvarsh
+Akshari
+kanistaabhiyanataward
+kanistaabhiyantaho
+lekhashirsh
+mahanagarpaliketarfe
+maharashtarlong
+maharashtra
+yanchyakadunpachhim
+prabhagsamiti
+prastavitdeyakrakkam
+=============
+  const prabhagImageWidthjr = 28;
+const prabhagImageHeightjr = 5;
+const xOffsetPrabhagjr = rightSectionStart + 60;
+const yOffsetPrabhagjr = yPos - 4; // to align image baseline with text
+
+doc.addImage(prabhagsamiti, 'PNG', xOffsetPrabhagjr, yOffsetPrabhagjr, prabhagImageWidthjr, prabhagImageHeightjr);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 110, yPos);
+    yPos += 7;
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
+    yPos += 10;
+    yPos += 10;
+
+    -----------------------------------
+    const prabhagImageWidth = 27;  // Adjust as needed
+const prabhagImageHeight = 6; // Adjust as needed
+const yOffsetPrabhag = yPos - 4; // Slightly above the text baseline
+
+doc.addImage(prabhagsamiti, 'PNG', rightSectionStart, yOffsetPrabhag, prabhagImageWidth, prabhagImageHeight);
+
+
+
+    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 60, yPos);
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 110, yPos);
+    yPos += 7;
+    doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
+    yPos += 10;
+    // Financial Summary Section
+    yPos += 10;
+ 
+
+  doc.text("मा.सदर,", rightSectionStart, yPos);
+ 

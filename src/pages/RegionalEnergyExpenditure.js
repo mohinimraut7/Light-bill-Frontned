@@ -31,6 +31,17 @@ import maharashtarlong from '../Images/maharashtarlong.png';
 import divabatti from '../Images/divabatti.png';
 import mahanagarpaliketarfe from '../Images/mahanagarpaliketarfe.png';
 import pacchim from '../Images/divabatti.png';
+import prabhagsamiti from '../Images/prabhagsamiti.png';
+import aarthikvarsh from '../Images/aarthikvarsh.png';
+import Akshari from '../Images/Akshari.png';
+import kanistaabhiyanataward from '../Images/kanistaabhiyanataward.png';
+import kanistaabhiyantaho from '../Images/kanistaabhiyantaho.png';
+import lekhashirsh from '../Images/lekhashirsh.png';
+import yanchyakadunpachhim from '../Images/yanchyakadunpachhim.png';
+import prastavitdeyakrakkam from '../Images/prastavitdeyakrakkam.png';
+
+
+
 import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
@@ -1059,7 +1070,14 @@ if (lipikData?.signature) {
     );
   }
 
-    doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता (ठेका)"), rightSectionStart + 60, yPos);
+    // doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता (ठेका)"), rightSectionStart + 60, yPos);
+    const signatureWidthjrw = 40; 
+    const signatureHeightjrw = 7;
+    const yOffsetJRw = yPos - 5;
+    // doc.addImage(kanistaabhiyanataward, 'PNG', rightSectionStart + 60, yPos, 20, 15); // Adjust width/height as needed
+    doc.addImage(kanistaabhiyanataward, 'PNG', rightSectionStart + 59, yOffsetJRw, signatureWidthjrw, signatureHeightjrw);
+
+
   
     const jrHOEngineerData = reportingDataSM.find(
       item => item.role === 'Junior Engineer' && item.ward === 'Head Office'
@@ -1086,7 +1104,12 @@ if (lipikData?.signature) {
   //   doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 150, yPos - 15, 30, 15);
   // }
   
-    doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 110, yPos);
+    // doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 110, yPos);
+    const signatureWidthjrhow = 60; 
+    const signatureHeightjrhow = 8;
+    const yOffsetJRhow = yPos - 5;
+    // doc.addImage(kanistaabhiyanataward, 'PNG', rightSectionStart + 60, yPos, 20, 15); // Adjust width/height as needed
+    doc.addImage(kanistaabhiyantaho, 'PNG', rightSectionStart + 109, yOffsetJRhow,signatureWidthjrhow,signatureHeightjrhow);
     yPos += 7;
     doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
     doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 60, yPos);
