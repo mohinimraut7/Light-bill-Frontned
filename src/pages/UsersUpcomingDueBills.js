@@ -129,6 +129,7 @@ const dueAlertCount = dueAlertrows.length;
 
   // useEffect(() => {
   //   if (dueAlertCount > 0 && isAuthenticated) {
+  
   //     const notification = new Notification('Pending Light Bills', {
   //       body: `You have a total of ${dueAlertCount} pending light bills. Please ensure that you do not cross the due date, as late payments will incur additional charges.`,
   //       requireInteraction: true, // Stays until user interacts
