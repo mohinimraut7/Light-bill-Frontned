@@ -966,7 +966,7 @@ doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5); // adju
 // doc.addImage(maharashtarlong, 'PNG', x+1, y - imageHeightm + 1.8, imageWidthm, imageHeightm); 
 
   yPos += 12;  
-  doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी मा.रा.वी.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
+  doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी म.रा.वि.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी ${selectedMonthYear} रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
   yPos += 7;
@@ -1152,7 +1152,8 @@ const signatureWidthAMC = 30;
     const signatureHeightAMC = 15;
     const xPosAMC = rightSectionStart + 75;
     const yOffsetAMC = yPos - 15;
-  doc.addImage(
+
+    doc.addImage(
          user.signature,
           'PNG',
           xPosAMC,
