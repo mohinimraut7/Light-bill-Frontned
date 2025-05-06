@@ -748,8 +748,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   </ListItemButton>
                 </ListItem>
               )}
+{/* -------------------------------------------------------------------------------- */}
 
-              {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
+              {/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
                 <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/pendingapprovals")}>
                   <ListItemButton
                     sx={{
@@ -772,7 +773,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     <ListItemText primary="Pending Approvals" sx={{ opacity: open ? 1 : 0, color: 'white' }} />
                   </ListItemButton>
                 </ListItem>
-              )}
+              )} */}
+
+              {/* --------------------------------------------------- */}
 
               {/* <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/specificconsumerbills")}>
                 <ListItemButton
