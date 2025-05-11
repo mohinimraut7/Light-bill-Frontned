@@ -418,7 +418,7 @@ doc.addImage(billkramank, 'PNG', 15, yPos - 3, 20, 5);
     // doc.text(reverseDevanagariIfContainsViOrLi("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक"), 15, yPos);
 // doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 120, 5);
 
-doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 119, 5);
+doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 119, 6);
 
 
 
