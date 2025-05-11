@@ -39,9 +39,9 @@ import kanistaabhiyantaho from '../Images/kanistaabhiyantaho.png';
 import lekhashirsh from '../Images/lekhashirsh.png';
 import yanchyakadunpachhim from '../Images/yanchyakadunpachhim.png';
 import prastavitdeyakrakkam from '../Images/prastavitdeyakrakkam.png';
-
-
-
+import billkramank from '../Images/billkramank.png';
+import pramanakKramank from '../Images/pramanakKramank.png';
+import maganipustakachasandharbh from '../Images/pustaksandharbh.png';
 import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
@@ -391,9 +391,15 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     doc.setFontSize(11);
 
     // --- Form Details with Lines ---
-    doc.text(reverseDevanagariIfContainsViOrLi("बिल क्रमांक:"), 15, yPos);
+    // ***
+    // doc.text(reverseDevanagariIfContainsViOrLi("बिल क्रमांक:"), 15, yPos);
+
+doc.addImage(billkramank, 'PNG', 15, yPos - 3, 20, 5);
+
     doc.line(40, yPos, 100, yPos);
-    doc.text("प्रमाणक क्रमांक:", 105, yPos);
+    // doc.text("प्रमाणक क्रमांक:", 105, yPos);
+   doc.addImage(pramanakKramank, 'PNG', 105, yPos - 2.5, 23, 4);
+
     doc.line(140, yPos, 170, yPos);
     const currentDate = new Date().toLocaleDateString('en-IN');
     doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक ${currentDate}`), 150, yPos);
@@ -408,7 +414,8 @@ doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
     yPos += 8;
     doc.text(reverseDevanagariIfContainsViOrLi("माल : विद्युत विभाग"), 15, yPos);
     yPos += 8;
-    doc.text(reverseDevanagariIfContainsViOrLi("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक"), 15, yPos);
+    // doc.text(reverseDevanagariIfContainsViOrLi("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक"), 15, yPos);
+doc.addImage(maganipustakachasandharbh, 'PNG', 15, yPos - 2.5, 60, 5);
 
     // --- Calculate Total Amount ---
     const totalAmount = rows

@@ -175,7 +175,7 @@ const ConsumerBillDetails = () => {
     checkProcessBtnEnable();
   }, [bills, user.role]);
   const getFilteredBills = () => {
-    if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') {
+    if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user.role==='Junior Engineer' && user.ward==='Head Office')) {
       return bills;
     } else if (user?.role.startsWith('Junior Engineer')) {
       const specificWard = user?.ward;
