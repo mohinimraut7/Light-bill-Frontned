@@ -463,7 +463,7 @@ doc.autoTable({
     `${totalAmount.toFixed(2)}/-`
   ]],
   foot: [[
-    { content: 'एकूण', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
+    { content: 'एकूण',  colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
     { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
   ]],
   didDrawCell: function (data) {
