@@ -36,6 +36,10 @@ import aarthikvarsh from '../Images/aarthikvarsh.png';
 import Akshari from '../Images/Akshari.png';
 import akshari from '../Images/akshari2.png';
 import matra from '../Images/matra.png';
+import NACheVidvutDeyak from '../Images/NACheVidvutDeyak.png';
+import NAkaryashetraPrabhaSamiti from '../Images/NAkaryashetraPrabhaSamiti.png';
+import NAMRaVVComMahe from '../Images/NAMRaVVComMahe.png';
+import NAVibhagatilVirarVibhagache from '../Images/NAVibhagatilVirarVibhagache.png';
 
 
 import vvcmcKaryashetratil from '../Images/vvcmcKaryashetratil.png';
@@ -453,21 +457,60 @@ doc.autoTable({
     reverseDevanagariIfContainsViOrLi('युनिट'),
     'रक्कम\nरु.    पै.'
   ]],
-  body: [[
-    '१',
-    reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
-    '',
-    '',
-    '',
-    '',
-    `${totalAmount.toFixed(2)}/-`
-  ]],
+    body: [[
+      '१',
+      // reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+          reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका`), 
+
+            // *** कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+
+      '',
+      '',
+      '',
+      '',
+      `${totalAmount.toFixed(2)}/-`
+    ]],
+    
   foot: [[
     { content: 'एकूण',  colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
     { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
   ]],
+   didParseCell: function (data) {
+    if (data.section === 'body' && data.row.index === 0 && data.column.index === 1) {
+      // Increase cell height to accommodate image below text
+      data.cell.styles.minCellHeight = 30; // You can increase this further if needed
+    }
+  },
+
   didDrawCell: function (data) {
+    // ✅ Draw image below text inside the second column of the body row
+    if (data.section === 'body' && data.column.index === 1 && data.row.index === 0) {
+      doc.addImage(
+        NAkaryashetraPrabhaSamiti,
+        'PNG',
+        data.cell.x + 2,
+        data.cell.y + 16, // Positioned below text
+        35,
+        8
+      );
+    }
+
+  // didDrawCell: function (data) {
+  //    if (data.column.index === 1 && data.row.index === 0) {
+  //     doc.addImage(
+  //       NAkaryashetraPrabhaSamiti,
+  //       'PNG',
+  //       data.cell.x + 2,    // X position inside cell
+  //       data.cell.y + 16,   // Y position (below text)
+  //       35,                 // Width
+  //       8                   // Height
+  //     );
+  //   }
+  
+
     if (data.section === 'head') {
+ 
+
       if (data.column.index === 0 && data.row.index === 0) {
         doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3, 13, 6);
       }
@@ -488,53 +531,6 @@ if (data.section === 'head' && data.column.index === 2 && data.row.index === 0) 
 
 
 
-// if (data.section === 'body' && data.column.index === 1) {
-//   // Declare cursor variables with `let` since we need to reassign them
-//   let { x, y, width, height } = data.cell;  // Modify `height` using let
-//   let cursorX = x + 2;
-//   let cursorY = y + 5;
-
-//   // Add 'वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील'
-//   doc.addImage(vvcmcKaryashetratil, 'PNG', cursorX, cursorY, 42, 6);
-//   cursorY += 8;
-
-//   // Add 'प्रभाग समिती'
-//   doc.addImage(prabhagsamitiKaryashtratil, 'PNG', cursorX, cursorY, 30, 6);
-//   cursorY += 8;
-
-//   // Add dynamic ward name (प्रभाग नाव)
-//   const wardText = `${user?.ward}`;
-//   doc.text(wardText, cursorX, cursorY + 5);
-//   cursorY += 10;
-
-
-//   doc.addImage(vibhagatilVirar, 'PNG', cursorX, cursorY, 30, 6);
-//   cursorY += 8;
-
- 
-//   doc.addImage(vibhagacheMahe, 'PNG', cursorX, cursorY, 30, 6);
-//   cursorY += 8;
-
-//   // Add dynamic month name (महिन्याचे नाव)
-//   doc.text(`${selectedMonthYear}`, cursorX, cursorY + 5);
-//   cursorY += 10;
-
-//   // Add 'चे विद्युत देयक'
-//   doc.addImage(vidvyutDeyak, 'PNG', cursorX, cursorY, 32, 6);
-//   cursorY += 8;
-
-//   // Calculate the new height for the cell based on the content
-//   height = cursorY - y; // Dynamically calculate the new height of the cell
-
-//   // Clear the default text in the cell
-//   data.cell.text = '';
-
-//   // Update the height of the cell (ensure to avoid mutation of constant variables)
-//   data.cell.styles.minCellHeight = height;
-
-//   // Add the final text to the cell (ensure the content is displayed properly)
-//   data.cell.text = `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`;
-// }
 
 
   },

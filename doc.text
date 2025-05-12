@@ -2310,3 +2310,50 @@ solved form 120 displayed problem for Junior Engineer Head Office
 //   data.cell.text = '';
 // }
 // ----------------------------------------------
+// if (data.section === 'body' && data.column.index === 1) {
+//   // Declare cursor variables with `let` since we need to reassign them
+//   let { x, y, width, height } = data.cell;  // Modify `height` using let
+//   let cursorX = x + 2;
+//   let cursorY = y + 5;
+
+//   // Add 'वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील'
+//   doc.addImage(vvcmcKaryashetratil, 'PNG', cursorX, cursorY, 42, 6);
+//   cursorY += 8;
+
+//   // Add 'प्रभाग समिती'
+//   doc.addImage(prabhagsamitiKaryashtratil, 'PNG', cursorX, cursorY, 30, 6);
+//   cursorY += 8;
+
+//   // Add dynamic ward name (प्रभाग नाव)
+//   const wardText = `${user?.ward}`;
+//   doc.text(wardText, cursorX, cursorY + 5);
+//   cursorY += 10;
+
+
+//   doc.addImage(vibhagatilVirar, 'PNG', cursorX, cursorY, 30, 6);
+//   cursorY += 8;
+
+ 
+//   doc.addImage(vibhagacheMahe, 'PNG', cursorX, cursorY, 30, 6);
+//   cursorY += 8;
+
+//   // Add dynamic month name (महिन्याचे नाव)
+//   doc.text(`${selectedMonthYear}`, cursorX, cursorY + 5);
+//   cursorY += 10;
+
+//   // Add 'चे विद्युत देयक'
+//   doc.addImage(vidvyutDeyak, 'PNG', cursorX, cursorY, 32, 6);
+//   cursorY += 8;
+
+//   // Calculate the new height for the cell based on the content
+//   height = cursorY - y; // Dynamically calculate the new height of the cell
+
+//   // Clear the default text in the cell
+//   data.cell.text = '';
+
+//   // Update the height of the cell (ensure to avoid mutation of constant variables)
+//   data.cell.styles.minCellHeight = height;
+
+//   // Add the final text to the cell (ensure the content is displayed properly)
+//   data.cell.text = `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`;
+// }
