@@ -1994,3 +1994,319 @@ BASEURL=https://lightbillbackend.saavi.co.in
 API=
 -----------------------------
 solved form 120 displayed problem for Junior Engineer Head Office
+========================================================
+12 may
+  // if (data.column.index === 1 && data.row.index === 0) {
+      //   data.cell.styles.fontSize = 8;
+      //   doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 2, 50, 6);
+      // }
+      // if (data.column.index === 2 && data.row.index === 0) {
+      //   doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 40, 6);
+      // }
+
+      // ---------------------------------------
+
+//       if (data.section === 'head' && data.column.index === 1 && data.row.index === 0) {
+ 
+//   doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 2, 30, 6);
+// }
+// ----------------------------------------------
+
+// doc.autoTable({
+//   startY: yPos,
+//   head: [[
+//     '',  // Empty space for the first column
+//     '',  // Image will be inserted here
+//     reverseDevanagariIfContainsViOrLi('परिमाण\nकिंवा वजन'),
+//     'दर',
+//     reverseDevanagariIfContainsViOrLi('युनिट'),
+//     'रक्कम\nरु.    पै.'
+//   ]],
+//   body: [[
+//     '१',
+//     // Insert content in the second column, where image was added
+//     reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+//     '',
+//     '',
+//     '',
+//     `${totalAmount.toFixed(2)}/-`
+//   ]],
+//   didDrawCell: function (data) {
+//     // 🖼 Only insert image in the second column of the header row (index 1)
+//     if (data.section === 'head' && data.column.index === 1 && data.row.index === 0) {
+//       doc.addImage(
+//         kamachaTapashil,      // Image path
+//         'PNG',                // Image format
+//         data.cell.x + 2,      // x-position (slightly right within cell)
+//         data.cell.y + 3,      // y-position (slightly lower within cell)
+//         20,                   // Adjust width as needed
+//         6                     // Adjust height as needed
+//       );
+//     }
+//   },
+//   foot: [[
+//     { content: 'एकूण', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
+//     { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
+//   ]],
+//   styles: {
+//     font: 'DVOTSurekh_B_Ship',
+//     fontSize: 10,
+//     cellPadding: 2,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   headStyles: {
+//     fillColor: [255, 255, 255],
+//     textColor: 0,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   bodyStyles: {
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   footStyles: {
+//     fillColor: [255, 255, 255],
+//     textColor: 0,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   columnStyles: {
+//     0: { cellWidth: 15 },
+//     1: { cellWidth: 90 },  // Adjust this width as necessary
+//     2: { cellWidth: 20 },
+//     3: { cellWidth: 15 },
+//     4: { cellWidth: 15 },
+//     5: { cellWidth: 25 }
+//   },
+//   theme: 'grid',
+//   tableLineWidth: 0.1,
+//   tableLineColor: [0, 0, 0]
+// })
+-------------------------
+//     doc.autoTable({
+//       startY: yPos,
+//       head: [[
+//         '',
+//         '',
+//         reverseDevanagariIfContainsViOrLi('परिमाण\nकिंवा वजन'),
+//         'दर',
+//         reverseDevanagariIfContainsViOrLi('युनिट'),
+//         'रक्कम\nरु.    पै.'
+//       ]],
+//       body: [[
+//         '१',
+//         // reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${wardname} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+//         reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+
+//         '',
+//         '',
+//         '',
+//         `${totalAmount.toFixed(2)}/-`
+//       ]],
+//  didDrawCell: function (data) {
+//     // पहिल्या कॉलममध्ये अनुक्रमांक चा लोगो
+//     if (data.section === 'head' && data.column.index === 0 && data.row.index === 0) {
+//       doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3, 13, 6);
+//     }
+//     // दुसऱ्या कॉलममध्ये "कामाचा किंवा वस्तूंचा तपशील" ची प्रतिमा
+//   if (data.section === 'head' && data.column.index === 1 && data.row.index === 0) {
+//   // Font size 2px ने कमी करा (उदा. 10 ऐवजी 8)
+//   data.cell.styles.fontSize = 8;
+
+//   // टेक्स्ट हटवायचा असेल तर खालील ओळ uncomment करा:
+//   // data.cell.text = [];
+
+//   // Image insert करा with 83px width
+//   doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 2, 50, 6);
+// }
+
+
+
+// // तिसऱ्या कॉलममध्ये "परिमाण किंवा वजन" प्रतिमा
+//     if (data.section === 'head' && data.column.index === 2 && data.row.index === 0) {
+//       // प्रतिमा समाविष्ट करा
+//       doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 40, 6);  // Adjusted size for image
+//     }
+  
+
+
+
+//   },
+
+
+
+//       foot: [[
+//         { content: 'एकूण', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
+//         { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
+//       ]],
+//       styles: {
+//         // font: 'NotoSerifDevanagari',
+//         font: 'DVOTSurekh_B_Ship',
+//         fontSize: 10,
+//         cellPadding: 2,
+//         lineWidth: 0.1,
+//         lineColor: [0, 0, 0]
+//       },
+//       headStyles: {
+//         fillColor: [255, 255, 255],
+//         textColor: 0,
+//         lineWidth: 0.1,
+//         lineColor: [0, 0, 0]
+//       },
+//       bodyStyles: {
+//         lineWidth: 0.1,
+//         lineColor: [0, 0, 0]
+//       },
+//       footStyles: {
+//         fillColor: [255, 255, 255],
+//         textColor: 0,
+//         lineWidth: 0.1,
+//         lineColor: [0, 0, 0]
+//       },
+//       columnStyles: {
+//         0: { cellWidth: 18 },
+//         1: { cellWidth: 75 },
+//         2: { cellWidth: 35 },
+//         3: { cellWidth: 15 },
+//         4: { cellWidth: 15 },
+//         5: { cellWidth: 25 }
+//       },
+//       theme: 'grid',
+//       tableLineWidth: 0.1,
+//       tableLineColor: [0, 0, 0]
+//     });
+
+
+
+// --------------------------------------------------------------
+// doc.autoTable({
+//   startY: yPos,
+//   head: [
+//     [
+//       '',
+//       '',
+//       reverseDevanagariIfContainsViOrLi('परिमाण\nकिंवा वजन'),
+//       'दर',
+//       reverseDevanagariIfContainsViOrLi('युनिट'),
+//       'रक्कम\nरु.    पै.'
+//     ]
+//   ],
+//   body: [
+//     [
+//       '१',
+//       reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+//       '',
+//       '',
+//       '',
+//       `${totalAmount.toFixed(2)}/-`
+//     ]
+//   ],
+//   didDrawCell: function (data) {
+//     // पहिल्या कॉलममध्ये अनुक्रमांक चा लोगो
+//     if (data.section === 'head' && data.column.index === 0 && data.row.index === 0) {
+//       doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3, 13, 6);
+//     }
+//     // दुसऱ्या कॉलममध्ये "कामाचा किंवा वस्तूंचा तपशील" ची प्रतिमा
+//     if (data.section === 'head' && data.column.index === 1 && data.row.index === 0) {
+//       data.cell.styles.fontSize = 8;
+//       doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 2, 50, 6);
+//     }
+
+//     // तिसऱ्या कॉलममध्ये "परिमाण किंवा वजन" प्रतिमा
+//     if (data.section === 'head' && data.column.index === 2 && data.row.index === 0) {
+//       doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 40, 6);  // Adjusted size for image
+//     }
+//   },
+//   foot: [
+//     [
+//       { content: 'एकूण', colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
+//       { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
+//     ]
+//   ],
+//   styles: {
+//     font: 'DVOTSurekh_B_Ship',
+//     fontSize: 10,
+//     cellPadding: 2,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   headStyles: {
+//     fillColor: [255, 255, 255],
+//     textColor: 0,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   bodyStyles: {
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   footStyles: {
+//     fillColor: [255, 255, 255],
+//     textColor: 0,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   columnStyles: {
+//     0: { cellWidth: 18 },
+//     1: { cellWidth: 75 },
+//     2: { cellWidth: 35 },
+//     3: { cellWidth: 15 },
+//     4: { cellWidth: 15 },
+//     5: { cellWidth: 25 }
+//   },
+//   theme: 'grid',
+//   tableLineWidth: 0.1,
+//   tableLineColor: [0, 0, 0]
+// });
+-------------------
+ // doc.text(`पत्ता : प्रभाग समिती ${wardname}`, 15, yPos);
+// doc.text(`पत्ता : ${wardname}`, 15, yPos);
+----------------------
+ // doc.text(reverseDevanagariIfContainsViOrLi("मागणी पुस्तकाचा संदर्भ : लेखा शिर्ष विद्यावती विभाग विद्युत देयक"), 15, yPos);
+// doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 120, 5);
+------------------
+// doc.text(
+    //   `एकूण रक्कम रुपये (अक्षरी ${totalAmount.toFixed(2)}/-) मात्र`,
+    //   pageWidth / 2,
+    //   yPos,
+    //   { align: 'center' }
+    // );
+    ---------------------------
+    // if (data.section === 'body' && data.column.index === 1) {
+//   const { x, y } = data.cell;
+//   let cursorX = x + 2;
+//   let cursorY = y + 5;
+
+//   // Add 'वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील'
+//   doc.addImage(vvcmcKaryashetratil, 'PNG', cursorX, cursorY, 42, 6);
+//   cursorY += 8;
+
+//   // Add 'प्रभाग समिती'
+//   doc.addImage(prabhagsamitiKaryashtratil, 'PNG', cursorX, cursorY, 30, 6);
+//   cursorY += 8;
+
+//   // Add dynamic ward name (प्रभाग नाव)
+//   const wardText = `${user?.ward}`;
+//   doc.text(wardText, cursorX, cursorY + 5);
+//   cursorY += 10;
+
+//   // Add 'विभागातील विरार'
+//   doc.addImage(vibhagatilVirar, 'PNG', cursorX, cursorY, 30, 6);
+//   cursorY += 8;
+
+//   // Add 'विभागाचे माहे'
+//   doc.addImage(vibhagacheMahe, 'PNG', cursorX, cursorY, 30, 6);
+//   cursorY += 8;
+
+//   // Add dynamic month name (महिन्याचे नाव)
+//   doc.text(`${selectedMonthYear}`, cursorX, cursorY + 5);
+//   cursorY += 10;
+
+//   // Add 'चे विद्युत देयक'
+//   doc.addImage(vidvyutDeyak, 'PNG', cursorX, cursorY, 32, 6);
+
+//   // Clear the default text in the cell
+//   data.cell.text = '';
+// }
+// ----------------------------------------------
