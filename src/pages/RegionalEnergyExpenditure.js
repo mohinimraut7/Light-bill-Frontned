@@ -460,7 +460,8 @@ doc.autoTable({
     body: [[
       '१',
       // reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
-          reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका`), 
+          
+      reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका`), 
 
             // *** कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
 
@@ -477,35 +478,67 @@ doc.autoTable({
   ]],
    didParseCell: function (data) {
     if (data.section === 'body' && data.row.index === 0 && data.column.index === 1) {
-      // Increase cell height to accommodate image below text
-      data.cell.styles.minCellHeight = 30; // You can increase this further if needed
+   
+      data.cell.styles.minCellHeight = 30; 
+      data.cell.styles.textColor = [0, 0, 0];
     }
   },
 
   didDrawCell: function (data) {
-    // ✅ Draw image below text inside the second column of the body row
-    if (data.section === 'body' && data.column.index === 1 && data.row.index === 0) {
-      doc.addImage(
-        NAkaryashetraPrabhaSamiti,
-        'PNG',
-        data.cell.x + 2,
-        data.cell.y + 16, // Positioned below text
-        35,
-        8
-      );
-    }
+ 
+  if (data.section === 'body' && data.column.index === 1 && data.row.index === 0) {
+    doc.addImage(
+      NAkaryashetraPrabhaSamiti,
+      'PNG',
+      data.cell.x + 2,
+      data.cell.y + 6, // Positioned below text
+      40,              // Width increased by 2px (previously 24)
+      5               // Height unchanged
+    );
 
-  // didDrawCell: function (data) {
-  //    if (data.column.index === 1 && data.row.index === 0) {
-  //     doc.addImage(
-  //       NAkaryashetraPrabhaSamiti,
-  //       'PNG',
-  //       data.cell.x + 2,    // X position inside cell
-  //       data.cell.y + 16,   // Y position (below text)
-  //       35,                 // Width
-  //       8                   // Height
-  //     );
-  //   }
+    doc.setFontSize(10);
+doc.setTextColor(0, 0, 0);
+doc.text(
+  `${user?.ward}`,           // तुमचा desired text
+  data.cell.x + 2 + 40 ,         // image X + image Width + padding
+  data.cell.y + 6 + 3.5             // image Y + half image height (for vertical align)
+);
+
+    doc.addImage(
+      NAVibhagatilVirarVibhagache,
+      'PNG',
+      data.cell.x + 2,
+      data.cell.y + 11,     // previous image च्या खाली (6 + 2 margin)
+      40,
+      4
+    );
+    doc.addImage(
+      NAMRaVVComMahe,
+      'PNG',
+      data.cell.x + 2,
+      data.cell.y + 16,     // previous image च्या खाली (6 + 2 margin)
+      35,
+      4
+    );
+    // Text for selectedMonthYear
+doc.setFontSize(8);
+doc.setTextColor(0, 0, 0);
+doc.text(
+  `${selectedMonthYear}`,
+  data.cell.x + 2 + 35, // image X + image width + padding (3px)
+  data.cell.y + 16 + 2.8    // image Y + approx half of height for vertical center
+);
+     doc.addImage(
+      NACheVidvutDeyak,
+      'PNG',
+      data.cell.x + 2,
+      data.cell.y + 21,     // previous image च्या खाली (6 + 2 margin)
+      26,
+      4
+    );
+  }
+
+  
   
 
     if (data.section === 'head') {
