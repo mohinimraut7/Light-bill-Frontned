@@ -1298,17 +1298,37 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
             const imgGap = 12; // Gap between images
             
             // 1) रक्कमेचे नियम वाटप
-            doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 30, imgHeight);
+            // doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 30, imgHeight);
+            // doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 32, imgHeight - 2);
+
+         const shrinkRatio = 0.83; // Approximately 3px reduction (around 14%)
+doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 30 * shrinkRatio, imgHeight * shrinkRatio);
+
+
             doc.text("_______________ रु.", leftColX + 52, imgY + 4);
             imgY += imgGap;
             
             // 2) पूर्वीचा खर्च
-            doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28, imgHeight);
+            
+            // doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28, imgHeight);
+            // doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 24, imgHeight - 2);
+
+const imageScaleFactor = 0.75; // approximately 4px shrink (around 14%)
+doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28 * imageScaleFactor, imgHeight * imageScaleFactor);
+
+
+
             doc.text("_______________ रु.", leftColX + 40, imgY + 4);
             imgY += imgGap;
             
             // 3) या बिलांत दर्शविलेला खर्च
-            doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX, imgY, 45, imgHeight);
+            // doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX, imgY, 43, imgHeight);
+
+            const scaleFactor = 0.83; // approx 16.7% कमी
+const newWidth = 45 * scaleFactor;
+const newHeight = imgHeight * scaleFactor;
+
+doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX, imgY, newWidth, newHeight);
             doc.text(`${totalAmount.toFixed(2)}/-`, leftColX + 47, imgY + 4);
             imgY += imgGap;
             
@@ -1317,7 +1337,14 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
             imgY += imgGap;
             
             // 5) उपलब्ध शिल्लक
-            doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35, imgHeight);
+
+            // doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35, imgHeight);
+            
+ const imgShrinkRatio = 0.75; // 3px font कमी केल्यासारखा shrink
+doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35 * imgShrinkRatio, imgHeight * imgShrinkRatio);
+
+
+
             doc.text("_______________ रु.", leftColX + 37, imgY + 4);
           }
           
@@ -1329,7 +1356,8 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
             const imgGap = 12; // Gap between images
             
             // 1) प्रमाणित करण्यांत येते की या बिलांत दर्शविलेले दर व
-            doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 70, imgHeight);
+             const shrinkRatioPr = 0.84;
+            doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 70, imgHeight*shrinkRatioPr);
             imgY += imgGap;
             
             // 2) परिमाणे ही अचूक आहेत आणि सामुग्री, वस्तु यांच्या
@@ -1337,7 +1365,10 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
             imgY += imgGap;
             
             // 3) स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या
-            doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40, imgHeight);
+            const shrinkRatio = 0.88; // Reducing image by 1px
+doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40 * shrinkRatio, imgHeight * shrinkRatio);
+
+            // doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40, imgHeight);
             imgY += imgGap;
             
             // 4) संख्यात्मक लेख्याच्या समर्थित पुरवठा नोंदवहीत नमूद
