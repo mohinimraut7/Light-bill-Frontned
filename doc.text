@@ -2357,3 +2357,31 @@ solved form 120 displayed problem for Junior Engineer Head Office
 //   // Add the final text to the cell (ensure the content is displayed properly)
 //   data.cell.text = `वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`;
 // }
+===============
+// // ✅ Signature for "प्र.लेखापाल" just above their label
+// if (user.ward && signatures[user.ward]?.["Accountant"]) {
+//   const accountantSigWidth = 30;
+//   const accountantSigHeight = 30;
+//   const accountantSigX = 15; // aligned to start of "प्र.लेखापाल"
+//   const accountantSigY = yPos - accountantSigHeight;
+//   doc.addImage(
+//     signatures[user.ward]["Accountant"],
+//     'PNG',
+//     accountantSigX,
+//     accountantSigY,
+//     accountantSigWidth,
+//     accountantSigHeight
+//   );
+// }
+
+// ✅ Signature for "सहा.आयुक्त" (Assistant Municipal Commissioner)
+----------------------------------
+      // reverseDevanagariIfContainsViOrLi("१) रक्कमेचे नियम वाटप _______________ रु.\n\n") +
+      ===================
+   //  "१) _______________ रु.\n\n" +
+---------------------
+   // reverseDevanagariIfContainsViOrLi("१) रक्कमेचे नियम वाटप _______________ रु.\n\n") +
+   --------------------
+    // Add text after the image
+
+     //  "१) _______________ रु.\n\n" +
