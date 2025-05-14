@@ -1707,36 +1707,71 @@ doc.text(
       yPos = 30; // Reset yPos for right column
       // doc.text(reverseDevanagariIfContainsViOrLi("निर्णय क्रमांक ----------------"), 120, yPos);
 
-// const nirnayImgWidth = 60;  // हवं असल्यास बदलू शकता
-// const nirnayImgHeight = 10;
+
+// const scaleFactor = 5 / 12;
+
+// const nirnayImgWidth = 60 * scaleFactor;
+// const nirnayImgHeight = 10 * scaleFactor;
+
+// const imgX = 117; // 120 - 3
+// const imgY = yPos - 5;
+
 // doc.addImage(
 //   MUNirnayKramank,
 //   'PNG',
-//   120,         // X position (पूर्वी जिथे text होता तिथे)
-//   yPos - 5,    // थोडं वर सरकवायचं असल्यास -5 वापरा
+//   imgX,
+//   imgY,
 //   nirnayImgWidth,
 //   nirnayImgHeight
 // );
 
-const scaleFactor = 7 / 12;
+// const lineStartX = imgX + nirnayImgWidth + 2; // same logic as before
+// const lineY = yPos + 1;
+// const lineEndX = lineStartX + 15;
+
+// doc.setLineWidth(0.3);
+// doc.line(lineStartX, lineY, lineEndX, lineY);
+
+// doc.setLineWidth(0.3); // रेषेची जाडी
+// doc.line(lineStartX, lineY, lineEndX, lineY); // सरळ रेषा
+
+
+
+const scaleFactor = 5 / 12;
 
 const nirnayImgWidth = 60 * scaleFactor;
 const nirnayImgHeight = 10 * scaleFactor;
 
+const imgX = 117; // 120 - 3
+const imgY = yPos - 5;
+
 doc.addImage(
   MUNirnayKramank,
   'PNG',
-  120,
-  yPos - 5,
+  imgX,
+  imgY,
   nirnayImgWidth,
   nirnayImgHeight
 );
 
+// Image नंतर रेषा
+const lineStartX = imgX + nirnayImgWidth + 2; // same logic as before
+const lineY = yPos + 1;
+const lineEndX = lineStartX + 15;
+
+doc.setLineWidth(0.3);
+doc.line(lineStartX, lineY, lineEndX, lineY);
+
+// रेषेच्या उजवीकडं 'दिनांक_____'
+const textX = lineEndX + 5;  // lineEndX नंतर थोडं space ठेवले
+const textY = lineY - 1;     // same height as line
+
+doc.text(reverseDevanagariIfContainsViOrLi("दिनांक_____"), textX, textY);
 
 
       
-      yPos += 10;
-      doc.text(reverseDevanagariIfContainsViOrLi("दिनांक ----------------"), 120, yPos);
+      // yPos += 10;
+      // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक_____"), 120, yPos);
       yPos += 10;
       
       // Dynamic totalAmount in right section
