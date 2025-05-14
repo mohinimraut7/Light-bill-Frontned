@@ -2385,3 +2385,30 @@ solved form 120 displayed problem for Junior Engineer Head Office
     // Add text after the image
 
      //  "१) _______________ रु.\n\n" +
+     ------------------
+     // 5) करण्यात आल्या आहेत
+
+// const ushaStyleScale = 0.95; // Shrinking image as per Usha style
+// const imageWidth = 64 * ushaStyleScale;
+// const imageHeight = imgHeight * ushaStyleScale;
+
+// doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeight);
+-----------------------
+  // 1) रक्कमेचे नियम वाटप
+            // doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 30, imgHeight);
+            // doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 32, imgHeight - 2);
+            -------------
+            // 2) पूर्वीचा खर्च
+            
+            // doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28, imgHeight);
+            // doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 24, imgHeight - 2);
+            -------------------------
+            // 3) या बिलांत दर्शविलेला खर्च
+            // doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX, imgY, 43, imgHeight);
+            ---------------------------------
+             // 4) २ व ३ यांची बेरीज
+            // doc.text("२ व ३ यांची बेरीज _______________ रु.", leftColX+20, imgY + 4);
+            -----------------------------
+              // 5) उपलब्ध शिल्लक
+
+            // doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35, imgHeight);
