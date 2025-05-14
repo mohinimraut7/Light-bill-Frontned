@@ -60,6 +60,11 @@ import MUMemaganichiTapasani from '../Images/MUMemaganichiTapasani.png';
 import MUMukhyaLekhadhikari from '../Images/MUMukhyaLekhadhikari.png';
 import MUNirnayKramank from '../Images/MUNirnayKramank.png';
 import MUPradanarthLekhapal from '../Images/MUPradanarthLekhapal.png';
+import MUPramukhLekhapal from '../Images/MUPramukhLekhapal.png';
+
+
+
+
 import MUPrustavarRokhVahitNond from '../Images/MUPrustavarRokhVahitNond.png';
 import MUSahaAayukta from '../Images/MUSahaAayukta.png';
 import MUUpaaayukta from '../Images/MUUpaaayukta.png';
@@ -1422,10 +1427,98 @@ doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeigh
       yPos = 30; // reset vertical position for new page
       doc.setFontSize(12);
       // Left Column
-      doc.text("मा. आयुक्त यांच्याकडे मंजुरीसाठी सादर", 15, yPos);
+      // doc.text("मा. आयुक्त यांच्याकडे मंजुरीसाठी सादर", 15, yPos);
+
+    
+const ushaFontShrinkRatio = 0.6875; // 16px → 11px shrink
+
+const ayuktaImgWidth = 69 * ushaFontShrinkRatio;
+const ayuktaImgHeight = (25 * ushaFontShrinkRatio) - 12; // height 3px ने कमी
+
+doc.addImage(
+  MUMaAayuktaYanchyakade,
+  'PNG',
+  15,
+  yPos,
+  ayuktaImgWidth,
+  ayuktaImgHeight
+);
+
+
+   
       yPos += 10;
-      doc.text("मी मागणीची तपासणी केली असून ती सर्व बाबतीत", 15, yPos);
-      yPos += 7;
+
+
+
+
+      // doc.text("मी मागणीची तपासणी केली असून ती सर्व बाबतीत", 15, yPos);
+
+
+// const tapasaniImgShrinkRatio = 0.6875; // 16px → 12px shrink
+
+// // Increase width by 2px without changing the height
+// const tapasaniImgWidth = (69 * tapasaniImgShrinkRatio) + 2; // Increased width by 2px
+// const tapasaniImgHeight = (25 * tapasaniImgShrinkRatio) - 11; // Height remains unchanged
+
+// // Image placement (adjust yPos to fit with the text)
+// doc.addImage(
+//   MUMemaganichiTapasani,
+//   'PNG',
+//   15,
+//   yPos - 3, // Slightly adjusted for better positioning
+//   tapasaniImgWidth,
+//   tapasaniImgHeight
+// );
+
+
+
+
+
+// const tapasaniImgShrinkRatio = 0.6875; // 16px → 12px shrink
+
+// // Increase width by 1px without changing the height
+// const tapasaniImgWidth = (69 * tapasaniImgShrinkRatio) + 1; // Increased width by 1px
+// const tapasaniImgHeight = (25 * tapasaniImgShrinkRatio) - 11; // Height remains unchanged
+
+// // Image placement (adjust yPos to fit with the text)
+// doc.addImage(
+//   MUMemaganichiTapasani,
+//   'PNG',
+//   15,
+//   yPos - 3, // Slightly adjusted for better positioning
+//   tapasaniImgWidth,
+//   tapasaniImgHeight
+// );
+
+
+
+
+
+
+
+const tapasaniImgShrinkRatio = 0.6875; // 16px → 12px shrink
+
+// Keep width same
+const tapasaniImgWidth = (95 * tapasaniImgShrinkRatio); // Width unchanged
+const tapasaniImgHeight = ((24 * tapasaniImgShrinkRatio) - 11); // Height reduced by 1px
+
+// Image placement (adjust yPos to fit with the text)
+doc.addImage(
+  MUMemaganichiTapasani,
+  'PNG',
+  15,
+  yPos - 3, // Slightly adjusted for better positioning
+  tapasaniImgWidth,
+  tapasaniImgHeight
+);
+
+
+
+
+
+
+      yPos += 10;
+      doc.setFontSize(10);
       doc.text("अचूक आहे.", 15, yPos);
       yPos += 10;
       doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
@@ -1450,7 +1543,39 @@ doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeigh
       
       doc.text("-----------------                     -------------------", 15, yPos);
       yPos += 10;
-      doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
+      // doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
+
+
+      const signShrinkRatio = 0.6875; // 16px → 11px equivalent shrink
+
+// Widths and heights for both signatures
+const lekhapalWidth = 30 * signShrinkRatio;
+const lekhapalHeight = (14 * signShrinkRatio) - 5;
+
+const ayuktaWidth = 30 * signShrinkRatio;
+const ayuktaHeight = (14 * signShrinkRatio) - 5;
+
+// First image (प्र.लेखापाल)
+doc.addImage(
+  MUPramukhLekhapal,
+  'PNG',
+  15,
+  yPos-4,
+  lekhapalWidth,
+  lekhapalHeight
+);
+
+// Second image (सहा.आयुक्त)
+doc.addImage(
+  MUSahaAayukta,
+  'PNG',
+  66, // Adjusted to align with right side
+  yPos-4,
+  ayuktaWidth,
+  ayuktaHeight
+);
+
+yPos += lekhapalHeight + 5; // Add vertical space after images
       
       
       if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
@@ -1472,7 +1597,61 @@ doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeigh
       yPos += 7;
       
       
-      doc.text(`       प्रभाग समिती-${wardname}`, 15, yPos);
+      // doc.text(`       प्रभाग समिती-${wardname}`, 15, yPos);
+
+
+
+// const baseShrinkRatio = 0.625;
+// // Additional shrink for 3px font reduction (16px → 13px)
+// const fontReductionRatio = 13 / 16; // ≈ 0.8125
+
+// const samitiShrinkRatio = baseShrinkRatio * fontReductionRatio;
+
+// let samitiImgWidth = 70 * samitiShrinkRatio;
+// let samitiImgHeight = 15 * samitiShrinkRatio;
+
+// // Draw image instead of "प्रभाग समिती"
+// doc.addImage(
+//   prabhagsamiti,
+//   'PNG',
+//   15,
+//   yPos - 3,
+//   samitiImgWidth,
+//   samitiImgHeight
+// );
+
+
+
+
+// Base shrink ratio (16px → 10px)
+const baseShrinkRatio = 0.625;
+// Additional shrink for 3px font reduction (16px → 13px)
+const fontReductionRatio = 13 / 16; // ≈ 0.8125
+// Additional shrink for 2px font reduction (16px → 11px)
+const fontSizeReductionFinalRatio = 11 / 16; // ≈ 0.6875
+
+const samitiShrinkRatio = baseShrinkRatio * fontSizeReductionFinalRatio;
+
+let samitiImgWidth = 70 * samitiShrinkRatio;
+let samitiImgHeight = 15 * samitiShrinkRatio;
+
+// Draw image instead of "प्रभाग समिती"
+doc.addImage(
+  prabhagsamiti,
+  'PNG',
+  15,
+  yPos - 3,
+  samitiImgWidth,
+  samitiImgHeight
+);
+
+
+// Add dynamic wardname after the image
+doc.setFontSize(11); // Match image font size
+doc.text(`-${wardname}`, 15 + samitiImgWidth + 2, yPos + 1)
+
+
+
       yPos += 10;
       doc.text("----------------------------------------------------", 15, yPos);
       yPos += 10;
@@ -1480,9 +1659,28 @@ doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeigh
       
       
       // Dynamic totalAmount in Marathi format
-      doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`), 15, yPos);
+      doc.text(reverseDevanagariIfContainsViOrLi(`रु. ${totalAmount.toLocaleString('hi-IN')}/-`), 15, yPos);
       yPos += 10;
-      doc.text(`(अक्षरी: ${totalAmountInWords} रुपये देण्यात यावेत)`, 15, yPos);
+      // doc.text(`(अक्षरी: ${totalAmountInWords} रुपये देण्यात यावेत)`, 15, yPos);
+      const akshariImgWidth = 28; // तुम्ही पाहून adjust करू शकता
+const akshariImgHeight = 8; // यालाही image proportion नुसार ठेवा
+
+// First, draw the "अक्षरी" image
+doc.addImage(
+  Akshari,
+  'PNG',
+  15,
+  yPos - 5, // थोडं वर सरकवायचं असल्यास
+  akshariImgWidth,
+  akshariImgHeight
+);
+
+// Then, draw the rest of the text next to it
+doc.text(
+  `: ${totalAmountInWords} रुपये देण्यात यावेत)`,
+  15 + akshariImgWidth + 2, // image च्या राईटला 2px space देऊन text सुरू करतो
+  yPos
+);
       yPos += 10;
       doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: _______                        उपायुक्त"), 15, yPos);
       yPos += 15;
