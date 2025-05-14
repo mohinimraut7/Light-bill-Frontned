@@ -1707,17 +1707,33 @@ doc.text(
       yPos = 30; // Reset yPos for right column
       // doc.text(reverseDevanagariIfContainsViOrLi("निर्णय क्रमांक ----------------"), 120, yPos);
 
-const nirnayImgWidth = 60;  // हवं असल्यास बदलू शकता
-const nirnayImgHeight = 10;
+// const nirnayImgWidth = 60;  // हवं असल्यास बदलू शकता
+// const nirnayImgHeight = 10;
+// doc.addImage(
+//   MUNirnayKramank,
+//   'PNG',
+//   120,         // X position (पूर्वी जिथे text होता तिथे)
+//   yPos - 5,    // थोडं वर सरकवायचं असल्यास -5 वापरा
+//   nirnayImgWidth,
+//   nirnayImgHeight
+// );
+
+const scaleFactor = 7 / 12;
+
+const nirnayImgWidth = 60 * scaleFactor;
+const nirnayImgHeight = 10 * scaleFactor;
 
 doc.addImage(
   MUNirnayKramank,
   'PNG',
-  120,         // X position (पूर्वी जिथे text होता तिथे)
-  yPos - 5,    // थोडं वर सरकवायचं असल्यास -5 वापरा
+  120,
+  yPos - 5,
   nirnayImgWidth,
   nirnayImgHeight
 );
+
+
+
       
       yPos += 10;
       doc.text(reverseDevanagariIfContainsViOrLi("दिनांक ----------------"), 120, yPos);
