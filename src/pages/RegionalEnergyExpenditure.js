@@ -69,6 +69,8 @@ import MUPrustavarRokhVahitNond from '../Images/MUPrustavarRokhVahitNond.png';
 import MUSahaAayukta from '../Images/MUSahaAayukta.png';
 import MUUpaaayukta from '../Images/MUUpaaayukta.png';
 import MUDhanadeshKramank from '../Images/MUDhanadeshKramank.png';
+import Mudrank from '../Images/Mudrank.png';
+import PaiseGhenaryachiSahi from '../Images/PaiseGhenaryachiSahi.png';
 
 
 
@@ -77,6 +79,7 @@ import prabhagsamitiKaryashtratil from '../Images/prabhagsamitiKaryashtratil.png
 import vibhagatilVirar from '../Images/vibhagatilVirar.png';
 import vibhagacheMahe from '../Images/vibhagacheMahe.png';
 import vidvyutDeyak from '../Images/vidvyutDeyak.png';
+import VastuGhenaryaAdhikaryachiSahi from '../Images/VastuGhenaryaAdhikaryachiSahi.png';
 
 
 import kanistaabhiyanataward from '../Images/kanistaabhiyanataward.png';
@@ -1261,12 +1264,42 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
       
       yPos += 15;
       
-      const labelY = 270+5; // ~270mm from top is a good spot above the bottom
-      let labelText = reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
+      const labelY = 270+5; 
+      // let labelText = reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
+
+
+
+
+const vastuImgOrigW = 52;
+const vastuImgOrigH = 4.5;
+
+
+const vastuDiagOrig = Math.sqrt(vastuImgOrigW ** 2 + vastuImgOrigH ** 2);
+const vastuDiagTarget = vastuDiagOrig - 2;
+const vastuDiagScale = vastuDiagTarget / vastuDiagOrig;
+
+
+const vastuImgScaledW = parseFloat((vastuImgOrigW * vastuDiagScale).toFixed(2));
+const vastuImgScaledH = parseFloat((vastuImgOrigH * vastuDiagScale).toFixed(2));
+
+
+const vastuImgPosX = 140; 
+const vastuImgPosY = yPos+85; 
+
+// PDF मध्ये इमेज add करा
+doc.addImage(
+  VastuGhenaryaAdhikaryachiSahi,
+  'PNG',
+  vastuImgPosX,
+  vastuImgPosY,
+  vastuImgScaledW,
+  vastuImgScaledH
+);
+
+
+     
       
-      const xStart = pageWidth - 90; // align to right side (adjust as needed)
-      
-      // Signature just above the label line
+      // // Signature just above the label line
       if (user.ward && signatures[user.ward]?.["Lipik"]) {
         const signatureWidth = 30;
         const signatureHeight = 30;
@@ -1284,7 +1317,7 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
         );
       }
       
-      doc.text(labelText, xStart, labelY);  // xStart = left margin or wherever you want text
+      // doc.text(labelText, xStart, labelY);  // xStart = left margin or wherever you want text
       
       yPos += 10;
       const availableWidth = pageWidth - 30;
@@ -1679,7 +1712,35 @@ doc.addImage(
       yPos += 10;
       doc.text(reverseDevanagariIfContainsViOrLi(`रु- ${totalAmountInWords} मिळाले`), 15, yPos);
       yPos += 15;
-      doc.text("                                मुद्रांक", 15, yPos);
+      // <<<<>>>>
+      // doc.text("                                मुद्रांक", 15, yPos);
+
+
+const mudrankOriginalW = 22;
+const mudrankOriginalH = 10;
+
+// डायगोनल 2px ने लहान करणे
+const mudrankDiag = Math.sqrt(mudrankOriginalW ** 2 + mudrankOriginalH ** 2);
+const mudrankTargetDiag = mudrankDiag - 2;
+const mudrankScale = mudrankTargetDiag / mudrankDiag;
+
+const mudrankScaledW = parseFloat((mudrankOriginalW * mudrankScale).toFixed(2));
+const mudrankScaledH = parseFloat((mudrankOriginalH * mudrankScale).toFixed(2));
+
+// Position set करा (पूर्वी text जिथे होतं तिथे)
+const mudrankPosX = 75; // adjust as needed for right alignment
+const mudrankPosY = yPos - 6; // हलकं वर
+
+doc.addImage(
+  Mudrank,
+  'PNG',
+  mudrankPosX,
+  mudrankPosY,
+  mudrankScaledW,
+  mudrankScaledH
+);
+
+
       yPos += 7;
       doc.text("                                ----------------------", 15, yPos);
       yPos += 7;
@@ -1787,7 +1848,7 @@ doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
 
 
 
-// उप-आयुक्त इमेजचे मूळ आकार
+
 const upaayuktaOriginalWidth = 22;
 const upaayuktaOriginalHeight = 5;
 
@@ -2024,14 +2085,11 @@ doc.addImage(
   prustavImgHeight
 );
 
-
-
-
       yPos += 20;
-      doc.text("----------------------                  ---------------------------------", 120, yPos);
+      doc.text("-------------                      -------------", 120, yPos);
       yPos += 10;
       doc.text("रोखपाल                          उप-आयुक्त", 120, yPos);
-      doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
+      doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 130, yPos + 7);
       
       doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता 60 पासून सुरू होईल**
       
