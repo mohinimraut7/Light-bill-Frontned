@@ -1743,7 +1743,7 @@ doc.addImage(
 
       yPos += 7;
       doc.text("                                ----------------------", 15, yPos);
-      yPos += 7;
+      yPos += 15;
       doc.text("                                पैसे घेणाऱ्याची सही", 15, yPos);
       
       
