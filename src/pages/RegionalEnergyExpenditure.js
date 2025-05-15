@@ -2091,7 +2091,7 @@ doc.addImage(
       doc.text("रोखपाल                          उप-आयुक्त", 120, yPos);
       doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 130, yPos + 7);
       
-      doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता 60 पासून सुरू होईल**
+      doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता  60 पासून सुरू होईल**
       
       
       
