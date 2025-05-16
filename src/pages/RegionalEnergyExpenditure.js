@@ -112,6 +112,7 @@ import FAWardFAddress from '../Images/FAWardFAddress.png';
 import FAWardGAddress from '../Images/FAWardGAddress.png';
 import FAWardHAddress from '../Images/FAWardHAddress.png';
 import FAWardIAddress from '../Images/FAWardIAddress.png';
+import FAGrahakKRaBadali from '../Images/FAGrahakKRaBadali.png';
 
 
 
@@ -2789,10 +2790,25 @@ doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y, prabhagImageWidth, pr
 y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
 
 // ****====
-doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर फॉल्टी असून"), leftspaceX, y);
-y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftspaceX, y);
-y += extraSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर फॉल्टी असून"), leftspaceX, y);
+// y += normalSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftspaceX, y);
+// y += extraSpacing;
+
+
+
+
+// Set width and maintain aspect ratio
+const grahakImageWidth = 150; // Adjust as needed
+const grahakImageHeight = 7.2; // Maintain proportion similar to the example
+
+// Replace the two lines of text with image
+doc.addImage(FAGrahakKRaBadali, 'PNG', leftspaceX, y, grahakImageWidth, grahakImageHeight);
+
+// Move y down for next content
+y += grahakImageHeight + 2;
+
+
 
 doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftspaceX, y);
 y += normalSpacing;
