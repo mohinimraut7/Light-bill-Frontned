@@ -63,6 +63,13 @@ import MUPradanarthLekhapal from '../Images/MUPradanarthLekhapal.png';
 import MUPramukhLekhapal from '../Images/MUPramukhLekhapal.png';
 import MUMaganichiParatPhet from '../Images/MUMaganichiParatPhet.png'
 
+import FAPratiVirarPurv from '../Images/PratiVirarPurv.png';
+import FAPratiVirarPachhim from '../Images/PratiVirarPachhim.png'
+import FAPratiNalasoparaPurv from '../Images/PratiNalasoparaPurv.png'
+import FAPratiNalasoparaPacchim from '../Images/PratiNalasoparaPacchim.png'
+import FAPratiVasaiPurv from '../Images/PratiVasaiPurv.png'
+import FAPratiVasaiPacchim from '../Images/PratiVasaiPacchim.png'
+
 
 
 import MUPrustavarRokhVahitNond from '../Images/MUPrustavarRokhVahitNond.png';
@@ -81,6 +88,34 @@ import vibhagacheMahe from '../Images/vibhagacheMahe.png';
 import vidvyutDeyak from '../Images/vidvyutDeyak.png';
 import VastuGhenaryaAdhikaryachiSahi from '../Images/VastuGhenaryaAdhikaryachiSahi.png';
 
+
+import FADurdhwani from '../Images/Durdhwani.png';
+import FAFax from '../Images/Fax.png';
+import FAJaKra from '../Images/JaKra.png';
+import Dinank from '../Images/Dinank.png';
+import FADinank from '../Images/Dinank.png';
+import FAFaultyMeterBabat from '../Images/FaultyMeterBabat.png';
+
+
+import FAJeneKarunReadingPramaneBillBharane from '../Images/JeneKarunReadingPramaneBillBharane.png';
+import FAMahapalikekadePathavaveHiVinanti from '../Images/MahapalikekadePathavaveHiVinanti.png';
+import FAMahodayUproktaVishayanwaye from '../Images/MahodayUproktaVishayanwaye.png';
+import FANavinMeterBasavinyacheMaganipatrak from '../Images/NavinMeterBasavinyacheMaganipatrak.png';
+import FASadarKamiMRVVLINiyam from '../Images/SadarKamiMRVVLINiyam.png';
+import FASadarMeterBadaliKarunMeterBasavine from '../Images/SadarMeterBadaliKarunMeterBasavine.png';
+import FAWardAAddress from '../Images/FAWardAAddress.png';
+import FAWardBAddress from '../Images/FAWardBAddress.png';
+import FAWardCAddress from '../Images/FAWardCAddress.png';
+import FAWardDAddress from '../Images/FAWardDAddress.png';
+import FAWardEAddress from '../Images/FAWardEAddress.png';
+import FAWardFAddress from '../Images/FAWardFAddress.png';
+import FAWardGAddress from '../Images/FAWardGAddress.png';
+import FAWardHAddress from '../Images/FAWardHAddress.png';
+import FAWardIAddress from '../Images/FAWardIAddress.png';
+
+
+
+import FAVVCMCPrabhagSamiti from '../Images/VVCMCPrabhagSamiti.png';
 
 import kanistaabhiyanataward from '../Images/kanistaabhiyanataward.png';
 import kanistaabhiyantaho from '../Images/kanistaabhiyantaho.png';
@@ -2546,7 +2581,36 @@ useEffect(() => {
 }, [mode]);
 
 
+const getWardAddressImage = (ward) => {
+    switch (ward) {
+      case "Ward-A": return FAWardAAddress;
+      case "Ward-B": return FAWardBAddress;
+      case "Ward-C": return FAWardCAddress;
+      case "Ward-D": return FAWardDAddress;
+      case "Ward-E": return FAWardEAddress;
+      case "Ward-F": return FAWardFAddress;
+      case "Ward-G": return FAWardGAddress;
+      case "Ward-H": return FAWardHAddress;
+      case "Ward-I": return FAWardIAddress;
+      default: return null;
+    }
+  };
 
+
+  const getWardPrati = (ward) => {
+    switch (ward) {
+      case "Ward-A": return FAPratiVirarPachhim;
+      case "Ward-B": return FAPratiVirarPurv;
+      case "Ward-C": return FAPratiVirarPurv;
+      case "Ward-D": return FAPratiNalasoparaPurv;
+      case "Ward-E": return FAPratiNalasoparaPacchim;
+      case "Ward-F": return FAPratiVasaiPurv;
+      case "Ward-G": return FAPratiVasaiPurv;
+      case "Ward-H": return FAPratiVasaiPacchim;
+      case "Ward-I": return FAPratiVasaiPacchim;
+      default: return null;
+    }
+  };
 
 
 const downloadFaultyMeterReport = () => {
@@ -2573,31 +2637,43 @@ const downloadFaultyMeterReport = () => {
 
     
     
-    let address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती";
+//     let address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती";
 
-if (user?.ward === "Ward-A") {
-  address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ, बोळींज";
-} else if (user?.ward === "Ward-B") {
-  address = "प्रभाग समिती बी,\nविरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\nनालासोपारा (पश्चिम)";
-} else if (user?.ward === "Ward-C") {
-  address = "प्रभाग समिती सी,\nचंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू.\nतालुका वसई, जि. पालघर 401305";
-} else if (user?.ward === "Ward-D") {
-  address = "प्रभाग समिती (डी),\nआचोळे, आचोळे तलावा जवळ,\nआचोळे गाव,\nनालासोपारा पूर्व";
-} else if (user?.ward === "Ward-E") {
-  address = "प्रभाग समिती 'ई',\nनालासोपारा (प.),\nवृंदावन गार्डन जवळ,\nनालासोपारा (पश्चिम),\nपिन कोड नं. 401203";
-} else if (user?.ward === "Ward-F") {
-  address = "प्रभाग समिती एफ,\nधानिव / पेल्हार,\nगावदेवी मंदिर जवळ, पेल्हार गाव,\nडोंगरपाडा रस्ता";
-} else if (user?.ward === "Ward-G") {
-  address = "प्रभाग समिती जी,\nवालीव, वसई ईस्ट,\nवालीव नाका,\n401208";
-} else if (user?.ward === "Ward-I") {
-  address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती आय कार्यालय,\nसर. डी. एम. पेटीट रुग्णालयाच्या समोर ,\nपारनाका, वसई गाव, ता. वसई, जि. पालघर,\nपिन कोड 401201";
-}
+// if (user?.ward === "Ward-A") {
+//   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ, बोळींज";
+// } else if (user?.ward === "Ward-B") {
+//   address = "प्रभाग समिती बी,\nविरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\nनालासोपारा (पश्चिम)";
+// } else if (user?.ward === "Ward-C") {
+//   address = "प्रभाग समिती सी,\nचंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू.\nतालुका वसई, जि. पालघर 401305";
+// } else if (user?.ward === "Ward-D") {
+//   address = "प्रभाग समिती (डी),\nआचोळे, आचोळे तलावा जवळ,\nआचोळे गाव,\nनालासोपारा पूर्व";
+// } else if (user?.ward === "Ward-E") {
+//   address = "प्रभाग समिती 'ई',\nनालासोपारा (प.),\nवृंदावन गार्डन जवळ,\nनालासोपारा (पश्चिम),\nपिन कोड नं. 401203";
+// } else if (user?.ward === "Ward-F") {
+//   address = "प्रभाग समिती एफ,\nधानिव / पेल्हार,\nगावदेवी मंदिर जवळ, पेल्हार गाव,\nडोंगरपाडा रस्ता";
+// } else if (user?.ward === "Ward-G") {
+//   address = "प्रभाग समिती जी,\nवालीव, वसई ईस्ट,\nवालीव नाका,\n401208";
+// } else if (user?.ward === "Ward-I") {
+//   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती आय कार्यालय,\nसर. डी. एम. पेटीट रुग्णालयाच्या समोर ,\nपारनाका, वसई गाव, ता. वसई, जि. पालघर,\nपिन कोड 401201";
+// }
 
 
-const addressLines = address.split("\n").map(line => reverseDevanagariIfContainsViOrLi(line));
-addressLines.forEach((line, index) => {
-  doc.text(line, leftX, y + index * 6); 
-});
+
+ if (user?.ward) {
+        const addressImage = getWardAddressImage(user.ward);
+        if (addressImage) {
+          
+          const imgWidth = 50;
+          const imgHeight = 28;
+          doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
+        }
+      }
+
+
+// const addressLines = address.split("\n").map(line => reverseDevanagariIfContainsViOrLi(line));
+// addressLines.forEach((line, index) => {
+//   doc.text(line, leftX, y + index * 6); 
+// });
 
     
 
@@ -2623,38 +2699,96 @@ doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY);
 y += 15; 
 
     
-    doc.text("प्रति,", leftX, y);
-    y += 8;
-    doc.text(reverseDevanagariIfContainsViOrLi("मा. उप-कार्यकारी अभियंता"), leftX, y);
-    y += 8;
-    doc.text(reverseDevanagariIfContainsViOrLi("म.रा.वि.वि.कं.लि,"), leftX, y);
-    y += 8;
-    doc.text("वसई प.", leftX, y);
-    y += 12;
+    // doc.text("प्रति,", leftX, y);
+    // y += 8;
+    // doc.text(reverseDevanagariIfContainsViOrLi("मा. उप-कार्यकारी अभियंता"), leftX, y);
+    // y += 8;
+    // doc.text(reverseDevanagariIfContainsViOrLi("म.रा.वि.वि.कं.लि,"), leftX, y);
+    // y += 8;
+    // doc.text("वसई प.", leftX, y);
+    // y += 12;
 
-    
+     // Add recipient image based on ward
+      if (user?.ward) {
+        const pratiImage = getWardPrati(user.ward);
+        if (pratiImage) {
+          const pratiWidth = 50;
+          const pratiHeight = 28;
+          doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
+          y += pratiHeight + 12; // Adjust y position after adding image
+        }
+      }
 
     
     doc.setFontSize(15);
     
-    const subjectText = reverseDevanagariIfContainsViOrLi("विषय:- फॉल्टी मिटर बाबत.");
 
-doc.text(subjectText, pageWidth / 2, y, { align: "center" });
-y += 12;
-    y += 12;
+let currentY = 100;
+const pdfPageWidth = doc.internal.pageSize.getWidth();
+
+const updatedWidth = 46; // Increase width by 1px
+const updatedHeight = 7.2; // Keep height same
+
+const imageX = (pdfPageWidth - updatedWidth) / 2;
+
+doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, currentY, updatedWidth, updatedHeight);
+
+// Move Y down if needed
+currentY += updatedHeight + 30;
 
 
-const normalSpacing = 8;
-const extraSpacing = 14; 
- const leftspaceX = leftX + 15; 
- doc.setFontSize(14); 
 
  
-doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftspaceX, y);
-y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftspaceX, y);
-y += extraSpacing;
+const normalSpacing = 8;
+const extraSpacing = 14;
+const leftspaceX = leftX + 15;
+ doc.setFontSize(14); 
+y += 10;
+ 
+// doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftspaceX, y);
 
+
+// const imageWidth = 75; 
+// const imageHeight = 7.2; 
+
+// doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y, imageWidth, imageHeight);
+// y += imageHeight + normalSpacing; 
+
+// // y += normalSpacing;
+// // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftspaceX, y);
+// const prabhagImageWidth = 75; // Adjust as needed
+// const prabhagImageHeight = 7.2; // Maintain a reasonable aspect ratio
+
+// doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', leftspaceX, y, prabhagImageWidth, prabhagImageHeight);
+
+// Move y down for the next content
+// y += prabhagImageHeight + 10;
+
+// // Move y down for next content
+// y += imageHeight + 10;
+// y += extraSpacing;
+
+
+
+const imageWidth = 75;
+const imageHeight = 7.2;
+
+const prabhagImageWidth = 75;
+const prabhagImageHeight = 7.2;
+
+
+doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y, imageWidth, imageHeight);
+
+// Draw second image (वसई विरार शहर महानगरपालिका, प्रभाग समिती...) right next to the first
+const gapBetweenImages = 1;
+const secondImageX = leftspaceX + imageWidth + gapBetweenImages;
+
+doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y, prabhagImageWidth, prabhagImageHeight);
+
+// Move y down after both images
+y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
+
+// ****====
 doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर फॉल्टी असून"), leftspaceX, y);
 y += normalSpacing;
 doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftspaceX, y);
