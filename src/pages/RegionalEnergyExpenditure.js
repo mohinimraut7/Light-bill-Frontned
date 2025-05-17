@@ -2648,18 +2648,34 @@ const downloadFaultyMeterReport = () => {
     let y = 20;
 
     
-    
+  const isPrivilegedUserp =
+  user.role === 'Executive Engineer' ||
+  user.role === 'Admin' ||
+  user.role === 'Super Admin' ||
+  (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+const selectedWardp = isPrivilegedUserp ? wardName : user.ward;
+
+if (selectedWardp) {
+  const addressImage = getWardAddressImage(selectedWardp);
+  if (addressImage) {
+    const imgWidth = 50;
+    const imgHeight = 28;
+    doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
+  }
+}
+  
 
 
- if (user?.ward) {
-        const addressImage = getWardAddressImage(user.ward);
-        if (addressImage) {
+//  if (user?.ward) {
+//         const addressImage = getWardAddressImage(user.ward);
+//         if (addressImage) {
           
-          const imgWidth = 50;
-          const imgHeight = 28;
-          doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
-        }
-      }
+//           const imgWidth = 50;
+//           const imgHeight = 28;
+//           doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
+//         }
+//       }
 
     
     // doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
