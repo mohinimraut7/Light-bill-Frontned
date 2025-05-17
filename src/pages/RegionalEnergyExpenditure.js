@@ -2679,6 +2679,8 @@ if (selectedWardp) {
 
     
     // doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
+
+    
     
 
 
@@ -2840,7 +2842,7 @@ if (selectedWardp) {
       //   }
       // }
 
-      
+
     
     doc.setFontSize(15);
     
