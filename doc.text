@@ -2510,7 +2510,7 @@ Faulty Meters
 //     adhikshakImageWidth,
 //     adhikshakImageHeight
 //   );
-//   y += adhikshakImageHeight + 2;
+//   y += adhikshakImageHeight +  2;
 // }
 ====================
 1)I generated the faulty-meter PDF format in which the ward-wise dynamic address is displayed.
