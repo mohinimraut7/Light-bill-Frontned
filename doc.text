@@ -2512,3 +2512,7 @@ Faulty Meters
 //   );
 //   y += adhikshakImageHeight + 2;
 // }
+====================
+1)I generated the faulty-meter PDF format in which the ward-wise dynamic address is displayed.
+2)I have dynamically displayed the salutation part and the Officer In Charge section based on the selected ward.
+3)I converted the attached letters into images and aligned them within the PDF.
