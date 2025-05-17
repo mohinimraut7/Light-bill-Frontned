@@ -2807,17 +2807,38 @@ const lineY = y - 2;
 doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY); 
 y += 15; 
 
-    
-    
-      if (user?.ward) {
-        const pratiImage = getWardPrati(user.ward);
-        if (pratiImage) {
+
+const isPrivilegedUserprati =
+  user.role === 'Executive Engineer' ||
+  user.role === 'Admin' ||
+  user.role === 'Super Admin' ||
+  (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+const selectedWardprati = isPrivilegedUserp ? wardName : user.ward;
+
+if (selectedWardp) {
+  const pratiImage = getWardPrati(selectedWardp);
+   if (pratiImage) {
           const pratiWidth = 50;
           const pratiHeight = 28;
           doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
           y += pratiHeight + 12; 
         }
-      }
+}
+
+
+
+
+    
+      // if (user?.ward) {
+      //   const pratiImage = getWardPrati(user.ward);
+      //   if (pratiImage) {
+      //     const pratiWidth = 50;
+      //     const pratiHeight = 28;
+      //     doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
+      //     y += pratiHeight + 12; 
+      //   }
+      // }
 
     
     doc.setFontSize(15);
