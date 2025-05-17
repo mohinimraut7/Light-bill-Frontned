@@ -2760,7 +2760,22 @@ doc.addImage(
   jakraValueImgHeight
 );
 
-    doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक :${selectedMonthYear}`), rightX, y + 24);
+    // doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक :${selectedMonthYear}`), rightX, y + 24);
+    // Get today's date in Marathi locale (uses Devanagari digits automatically)
+const today = new Date();
+const formattedDate = today.toLocaleDateString('mr-IN', {
+  day:   '2-digit',
+  month: '2-digit',
+  year:  'numeric'
+});
+
+// Now draw “दिनांक : DD/MM/YYYY” with today's date
+doc.text(
+  reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`),
+  rightX,
+  y + 24
+);
+
    let yPos = 15;
     const logoWidth = 30;
 const logoHeight = 30;
