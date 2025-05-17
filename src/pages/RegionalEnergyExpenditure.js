@@ -72,7 +72,15 @@ import FAPratiVasaiPacchim from '../Images/PratiVasaiPacchim.png'
 import FAJenekarunBillBharneSopeHoil from '../Images/FAJenekarunBillBharneSopeHoil.png'
 import FANavinMeterBasavinycheMaganipatrak from '../Images/FANavinMeterBasavinycheMaganipatrak.png'
 
-
+import FAAdhikshakWardA from '../Images/AdhikshakWardA.png';
+import FAAdhikshakWardB from '../Images/AdhikshakWardB.png';
+import FAAdhikshakWardC from '../Images/AdhikshakWardC.png';
+import FAAdhikshakWardD from '../Images/AdhikshakWardD.png';
+import FAAdhikshakWardE from '../Images/AdhikshakWardE.png';
+import FAAdhikshakWardF from '../Images/AdhikshakWardF.png';
+import FAAdhikshakWardG from '../Images/AdhikshakWardG.png';
+import FAAdhikshakWardH from '../Images/AdhikshakWardH.png';
+import FAAdhikshakWardI from '../Images/AdhikshakWardI.png';
 
 import MUPrustavarRokhVahitNond from '../Images/MUPrustavarRokhVahitNond.png';
 import MUSahaAayukta from '../Images/MUSahaAayukta.png';
@@ -94,6 +102,7 @@ import VastuGhenaryaAdhikaryachiSahi from '../Images/VastuGhenaryaAdhikaryachiSa
 import FADurdhwani from '../Images/Durdhwani.png';
 import FAFax from '../Images/Fax.png';
 import FAJaKra from '../Images/JaKra.png';
+import FAJakraFirstValue from '../Images/JakraFirstValue.png';
 import Dinank from '../Images/Dinank.png';
 import FADinank from '../Images/Dinank.png';
 import FAFaultyMeterBabat from '../Images/FaultyMeterBabat.png';
@@ -2640,26 +2649,6 @@ const downloadFaultyMeterReport = () => {
 
     
     
-//     let address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती";
-
-// if (user?.ward === "Ward-A") {
-//   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ, बोळींज";
-// } else if (user?.ward === "Ward-B") {
-//   address = "प्रभाग समिती बी,\nविरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\nनालासोपारा (पश्चिम)";
-// } else if (user?.ward === "Ward-C") {
-//   address = "प्रभाग समिती सी,\nचंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू.\nतालुका वसई, जि. पालघर 401305";
-// } else if (user?.ward === "Ward-D") {
-//   address = "प्रभाग समिती (डी),\nआचोळे, आचोळे तलावा जवळ,\nआचोळे गाव,\nनालासोपारा पूर्व";
-// } else if (user?.ward === "Ward-E") {
-//   address = "प्रभाग समिती 'ई',\nनालासोपारा (प.),\nवृंदावन गार्डन जवळ,\nनालासोपारा (पश्चिम),\nपिन कोड नं. 401203";
-// } else if (user?.ward === "Ward-F") {
-//   address = "प्रभाग समिती एफ,\nधानिव / पेल्हार,\nगावदेवी मंदिर जवळ, पेल्हार गाव,\nडोंगरपाडा रस्ता";
-// } else if (user?.ward === "Ward-G") {
-//   address = "प्रभाग समिती जी,\nवालीव, वसई ईस्ट,\nवालीव नाका,\n401208";
-// } else if (user?.ward === "Ward-I") {
-//   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती आय कार्यालय,\nसर. डी. एम. पेटीट रुग्णालयाच्या समोर ,\nपारनाका, वसई गाव, ता. वसई, जि. पालघर,\nपिन कोड 401201";
-// }
-
 
 
  if (user?.ward) {
@@ -2672,20 +2661,106 @@ const downloadFaultyMeterReport = () => {
         }
       }
 
-
-// const addressLines = address.split("\n").map(line => reverseDevanagariIfContainsViOrLi(line));
-// addressLines.forEach((line, index) => {
-//   doc.text(line, leftX, y + index * 6); 
-// });
-
+    
+    // doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
     
 
-    
-    doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
-    doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
-    doc.text("जा.क्र. :-", rightX, y + 18);
-    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक :-"), rightX, y + 24);
 
+
+const phoneNumberText     = ": ०२५०-२३३४१४४";
+const phoneTextWidth      = doc.getTextWidth(phoneNumberText);
+const durdhwaniImgWidth   = 15;  
+const durdhwaniImgHeight  = 5.2;   
+
+// Compute base positions
+const baseImgX   = rightX - phoneTextWidth - durdhwaniImgWidth;
+const baseTextX  = rightX - phoneTextWidth;
+
+// Shift both by +100px
+const durdhwaniImgX = baseImgX + 50;
+const phoneTextX    = baseTextX + 50;
+
+doc.addImage(
+  FADurdhwani,
+  'PNG',
+  durdhwaniImgX,
+  y - 4+1.5 ,            
+  durdhwaniImgWidth,
+  durdhwaniImgHeight
+);
+
+// Draw the “: ०२५०-२३३४१४४” text
+doc.text(phoneNumberText, phoneTextX, y+1.5);
+
+    
+    // doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
+
+const faxText           = ": ०२५०-२५२५१०७";
+const faxTextWidth      = doc.getTextWidth(faxText);
+const faxImgWidth       = 13;   
+const faxImgHeight      = 5;   
+
+
+const baseFaxImgX  = rightX - faxTextWidth - faxImgWidth;
+const baseFaxTextX = rightX - faxTextWidth;
+
+// Shift both 80px right
+const faxImgX  = baseFaxImgX + 48;
+const faxTextX = baseFaxTextX + 47;
+
+doc.addImage(
+  FAFax,
+  'PNG',
+  faxImgX-0.8,
+  y + 6 - 4+3,   
+  faxImgWidth,
+  faxImgHeight
+);
+
+
+doc.text(faxText, faxTextX, y + 9.5);
+
+
+    // doc.text("जा.क्र. :", rightX, y + 18);
+
+const jaKraSuffix       = " :";
+const jaKraTextWidth    = doc.getTextWidth(jaKraSuffix);
+const jaKraImgWidth     = 12;   
+const jaKraImgHeight    = 4;    
+const baseJaKraImgX     = rightX - jaKraTextWidth - jaKraImgWidth;
+const baseJaKraTextX    = rightX - jaKraTextWidth;
+
+doc.addImage(
+  FAJaKra,
+  'PNG',
+  baseJaKraImgX + 15,     // shifted 40px right
+  y + 18 - 4-1,    
+  jaKraImgWidth,
+  jaKraImgHeight
+);
+
+doc.text(
+  jaKraSuffix,
+  baseJaKraTextX + 15,    // shifted 40px right
+  y + 18-1
+);
+
+const jakraValueImgWidth  = 26;  
+const jakraValueImgHeight = 6;   
+
+// X so it sits just to the right of the “ :” text
+const jakraValueImgX = baseJaKraTextX + 15 + jaKraTextWidth + 2;  // +2px gap
+
+doc.addImage(
+  FAJakraFirstValue,
+  'PNG',
+  jakraValueImgX,
+  y + 18 - 4 - 1-1,   // same vertical alignment as FAJaKra
+  jakraValueImgWidth,
+  jakraValueImgHeight
+);
+
+    doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक :${selectedMonthYear}`), rightX, y + 24);
    let yPos = 15;
     const logoWidth = 30;
 const logoHeight = 30;
@@ -2702,23 +2777,14 @@ doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY);
 y += 15; 
 
     
-    // doc.text("प्रति,", leftX, y);
-    // y += 8;
-    // doc.text(reverseDevanagariIfContainsViOrLi("मा. उप-कार्यकारी अभियंता"), leftX, y);
-    // y += 8;
-    // doc.text(reverseDevanagariIfContainsViOrLi("म.रा.वि.वि.कं.लि,"), leftX, y);
-    // y += 8;
-    // doc.text("वसई प.", leftX, y);
-    // y += 12;
-
-     // Add recipient image based on ward
+    
       if (user?.ward) {
         const pratiImage = getWardPrati(user.ward);
         if (pratiImage) {
           const pratiWidth = 50;
           const pratiHeight = 28;
           doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
-          y += pratiHeight + 12; // Adjust y position after adding image
+          y += pratiHeight + 12; 
         }
       }
 
@@ -2726,17 +2792,17 @@ y += 15;
     doc.setFontSize(15);
     
 
-let currentY = 100;
+let currentY = 100 + 7;
 const pdfPageWidth = doc.internal.pageSize.getWidth();
 
-const updatedWidth = 46; // Increase width by 1px
-const updatedHeight = 7.2; // Keep height same
+const updatedWidth = 46; 
+const updatedHeight = 7.2; 
 
 const imageX = (pdfPageWidth - updatedWidth) / 2;
 
 doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, currentY, updatedWidth, updatedHeight);
 
-// Move Y down if needed
+
 currentY += updatedHeight + 30;
 
 
@@ -2748,99 +2814,54 @@ const leftspaceX = leftX + 15;
  doc.setFontSize(14); 
 y += 10;
  
-// doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftspaceX, y);
 
-
-// const imageWidth = 75; 
-// const imageHeight = 7.2; 
-
-// doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y, imageWidth, imageHeight);
-// y += imageHeight + normalSpacing; 
-
-// // y += normalSpacing;
-// // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftspaceX, y);
-// const prabhagImageWidth = 75; // Adjust as needed
-// const prabhagImageHeight = 7.2; // Maintain a reasonable aspect ratio
-
-// doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', leftspaceX, y, prabhagImageWidth, prabhagImageHeight);
-
-// Move y down for the next content
-// y += prabhagImageHeight + 10;
-
-// // Move y down for next content
-// y += imageHeight + 10;
-// y += extraSpacing;
 
 
 
 const imageWidth = 75;
-const imageHeight = 7.2;
+const imageHeight = 6;
 
 const prabhagImageWidth = 75;
-const prabhagImageHeight = 7.2;
+const prabhagImageHeight = 6;
 
 
-doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y, imageWidth, imageHeight);
+doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y+6, imageWidth, imageHeight);
 
-// Draw second image (वसई विरार शहर महानगरपालिका, प्रभाग समिती...) right next to the first
+
 const gapBetweenImages = 1;
 const secondImageX = leftspaceX + imageWidth + gapBetweenImages;
 
-doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y, prabhagImageWidth, prabhagImageHeight);
+doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y+6, prabhagImageWidth, prabhagImageHeight);
 
-// Move y down after both images
+
 y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
 
-// ****====
-// doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर फॉल्टी असून"), leftspaceX, y);
-// y += normalSpacing;
-// doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftspaceX, y);
-// y += extraSpacing;
 
 
 
 
-// Set width and maintain aspect ratio
-const grahakImageWidth = 150; // Adjust as needed
-const grahakImageHeight = 7.2; // Maintain proportion similar to the example
 
-// Replace the two lines of text with image
+
+const grahakImageWidth = 150;
+const grahakImageHeight = 6; 
 doc.addImage(FAGrahakKRaBadali, 'PNG', leftspaceX, y, grahakImageWidth, grahakImageHeight);
-
-// Move y down for next content
 y += grahakImageHeight + 2;
-
-
-
-// doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftspaceX, y);
-// y += normalSpacing;
-// doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftspaceX, y);
-// y += extraSpacing;
-
-
-const jenekarunImageWidth = 150; // Adjust based on layout
-const jenekarunImageHeight = 7.2; // Maintain proportion
-
-// Add the image instead of the two lines of text
+const jenekarunImageWidth = 150; 
+const jenekarunImageHeight = 6; 
 doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImageWidth, jenekarunImageHeight);
-
-// Move y for next section
 y += jenekarunImageHeight + 2;
 
-// doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftspaceX, y);
-// y += normalSpacing;
-// doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftspaceX, y);
-// y += extraSpacing;
 
 
 
-const navinMeterImageWidth = 150; // Adjust as needed
-const navinMeterImageHeight = 7.2; // Maintain proportion
 
-// Add the image in place of the text
+const navinMeterImageWidth = 150; 
+const navinMeterImageHeight = 6; 
+
+
 doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
 
-// Move y down for the next content
+
 y += navinMeterImageHeight + 2;
    
     y = 240;
@@ -2877,9 +2898,53 @@ if (user?.ward === "Ward-A") {
 const rightPadding = 100;
 const rightlX = pageWidth - 10; 
 
-doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्युत विभाग"), rightlX, y, { align: 'right' });
-doc.text(reverseDevanagariIfContainsViOrLi(prabhagSamitiText), rightlX, y + 8, { align: 'right' });
-doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightlX, y + 16, { align: 'right' });
+
+
+const wardImageMap = {
+  'Ward-A': FAAdhikshakWardA,
+  'Ward-B': FAAdhikshakWardB,
+  'Ward-C': FAAdhikshakWardC,
+  'Ward-D': FAAdhikshakWardD,
+  'Ward-E': FAAdhikshakWardE,
+  'Ward-F': FAAdhikshakWardF,
+  'Ward-G': FAAdhikshakWardG,
+  'Ward-H': FAAdhikshakWardH,
+  'Ward-I': FAAdhikshakWardI,
+};
+
+const isPrivilegedUser =
+  user.role === 'Executive Engineer' ||
+  user.role === 'Admin' ||
+  user.role === 'Super Admin' ||
+  (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+
+const selectedWard = isPrivilegedUser ? wardName : user.ward;
+
+const adhikshakImage = wardImageMap[selectedWard];
+
+
+
+
+
+
+if (adhikshakImage) {
+  const adhikshakImageWidth = 60;
+  const adhikshakImageHeight = 20;
+
+  doc.addImage(
+    adhikshakImage,
+    'PNG',
+    rightlX - adhikshakImageWidth,
+    y - 50, // shifted 15px upward
+    adhikshakImageWidth,
+    adhikshakImageHeight
+  );
+
+  y += adhikshakImageHeight + 2;
+}
+
+
 
     const pdfData = doc.output('datauristring');
     let type = "faultymeter";
@@ -2976,7 +3041,7 @@ const numberToMarathiWords = (num) => {
         .filter((bill) => 
           (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
           (wardName === 'All'||!wardName || bill.ward === wardName) &&
-          // (!meterPurposeName || bill.meterPurpose === meterPurposeName)
+         
           (!meterPurposeManyName.length || meterPurposeManyName.includes(bill.meterPurpose))
         )
         .reduce((sum, bill) => sum + (Number(bill.netBillAmount) || 0), 0),

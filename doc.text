@@ -2412,3 +2412,103 @@ solved form 120 displayed problem for Junior Engineer Head Office
               // 5) उपलब्ध शिल्लक
 
             // doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35, imgHeight);
+=====================
+Faulty Meters
+// doc.text(reverseDevanagariIfContainsViOrLi("महोदय, उपरोक्त विषयान्वये कळविण्यात येते की,"), leftspaceX, y);
+
+
+// const imageWidth = 75; 
+// const imageHeight = 7.2; 
+
+// doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y, imageWidth, imageHeight);
+// y += imageHeight + normalSpacing; 
+
+// // y += normalSpacing;
+// // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका, प्रभाग समिती 'एच'"), leftspaceX, y);
+// const prabhagImageWidth = 75; // Adjust as needed
+// const prabhagImageHeight = 7.2; // Maintain a reasonable aspect ratio
+
+// doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', leftspaceX, y, prabhagImageWidth, prabhagImageHeight);
+
+// Move y down for the next content
+// y += prabhagImageHeight + 10;
+
+// // Move y down for next content
+// y += imageHeight + 10;
+// y += extraSpacing;
+--------------------------------------
+// ----++++
+// doc.text(reverseDevanagariIfContainsViOrLi("अधिक्षक, विद्युत विभाग"), rightlX, y, { align: 'right' });
+// doc.text(reverseDevanagariIfContainsViOrLi(prabhagSamitiText), rightlX, y + 8, { align: 'right' });
+// doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightlX, y + 16, { align: 'right' });
+------------------
+// doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftspaceX, y);
+// y += normalSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftspaceX, y);
+// y += extraSpacing;
+--------------------------
+// doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftspaceX, y);
+// y += normalSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftspaceX, y);
+// y += extraSpacing;
+============
+// ****====
+// doc.text(reverseDevanagariIfContainsViOrLi("दिवागणमन तलाव ग्राहक क्र. श्री फेज विद्युत मिटर फॉल्टी असून"), leftspaceX, y);
+// y += normalSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("सदर मिटर बदली करून नविन मिटर बसविणे गरजेचे आहे."), leftspaceX, y);
+// y += extraSpacing;
+---------------
+// Draw second image (वसई विरार शहर महानगरपालिका, प्रभाग समिती...) right next to the first
+--------------------------
+// doc.text("प्रति,", leftX, y);
+    // y += 8;
+    // doc.text(reverseDevanagariIfContainsViOrLi("मा. उप-कार्यकारी अभियंता"), leftX, y);
+    // y += 8;
+    // doc.text(reverseDevanagariIfContainsViOrLi("म.रा.वि.वि.कं.लि,"), leftX, y);
+    // y += 8;
+    // doc.text("वसई प.", leftX, y);
+    // y += 12;
+
+     // Add recipient image based on ward
+     ----------------------
+     // const addressLines = address.split("\n").map(line => reverseDevanagariIfContainsViOrLi(line));
+// addressLines.forEach((line, index) => {
+//   doc.text(line, leftX, y + index * 6); 
+// });
+--------------------
+//     let address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती";
+
+// if (user?.ward === "Ward-A") {
+//   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती अ, बोळींज";
+// } else if (user?.ward === "Ward-B") {
+//   address = "प्रभाग समिती बी,\nविरार (पूर्व), मच्छि मार्केट जवळ, निळेमोरे रोड,\nनालासोपारा (पश्चिम)";
+// } else if (user?.ward === "Ward-C") {
+//   address = "प्रभाग समिती सी,\nचंदनसार कार्यालय, बहुउद्देशीय इमारत, विरार पू.\nतालुका वसई, जि. पालघर 401305";
+// } else if (user?.ward === "Ward-D") {
+//   address = "प्रभाग समिती (डी),\nआचोळे, आचोळे तलावा जवळ,\nआचोळे गाव,\nनालासोपारा पूर्व";
+// } else if (user?.ward === "Ward-E") {
+//   address = "प्रभाग समिती 'ई',\nनालासोपारा (प.),\nवृंदावन गार्डन जवळ,\nनालासोपारा (पश्चिम),\nपिन कोड नं. 401203";
+// } else if (user?.ward === "Ward-F") {
+//   address = "प्रभाग समिती एफ,\nधानिव / पेल्हार,\nगावदेवी मंदिर जवळ, पेल्हार गाव,\nडोंगरपाडा रस्ता";
+// } else if (user?.ward === "Ward-G") {
+//   address = "प्रभाग समिती जी,\nवालीव, वसई ईस्ट,\nवालीव नाका,\n401208";
+// } else if (user?.ward === "Ward-I") {
+//   address = "वसई विरार शहर महानगरपालिका,\nप्रभाग समिती आय कार्यालय,\nसर. डी. एम. पेटीट रुग्णालयाच्या समोर ,\nपारनाका, वसई गाव, ता. वसई, जि. पालघर,\nपिन कोड 401201";
+// }
+--------------------------
+ // (!meterPurposeName || bill.meterPurpose === meterPurposeName)
+ ================================================================
+ // if (adhikshakImage) {
+//   const adhikshakImageWidth = 60;
+//   const adhikshakImageHeight = 20;
+
+//   doc.addImage(
+//     adhikshakImage,
+//     'PNG',
+//     rightlX - adhikshakImageWidth,
+//     y,
+//     adhikshakImageWidth,
+//     adhikshakImageHeight
+//   );
+//   y += adhikshakImageHeight + 2;
+// }
