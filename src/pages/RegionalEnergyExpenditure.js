@@ -69,6 +69,8 @@ import FAPratiNalasoparaPurv from '../Images/PratiNalasoparaPurv.png'
 import FAPratiNalasoparaPacchim from '../Images/PratiNalasoparaPacchim.png'
 import FAPratiVasaiPurv from '../Images/PratiVasaiPurv.png'
 import FAPratiVasaiPacchim from '../Images/PratiVasaiPacchim.png'
+import FAJenekarunBillBharneSopeHoil from '../Images/FAJenekarunBillBharneSopeHoil.png'
+import FANavinMeterBasavinycheMaganipatrak from '../Images/FANavinMeterBasavinycheMaganipatrak.png'
 
 
 
@@ -2810,15 +2812,36 @@ y += grahakImageHeight + 2;
 
 
 
-doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftspaceX, y);
-y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftspaceX, y);
-y += extraSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("जेणे करून रिडींग प्रमाणे बिल भरणे सोईचे होईल."), leftspaceX, y);
+// y += normalSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("सदर कामी म.रा.वि.वि.कं.लि. नियमानुसार"), leftspaceX, y);
+// y += extraSpacing;
 
-doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftspaceX, y);
-y += normalSpacing;
-doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftspaceX, y);
-y += extraSpacing;
+
+const jenekarunImageWidth = 150; // Adjust based on layout
+const jenekarunImageHeight = 7.2; // Maintain proportion
+
+// Add the image instead of the two lines of text
+doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImageWidth, jenekarunImageHeight);
+
+// Move y for next section
+y += jenekarunImageHeight + 2;
+
+// doc.text(reverseDevanagariIfContainsViOrLi("नविन मिटर बसविण्याचे मागणीपत्रक (Form quotation)"), leftspaceX, y);
+// y += normalSpacing;
+// doc.text(reverseDevanagariIfContainsViOrLi("महापालिकेकडे पाठवावे ही विनंती."), leftspaceX, y);
+// y += extraSpacing;
+
+
+
+const navinMeterImageWidth = 150; // Adjust as needed
+const navinMeterImageHeight = 7.2; // Maintain proportion
+
+// Add the image in place of the text
+doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
+
+// Move y down for the next content
+y += navinMeterImageHeight + 2;
    
     y = 240;
 const signatureX = pageWidth - 60;
