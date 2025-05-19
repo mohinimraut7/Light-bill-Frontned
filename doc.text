@@ -2516,3 +2516,620 @@ Faulty Meters
 1)I generated the faulty-meter PDF format in which the ward-wise dynamic address is displayed.
 2)I have dynamically displayed the salutation part and the Officer In Charge section based on the selected ward.
 3)I converted the attached letters into images and aligned them within the PDF.
+======================
+form 22
+--------------
+// const handleDownloadForm22 = async() => {
+//   if (selectedMonthYear) {
+//     const response = await axios.post(`${baseUrl}/searchReport`, {
+//       month: selectedMonthYear,
+//     });
+//     const foundReport = response.data;
+    
+//       if (foundReport && foundReport[0] && foundReport[0].monthReport === selectedMonthYear) {
+//       setMode('edit');
+    
+    
+//     } else {
+//       setMode('create');
+//     }
+
+ 
+//   }
+//   setShowFormControl(true); 
+  
+//   try {
+//     // Create PDF in portrait mode
+  
+//     const doc = new jsPDF({
+//       orientation: 'portrait',
+//       unit: 'mm',
+//       format: 'a4'
+//     });
+
+    
+    
+//     doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
+//     doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
+//     loadDvoSBShipFont(doc);
+//     doc.setFont("DVOTSurekh_B_Ship");
+
+
+//     // Set initial vertical position
+//     let yPos = 15;
+
+//     // --- Header Section ---
+//     doc.setFontSize(10);
+//     doc.text("M.S.C. Form 22 (Rule (1))", 15, yPos);
+//     doc.text("M.S.C. 22", 170, yPos);
+
+
+
+//     const logoWidth = 30;
+// const logoHeight = 30;
+// const logoX = 15;
+// const logoY = yPos + 10; // Adjusting Y so it aligns well with "महानगरपालिका" text
+
+// const allWardNames = [...new Set(rows.map(row => row.ward))];
+
+// // Ensure the selected wardName is prioritized
+// const wardnameList = allWardNames.includes(wardName)
+//   ? [wardName, ...allWardNames.filter(name => name !== wardName)]
+//   : allWardNames;
+
+// // Join the ward names into a single string separated by commas
+// const wardname = wardnameList.join(', ');
+
+// doc.addImage(logovvcmc, 'PNG', logoX, logoY, logoWidth, logoHeight);
+
+//     yPos += 20;
+//     doc.setFontSize(12);
+//     doc.text("नमुना नं. २२", 85, yPos);
+
+//     yPos += 8;
+//     doc.text(reverseDevanagariIfContainsViOrLi("(नियम २२ (१))"), 85, yPos);
+
+//     yPos += 10;
+//     doc.setFontSize(14);
+//     doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), 65, yPos);
+
+//     yPos += 15;
+//     doc.setFontSize(11);
+
+//     // --- Form Details with Lines ---
+//     // ***
+//     // doc.text(reverseDevanagariIfContainsViOrLi("बिल क्रमांक:"), 15, yPos);
+
+// doc.addImage(billkramank, 'PNG', 15, yPos - 3, 20, 5);
+
+//     doc.line(40, yPos, 100, yPos);
+//     // doc.text("प्रमाणक क्रमांक:", 105, yPos);
+//    doc.addImage(pramanakKramank, 'PNG', 105, yPos - 2.5, 23, 4);
+
+//     doc.line(140, yPos, 170, yPos);
+//     const currentDate = new Date().toLocaleDateString('en-IN');
+//     doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक ${currentDate}`), 150, yPos);
+
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("पैसे देणाऱ्याचे नांव : म.रा.वि.वि. कंपनी"), 15, yPos);
+//     yPos += 8;
+   
+//      doc.text(`पत्ता : ${user?.ward}`, 15, yPos);
+
+//     yPos += 8;
+//     doc.text(reverseDevanagariIfContainsViOrLi("माल : विद्युत विभाग"), 15, yPos);
+//     yPos += 8;
+   
+
+// doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 119, 6);
+
+//     const totalAmount = rows
+//       .filter(row => row.monthAndYear === selectedMonthYear)
+//       .reduce((sum, row) => sum + (Number(row.netBillAmount) || 0), 0);
+
+//       const totalAmountInWords =  (totalAmount); 
+//      let l1= fixPashchim(`पश्चिम`);
+
+//     // --- Main Table ---
+//     yPos += 10;
+
+// // -------------------------------------------------------------------
+// doc.autoTable({
+//   startY: yPos,
+//   head: [[
+//     '', // अनुक्रमांक
+//     '', // कामाचा तपशील
+//     '',
+//     'दर',
+//     reverseDevanagariIfContainsViOrLi('युनिट'),
+//     'रक्कम\nरु.    पै.'
+//   ]],
+//     body: [[
+//       '१',
+//       // reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+          
+//       reverseDevanagariIfContainsViOrLi(`वसई विरार शहर महानगरपालिका`), 
+
+//             // *** कार्यक्षेत्रातील प्रभाग समिती ${user?.ward} विभागातील विरार ${l1} विभागाचे माहे ${selectedMonthYear} चे विद्युत देयक.`),
+
+//       '',
+//       '',
+//       '',
+//       '',
+//       `${totalAmount.toFixed(2)}/-`
+//     ]],
+    
+//   foot: [[
+//     { content: 'एकूण',  colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
+//     { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
+//   ]],
+//    didParseCell: function (data) {
+//     if (data.section === 'body' && data.row.index === 0 && data.column.index === 1) {
+   
+//       data.cell.styles.minCellHeight = 30; 
+//       data.cell.styles.textColor = [0, 0, 0];
+//     }
+//   },
+
+//   didDrawCell: function (data) {
+ 
+//   if (data.section === 'body' && data.column.index === 1 && data.row.index === 0) {
+//     doc.addImage(
+//       NAkaryashetraPrabhaSamiti,
+//       'PNG',
+//       data.cell.x + 2,
+//       data.cell.y + 6, // Positioned below text
+//       40,              // Width increased by 2px (previously 24)
+//       5               // Height unchanged
+//     );
+
+//     doc.setFontSize(10);
+// doc.setTextColor(0, 0, 0);
+// doc.text(
+//   `${user?.ward}`,           // तुमचा desired text
+//   data.cell.x + 2 + 40 ,         // image X + image Width + padding
+//   data.cell.y + 6 + 3.5             // image Y + half image height (for vertical align)
+// );
+
+//     doc.addImage(
+//       NAVibhagatilVirarVibhagache,
+//       'PNG',
+//       data.cell.x + 2,
+//       data.cell.y + 11,     // previous image च्या खाली (6 + 2 margin)
+//       40,
+//       4
+//     );
+//     doc.addImage(
+//       NAMRaVVComMahe,
+//       'PNG',
+//       data.cell.x + 2,
+//       data.cell.y + 16,     // previous image च्या खाली (6 + 2 margin)
+//       35,
+//       4
+//     );
+//     // Text for selectedMonthYear
+// doc.setFontSize(8);
+// doc.setTextColor(0, 0, 0);
+// doc.text(
+//   `${selectedMonthYear}`,
+//   data.cell.x + 2 + 35, // image X + image width + padding (3px)
+//   data.cell.y + 16 + 2.8    // image Y + approx half of height for vertical center
+// );
+//      doc.addImage(
+//       NACheVidvutDeyak,
+//       'PNG',
+//       data.cell.x + 2,
+//       data.cell.y + 21,     // previous image च्या खाली (6 + 2 margin)
+//       26,
+//       4
+//     );
+//   }
+
+  
+  
+
+//     if (data.section === 'head') {
+ 
+
+//       if (data.column.index === 0 && data.row.index === 0) {
+//         doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3, 13, 6);
+//       }
+    
+
+// if (data.section === 'head' && data.column.index === 1 && data.row.index === 0) {
+//   doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 3, 40, 6);
+// }
+
+
+// if (data.section === 'head' && data.column.index === 2 && data.row.index === 0) {
+  
+//   doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 28, 6);
+// }
+// }
+
+
+
+
+
+
+
+//   },
+//   styles: {
+//     font: 'DVOTSurekh_B_Ship',
+//     fontSize: 10,
+//     cellPadding: 2,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   headStyles: {
+//     fillColor: [255, 255, 255],
+//     textColor: 0,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   bodyStyles: {
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   footStyles: {
+//     fillColor: [255, 255, 255],
+//     textColor: 0,
+//     lineWidth: 0.1,
+//     lineColor: [0, 0, 0]
+//   },
+//   columnStyles: {
+//     0: { cellWidth: 15 },
+//     1: { cellWidth: 82 },
+//     2: { cellWidth: 35 },
+//     3: { cellWidth: 15 },
+//     4: { cellWidth: 15 },
+//     5: { cellWidth: 25 }
+//   },
+//   theme: 'grid',
+//   tableLineWidth: 0.1,
+//   tableLineColor: [0, 0, 0]
+// });
+
+
+
+//     // Get the Y position after the table
+//     yPos = doc.autoTable.previous.finalY + 10;
+
+//     // Add the total amount in words with proper spacing
+//     doc.setFontSize(10);
+//     const pageWidth = doc.internal.pageSize.getWidth();
+    
+
+//     const prefix = 'एकूण रक्कम रुपये (';
+// const suffix = `${totalAmount.toFixed(2)}/-`;
+// const closingBracket = ')';
+
+// const prefixWidth = doc.getTextWidth(prefix);
+// const amountWidth = doc.getTextWidth(suffix);
+// const closingBracketWidth = doc.getTextWidth(closingBracket);
+
+// const akshariImageWidth = 14;
+// const matraImageWidth = 10;
+
+// const totalWidth = prefixWidth + akshariImageWidth + amountWidth + matraImageWidth + closingBracketWidth;
+// let currentX = (pageWidth - totalWidth) / 2;
+// const y = yPos;
+
+
+// doc.text(prefix, currentX, y);
+// currentX += prefixWidth;
+
+
+// doc.addImage(akshari, 'PNG', currentX, y - 4, akshariImageWidth, 4);
+// currentX += akshariImageWidth;
+
+
+// doc.text(suffix, currentX, y);
+// currentX += amountWidth;
+
+
+// doc.addImage(matra, 'PNG', currentX, y - 3, matraImageWidth, 4);
+// currentX += matraImageWidth;
+
+
+// doc.text(closingBracket, currentX, y);
+
+    
+//     yPos += 15;
+
+    
+//     const leftText = 
+    
+//       reverseDevanagariIfContainsViOrLi("१) रक्कमेचे नियम वाटप _______________ रु.\n\n") +
+
+//       "२) पूर्वीचा खर्च _______________ रु.\n\n" +
+//       reverseDevanagariIfContainsViOrLi("३) या बिलांत दर्शविलेला खर्च " + totalAmount.toFixed(2) + "/-\n\n") +
+//       "२ व ३ यांची बेरीज _______________ रु.\n\n" +
+//        reverseDevanagariIfContainsViOrLi("उपलब्ध शिल्लक _______________ रु.");
+
+//     const rightText = 
+//        reverseDevanagariIfContainsViOrLi("प्रमाणित करण्यांत येते की या बिलांत\n\n") +
+//        reverseDevanagariIfContainsViOrLi("दर्शविलेले दर व\n\n") + 
+//        reverseDevanagariIfContainsViOrLi("परिमाणे ही अचूक आहेत आणि\n\n") +
+//       "सामुग्री, वस्तु यांच्या\n\n" +
+//        reverseDevanagariIfContainsViOrLi("स्थितीत मिळाल्या असून त्या पुरवठादार यांच्या\n\n") +
+//        reverseDevanagariIfContainsViOrLi("संख्यात्मक लेख्याच्या समर्थित\n\n") +
+//       "पुरवठा नोंदवहीत नमूद\n\n" +
+//       "करण्यात आल्या आहेत.\n\n\n" +
+//     "____________________________\n\n\n";
+
+   
+    
+//     const labelY = 270; // ~270mm from top is a good spot above the bottom
+//     let labelText =reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
+
+//     const xStart = pageWidth - 90; // align to right side (adjust as needed)
+
+// // Signature just above the label line
+// if (user.ward && signatures[user.ward]?.["Lipik"]) {
+//   const signatureWidth = 30;
+//   const signatureHeight = 30;
+//   const signatureX = pageWidth - signatureWidth - 15;
+//   const signatureY = labelY - signatureHeight - 0; // just above label
+//   const signaturePadding = 5; // change as needed
+
+//   doc.addImage(
+//     signatures[user.ward]["Lipik"],
+//     'PNG',
+//     signatureX + signaturePadding,
+//     signatureY + signaturePadding,
+//     signatureWidth,
+//     signatureHeight
+//   );
+// }
+
+// // doc.text("____________________________", xStart, labelY);
+//       doc.text(labelText, xStart, labelY);  // xStart = left margin or wherever you want text
+
+//       yPos += 10;
+//     const availableWidth = pageWidth - 30;
+//     const colWidth = availableWidth / 2;
+
+//     // Create the two-column section
+//     doc.autoTable({
+//       startY: yPos,
+//       head: false,
+//       body: [[ leftText, rightText ]],
+//       styles: {
+//         font: 'DVOTSurekh_B_Ship',
+//     fontStyle: 'normal',
+//         fontSize: 10,
+//         cellPadding: 2
+//       },
+//       columnStyles: {
+//         0: { cellWidth: colWidth, halign: 'left' },
+//         1: { cellWidth: colWidth, halign: 'right' }
+//       },
+//       theme: 'plain'
+//     });
+
+//     // Draw vertical divider line between columns
+//     const breakdownTable = doc.autoTable.previous;
+//     if (
+//       breakdownTable &&
+//       breakdownTable.settings.margin &&
+//       typeof breakdownTable.startY === "number" &&
+//       typeof breakdownTable.finalY === "number"
+//     ) {
+//       const marginLeft = breakdownTable.settings.margin.left;
+//       const verticalLineX = marginLeft + colWidth;
+//       const tableTopY = breakdownTable.startY;
+//       const tableBottomY = breakdownTable.finalY;
+//       doc.setLineWidth(0.1);
+//       doc.setDrawColor(0, 0, 0);
+//       doc.line(verticalLineX, tableTopY, verticalLineX, tableBottomY);
+//     }
+
+//     // Save the PDF
+//     doc.addPage();
+//     yPos = 30; // reset vertical position for new page
+//     doc.setFontSize(12);
+//     // Left Column
+//     doc.text("मा. आयुक्त यांच्याकडे मंजुरीसाठी सादर", 15, yPos);
+//     yPos += 10;
+//     doc.text("मी मागणीची तपासणी केली असून ती सर्व बाबतीत", 15, yPos);
+//     yPos += 7;
+//     doc.text("अचूक आहे.", 15, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
+//     yPos += 15;
+
+//     if (user.ward && signatures[user.ward]?.["Accountant"]) {
+//       const accountantSigWidth = 30;
+//       const accountantSigHeight = 30;
+//       const accountantSigX = 15; // aligns with "प्र.लेखापाल"
+//       const accountantSigY = yPos;
+    
+//       doc.addImage(
+//         signatures[user.ward]["Accountant"],
+//         'PNG',
+//         accountantSigX,
+//         accountantSigY - accountantSigHeight + 15, // increase this for more downward shift
+//         accountantSigWidth,
+//         accountantSigHeight
+//       );
+//     }
+    
+    
+//     doc.text("-----------------                     -------------------", 15, yPos);
+//     yPos += 10;
+//     doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
+
+
+// if (user.ward && signatures[user.ward]?.["Assistant Municipal Commissioner"]) {
+//   const amcSigWidth = 30;
+//   const amcSigHeight = 30;
+//   const amcSigX = 80; // Adjust X based on your spacing needs
+//   const amcSigY = yPos - amcSigHeight + 5;
+
+//   doc.addImage(
+//     signatures[user.ward]["Assistant Municipal Commissioner"],
+//     'PNG',
+//     amcSigX,
+//     amcSigY,
+//     amcSigWidth,
+//     amcSigHeight
+//   );
+// }
+    
+//     yPos += 7;
+  
+    
+//     doc.text(`       प्रभाग समिती-${wardname}`, 15, yPos);
+//     yPos += 10;
+//     doc.text("----------------------------------------------------", 15, yPos);
+//     yPos += 10;
+
+   
+    
+//     // Dynamic totalAmount in Marathi format
+//     doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`), 15, yPos);
+//     yPos += 10;
+//     doc.text(`(अक्षरी: ${totalAmountInWords} रुपये देण्यात यावेत)`, 15, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: _______                        उपायुक्त"), 15, yPos);
+//     yPos += 15;
+//     doc.text("-------------------------------------------------------", 15, yPos);
+//     yPos += 10;
+//     doc.text("मागणीची संपूर्ण फेड म्हणून", 15, yPos);
+//     yPos += 10;
+    
+//     yPos += 10;
+    
+//     // Dynamic totalAmount repeated
+//     doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती रु. ${totalAmount.toLocaleString('hi-IN')}/-`), 15, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi(`अक्षरी: ${totalAmountInWords} रुपये मिळाले`), 15, yPos);
+//     yPos += 15;
+//     doc.text("                                मुद्रांक", 15, yPos);
+//     yPos += 7;
+//     doc.text("                                ----------------------", 15, yPos);
+//     yPos += 7;
+//     doc.text("                                पैसे घेणाऱ्याची सही", 15, yPos);
+
+
+
+//     yPos = 30; // Reset yPos for right column
+//     doc.text(reverseDevanagariIfContainsViOrLi("निर्णय क्रमांक ----------------"), 120, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक ----------------"), 120, yPos);
+//     yPos += 10;
+
+//     // Dynamic totalAmount in right section
+//     doc.text(reverseDevanagariIfContainsViOrLi(`बिलांत दाखवलेली रु. ${totalAmount.toLocaleString('hi-IN')}/- ची रक्कम`), 120, yPos);
+//     yPos += 7;
+//     doc.text(`(अक्षरी रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
+//     yPos += 10;
+//     doc.text("मंजूर करण्यात येत आहे.", 120, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("मुख्य लेखाधिकारी ----------------------"), 120, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+
+
+//     // ✅ Signature for "Dy. Municipal Commissioner"
+// if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
+//   const dmcSigWidth = 30;
+//   const dmcSigHeight = 30;
+//   const dmcSigX = 160; // Adjust X based on alignment with 'उप-आयुक्त'
+//   const dmcSigY = yPos - dmcSigHeight + 5; // moved slightly below the label
+
+//   doc.addImage(
+//     signatures[user.ward]["Dy.Municipal Commissioner"],
+//     'PNG',
+//     dmcSigX,
+//     dmcSigY,
+//     dmcSigWidth,
+//     dmcSigHeight
+//   );
+// }
+//     doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
+
+//     yPos += 15;
+//     doc.text("----------------------------------------------------", 120, yPos);
+//     doc.text("---------------- प्रदानार्थ लेखापाल -------------------------------------------------------------- यांस,", 120, yPos + 7);
+//     yPos += 15;
+//     doc.text("------------------------                  -------------------------", 120, yPos);
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+//     doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
+
+//     yPos += 15;
+// doc.text("----------------------------------------------------", 120, yPos);
+
+// yPos += 10; // इथे गॅप वाढवला
+// doc.text(reverseDevanagariIfContainsViOrLi("धनादेश क्रमांक ----------  दिनांक  ------------"), 120, yPos);
+
+//     yPos += 10;
+//     doc.text(reverseDevanagariIfContainsViOrLi("द्वारे देण्यात आले आणि ----------------------"), 120, yPos);
+//     doc.text(reverseDevanagariIfContainsViOrLi("प्रस्तावित रोख वहित नोंद घेतली"), 120, yPos + 7);
+//     yPos += 20;
+//     doc.text("----------------------                  ---------------------------------", 120, yPos);
+//     yPos += 10;
+//     doc.text("रोखपाल                          उप-आयुक्त", 120, yPos);
+//     doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
+
+//     doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता 60 पासून सुरू होईल**
+
+
+   
+    
+//     if (signatures['Junior Engineer']) {
+//       doc.addImage(signatures['Junior Engineer'], 'PNG', 15, yPos, 30, 15);
+//       doc.text("Junior Engineer", 15, yPos + 20);
+//     }
+
+//     if (signatures['Executive Engineer']) {
+//       doc.addImage(signatures['Executive Engineer'], 'PNG', 120, yPos, 30, 15);
+//       doc.text("Executive Engineer", 120, yPos + 20);
+//     }
+
+//     if (signatures['Dy.Municipal Commissioner']) {
+//       doc.addImage(signatures['Dy.Municipal Commissioner'], 'PNG', 120, yPos + 40, 30, 15);
+//       doc.text("Dy.Municipal Commissioner", 120, yPos + 60);
+//     }
+
+//     const pdfData = doc.output('blob'); // Get Blob format
+
+// // Convert Blob to Object URL for preview
+// const pdfUrl = URL.createObjectURL(pdfData);
+// let type="form22";
+// handlePdfPreview(pdfUrl,type,selectedMonthYear);
+// setPdfBlob(pdfData);
+
+//     const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+//     const url = URL.createObjectURL(blob);
+//     const link = document.createElement('a');
+//     link.href = url;
+    
+    
+  
+//   } catch (error) {
+//     console.error('Error generating Form 22 PDF:', error);
+//   }
+// };
+
+
+
+
+
+
+// --------------------------------------------------------------------
+
+ // ✅ हे तुम्ही इथे ठेवा
+//  useEffect(() => {
+//   console.log("Updated reportingDataSM:", reportingDataSM);
+// }, [reportingDataSM]);
+
+// ---------------------------------------
+
+
+
+
+// ===================================
+  
