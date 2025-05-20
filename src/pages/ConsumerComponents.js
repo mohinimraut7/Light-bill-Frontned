@@ -569,7 +569,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
     }}
   /> */}
 
-{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+{(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'||(user?.role==='Junior Engineer'&& user?.ward==='Head Office')) && (
   <FormControl
   fullWidth
   size="small"

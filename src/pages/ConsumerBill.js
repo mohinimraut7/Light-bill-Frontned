@@ -4,7 +4,7 @@ import { useLocation,Link} from 'react-router-dom';
 
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Button, Modal, Checkbox,TextField } from '@mui/material';
+import { Typography, Box, Button, Modal, Checkbox,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 
@@ -32,7 +32,7 @@ import MonthYearPicker from '../components/MonthYearPicker';
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
 import { AddRemarkModal } from '../components/modals/AddRemark';
 import ViewRemarkModal from '../components/modals/ViewRemarkModal';
-
+import wardDataAtoI from '../data/warddataAtoI';
 const ConsumerBill = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -77,6 +77,7 @@ const ConsumerBill = () => {
 const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   const [selectedRemarks, setSelectedRemarks] = useState([]);
   const [billRemarkOpen, setBillRemarkOpen] = useState(false);
+const [wardName, setWardName] = useState('');
 
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
  
@@ -229,10 +230,29 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     checkProcessBtnEnable();
   }, [bills, user.role]);
 
+
+  const handleChangeWard = (event) => {
+    setWardName(event.target.value);
+  };
+
   const getFilteredBills = () => {
-    if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user.ward === 'Head Office')) {
+    // if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user.ward === 'Head Office')) {
+       if (
+    user?.role === 'Super Admin' ||
+    user?.role === 'Admin' ||
+    user?.role === 'Executive Engineer' ||
+    (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+  ) {
+    // If wardName is selected, filter by that ward
+    if (wardName && wardName.trim() !== '') {
+      return bills.filter((bill) => bill?.ward === wardName);
+    }
+      
+      
       return bills;
-    } else if (user?.role.startsWith('Junior Engineer')) {
+    } 
+    
+    else if (user?.role.startsWith('Junior Engineer')) {
       const specificWard = user?.ward;
       return bills.filter((bill) => bill?.ward === specificWard);
     }
@@ -1179,10 +1199,60 @@ transform: 'translate(14px, -8px) scale(0.75)',
         md:0,
         lg:1,
         xl:1
+      },
+      ml:{
+        md:1,
+        lg:1
       }
       
     }}
   />
+
+
+  {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'||(user?.role==='Junior Engineer'&& user?.ward==='Head Office')) && (
+    <FormControl
+    fullWidth
+    size="small"
+    variant="outlined"
+    sx={{
+      width: {
+        xl: '30%',
+        lg: '30%',
+        md: '30%',
+        sm: '40%',
+        xs: '100%',
+      },
+      mt: { sm: 1,md:0,lg:0,xl:0 }, 
+      ml:{
+        xl:1,
+        lg:1,
+        md:1,
+        sm:1
+      }
+    }}
+  >
+    <InputLabel id="ward-label">Search Ward</InputLabel>
+    <Select
+      labelId="ward-label"
+      id="ward"
+      name="ward"
+      value={wardName}
+      onChange={handleChangeWard}
+      label="Search Ward"
+    >
+      {wardDataAtoI.length > 0 ? (
+        wardDataAtoI.map((ward, index) => (
+          <MenuItem key={index} value={ward.ward}>
+            {ward.ward}
+          </MenuItem>
+        ))
+      ) : (
+        <MenuItem disabled>No Wards Available</MenuItem>
+      )}
+    </Select>
+  </FormControl>
+  )}
+  
 
 </Box>
         <StyledDataGrid rows={rows}
