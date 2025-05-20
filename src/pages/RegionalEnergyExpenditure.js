@@ -709,6 +709,7 @@ const handleDownloadForm22 = async() => {
 
 
 
+      // doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक ${currentDate}`), 150, yPos);
 
 const vastuImgOrigW = 52;
 const vastuImgOrigH = 4.5;
