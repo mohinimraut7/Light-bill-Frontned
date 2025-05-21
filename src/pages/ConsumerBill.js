@@ -14,9 +14,13 @@ import AddPayment from '../components/modals/AddPayment';
 
 import ConsumerButton from '../components/ConsumerButton';
 import { toast } from "react-toastify";
+
+import dayjs from 'dayjs';
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import '../App.css';
+
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -28,6 +32,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
+import BillDatePicker from '../components/BillDatePicker';
 
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
 import { AddRemarkModal } from '../components/modals/AddRemark';
@@ -78,7 +83,7 @@ const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   const [selectedRemarks, setSelectedRemarks] = useState([]);
   const [billRemarkOpen, setBillRemarkOpen] = useState(false);
 const [wardName, setWardName] = useState('');
-
+ const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
  
 
@@ -422,7 +427,11 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     return "#"; // Default return if `billType` does not match
   };
   
- 
+ const handleDateChange = (value) => {
+    const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
+    setSelectedMonthYear(formattedValue);
+  };
+
   const combinedData = [...filteredBills, ...data];
   
 
@@ -431,27 +440,32 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
   ? combinedData.filter(bill => bill.consumerNumber.includes(cnId))
   : combinedData;
 
-    
-    if (cRDate) {
-      const crDateObj = new Date(cRDate);
-const cRYear = crDateObj.getFullYear();
-const cRMonth = crDateObj.getMonth(); 
+   
+  filteredData = filteredData.filter(
+  bill => !selectedMonthYear || bill.monthAndYear.toUpperCase() === selectedMonthYear
+);
+
+
+//     if (cRDate) {
+//       const crDateObj = new Date(cRDate);
+// const cRYear = crDateObj.getFullYear();
+// const cRMonth = crDateObj.getMonth(); 
 
    
 
-      filteredData = filteredData.filter(bill => {
-        if (bill.currentReadingDate) {
-          const billDateObj = new Date(bill.currentReadingDate);
-          const billYear = billDateObj.getFullYear();
-          const billMonth = billDateObj.getMonth(); 
+//       filteredData = filteredData.filter(bill => {
+//         if (bill.currentReadingDate) {
+//           const billDateObj = new Date(bill.currentReadingDate);
+//           const billYear = billDateObj.getFullYear();
+//           const billMonth = billDateObj.getMonth(); 
     
           
-          return cRYear === billYear && cRMonth === billMonth;
-        }
-        return false; 
-      });
+//           return cRYear === billYear && cRMonth === billMonth;
+//         }
+//         return false; 
+//       });
     
-    }
+//     }
 
 
 
@@ -935,7 +949,7 @@ Remark
       'Due Date': row.dueDate,
       'NET BILL AMOUNT WITH DPC': row.netBillAmountWithDPC,
       'Last Receipt Date': row.lastReceiptDate,
-      
+      'paymentStatus':row.paymentStatus
     })));
 
     const workbook = XLSX.utils.book_new();
@@ -1158,7 +1172,20 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
           >
 
 
-<MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  />
+{/* <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  /> */}
+<Box sx={{
+  width:{xl:'35%',
+            lg:'35%',
+            md:'35%',
+            sm:'35%',
+            xs:'35%'
+          },
+}}>
+  <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
+
+</Box>
+
+
 <TextField
     id="consumerNumber"
     name="consumerNumber"

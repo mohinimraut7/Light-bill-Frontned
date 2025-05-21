@@ -312,7 +312,8 @@ const previousTwoMonthCYear = `${previousTwoMonth}-${currentYear}`;
 
 
 const currentMonthPaidCount = bills.filter(bill => 
-  bill.paymentStatus === 'paid' && bill.monthAndYear === currentMonthYear &&
+  bill.paymentStatus === 'paid' 
+  && bill.monthAndYear === currentMonthYear &&
   (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
 ).length;
 

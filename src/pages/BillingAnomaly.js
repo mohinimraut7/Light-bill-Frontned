@@ -266,6 +266,7 @@ const BillingAnomaly = () => {
   const [tabValue, setTabValue] = useState(0);
   const [wardName, setWardName] = useState('');
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
+  
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
@@ -421,7 +422,7 @@ const BillingAnomaly = () => {
           </Box>
         )}
 
-        {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+        {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role==='Junior Engineer'&& user?.ward==='Head Office')) && (
           <FormControl
             fullWidth
             size="small"

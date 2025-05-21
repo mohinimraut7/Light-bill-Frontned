@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import ConsumerButton from '../components/ConsumerButton';
 import wardDataAtoI from '../data/warddataAtoI';
 
+
 const columns = (handleDeleteConsumer,handleEditConsumer)=>[
   { field: 'id', headerName: 'ID', width: 40 },
   {

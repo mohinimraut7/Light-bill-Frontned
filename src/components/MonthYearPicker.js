@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import SearchIcon from '@mui/icons-material/Search';
 
 const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
   
@@ -33,7 +34,7 @@ const MonthYearPicker = ({ cRDate, handleCRDChange }) => {
       }}
     
         views={['year', 'month']}
-        label="Search By Current Date" 
+        label="Current Date" 
         value={dateValue.isValid() ? dateValue : null} 
         onChange={(newValue) => handleCRDChange(newValue)}
         renderInput={(params) => (
