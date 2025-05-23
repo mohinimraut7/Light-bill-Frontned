@@ -14,6 +14,7 @@ import SignatureUpload from '../SignatureUpload';
 import expstatus from '../../data/expstatus';
 import AddRemarkExpenditure from './AddRemarkExpenditure';
 
+import { toast } from "react-toastify";
 
 
 const modalStyle = {
@@ -116,6 +117,7 @@ console.log("title is >>>>",title)
       }
 
       const data = await response.json();
+      console.log("data----",data)
       setSnackbarMessage('Report saved successfully!');
       setSnackbarOpen(true);
       dispatch(fetchReports());
