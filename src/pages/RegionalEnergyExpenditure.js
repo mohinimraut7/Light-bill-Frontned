@@ -2019,7 +2019,399 @@ const getWardAddressImage = (ward) => {
   };
 
 
-const downloadFaultyMeterReport = () => {
+// const downloadFaultyMeterReport = () => {
+//   setShowFormControl(true);
+//   try {
+ 
+//     var doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+   
+//     doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
+//     doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
+//     loadDvoSBShipFont(doc);
+//     doc.setFont("DVOTSurekh_B_Ship");
+
+
+//     doc.setFontSize(12);
+
+//     const pageWidth = doc.internal.pageSize.getWidth();
+
+    
+//     const leftX = 10;
+//     const centerX = pageWidth / 2-10;
+//     const rightX = pageWidth - 60;
+//     let y = 20;
+
+    
+//   const isPrivilegedUserp =
+//   user.role === 'Executive Engineer' ||
+//   user.role === 'Admin' ||
+//   user.role === 'Super Admin' ||
+//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+// const selectedWardp = isPrivilegedUserp ? wardName : user.ward;
+
+// if (selectedWardp) {
+//   const addressImage = getWardAddressImage(selectedWardp);
+//   if (addressImage) {
+//     const imgWidth = 50;
+//     const imgHeight = 28;
+//     doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
+//   }
+// }
+  
+
+
+// //  if (user?.ward) {
+// //         const addressImage = getWardAddressImage(user.ward);
+// //         if (addressImage) {
+          
+// //           const imgWidth = 50;
+// //           const imgHeight = 28;
+// //           doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
+// //         }
+// //       }
+
+    
+//     // doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
+
+    
+    
+
+
+
+// const phoneNumberText     = ": ०२५०-२३३४१४४";
+// const phoneTextWidth      = doc.getTextWidth(phoneNumberText);
+// const durdhwaniImgWidth   = 15;  
+// const durdhwaniImgHeight  = 5.2;   
+
+// // Compute base positions
+// const baseImgX   = rightX - phoneTextWidth - durdhwaniImgWidth;
+// const baseTextX  = rightX - phoneTextWidth;
+
+// // Shift both by +100px
+// const durdhwaniImgX = baseImgX + 50;
+// const phoneTextX    = baseTextX + 50;
+
+// doc.addImage(
+//   FADurdhwani,
+//   'PNG',
+//   durdhwaniImgX,
+//   y - 4+1.5 ,            
+//   durdhwaniImgWidth,
+//   durdhwaniImgHeight
+// );
+
+// // Draw the “: ०२५०-२३३४१४४” text
+// doc.text(phoneNumberText, phoneTextX, y+1.5);
+
+    
+//     // doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
+
+// const faxText           = ": ०२५०-२५२५१०७";
+// const faxTextWidth      = doc.getTextWidth(faxText);
+// const faxImgWidth       = 13;   
+// const faxImgHeight      = 5;   
+
+
+// const baseFaxImgX  = rightX - faxTextWidth - faxImgWidth;
+// const baseFaxTextX = rightX - faxTextWidth;
+
+// // Shift both 80px right
+// const faxImgX  = baseFaxImgX + 48;
+// const faxTextX = baseFaxTextX + 47;
+
+// doc.addImage(
+//   FAFax,
+//   'PNG',
+//   faxImgX-0.8,
+//   y + 6 - 4+3,   
+//   faxImgWidth,
+//   faxImgHeight
+// );
+
+
+// doc.text(faxText, faxTextX, y + 9.5);
+
+
+//     // doc.text("जा.क्र. :", rightX, y + 18);
+
+// const jaKraSuffix       = " :";
+// const jaKraTextWidth    = doc.getTextWidth(jaKraSuffix);
+// const jaKraImgWidth     = 12;   
+// const jaKraImgHeight    = 4;    
+// const baseJaKraImgX     = rightX - jaKraTextWidth - jaKraImgWidth;
+// const baseJaKraTextX    = rightX - jaKraTextWidth;
+
+// doc.addImage(
+//   FAJaKra,
+//   'PNG',
+//   baseJaKraImgX + 15,     // shifted 40px right
+//   y + 18 - 4-1,    
+//   jaKraImgWidth,
+//   jaKraImgHeight
+// );
+
+// doc.text(
+//   jaKraSuffix,
+//   baseJaKraTextX + 15,    // shifted 40px right
+//   y + 18-1
+// );
+
+// const jakraValueImgWidth  = 26;  
+// const jakraValueImgHeight = 6;   
+
+// // X so it sits just to the right of the “ :” text
+// const jakraValueImgX = baseJaKraTextX + 15 + jaKraTextWidth + 2;  // +2px gap
+
+// doc.addImage(
+//   FAJakraFirstValue,
+//   'PNG',
+//   jakraValueImgX,
+//   y + 18 - 4 - 1-1,   // same vertical alignment as FAJaKra
+//   jakraValueImgWidth,
+//   jakraValueImgHeight
+// );
+
+//     // doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक :${selectedMonthYear}`), rightX, y + 24);
+//     // Get today's date in Marathi locale (uses Devanagari digits automatically)
+// const today = new Date();
+// const formattedDate = today.toLocaleDateString('mr-IN', {
+//   day:   '2-digit',
+//   month: '2-digit',
+//   year:  'numeric'
+// });
+
+// // Now draw “दिनांक : DD/MM/YYYY” with today's date
+// doc.text(
+//   reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`),
+//   rightX,
+//   y + 24
+// );
+
+//    let yPos = 15;
+//     const logoWidth = 30;
+// const logoHeight = 30;
+
+// const pageHeight = doc.internal.pageSize.getHeight();
+// const centerY = yPos + 0;
+
+
+// doc.addImage(logovvcmccmp, 'PNG', centerX, centerY, logoWidth, logoHeight);
+
+// y += 36; 
+// const lineY = y - 2; 
+// doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY); 
+// y += 15; 
+
+
+// const isPrivilegedUserprati =
+//   user.role === 'Executive Engineer' ||
+//   user.role === 'Admin' ||
+//   user.role === 'Super Admin' ||
+//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+// const selectedWardprati = isPrivilegedUserp ? wardName : user.ward;
+
+// if (selectedWardp) {
+//   const pratiImage = getWardPrati(selectedWardp);
+//    if (pratiImage) {
+//           const pratiWidth = 50;
+//           const pratiHeight = 28;
+//           doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
+//           y += pratiHeight + 12; 
+//         }
+// }
+
+
+
+
+    
+//       // if (user?.ward) {
+//       //   const pratiImage = getWardPrati(user.ward);
+//       //   if (pratiImage) {
+//       //     const pratiWidth = 50;
+//       //     const pratiHeight = 28;
+//       //     doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
+//       //     y += pratiHeight + 12; 
+//       //   }
+//       // }
+
+
+    
+//     doc.setFontSize(15);
+    
+
+// let currentY = 100 + 7;
+// const pdfPageWidth = doc.internal.pageSize.getWidth();
+
+// const updatedWidth = 46; 
+// const updatedHeight = 7.2; 
+
+// const imageX = (pdfPageWidth - updatedWidth) / 2;
+
+// doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, currentY, updatedWidth, updatedHeight);
+
+
+// currentY += updatedHeight + 30;
+
+
+
+ 
+// const normalSpacing = 8;
+// const extraSpacing = 14;
+// const leftspaceX = leftX + 15;
+//  doc.setFontSize(14); 
+// y += 10;
+ 
+
+
+
+
+// const imageWidth = 75;
+// const imageHeight = 6;
+
+// const prabhagImageWidth = 75;
+// const prabhagImageHeight = 6;
+
+
+// doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y+6, imageWidth, imageHeight);
+
+
+// const gapBetweenImages = 1;
+// const secondImageX = leftspaceX + imageWidth + gapBetweenImages;
+
+// doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y+6, prabhagImageWidth, prabhagImageHeight);
+
+
+// y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
+
+
+
+
+
+
+
+// const grahakImageWidth = 150;
+// const grahakImageHeight = 6; 
+// doc.addImage(FAGrahakKRaBadali, 'PNG', leftspaceX, y, grahakImageWidth, grahakImageHeight);
+// y += grahakImageHeight + 2;
+// const jenekarunImageWidth = 150; 
+// const jenekarunImageHeight = 6; 
+// doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImageWidth, jenekarunImageHeight);
+// y += jenekarunImageHeight + 2;
+
+
+
+
+
+// const navinMeterImageWidth = 150; 
+// const navinMeterImageHeight = 6; 
+
+
+// doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
+
+
+// y += navinMeterImageHeight + 2;
+   
+//     y = 240;
+// const signatureX = pageWidth - 60;
+
+
+// let prabhagSamitiText = "प्रभाग समिती";
+
+
+// if (user?.ward === "Ward-A") {
+//   prabhagSamitiText = "प्रभाग समिती अ";
+// } else if (user?.ward === "Ward-B") {
+//   prabhagSamitiText = "प्रभाग समिती बी";
+// } else if (user?.ward === "Ward-C") {
+//   prabhagSamitiText = "प्रभाग समिती सी";
+// } else if (user?.ward === "Ward-D") {
+//   prabhagSamitiText = "प्रभाग समिती डी";
+// } else if (user?.ward === "Ward-E") {
+//   prabhagSamitiText = "प्रभाग समिती 'ई'";
+// } else if (user?.ward === "Ward-F") {
+//   prabhagSamitiText = "प्रभाग समिती एफ";
+// } else if (user?.ward === "Ward-G") {
+//   prabhagSamitiText = "प्रभाग समिती जी";
+// } else if (user?.ward === "Ward-H") {
+//   prabhagSamitiText = "प्रभाग समिती एच";
+// } else if (user?.ward === "Ward-I") {
+//   prabhagSamitiText = "प्रभाग समिती आय";
+// }
+
+
+// ;
+
+
+// const rightPadding = 100;
+// const rightlX = pageWidth - 10; 
+
+
+
+// const wardImageMap = {
+//   'Ward-A': FAAdhikshakWardA,
+//   'Ward-B': FAAdhikshakWardB,
+//   'Ward-C': FAAdhikshakWardC,
+//   'Ward-D': FAAdhikshakWardD,
+//   'Ward-E': FAAdhikshakWardE,
+//   'Ward-F': FAAdhikshakWardF,
+//   'Ward-G': FAAdhikshakWardG,
+//   'Ward-H': FAAdhikshakWardH,
+//   'Ward-I': FAAdhikshakWardI,
+// };
+
+// const isPrivilegedUser =
+//   user.role === 'Executive Engineer' ||
+//   user.role === 'Admin' ||
+//   user.role === 'Super Admin' ||
+//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+
+// const selectedWard = isPrivilegedUser ? wardName : user.ward;
+
+// const adhikshakImage = wardImageMap[selectedWard];
+
+
+
+
+
+
+// if (adhikshakImage) {
+//   const adhikshakImageWidth = 60;
+//   const adhikshakImageHeight = 20;
+
+//   doc.addImage(
+//     adhikshakImage,
+//     'PNG',
+//     rightlX - adhikshakImageWidth,
+//     y - 50, // shifted 15px upward
+//     adhikshakImageWidth,
+//     adhikshakImageHeight
+//   );
+
+//   y += adhikshakImageHeight + 2;
+// }
+
+
+
+//     const pdfData = doc.output('datauristring');
+//     let type = "faultymeter";
+    
+//     handlePdfPreview(pdfData, type, selectedMonthYear);
+
+//     const pdfBlob = doc.output('blob');
+//     setPdfBlob(pdfBlob);
+//   } catch (error) {
+//     console.error("Error generating PDF:", error);
+//   }
+// };
+
+
+
+
+const downloadFaultyMeterReport = ({jakraKramank = '', consumerNumber = '', date = ''}) => {
+  console.log("jakraKramank))))",jakraKramank)
   setShowFormControl(true);
   try {
  
@@ -2101,7 +2493,7 @@ doc.addImage(
   durdhwaniImgHeight
 );
 
-// Draw the “: ०२५०-२३३४१४४” text
+// Draw the ": ०२५०-२३३४१४४" text
 doc.text(phoneNumberText, phoneTextX, y+1.5);
 
     
@@ -2160,7 +2552,7 @@ doc.text(
 const jakraValueImgWidth  = 26;  
 const jakraValueImgHeight = 6;   
 
-// X so it sits just to the right of the “ :” text
+// X so it sits just to the right of the " :" text
 const jakraValueImgX = baseJaKraTextX + 15 + jaKraTextWidth + 2;  // +2px gap
 
 doc.addImage(
@@ -2172,21 +2564,44 @@ doc.addImage(
   jakraValueImgHeight
 );
 
-    // doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक :${selectedMonthYear}`), rightX, y + 24);
-    // Get today's date in Marathi locale (uses Devanagari digits automatically)
-const today = new Date();
-const formattedDate = today.toLocaleDateString('mr-IN', {
-  day:   '2-digit',
-  month: '2-digit',
-  year:  'numeric'
-});
+// Add the jakraKramank value to the right of the image
+// if (jakraKramank) {
+//   doc.text(jakraKramank, jakraValueImgX + jakraValueImgWidth + 2, y + 18 - 1);
+// }
 
-// Now draw “दिनांक : DD/MM/YYYY” with today's date
-doc.text(
-  reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`),
-  rightX,
-  y + 24
-);
+
+if (jakraKramank) {
+
+  console.log("jakraKramank",jakraKramank)
+  doc.text(String(jakraKramank), jakraValueImgX + jakraValueImgWidth + 2, y + 17);
+}
+
+    // Use the provided date value if available, otherwise use current date
+    let formattedDate;
+    if (date) {
+      // Convert date string to Date object and format it for display
+      const selectedDate = new Date(date);
+      formattedDate = selectedDate.toLocaleDateString('mr-IN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } else {
+      // Get today's date in Marathi locale (uses Devanagari digits automatically)
+      const today = new Date();
+      formattedDate = today.toLocaleDateString('mr-IN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    }
+
+    // Now draw "दिनांक : DD/MM/YYYY" with the date
+    doc.text(
+      reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`),
+      rightX,
+      y + 24
+    );
 
    let yPos = 15;
     const logoWidth = 30;
@@ -2286,9 +2701,10 @@ doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y+6, prabhagImageWidth, 
 y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
 
 
-
-
-
+// Add consumer number before the Grahak text if provided
+if (consumerNumber) {
+  doc.text(`ग्राहक क्र. ${consumerNumber}`, leftspaceX - 5, y - 2);
+}
 
 
 const grahakImageWidth = 150;
@@ -2406,6 +2822,8 @@ if (adhikshakImage) {
     console.error("Error generating PDF:", error);
   }
 };
+
+
 
 const handleAddReportRemarkClose = () => setReportRemarkOpen(false);
 
