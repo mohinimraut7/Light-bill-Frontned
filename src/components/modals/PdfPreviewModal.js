@@ -305,6 +305,8 @@ import AddRemarkExpenditure from './AddRemarkExpenditure';
 import { toast } from "react-toastify";
 import FaultyMeterConsumerNumber from './FaultyMeterConsumerNumber';
 
+import jsPDF from 'jspdf';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -336,6 +338,7 @@ const modalStyle = {
 const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardName, onDownload, mode }) => {
   console.log("title is >>>>", title);
   
+
   const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -348,6 +351,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
   const [jakraKramank, setJakraKramank] = useState('');
   const [consumerNumber, setConsumerNumber] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
@@ -356,12 +360,68 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
     console.log("Current mode:", mode);
   }, [mode]);
 
-  const handleDownload = () => {
+
+
+//   useEffect(() => {
+//   if (open && jakraKramank && consumerNumber && date) {
+//     const doc = generatePdf({ jakraKramank, consumerNumber, date });
+//     const pdfBlob = doc.output('blob');
+//     const url = URL.createObjectURL(pdfBlob);
+//     setPdfBlobUrl(url);
+
+//     // Clean up URL object when modal closes
+//     return () => {
+//       URL.revokeObjectURL(url);
+//       setPdfBlobUrl(null);
+//     };
+//   }
+// }, [open, jakraKramank, consumerNumber, date]);
+
+  
+
+
+const handleDownload = () => {
+  if (pdfBlobUrl) {
+    const link = document.createElement('a');
+    link.href = pdfBlobUrl;
+    link.download = `${title || 'download'}.pdf`;
+    link.click();
+  } else if (pdfUrl) {
+    // fallback if external pdfUrl exists
     const link = document.createElement('a');
     link.href = pdfUrl;
-    link.download = title || 'download.pdf';
+    link.download = `${title || 'download'}.pdf`;
     link.click();
-  };
+  }
+};
+
+// const handleSaveConsumerDetails = () => {
+//   if (!jakraKramank || !consumerNumber || !date) {
+//     setSnackbarMessage('Please fill all consumer details');
+//     setSnackbarOpen(true);
+//     return;
+//   }
+
+//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
+//   const pdfBlob = doc.output('blob');
+//   const url = URL.createObjectURL(pdfBlob);
+//   setPdfBlobUrl(url);
+
+//   setSnackbarMessage('Consumer details saved successfully!');
+//   setSnackbarOpen(true);
+//   setOpenFaultyMModal(false);
+// };
+
+
+
+
+
+// const handleDownload = () => {
+//     const link = document.createElement('a');
+//     link.href = pdfUrl;
+//     link.download = title || 'download.pdf';
+//     link.click();
+//   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -416,25 +476,42 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
     }
   };
 
-  const handleSaveConsumerDetails = () => {
-    if (!jakraKramank || !consumerNumber || !date) {
-      setSnackbarMessage('Please fill all consumer details');
-      setSnackbarOpen(true);
-      return;
-    }
-    
-    console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
-    setSnackbarMessage('Consumer details saved successfully!');
-    setSnackbarOpen(true);
-    setOpenFaultyMModal(false);
-    
-    // Here you would typically trigger the PDF regeneration with the new values
-    // This could involve calling a function from the parent component
-    if (onDownload) {
-      onDownload({ jakraKramank, consumerNumber, date });
-    }
-  };
 
+
+
+
+
+
+
+
+
+
+
+  // const handleSaveConsumerDetails = () => {
+  //   if (!jakraKramank || !consumerNumber || !date) {
+  //     setSnackbarMessage('Please fill all consumer details');
+  //     setSnackbarOpen(true);
+  //     return;
+  //   }
+    
+  //   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
+  //   setSnackbarMessage('Consumer details saved successfully!');
+  //   setSnackbarOpen(true);
+  //   setOpenFaultyMModal(false);
+    
+  //   // Here you would typically trigger the PDF regeneration with the new values
+  //   // This could involve calling a function from the parent component
+  //   if (onDownload) {
+  //     onDownload({ jakraKramank, consumerNumber, date });
+  //   }
+  // };
+
+  
+
+
+ 
+  
+  
   useEffect(() => {
     if (monthpassbackend && user?.ward) {
       const fetchReport = async () => {
@@ -497,13 +574,18 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
                 Add Remark
               </Button>
               
-              <Button 
+
+               {title === 'faultymeter' && (
+    <>
+     <Button 
                 sx={{ mr: 1 }} 
                 variant="outlined" 
                 onClick={() => setOpenFaultyMModal(true)}
               >
                 Add Consumer
               </Button>
+    </>)}
+             
 
               <Button variant="outlined" size="small" startIcon={<DownloadIcon />} onClick={handleDownload} sx={{ mr: 1 }}>
                 Download
@@ -556,7 +638,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
               handleSubmit={handleSubmit}
             />
 
-            <FaultyMeterConsumerNumber
+            {/* <FaultyMeterConsumerNumber
               open={openFaultyMModal}
               handleClose={() => setOpenFaultyMModal(false)}
               jakraKramank={jakraKramank}
@@ -566,7 +648,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
               date={date}
               setDate={setDate}
               handleSubmit={handleSaveConsumerDetails}
-            />
+            /> */}
           </Box>
         </Box>
       </Modal>

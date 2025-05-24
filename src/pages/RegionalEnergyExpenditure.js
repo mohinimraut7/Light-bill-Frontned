@@ -114,6 +114,10 @@ import FAMahodayUproktaVishayanwaye from '../Images/MahodayUproktaVishayanwaye.p
 import FANavinMeterBasavinyacheMaganipatrak from '../Images/NavinMeterBasavinyacheMaganipatrak.png';
 import FASadarKamiMRVVLINiyam from '../Images/SadarKamiMRVVLINiyam.png';
 import FASadarMeterBadaliKarunMeterBasavine from '../Images/SadarMeterBadaliKarunMeterBasavine.png';
+
+
+
+
 import FAWardAAddress from '../Images/FAWardAAddress.png';
 import FAWardBAddress from '../Images/FAWardBAddress.png';
 import FAWardCAddress from '../Images/FAWardCAddress.png';
@@ -147,6 +151,11 @@ import { AddRemarkReport } from '../components/modals/AddRemarkReport';
 import { AddRemarkReportExp } from '../components/modals/AddRemarkReportExp';
 import { addReport, fetchReports } from '../store/actions/reportActions';
 import { DVOTSurekhBShip, loadDvoSBShipFont ,reverseDevanagariText,reverseDevanagariIfNeeded,reverseDevanagariIfContainsViOrLi,fixPashchim} from '../fonts/DVOTSurekh_B_Ship';
+import FaultyMeterConsumerNumber from '../components/modals/FaultyMeterConsumerNumber';
+
+
+
+
 const rowColors = ['#F7F9FB', 'white'];
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-cell': {
@@ -203,6 +212,32 @@ const [reportRemarkOpen, setReportRemarkOpen] = useState(false);
  const [userSignatures, setUserSignatures] = useState([]);
 const [reportingDataSM,setReportingDataSM] = useState([]);
 const [monthArr,setMonthArr]= useState([]);
+
+const [jakraKramank, setJakraKramank] = React.useState('');
+  const [consumerNumber, setConsumerNumber] = React.useState('');
+  const [date, setDate] = React.useState('');
+  const [faultyMeterModalOpen, setFaultyMeterModalOpen] = React.useState(false);
+ 
+  const [pdfData,setPdfData ] = React.useState({});
+
+
+
+
+
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [remark, setRemark] = useState('');
+  const [openRemarkModal, setOpenRemarkModal] = useState(false);
+  const [openFaultyMModal, setOpenFaultyMModal] = useState(false);
+  
+  // Consumer details state
+ 
+const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
+
+
+
+
   useEffect(() => {
     dispatch(fetchBills());
     dispatch(fetchConsumers());
@@ -271,6 +306,67 @@ useEffect(() => {
     setUserSignatures(filteredSignatures);
   }
 }, [users]);
+
+useEffect(() => {
+  if (jakraKramank && consumerNumber && date) {
+    const doc = generatePdf({ jakraKramank, consumerNumber, date });
+    const pdfBlob = doc.output('blob');
+    const url = URL.createObjectURL(pdfBlob);
+    setPdfBlobUrl(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+      setPdfBlobUrl(null);
+    };
+  }
+}, [jakraKramank, consumerNumber, date]);
+
+ const handleOpenFaultyMeterModal = () => setFaultyMeterModalOpen(true);
+  const handleCloseFaultyMeterModal = () => setFaultyMeterModalOpen(false);
+
+const generatePdf = (data) => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text('Faulty Meter Report', 10, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Jakra Kramank: ${data.jakraKramank || ''}`, 10, 40);
+    doc.text(`Consumer Number: ${data.consumerNumber || ''}`, 10, 50);
+    doc.text(`Date: ${data.date || ''}`, 10, 60);
+
+    return doc;
+  };
+
+
+const handleSaveConsumerDetails = () => {
+  if (!jakraKramank || !consumerNumber || !date) {
+    setSnackbarMessage('Please fill all consumer details');
+    setSnackbarOpen(true);
+     setPdfData({ jakraKramank, consumerNumber, date });
+    setPdfPreviewOpen(true);        // PDF Preview modal उघडायचं
+    handleCloseFaultyMeterModal();  // FaultyMeterConsumerNumber modal बंद करायचं
+    return;
+  }
+
+  console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
+  setSnackbarMessage('Consumer details saved successfully!');
+  setSnackbarOpen(true);
+  setOpenFaultyMModal(false);
+
+  // Regenerate PDF with updated data
+  const doc = generatePdf({ jakraKramank, consumerNumber, date });
+  const pdfBlob = doc.output('blob');
+  const url = URL.createObjectURL(pdfBlob);
+  setPdfBlobUrl(url);
+};
+
+
+
+   const handleFaultyMeterSubmit = () => {
+    setPdfData({ jakraKramank, consumerNumber, date });
+    setPdfPreviewOpen(true);        // PDF Preview modal उघडायचं
+    handleCloseFaultyMeterModal();  // FaultyMeterConsumerNumber modal बंद करायचं
+  };
 
 const displayWardName =
   user.ward === "Head Office" && user.role === "Junior Engineer"
@@ -3316,6 +3412,19 @@ const numberToMarathiWords = (num) => {
 </Box>
         </Box>
 
+        <button onClick={handleOpenFaultyMeterModal}>Open Faulty Meter Modal</button>
+<FaultyMeterConsumerNumber
+        open={faultyMeterModalOpen}
+        handleClose={handleCloseFaultyMeterModal}
+        jakraKramank={jakraKramank}
+        setJakraKramank={setJakraKramank}
+        consumerNumber={consumerNumber}
+        setConsumerNumber={setConsumerNumber}
+        date={date}
+        setDate={setDate}
+        // handleSubmit={handleFaultyMeterSubmit}  // submit function pass करा
+        handleSubmit={handleSaveConsumerDetails}
+      />
         
        <PdfPreviewModal 
        mode={mode}
@@ -3326,7 +3435,7 @@ const numberToMarathiWords = (num) => {
       wardName={wardName}
       // title={pdfType === "tipani" ? "karyalayintipani" : pdfType === "form22" ? "form22" : "wardbilllist"}
       title={pdfType}
-
+       pdfData={pdfData}  
       onDownload={() => {
         const doc = new jsPDF();
         doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
