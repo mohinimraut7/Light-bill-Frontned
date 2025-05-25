@@ -337,30 +337,70 @@ const generatePdf = (data) => {
   };
 
 
+// const handleSaveConsumerDetails = () => {
+//   if (!jakraKramank || !consumerNumber || !date) {
+//     setSnackbarMessage('Please fill all consumer details');
+//     setSnackbarOpen(true);
+//     setPdfData({ jakraKramank, consumerNumber, date });
+//     setPdfPreviewOpen(true);
+//     handleCloseFaultyMeterModal();
+//     return;
+//   }
+
+//   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
+//   setSnackbarMessage('Consumer details saved successfully!');
+//   setSnackbarOpen(true);
+
+//   setFaultyMeterModalOpen(false);
+//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
+//   const pdfBlob = doc.output('blob');
+//   const url = URL.createObjectURL(pdfBlob);
+//   setPdfBlobUrl(url);
+// };
+
+
+
+   
 const handleSaveConsumerDetails = () => {
+  // Check if all required fields are filled
   if (!jakraKramank || !consumerNumber || !date) {
     setSnackbarMessage('Please fill all consumer details');
     setSnackbarOpen(true);
+    
+    // Show the PDF preview with whatever partial data is present
     setPdfData({ jakraKramank, consumerNumber, date });
     setPdfPreviewOpen(true);
+    
+    // Close the faulty meter modal as user can't save without full details
     handleCloseFaultyMeterModal();
     return;
   }
 
+  // All required fields are filled, proceed to save
   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
+  
+  // Show success message
   setSnackbarMessage('Consumer details saved successfully!');
   setSnackbarOpen(true);
 
+  // Close the faulty meter modal
   setFaultyMeterModalOpen(false);
+
+  // Generate the PDF document based on the consumer details
   const doc = generatePdf({ jakraKramank, consumerNumber, date });
+  
+  // Convert the generated PDF document to a Blob
   const pdfBlob = doc.output('blob');
+  
+  // Create a URL for the Blob to use in preview or download
   const url = URL.createObjectURL(pdfBlob);
+  
+  // Set the URL in state for displaying PDF preview or downloading
   setPdfBlobUrl(url);
 };
 
 
-
-   const handleFaultyMeterSubmit = () => {
+const handleFaultyMeterSubmit = () => {
     setPdfData({ jakraKramank, consumerNumber, date });
     setPdfPreviewOpen(true);        // PDF Preview modal उघडायचं
     handleCloseFaultyMeterModal();  // FaultyMeterConsumerNumber modal बंद करायचं
@@ -2504,7 +2544,8 @@ const getWardAddressImage = (ward) => {
 
 
 
-const downloadFaultyMeterReport = ({jakraKramank = '', consumerNumber = '', date = ''}) => {
+const downloadFaultyMeterReport = ({ jakraKramank = '', consumerNumber = '', date = '' }) => {
+   setFaultyMeterModalOpen(true); 
   console.log("jakraKramank))))",jakraKramank)
   setShowFormControl(true);
   try {
