@@ -350,7 +350,7 @@ const handleSaveConsumerDetails = () => {
   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
   setSnackbarMessage('Consumer details saved successfully!');
   setSnackbarOpen(true);
-  // setOpenFaultyMModal(false);
+
   setFaultyMeterModalOpen(false);
   const doc = generatePdf({ jakraKramank, consumerNumber, date });
   const pdfBlob = doc.output('blob');
