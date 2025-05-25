@@ -217,9 +217,8 @@ const [jakraKramank, setJakraKramank] = React.useState('');
   const [consumerNumber, setConsumerNumber] = React.useState('');
   const [date, setDate] = React.useState('');
   const [faultyMeterModalOpen, setFaultyMeterModalOpen] = React.useState(false);
- 
   const [pdfData,setPdfData ] = React.useState({});
-
+const [modalOpen, setModalOpen] = useState(false);
 
 
 
@@ -342,18 +341,17 @@ const handleSaveConsumerDetails = () => {
   if (!jakraKramank || !consumerNumber || !date) {
     setSnackbarMessage('Please fill all consumer details');
     setSnackbarOpen(true);
-     setPdfData({ jakraKramank, consumerNumber, date });
-    setPdfPreviewOpen(true);        // PDF Preview modal उघडायचं
-    handleCloseFaultyMeterModal();  // FaultyMeterConsumerNumber modal बंद करायचं
+    setPdfData({ jakraKramank, consumerNumber, date });
+    setPdfPreviewOpen(true);
+    handleCloseFaultyMeterModal();
     return;
   }
 
   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
   setSnackbarMessage('Consumer details saved successfully!');
   setSnackbarOpen(true);
-  setOpenFaultyMModal(false);
-
-  // Regenerate PDF with updated data
+  // setOpenFaultyMModal(false);
+  setFaultyMeterModalOpen(false);
   const doc = generatePdf({ jakraKramank, consumerNumber, date });
   const pdfBlob = doc.output('blob');
   const url = URL.createObjectURL(pdfBlob);
