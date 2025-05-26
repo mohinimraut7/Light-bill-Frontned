@@ -575,7 +575,7 @@ const handleDownload = () => {
               </Button>
               
 
-               {title === 'faultymeter' && (
+               {/* {title === 'faultymeter' && (
     <>
      <Button 
                 sx={{ mr: 1 }} 
@@ -584,7 +584,7 @@ const handleDownload = () => {
               >
                 Add Consumer
               </Button>
-    </>)}
+    </>)} */}
              
 
               <Button variant="outlined" size="small" startIcon={<DownloadIcon />} onClick={handleDownload} sx={{ mr: 1 }}>

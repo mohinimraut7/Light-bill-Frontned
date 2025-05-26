@@ -127,7 +127,11 @@ import FAWardFAddress from '../Images/FAWardFAddress.png';
 import FAWardGAddress from '../Images/FAWardGAddress.png';
 import FAWardHAddress from '../Images/FAWardHAddress.png';
 import FAWardIAddress from '../Images/FAWardIAddress.png';
-import FAGrahakKRaBadali from '../Images/FAGrahakKRaBadali.png';
+import FAGrahakKRaBadali from '../Images/FAGrahakKNext.png';
+import FAGrahakKNextNavinMeter from '../Images/FAGrahakKNextNavinMeter.png';
+
+
+import FAGrahakK from '../Images/FAGrahakK.png';
 
 
 
@@ -361,43 +365,400 @@ const generatePdf = (data) => {
 
 
    
+// const handleSaveConsumerDetails = () => {
+
+// //  setPdfTitle("faultymeter");
+// //     setPdfData(data);
+// //     setOpenFaultyMeterModal(false);
+// //     setOpenPdfModal(true);
+
+
+//   // Check if all required fields are filled
+//   if (!jakraKramank || !consumerNumber || !date) {
+//     setSnackbarMessage('Please fill all consumer details');
+//     setSnackbarOpen(true);
+    
+//     // Show the PDF preview with whatever partial data is present
+//     setPdfData({ jakraKramank, consumerNumber, date });
+//     setPdfPreviewOpen(true);
+    
+//     // Close the faulty meter modal as user can't save without full details
+//     handleCloseFaultyMeterModal();
+//     return;
+//   }
+
+//   // All required fields are filled, proceed to save
+//   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
+  
+//   // Show success message
+//   setSnackbarMessage('Consumer details saved successfully!');
+//   setSnackbarOpen(true);
+
+//   // Close the faulty meter modal
+//   setFaultyMeterModalOpen(false);
+
+//   // Generate the PDF document based on the consumer details
+//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
+  
+//   // Convert the generated PDF document to a Blob
+//   const pdfBlob = doc.output('blob');
+  
+//   // Create a URL for the Blob to use in preview or download
+//   const url = URL.createObjectURL(pdfBlob);
+  
+//   // Set the URL in state for displaying PDF preview or downloading
+//   setPdfBlobUrl(url);
+// };
+
+// -------------------------------------------
+
+// const handleSaveConsumerDetails = () => {
+//   if (!jakraKramank || !consumerNumber || !date) {
+//     setSnackbarMessage('Please fill all consumer details');
+//     setSnackbarOpen(true);
+    
+//     // Show the PDF preview with whatever partial data is present
+//     setPdfData({ jakraKramank, consumerNumber, date });
+//     setPdfPreviewOpen(true);
+
+//     // Close the faulty meter modal as user can't save without full details
+//     handleCloseFaultyMeterModal();
+//     return;
+//   }
+
+//   // All required fields are filled, proceed to save
+//   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
+
+//   // Show success message
+//   setSnackbarMessage('Consumer details saved successfully!');
+//   setSnackbarOpen(true);
+
+//   // Close the faulty meter modal
+//   setFaultyMeterModalOpen(false);
+
+//   // Generate the PDF document based on the consumer details
+//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
+
+//   // Open the PdfPreviewModal with title 'faultymeter'
+//   const pdfData = doc.output('datauristring');
+//   const type = 'faultymeter';
+//   const selectedMonthYear = date; // or convert date to 'YYYY-MM' if needed
+
+//   handlePdfPreview(pdfData, type, selectedMonthYear);
+
+//   // Also store the PDF blob if needed
+//   const pdfBlob = doc.output('blob');
+//   const url = URL.createObjectURL(pdfBlob);
+//   setPdfBlobUrl(url);
+// };
+
+// -----------------------------------------------
+
+
 const handleSaveConsumerDetails = () => {
-  // Check if all required fields are filled
   if (!jakraKramank || !consumerNumber || !date) {
     setSnackbarMessage('Please fill all consumer details');
     setSnackbarOpen(true);
-    
-    // Show the PDF preview with whatever partial data is present
+
     setPdfData({ jakraKramank, consumerNumber, date });
     setPdfPreviewOpen(true);
-    
-    // Close the faulty meter modal as user can't save without full details
+
     handleCloseFaultyMeterModal();
     return;
   }
+function convertToMarathiDigits(numberStr) {
+  const marathiDigits = ['०','१','२','३','४','५','६','७','८','९'];
+  return String(numberStr).split('').map(char =>
+    /\d/.test(char) ? marathiDigits[parseInt(char)] : char
+  ).join('');
+}
 
-  // All required fields are filled, proceed to save
   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
-  
-  // Show success message
+
   setSnackbarMessage('Consumer details saved successfully!');
   setSnackbarOpen(true);
-
-  // Close the faulty meter modal
   setFaultyMeterModalOpen(false);
 
-  // Generate the PDF document based on the consumer details
-  const doc = generatePdf({ jakraKramank, consumerNumber, date });
+  // Generate the PDF
+  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+  doc.addFileToVFS("DVOTSurekh_B_Ship.ttf", DVOTSurekhBShip);
+  doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
+  loadDvoSBShipFont(doc);
+  doc.setFont("DVOTSurekh_B_Ship");
+  doc.setFontSize(12);
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const leftX = 10;
+  const centerX = pageWidth / 2 - 10;
+  const rightX = pageWidth - 60;
+  let y = 20;
+
+  // Add ward logo
+  const isPrivilegedUser = ['Executive Engineer', 'Admin', 'Super Admin'].includes(user.role) || (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+  const selectedWard = isPrivilegedUser ? wardName : user.ward;
+  const addressImage = getWardAddressImage(selectedWard);
+  if (addressImage) {
+    doc.addImage(addressImage, 'PNG', leftX, y, 50, 28);
+  }
+
+  // Phone
+  const phoneText = ": ०२५०-२३३४१४४";
+  const phoneTextWidth = doc.getTextWidth(phoneText);
+  doc.addImage(FADurdhwani, 'PNG', rightX - phoneTextWidth - 15 + 50, y - 2.5, 15, 5.2);
+  doc.text(phoneText, rightX - phoneTextWidth + 50, y + 1.5);
+
+  // Fax
+  const faxText = ": ०२५०-२५२५१०७";
+  const faxTextWidth = doc.getTextWidth(faxText);
+  doc.addImage(FAFax, 'PNG', rightX - faxTextWidth - 13 + 48 - 0.8, y + 5.5, 13, 5);
+  doc.text(faxText, rightX - faxTextWidth + 47, y + 9.5);
+
+  // जा.क्र.
+  const jaKraSuffix = " :";
+  const jaKraTextWidth = doc.getTextWidth(jaKraSuffix);
+  doc.addImage(FAJaKra, 'PNG', rightX - jaKraTextWidth - 12 + 15, y + 13, 12, 4);
+  doc.text(jaKraSuffix, rightX - jaKraTextWidth + 15, y + 17);
+  doc.addImage(FAJakraFirstValue, 'PNG', rightX - jaKraTextWidth + 15 + 2, y + 12, 26, 6);
+
+ 
+
+
+if (jakraKramank) {
+    const marathiJakra = convertToMarathiDigits(jakraKramank); 
+  doc.setFontSize(9); // 1pt ने कमी
+  doc.text(
+    // String(jakraKramank),
+    marathiJakra,
+    rightX - jaKraTextWidth + 15 + 2 + 26 + 2 - 1, // 1px left
+    y + 17 - 1 // 1px up
+  );
+  doc.setFontSize(10); // reset font size if needed
+}
+
+
+  // दिनांक
+  const formattedDate = new Date(date).toLocaleDateString('mr-IN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`), rightX, y + 24);
+
+  // Center logo
+  const logoWidth = 30;
+  const logoHeight = 30;
+  doc.addImage(logovvcmccmp, 'PNG', centerX, 15, logoWidth, logoHeight);
+
+  y += 36;
+  doc.line(10, y - 2, pageWidth - 10, y - 2);
+  y += 15;
+
+  // Add prati image
+  const pratiImage = getWardPrati(selectedWard);
+  if (pratiImage) {
+    doc.addImage(pratiImage, 'PNG', leftX, y, 50, 28);
+    y += 28 + 12;
+  }
+
+  doc.setFontSize(15);
+
+  // Center heading
+  const headingY = 100 + 7;
+  const updatedWidth = 46;
+  const updatedHeight = 7.2;
+  const imageX = (pageWidth - updatedWidth) / 2;
+  doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, headingY, updatedWidth, updatedHeight);
+
+  // 🔒 Optionally add consumer number/date inside the PDF body
+  // doc.text(`Customer No: ${consumerNumber}`, 20, headingY + 20);
+
+  // Output
+let currentY;
+currentY += updatedHeight + 30;
+
+
+
+ 
+const normalSpacing = 8;
+const extraSpacing = 14;
+const leftspaceX = leftX + 15;
+ doc.setFontSize(14); 
+y += 10;
+ 
+
+
+
+
+const imageWidth = 75;
+const imageHeight = 6;
+
+const prabhagImageWidth = 75;
+const prabhagImageHeight = 6;
+
+
+doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y+6, imageWidth, imageHeight);
+
+
+const gapBetweenImages = 1;
+const secondImageX = leftspaceX + imageWidth + gapBetweenImages;
+
+doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y+6, prabhagImageWidth, prabhagImageHeight);
+
+y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
+
+const grahakIconWidth = 16;
+const grahakIconHeight = 6;
+
+// Draw FAGrahakK icon on left
+doc.addImage(FAGrahakK, 'PNG', leftspaceX, y, grahakIconWidth, grahakIconHeight);
+
+// Draw Consumer Number next to icon
+// if (consumerNumber) {
+//   doc.setFontSize(8);
+//   doc.text(`${consumerNumber}`, leftspaceX + grahakIconWidth + 2, y + 4);
+// }
+
+if (consumerNumber) {
+  const marathiConsumerNumber = convertToMarathiDigits(consumerNumber); // ← मराठीत रूपांतर
+  doc.setFontSize(11);
+  doc.text(
+    marathiConsumerNumber,
+    leftspaceX + grahakIconWidth + 2+1,
+    y + 4
+  );
+}
+
+// Draw FAGrahakKRaBadali image on same line (next to consumer number)
+const grahakTextWidth = doc.getTextWidth(consumerNumber || '');
+const grahakImageStartX = leftspaceX + grahakIconWidth + 2 + grahakTextWidth + 4; // Add margin after text
+
+const grahakImageWidth = 99;
+const grahakImageHeight = 5;
+doc.addImage(FAGrahakKRaBadali, 'PNG', grahakImageStartX, y, grahakImageWidth, grahakImageHeight);
+
+
+
+y += grahakImageHeight + 2;
+
+// Add FAGrahakKNextNavinMeter image on new line
+const navinMeterWidth = 70;
+const navinMeterHeight = 5;
+doc.addImage(FAGrahakKNextNavinMeter, 'PNG', leftspaceX, y, navinMeterWidth, navinMeterHeight);
+
+
+
+
+const jenekarunImageWidth = 150;
+const jenekarunImageHeight = 6;
+y += grahakImageHeight + 2;
+doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImageWidth, jenekarunImageHeight);
+
+// Prepare y for next content
+y += jenekarunImageHeight + 2;
+
+
+const navinMeterImageWidth = 150; 
+const navinMeterImageHeight = 6; 
+
+
+doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
+
+
+y += navinMeterImageHeight + 2;
+   
+    y = 240;
+const signatureX = pageWidth - 60;
+
+
+let prabhagSamitiText = "प्रभाग समिती";
+
+if (user?.ward === "Ward-A") {
+  prabhagSamitiText = "प्रभाग समिती अ";
+} else if (user?.ward === "Ward-B") {
+  prabhagSamitiText = "प्रभाग समिती बी";
+} else if (user?.ward === "Ward-C") {
+  prabhagSamitiText = "प्रभाग समिती सी";
+} else if (user?.ward === "Ward-D") {
+  prabhagSamitiText = "प्रभाग समिती डी";
+} else if (user?.ward === "Ward-E") {
+  prabhagSamitiText = "प्रभाग समिती 'ई'";
+} else if (user?.ward === "Ward-F") {
+  prabhagSamitiText = "प्रभाग समिती एफ";
+} else if (user?.ward === "Ward-G") {
+  prabhagSamitiText = "प्रभाग समिती जी";
+} else if (user?.ward === "Ward-H") {
+  prabhagSamitiText = "प्रभाग समिती एच";
+} else if (user?.ward === "Ward-I") {
+  prabhagSamitiText = "प्रभाग समिती आय";
+}
+
+
+;
+
+
+const rightPadding = 100;
+const rightlX = pageWidth - 10; 
+
+
+
+const wardImageMap = {
+  'Ward-A': FAAdhikshakWardA,
+  'Ward-B': FAAdhikshakWardB,
+  'Ward-C': FAAdhikshakWardC,
+  'Ward-D': FAAdhikshakWardD,
+  'Ward-E': FAAdhikshakWardE,
+  'Ward-F': FAAdhikshakWardF,
+  'Ward-G': FAAdhikshakWardG,
+  'Ward-H': FAAdhikshakWardH,
+  'Ward-I': FAAdhikshakWardI,
+};
+
+// const isPrivilegedUser =
+//   user.role === 'Executive Engineer' ||
+//   user.role === 'Admin' ||
+//   user.role === 'Super Admin' ||
+//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
+
+
+// const selectedWard = isPrivilegedUser ? wardName : user.ward;
+
+const adhikshakImage = wardImageMap[selectedWard];
+
+
+
+
+
+
+if (adhikshakImage) {
+  const adhikshakImageWidth = 60;
+  const adhikshakImageHeight = 20;
+
+  doc.addImage(
+    adhikshakImage,
+    'PNG',
+    rightlX - adhikshakImageWidth,
+    y - 50, // shifted 15px upward
+    adhikshakImageWidth,
+    adhikshakImageHeight
+  );
+
+  y += adhikshakImageHeight + 2;
+}
+
+
   
-  // Convert the generated PDF document to a Blob
+  const pdfData = doc.output('datauristring');
   const pdfBlob = doc.output('blob');
-  
-  // Create a URL for the Blob to use in preview or download
   const url = URL.createObjectURL(pdfBlob);
-  
-  // Set the URL in state for displaying PDF preview or downloading
+  const type = 'faultymeter';
+  const selectedMonthYear = date;
+
+  handlePdfPreview(pdfData, type, selectedMonthYear);
   setPdfBlobUrl(url);
 };
+
+
 
 
 const handleFaultyMeterSubmit = () => {
@@ -2705,11 +3066,23 @@ doc.addImage(
 // }
 
 
-if (jakraKramank) {
+// if (jakraKramank) {
+//   console.log("jakraKramank", jakraKramank);
+//   doc.setFontSize(4); // येथे तुम्ही font size कमी करत आहात
+//   doc.text(String(jakraKramank), jakraValueImgX +y + 17);
+//   doc.setFontSize(6); // परत default size ला सेट करा, जर बाकी text साठी मोठं असेल
+// }
 
-  console.log("jakraKramank",jakraKramank)
-  doc.text(String(jakraKramank), jakraValueImgX + jakraValueImgWidth + 2, y + 17);
+
+
+if (jakraKramank) {
+  console.log("jakraKramank", jakraKramank);
+  doc.setFontSize(4); // Small font
+  doc.text(String(jakraKramank), jakraValueImgX + jakraValueImgWidth + 2, y + 17); // Correct X, Y
+  doc.setFontSize(6); // Reset to default font size
 }
+
+
 
     // Use the provided date value if available, otherwise use current date
     let formattedDate;
@@ -2869,7 +3242,7 @@ const signatureX = pageWidth - 60;
 
 
 let prabhagSamitiText = "प्रभाग समिती";
-
+// ***
 
 if (user?.ward === "Ward-A") {
   prabhagSamitiText = "प्रभाग समिती अ";
@@ -3436,7 +3809,9 @@ const numberToMarathiWords = (num) => {
               },
               height: '65%',
             }}
-            onClick={downloadFaultyMeterReport}
+            // onClick={downloadFaultyMeterReport}
+
+            onClick={handleOpenFaultyMeterModal}
           >
             {/* <DownloadIcon /> */}
             <Typography sx={{
@@ -3451,7 +3826,7 @@ const numberToMarathiWords = (num) => {
 </Box>
         </Box>
 
-        <button onClick={handleOpenFaultyMeterModal}>Open Faulty Meter Modal</button>
+        {/* <button onClick={handleOpenFaultyMeterModal}>Open Faulty Meter Modal</button> */}
 <FaultyMeterConsumerNumber
         open={faultyMeterModalOpen}
         handleClose={handleCloseFaultyMeterModal}
