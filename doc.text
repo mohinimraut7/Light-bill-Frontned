@@ -3133,3 +3133,5 @@ form 22
 
 // ===================================
   FAGrahakKNext
+  ---------------------------------------
+    doc.text(reverseDevanagariIfContainsViOrLi("दिनांक:

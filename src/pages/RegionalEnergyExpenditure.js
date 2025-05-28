@@ -1200,11 +1200,7 @@ const handleDownloadForm22 = async() => {
       yPos += 15;
       
       const labelY = 270+5; 
-      // let labelText = reverseDevanagariIfContainsViOrLi("दिनांक         वस्तु घेणाऱ्या अधिकाऱ्याची सही");
-
-
-
-      // doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक ${currentDate}`), 150, yPos);
+     
 
 const vastuImgOrigW = 52;
 const vastuImgOrigH = 4.5;
@@ -1221,6 +1217,11 @@ const vastuImgScaledH = parseFloat((vastuImgOrigH * vastuDiagScale).toFixed(2));
 
 const vastuImgPosX = 140; 
 const vastuImgPosY = yPos+85; 
+doc.text(
+  reverseDevanagariIfContainsViOrLi("दिनांक:"),
+  vastuImgPosX - 20, // 40px left of image
+  vastuImgPosY + (vastuImgScaledH / 2) // vertically centered with image
+);
 
 // PDF मध्ये इमेज add करा
 doc.addImage(
@@ -2150,8 +2151,7 @@ try {
   doc.line(leftSectionWidth-2, 10, leftSectionWidth-2, 290); 
   
   doc.setFontSize(16);
-  // doc.text(reverseDevanagariIfContainsViOrLi(`कार्यालयीन टिपणी`), rightSectionStart + 30, 20);
-  // doc.addImage(karyalayintipani, 'PNG', rightSectionStart + 10, 10, 50, 10); // Adjust width/height as needed
+ 
 
 
   const imageWidthk = 50; 
@@ -2179,13 +2179,6 @@ doc.addImage(karyalayintipani, 'PNG', centerXk, 10, imageWidthk, imageHeightk);
 
   doc.text(`${wardname}`, rightAlignX, yPos, { align: "right" });
 
-
-
-
-  // yPos += 7;
-  // doc.text(reverseDevanagariIfContainsViOrLi("विभाग: दिवाबत्ती"), rightAlignX, yPos, { align: "right" });
-
-
 const labelText = reverseDevanagariIfContainsViOrLi("विभाग:");
 const labelWidth = doc.getTextWidth(labelText);
 const imageWidth = 17;
@@ -2197,7 +2190,7 @@ const rightMargin = 10;
 
 
 const startX = pageWidth - rightMargin - totalWidth;
-const imageX = startX + labelWidth + spacing - 5; // Move image 5px to the left
+const imageX = startX + labelWidth + spacing - 5; 
 
 // Draw the text
 doc.text(labelText, startX + labelWidth - 7, yPos, { align: "right" });
@@ -2220,21 +2213,16 @@ doc.addImage(divabatti, "PNG", imageX, yPos - 4, imageWidth, imageHeight);
   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
   yPos += 2;
-  // doc.text(reverseDevanagariIfContainsViOrLi(`हद्दीत महानगरपालिकेतर्फे सार्वजनिक रस्त्यांवरील ${meterPurpose}`), rightSectionStart, yPos);
+  
  
 doc.text(`${meterPurpose}`, rightSectionStart , yPos + 10); // continue after image
 yPos += 18;
  
   doc.text(reverseDevanagariIfContainsViOrLi("दिवाबत्तीची सोय केलेली आहे."), rightSectionStart, yPos);
   yPos += 2;
-  // doc.text(reverseDevanagariIfContainsViOrLi("यासाठी महाराष्ट्र राज्य वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा"), rightSectionStart, yPos);
   
-  
- 
-//   const beforeText = reverseDevanagariIfContainsViOrLi("यासाठी");
-// const afterText = reverseDevanagariIfContainsViOrLi("वीज वितरण कंपनी लि. यांच्यातर्फे वीज पुरवठा");
 
-const imageWidthm = 120; // Adjust size as needed
+const imageWidthm = 120;
 const imageHeightm = 6;
 const spacingm = 2;
 
@@ -2242,8 +2230,8 @@ let x = rightSectionStart;
 let y = yPos;
 
 
-doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5); // adjust width/height as needed
-// doc.addImage(maharashtarlong, 'PNG', x+1, y - imageHeightm + 1.8, imageWidthm, imageHeightm); 
+doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5); 
+
 
   yPos += 12;  
   doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी म.रा.वि.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
@@ -2281,22 +2269,14 @@ console.log("reportingDataSM ---down che",reportingDataSM)
 
 const lipikData = reportingDataSM.find(item => item.role === 'Lipik');
 
-
+// console.log("lipik--->>>",lipikData?.signature)
   const signatureWidthLI = 30;
   const signatureHeightLI = 15;
   const xPosLI = rightSectionStart + 0;
   const yOffsetLI = yPos - 15;
 
 
-// doc.addImage(
-//       //  user.signature,
-//       lipikData.signature,
-//         'PNG',
-//         xPosLI,
-//         yOffsetLI,
-//         signatureWidthLI,
-//         signatureHeightLI
-//       );
+
 if (lipikData?.signature) {
   doc.addImage(
     lipikData.signature,
@@ -2319,15 +2299,7 @@ if (lipikData?.signature) {
     const xPosJR = rightSectionStart + 60;
     const yOffsetJR = yPos - 17 - 5;
 
-  // doc.addImage(
-  //        user.signature,
-  //         'PNG',
-  //         xPosJR,
-  //         yOffsetJR,
-  //         signatureWidthJR,
-  //         signatureHeightJR
-  //       );
-
+  
   if (jrEngineerData?.signature) {
     doc.addImage(
       jrEngineerData.signature,
@@ -2339,11 +2311,11 @@ if (lipikData?.signature) {
     );
   }
 
-    // doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता (ठेका)"), rightSectionStart + 60, yPos);
+    
     const signatureWidthjrw = 40; 
     const signatureHeightjrw = 7;
     const yOffsetJRw = yPos - 5;
-    // doc.addImage(kanistaabhiyanataward, 'PNG', rightSectionStart + 60, yPos, 20, 15); // Adjust width/height as needed
+   
     doc.addImage(kanistaabhiyanataward, 'PNG', rightSectionStart + 59, yOffsetJRw, signatureWidthjrw, signatureHeightjrw);
 
 
@@ -2369,15 +2341,11 @@ if (lipikData?.signature) {
     }
   
   
-  // if (signatures['Head Office']?.['Junior Engineer']) {
-  //   doc.addImage(signatures['Head Office']['Junior Engineer'], 'PNG', rightSectionStart + 150, yPos - 15, 30, 15);
-  // }
   
-    // doc.text(reverseDevanagariIfContainsViOrLi("कनिष्ठ अभियंता विद्युत (मुख्यालय)"), rightSectionStart + 110, yPos);
     const signatureWidthjrhow = 60; 
     const signatureHeightjrhow = 8;
     const yOffsetJRhow = yPos - 5;
-    // doc.addImage(kanistaabhiyanataward, 'PNG', rightSectionStart + 60, yPos, 20, 15); // Adjust width/height as needed
+   
     doc.addImage(kanistaabhiyantaho, 'PNG', rightSectionStart + 109, yOffsetJRhow,signatureWidthjrhow,signatureHeightjrhow);
     yPos += 7;
     doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
@@ -2386,7 +2354,7 @@ if (lipikData?.signature) {
     yPos += 7;
     doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
     yPos += 10;
-    // Financial Summary Section
+   
     yPos += 10;
  
 
@@ -2427,7 +2395,7 @@ const signatureWidthACC = 30;
 
       doc.addImage(
         AccData?.signature,
-        // user.signature,
+        
               'PNG',
               xPosACC,
               yOffsetACC,
