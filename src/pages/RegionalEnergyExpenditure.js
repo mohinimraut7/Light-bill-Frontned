@@ -1237,25 +1237,62 @@ doc.addImage(
      
       
       // // Signature just above the label line
-      if (user.ward && signatures[user.ward]?.["Lipik"]) {
-        const signatureWidth = 30;
-        const signatureHeight = 30;
-        const signatureX = pageWidth - signatureWidth - 15;
-        const signatureY = labelY - signatureHeight - 0; // just above label
-        const signaturePadding = 5; // change as needed
+      // if (user.ward && signatures[user.ward]?.["Lipik"]) {
+      //   const signatureWidth = 30;
+      //   const signatureHeight = 30;
+      //   const signatureX = pageWidth - signatureWidth - 15;
+      //   const signatureY = labelY - signatureHeight - 0; // just above label
+      //   const signaturePadding = 5; // change as needed
         
-        doc.addImage(
-          signatures[user.ward]["Lipik"],
-          'PNG',
-          signatureX + signaturePadding,
-          signatureY + signaturePadding,
-          signatureWidth,
-          signatureHeight
-        );
-      }
+      //   doc.addImage(
+      //     signatures[user.ward]["Lipik"],
+      //     'PNG',
+      //     signatureX + signaturePadding,
+      //     signatureY + signaturePadding,
+      //     signatureWidth,
+      //     signatureHeight
+      //   );
+      // }
       
-      // doc.text(labelText, xStart, labelY);  // xStart = left margin or wherever you want text
-      
+
+
+      // ✅ Get 20th user (index 19) for testing
+const testUser = users[19]; // Ensure at least 20 users exist
+
+// ✅ Directly use the signature from testUser without checking role
+const testSignature = testUser?.signature || null; // or testUser?.sahi, as per your structure
+
+if (testSignature) {
+  const signatureWidth = 40;
+  const signatureHeight = 12;
+
+  // 🠘 Shift 13px to the left and 5px upward
+  const signatureX = pageWidth - signatureWidth - 15 - 13;
+  const signatureY = labelY - signatureHeight - 8;
+
+  doc.addImage(
+    testSignature,
+    'PNG',
+    signatureX,
+    signatureY,
+    signatureWidth,
+    signatureHeight
+  );
+
+
+
+ const today = new Date();
+  const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
+    (today.getMonth() + 1).toString().padStart(2, '0')
+  }/${today.getFullYear()}`;
+
+  doc.text(
+    `${formattedDate}`,
+    signatureX - 22,
+    signatureY + signatureHeight - 1
+  );
+
+}  
       yPos += 10;
       const availableWidth = pageWidth - 30;
       const colWidth = availableWidth / 2;
