@@ -1483,22 +1483,49 @@ doc.addImage(
       doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
       yPos += 15;
       
-      if (user.ward && signatures[user.ward]?.["Accountant"]) {
-        const accountantSigWidth = 30;
-        const accountantSigHeight = 30;
-        const accountantSigX = 15; 
-        const accountantSigY = yPos;
+      // if (user.ward && signatures[user.ward]?.["Accountant"]) {
+      //   const accountantSigWidth = 30;
+      //   const accountantSigHeight = 30;
+      //   const accountantSigX = 15; 
+      //   const accountantSigY = yPos;
         
-        doc.addImage(
-          signatures[user.ward]["Accountant"],
-          'PNG',
-          accountantSigX,
-          accountantSigY - accountantSigHeight + 15, 
-          accountantSigWidth,
-          accountantSigHeight
-        );
-      }
+      //   doc.addImage(
+      //     signatures[user.ward]["Accountant"],
+      //     'PNG',
+      //     accountantSigX,
+      //     accountantSigY - accountantSigHeight + 15, 
+      //     accountantSigWidth,
+      //     accountantSigHeight
+      //   );
+      // }
       
+
+
+
+ // 🧪 Use the demo signature from testUser
+const testUsert = users[19]; // Make sure at least 20 users exist
+const demoSignature = testUsert?.signature || null; // or testUser?.sahi if applicable
+
+if (demoSignature) {
+  // 🖊️ Use these exact values for testing position
+  var demoSigWidth = 40;
+  var demoSigHeight = 12;
+  var demoSigX = 15;
+  var demoSigY = yPos;
+
+  doc.addImage(
+    demoSignature,
+    'PNG',
+    demoSigX,
+    demoSigY - demoSigHeight - 2,
+    demoSigWidth,
+    demoSigHeight
+  );
+}
+
+
+
+
       
       doc.text("-----------------                     -------------------", 15, yPos);
       yPos += 10;
