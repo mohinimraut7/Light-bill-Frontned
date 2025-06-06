@@ -3135,3 +3135,67 @@ form 22
   FAGrahakKNext
   ---------------------------------------
     doc.text(reverseDevanagariIfContainsViOrLi("दिनांक:
+    =========================
+
+    if (lipikInfo) {
+  console.log("✅ Lipik is verified and checked:", lipikInfo);
+  // तुम्ही इथे tick icon किंवा checkbox UI मध्ये वापरा
+}
+
+doc.addImage(
+  VastuGhenaryaAdhikaryachiSahi,
+  'PNG',
+  vastuImgPosX,
+  vastuImgPosY,
+  vastuImgScaledW,
+  vastuImgScaledH
+);
+
+
+
+if (lipikInfo && lipikInfo.checked && lipikInfo.isVerified) {
+  console.log("✅ Lipik is verified and checked:", lipikInfo);
+
+  // Replace signature with verified tick icon at same position
+  doc.addImage(
+    checkIcon,        // ✅ Base64 PNG of green tick icon
+    'PNG',
+    vastuImgPosX,         // X position — same as earlier
+    vastuImgPosY,         // Y position
+    vastuImgScaledW,      // Width
+    vastuImgScaledH       // Height
+  );
+} else {
+  // Else add original signature if exists
+  if (lipikInfo?.user?.signature) {
+    doc.addImage(
+      lipikInfo.user.signature,
+      'PNG',
+      vastuImgPosX,
+      vastuImgPosY,
+      vastuImgScaledW,
+      vastuImgScaledH
+    );
+  }
+}
+
+     
+      
+      // Signature just above the label line
+      if (user.ward && signatures[user.ward]?.["Lipik"]) {
+        const signatureWidth = 30;
+        const signatureHeight = 30;
+        const signatureX = pageWidth - signatureWidth - 15;
+        const signatureY = labelY - signatureHeight - 0; // just above label
+        const signaturePadding = 5; // change as needed
+        
+        doc.addImage(
+          signatures[user.ward]["Lipik"],
+          'PNG',
+          signatureX + signaturePadding,
+          signatureY + signaturePadding,
+          signatureWidth,
+          signatureHeight
+        );
+      }
+      
