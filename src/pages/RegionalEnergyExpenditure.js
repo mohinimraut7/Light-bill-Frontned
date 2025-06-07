@@ -1319,7 +1319,6 @@ if (testSignature) {
 
 
 
-
  const today = new Date();
   const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
     (today.getMonth() + 1).toString().padStart(2, '0')
@@ -1331,7 +1330,23 @@ if (testSignature) {
     signatureY + signatureHeight - 1
   );
 
+
+
+  const textX = signatureX + signatureWidth / 2;
+  const textY = signatureY + signatureHeight + 4; // little below the image
+
+
+
+  
+// if (lipikInfo && lipikInfo.checked && lipikInfo.isVerified){
+doc.setFontSize(8);
+doc.setTextColor(0, 128, 0); // green color
+doc.text('Verified', textX, textY, { align: 'center' });
+
+// }
+
 }  
+doc.setTextColor(0, 0, 0); 
       yPos += 10;
       const availableWidth = pageWidth - 30;
       const colWidth = availableWidth / 2;
@@ -1489,21 +1504,12 @@ doc.addImage(
   ayuktaImgWidth,
   ayuktaImgHeight
 );
-
-
    
       yPos += 10;
 
-
-
-
 const tapasaniImgShrinkRatio = 0.6875; 
-
-
 const tapasaniImgWidth = (95 * tapasaniImgShrinkRatio); 
 const tapasaniImgHeight = ((24 * tapasaniImgShrinkRatio) - 11); 
-
-
 doc.addImage(
   MUMemaganichiTapasani,
   'PNG',
