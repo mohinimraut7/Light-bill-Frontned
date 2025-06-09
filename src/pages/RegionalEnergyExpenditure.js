@@ -948,6 +948,25 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
 
 
 
+const checkSignatureStatusForm22 = (reports) => {
+  const statuses = [];
+
+  reports.forEach(report => {
+    report.reportingRemarks?.forEach(remark => {
+      remark.documents?.forEach(document => {
+        if (document.formType === "form22") {
+          document.doneBy?.forEach(done => {
+            if (done.status === "verified") {
+              statuses.push(done.status);
+            }
+          });
+        }
+      });
+    });
+  });
+
+  return statuses;
+};
 
 
 const handleDownloadForm22 = async() => {
@@ -963,7 +982,8 @@ const handleDownloadForm22 = async() => {
 
   console.log("dhdhdhdhd",monthArr)
 
-  const signatureMatches = checkSignatureVerification(monthArr, users);
+  const signatureMatches = checkSignatureStatusForm22(monthArr);
+console.log("signatureMatches test form22-->>",signatureMatches[0])
 
   const lipikInfo = signatureMatches.find(
   match => match.role === "Lipik" && match.checked
@@ -1297,55 +1317,83 @@ const testUser = users[19];
 
 const testSignature = testUser?.signature || null; 
 
-if (testSignature) {
-  const signatureWidth = 40;
-  const signatureHeight = 12;
+// if (testSignature) {
+//   const signatureWidth = 40;
+//   const signatureHeight = 12;
 
-  // 🠘 Shift 13px to the left and 5px upward
-  const signatureX = pageWidth - signatureWidth - 15 - 13;
-  const signatureY = labelY - signatureHeight - 8;
-  // ----------------------
-  // *******
+//   // 🠘 Shift 13px to the left and 5px upward
+//   const signatureX = pageWidth - signatureWidth - 15 - 13;
+//   const signatureY = labelY - signatureHeight - 8;
+//   // ----------------------
+//   // *******
 
-  doc.addImage(
-    testSignature,
-    'PNG',
-    signatureX,
-    signatureY,
-    signatureWidth,
-    signatureHeight
-  );
-
-
-
-
- const today = new Date();
-  const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
-    (today.getMonth() + 1).toString().padStart(2, '0')
-  }/${today.getFullYear()}`;
-
-  doc.text(
-    `${formattedDate}`,
-    signatureX - 22,
-    signatureY + signatureHeight - 1
-  );
+//   doc.addImage(
+//     testSignature,
+//     'PNG',
+//     signatureX,
+//     signatureY,
+//     signatureWidth,
+//     signatureHeight
+//   );
 
 
 
-  const textX = signatureX + signatureWidth / 2;
-  const textY = signatureY + signatureHeight + 4; // little below the image
+
+//  const today = new Date();
+//   const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
+//     (today.getMonth() + 1).toString().padStart(2, '0')
+//   }/${today.getFullYear()}`;
+
+//   doc.text(
+//     `${formattedDate}`,
+//     signatureX - 22,
+//     signatureY + signatureHeight - 1
+//   );
+
+
+
+//   const textX = signatureX + signatureWidth / 2;
+//   const textY = signatureY + signatureHeight + 4; // little below the image
 
 
 
   
-// if (lipikInfo && lipikInfo.checked && lipikInfo.isVerified){
-doc.setFontSize(8);
-doc.setTextColor(0, 128, 0); // green color
-doc.text('Verified', textX, textY, { align: 'center' });
+// // if (lipikInfo && lipikInfo.checked && lipikInfo.isVerified){
+// doc.setFontSize(8);
+// doc.setTextColor(0, 128, 0); // green color
+// doc.text('Verified', textX, textY, { align: 'center' });
 
-// }
+// // }
 
-}  
+// }  
+
+
+if (signatureMatches[0] === "verified") {
+  const signatureWidth = 40;
+  const signatureHeight = 12;
+
+  const signatureX = pageWidth - signatureWidth - 15 - 13;
+  const signatureY = labelY - signatureHeight - 8;
+
+  const today = new Date();
+  const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
+    (today.getMonth() + 1).toString().padStart(2, '0')
+  }/${today.getFullYear()}`;
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 0, 0); // black for date
+  doc.text(formattedDate, signatureX - 22, signatureY + signatureHeight - 1);
+
+  // Final position adjustment: 5px left, 3px upward
+  const textX = signatureX + signatureWidth / 2 - 15;
+  const textY = signatureY + signatureHeight + 4 - 3;
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 128, 0); // green color for Verified
+  doc.text('Verified', textX, textY, { align: 'center' });
+}
+
+
 doc.setTextColor(0, 0, 0); 
       yPos += 10;
       const availableWidth = pageWidth - 30;

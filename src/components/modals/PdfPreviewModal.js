@@ -301,11 +301,13 @@ import SignaturePad from '../SignaturePad';
 import SignatureUpload from '../SignatureUpload';
 import expstatus from '../../data/expstatus';
 import AddRemarkExpenditure from './AddRemarkExpenditure';
-
+import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import FaultyMeterConsumerNumber from './FaultyMeterConsumerNumber';
 
 import jsPDF from 'jspdf';
+
+
 
 const modalStyle = {
   position: 'absolute',
@@ -469,21 +471,45 @@ const handleDownload = () => {
       dispatch(fetchReports());
       setRemark('');
       onClose();
-    } catch (error) {
-      console.error('Error saving report:', error);
-      setSnackbarMessage('Failed to save report. Please try again.');
-      setSnackbarOpen(true);
+    } 
+    // catch (error) {
+    //   console.error('Error saving report:', error);
+    //   setSnackbarMessage('Failed to save report. Please try again.');
+    //   setSnackbarOpen(true);
+    // }
+   catch (error) {
+  console.error('Error saving report:', error);
+
+  const backendMessage = error.response?.data?.message;
+
+  // Default fallback
+  let finalMessage = 'Failed to save report. Please try again.';
+
+
+    if (user?.role === 'Lipik') {
+      finalMessage = 'Failed to save report. Please try again.';
+    } else if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') {
+      finalMessage = 'Lipik must approve all forms first. Missing forms: form22, karyalayintipani';
+    } else if (user?.role === 'Junior Engineer' && user?.ward === 'Head Office') {
+      finalMessage = 'Ward Junior Engineer must approve all forms first. Missing forms: form22, karyalayintipani';
+    } else if (user?.role === 'Accountant') {
+      finalMessage = 'Head Office Junior Engineer must approve all forms first. Missing forms: form22, karyalayintipani';
+    } else if (user?.role === 'Assistant Municipal Commissioner') {
+      finalMessage = 'Accountant must approve all forms first. Missing forms: form22, karyalayintipani';
+    } else if (user?.role === 'Dy.Municipal Commissioner') {
+      finalMessage = 'Assistant Municipal Commissioner must approve all forms first. Missing forms: form22, karyalayintipani';
+    } else {
+      // fallback to backend message if no matching role found
+      finalMessage = backendMessage;
     }
+  
+
+  setSnackbarMessage(finalMessage);
+  setSnackbarOpen(true);
+}
+
+
   };
-
-
-
-
-
-
-
-
-
 
 
 
@@ -505,9 +531,6 @@ const handleDownload = () => {
   //     onDownload({ jakraKramank, consumerNumber, date });
   //   }
   // };
-
-  
-
 
  
   
