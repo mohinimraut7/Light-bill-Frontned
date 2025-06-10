@@ -1584,41 +1584,96 @@ doc.addImage(
 const testUsert = users[19]; // Make sure at least 20 users exist
 const demoSignature = testUsert?.signature || null; // or testUser?.sahi if applicable
 
-if (demoSignature) {
- 
-  var demoSigWidth = 40;
+// if (demoSignature) {
+//   var demoSigWidth = 40;
+//   var demoSigHeight = 12;
+//   var demoSigX = 15;
+//   var demoSigY = yPos;
+
+//   doc.addImage(
+//     demoSignature,
+//     'PNG',
+//     demoSigX,
+//     demoSigY - demoSigHeight - 2,
+//     demoSigWidth,
+//     demoSigHeight
+//   );
+// }
+
+
+
+if (signatureMatches[3] === "verified") {
+    var demoSigWidth = 40;
   var demoSigHeight = 12;
   var demoSigX = 15;
   var demoSigY = yPos;
 
-  doc.addImage(
-    demoSignature,
-    'PNG',
-    demoSigX,
-    demoSigY - demoSigHeight - 2,
-    demoSigWidth,
-    demoSigHeight
-  );
+  const today = new Date();
+  const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
+    (today.getMonth() + 1).toString().padStart(2, '0')
+  }/${today.getFullYear()}`;
+
+  // Position based on demoSignature
+  const signatureX = demoSigX;
+  const signatureY = demoSigY - demoSigHeight - 2;
+  const textX = signatureX + demoSigWidth / 2; // center aligned horizontally
+  const dateY = signatureY + demoSigHeight + 4; // just below image
+  const verifiedY = dateY + 5; // a bit below date
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 0, 0); // black for date
+  doc.text(formattedDate, textX, dateY, { align: 'center' });
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 128, 0); // green for 'Verified'
+  doc.text('Verified', textX, verifiedY, { align: 'center' });
 }
 
 
-const amcTestUser = users[19];
-const amcTestSignature = amcTestUser?.signature || null;
+// const amcTestUser = users[19];
+// const amcTestSignature = amcTestUser?.signature || null;
 
-if (amcTestSignature) {
+// if (amcTestSignature) {
+//   const amcSigWidth = 40;
+//   const amcSigHeight = 12;
+//   const amcSigX = 66;
+//   const amcSigY = yPos - 14;
+
+//   doc.addImage(
+//     amcTestSignature,
+//     'PNG',
+//     amcSigX,
+//     amcSigY,
+//     amcSigWidth,
+//     amcSigHeight
+//   );
+// }
+
+
+
+if (signatureMatches[4] === "verified") {
   const amcSigWidth = 40;
   const amcSigHeight = 12;
   const amcSigX = 66;
   const amcSigY = yPos - 14;
 
-  doc.addImage(
-    amcTestSignature,
-    'PNG',
-    amcSigX,
-    amcSigY,
-    amcSigWidth,
-    amcSigHeight
-  );
+  const today = new Date();
+  const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
+    (today.getMonth() + 1).toString().padStart(2, '0')
+  }/${today.getFullYear()}`;
+
+  // Position based on AMC signature
+  const textX = amcSigX + amcSigWidth / 2; // center aligned horizontally
+  const dateY = amcSigY + amcSigHeight + 2; // just below image
+  const verifiedY = dateY + 5; // a bit below date
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 0, 0); // black for date
+  doc.text(formattedDate, textX, dateY, { align: 'center' });
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 128, 0); // green for 'Verified'
+  doc.text('Verified', textX, verifiedY, { align: 'center' });
 }
 
       
@@ -1629,7 +1684,7 @@ if (amcTestSignature) {
 
       const signShrinkRatio = 0.6875; // 16px → 11px equivalent shrink
 
-
+// ***)))
 const lekhapalWidth = 30 * signShrinkRatio;
 const lekhapalHeight = (14 * signShrinkRatio) - 5;
 
@@ -1898,6 +1953,53 @@ doc.addImage(
 );
 
 
+// const muLineStartX = muImgX + muImgWidth + 5;  
+// const muLineY = yPos + 1;
+// const muLineEndX = muLineStartX + 20;  
+
+// doc.setLineWidth(0.3);
+// doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
+
+      
+//       yPos += 13;
+//       // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+      
+// const upaayuktaOriginalWidth = 22;
+// const upaayuktaOriginalHeight = 5;
+
+// const upaayuktaOriginalDiagonal = Math.sqrt(
+//   upaayuktaOriginalWidth ** 2 + upaayuktaOriginalHeight ** 2
+// );
+// const upaayuktaTargetDiagonal = upaayuktaOriginalDiagonal - 2;
+// const upaayuktaScaleRatio = upaayuktaTargetDiagonal / upaayuktaOriginalDiagonal;
+
+
+// const upaayuktaImgWidth = parseFloat(
+//   (upaayuktaOriginalWidth * upaayuktaScaleRatio).toFixed(2)
+// );
+// const upaayuktaImgHeight = parseFloat(
+//   (upaayuktaOriginalHeight * upaayuktaScaleRatio).toFixed(2)
+// );
+
+
+// const upaayuktaImgX = 168;           
+// const upaayuktaImgY = yPos - 5 + 2;  
+
+
+// doc.text(reverseDevanagariIfContainsViOrLi("दिनांक"), 120, yPos);
+
+// // उप-आयुक्त इमेज PDF मध्ये टाका
+// doc.addImage(
+//   MUUpaaayukta,
+//   'PNG',
+//   upaayuktaImgX,
+//   upaayuktaImgY,
+//   upaayuktaImgWidth,
+//   upaayuktaImgHeight
+// );
+
+
+
 const muLineStartX = muImgX + muImgWidth + 5;  
 const muLineY = yPos + 1;
 const muLineEndX = muLineStartX + 20;  
@@ -1908,17 +2010,47 @@ doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
       
       yPos += 13;
       // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
-      
+
+
+
+if (signatureMatches[5] === "verified") {
+  const upaayuktaSigWidth = upaayuktaImgWidth;
+  const upaayuktaSigHeight = upaayuktaImgHeight;
+  const upaayuktaSigX = upaayuktaImgX;
+  const upaayuktaSigY = upaayuktaImgY;
+
+  const today = new Date();
+  const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
+    (today.getMonth() + 1).toString().padStart(2, '0')
+  }/${today.getFullYear()}`;
+
+  const textX = upaayuktaSigX + upaayuktaSigWidth / 2; // center of signature
+  const dateY = upaayuktaSigY + upaayuktaSigHeight + 2; // just below signature
+  const verifiedY = dateY + 5; // below date
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 0, 0); // black for date
+  doc.text(formattedDate, textX, dateY, { align: 'center' });
+
+  doc.setFontSize(8);
+  doc.setTextColor(0, 128, 0); // green for 'Verified'
+  doc.text('Verified', textX, verifiedY, { align: 'center' });
+}
+
+
+
+
 const upaayuktaOriginalWidth = 22;
 const upaayuktaOriginalHeight = 5;
 
+// Shrink logic (2px ने डायगोनल लहान)
 const upaayuktaOriginalDiagonal = Math.sqrt(
   upaayuktaOriginalWidth ** 2 + upaayuktaOriginalHeight ** 2
 );
 const upaayuktaTargetDiagonal = upaayuktaOriginalDiagonal - 2;
 const upaayuktaScaleRatio = upaayuktaTargetDiagonal / upaayuktaOriginalDiagonal;
 
-
+// Scale केल्यानंतरचे width आणि height
 const upaayuktaImgWidth = parseFloat(
   (upaayuktaOriginalWidth * upaayuktaScaleRatio).toFixed(2)
 );
@@ -1926,14 +2058,15 @@ const upaayuktaImgHeight = parseFloat(
   (upaayuktaOriginalHeight * upaayuktaScaleRatio).toFixed(2)
 );
 
+// इमेज placement coordinates (दिनांक च्या बाजूला)
+const upaayuktaImgX = 168;           // टेक्स्ट नंतरची जागा
+const upaayuktaImgY = yPos - 5 + 2;  // थोडं खाली आणलं आहे
 
-const upaayuktaImgX = 168;           
-const upaayuktaImgY = yPos - 5 + 2;  
-
-
+// 'दिनांक' टेक्स्ट (डाव्या बाजूला)
 doc.text(reverseDevanagariIfContainsViOrLi("दिनांक"), 120, yPos);
 
 // उप-आयुक्त इमेज PDF मध्ये टाका
+
 doc.addImage(
   MUUpaaayukta,
   'PNG',
@@ -1944,21 +2077,22 @@ doc.addImage(
 );
 
   
-      if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
-        const dmcSigWidth = 30;
-        const dmcSigHeight = 30;
-        const dmcSigX = 160;
-        const dmcSigY = yPos - dmcSigHeight + 5; 
+      // if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
+      //   const dmcSigWidth = 30;
+      //   const dmcSigHeight = 30;
+      //   const dmcSigX = 160;
+      //   const dmcSigY = yPos - dmcSigHeight + 5; 
         
-        doc.addImage(
-          signatures[user.ward]["Dy.Municipal Commissioner"],
-          'PNG',
-          dmcSigX,
-          dmcSigY,
-          dmcSigWidth,
-          dmcSigHeight
-        );
-      }
+      //   doc.addImage(
+      //     signatures[user.ward]["Dy.Municipal Commissioner"],
+      //     'PNG',
+      //     dmcSigX,
+      //     dmcSigY,
+      //     dmcSigWidth,
+      //     dmcSigHeight
+      //   );
+      // }
+
       doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 140, yPos + 7);
       
       // ****
