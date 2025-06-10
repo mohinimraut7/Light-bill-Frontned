@@ -1719,7 +1719,27 @@ doc.addImage(
   //     console.error('Error generating Form 22 PDF:', error);
   //   }
   // };
-  
-  
-  
+  ===================
+  // if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
+        //   const dmcSigWidth = 30;
+        //   const dmcSigHeight = 30;
+        //   const dmcSigX = 160;
+        //   const dmcSigY = yPos - dmcSigHeight + 5; 
+          
+        //   doc.addImage(
+        //     signatures[user.ward]["Dy.Municipal Commissioner"],
+        //     'PNG',
+        //     dmcSigX,
+        //     dmcSigY,
+        //     dmcSigWidth,
+        //     dmcSigHeight
+        //   );
+        // }
+  =============================
+   // yPos += 10;
+      // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+      // doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
+  =============================
+    // doc.text(reverseDevanagariIfContainsViOrLi("द्वारे देण्यात आले आणि ----------------------"), 120, yPos);
+      // 'द्वारे देण्यात आले आणि' image dimensions
   

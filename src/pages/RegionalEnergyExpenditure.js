@@ -1385,12 +1385,12 @@ if (signatureMatches[0] === "verified") {
   doc.text(formattedDate, signatureX - 22, signatureY + signatureHeight - 1);
 
   // Final position adjustment: 5px left, 3px upward
-  const textX = signatureX + signatureWidth / 2 - 15;
-  const textY = signatureY + signatureHeight + 4 - 3;
+  const textXa = signatureX + signatureWidth / 2 - 15;
+  const textYa = signatureY + signatureHeight + 4 - 3;
 
   doc.setFontSize(8);
   doc.setTextColor(0, 128, 0); // green color for Verified
-  doc.text('Verified', textX, textY, { align: 'center' });
+  doc.text('Verified', textXa, textYa, { align: 'center' });
 }
 
 
@@ -2013,6 +2013,35 @@ doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
 
 
 
+
+
+
+
+
+const upaayuktaOriginalWidth = 22;
+const upaayuktaOriginalHeight = 5;
+
+// Shrink logic (2px ने डायगोनल लहान)
+const upaayuktaOriginalDiagonal = Math.sqrt(
+  upaayuktaOriginalWidth ** 2 + upaayuktaOriginalHeight ** 2
+);
+const upaayuktaTargetDiagonal = upaayuktaOriginalDiagonal - 2;
+const upaayuktaScaleRatio = upaayuktaTargetDiagonal / upaayuktaOriginalDiagonal;
+// ---<<<
+// Scale केल्यानंतरचे width आणि height
+const upaayuktaImgWidth = parseFloat(
+  (upaayuktaOriginalWidth * upaayuktaScaleRatio).toFixed(2)
+);
+
+const upaayuktaImgHeight = parseFloat(
+  (upaayuktaOriginalHeight * upaayuktaScaleRatio).toFixed(2)
+);
+
+// इमेज placement coordinates (दिनांक च्या बाजूला)
+var upaayuktaImgX = 168;           // टेक्स्ट नंतरची जागा
+var upaayuktaImgY = yPos - 5 + 2;  // थोडं खाली आणलं आहे
+
+
 if (signatureMatches[5] === "verified") {
   const upaayuktaSigWidth = upaayuktaImgWidth;
   const upaayuktaSigHeight = upaayuktaImgHeight;
@@ -2040,28 +2069,6 @@ if (signatureMatches[5] === "verified") {
 
 
 
-const upaayuktaOriginalWidth = 22;
-const upaayuktaOriginalHeight = 5;
-
-// Shrink logic (2px ने डायगोनल लहान)
-const upaayuktaOriginalDiagonal = Math.sqrt(
-  upaayuktaOriginalWidth ** 2 + upaayuktaOriginalHeight ** 2
-);
-const upaayuktaTargetDiagonal = upaayuktaOriginalDiagonal - 2;
-const upaayuktaScaleRatio = upaayuktaTargetDiagonal / upaayuktaOriginalDiagonal;
-
-// Scale केल्यानंतरचे width आणि height
-const upaayuktaImgWidth = parseFloat(
-  (upaayuktaOriginalWidth * upaayuktaScaleRatio).toFixed(2)
-);
-const upaayuktaImgHeight = parseFloat(
-  (upaayuktaOriginalHeight * upaayuktaScaleRatio).toFixed(2)
-);
-
-// इमेज placement coordinates (दिनांक च्या बाजूला)
-const upaayuktaImgX = 168;           // टेक्स्ट नंतरची जागा
-const upaayuktaImgY = yPos - 5 + 2;  // थोडं खाली आणलं आहे
-
 // 'दिनांक' टेक्स्ट (डाव्या बाजूला)
 doc.text(reverseDevanagariIfContainsViOrLi("दिनांक"), 120, yPos);
 
@@ -2077,21 +2084,7 @@ doc.addImage(
 );
 
   
-      // if (user.ward && signatures[user.ward]?.["Dy.Municipal Commissioner"]) {
-      //   const dmcSigWidth = 30;
-      //   const dmcSigHeight = 30;
-      //   const dmcSigX = 160;
-      //   const dmcSigY = yPos - dmcSigHeight + 5; 
-        
-      //   doc.addImage(
-      //     signatures[user.ward]["Dy.Municipal Commissioner"],
-      //     'PNG',
-      //     dmcSigX,
-      //     dmcSigY,
-      //     dmcSigWidth,
-      //     dmcSigHeight
-      //   );
-      // }
+      
 
       doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 140, yPos + 7);
       
@@ -2124,17 +2117,12 @@ doc.addImage(
 
 
 
-
-
-
       yPos += 15;
       doc.text("---------                           ---------", 120, yPos-3);
  yPos += 10;
       doc.text("---------------------------------------------- यांस", 118, yPos);
 
-      // yPos += 10;
-      // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
-      // doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 120, yPos + 7);
+     
 
 yPos += 20;
 
@@ -2199,10 +2187,6 @@ doc.addImage(
 
 // Municipal name slightly shifted to right (5px)
 doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 125, yPos + 7);
-
-
-
-      
       
       yPos += 15; 
       doc.text("----------------------------------------------------", 120, yPos);
@@ -2242,8 +2226,7 @@ doc.addImage(
 doc.text(reverseDevanagariIfContainsViOrLi("----------  दिनांक  ------------"), ddNumberImgX + ddNumberImgWidth + 5, yPos);
       
       yPos += 10;
-      // doc.text(reverseDevanagariIfContainsViOrLi("द्वारे देण्यात आले आणि ----------------------"), 120, yPos);
-      // 'द्वारे देण्यात आले आणि' image dimensions
+    
 const ddnImgOriginalWidth = 46;
 const ddnImgOriginalHeight = 5.5;
 
@@ -2342,9 +2325,6 @@ doc.addImage(
       console.error('Error generating Form 22 PDF:', error);
     }
   };
-  
-
-
 
 const fetchReportData = async (selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr) => {
   try {
@@ -2393,10 +2373,6 @@ useEffect(() => {
   }
 }, [selectedMonthYear]);
 
-
-
-
-
 const downloadKaryalayinTipani =async() => {
 
 const { foundReport, reportingData } = await fetchReportData(selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr);
@@ -2431,8 +2407,6 @@ try {
   doc.line(leftSectionWidth-2, 10, leftSectionWidth-2, 290); 
   
   doc.setFontSize(16);
- 
-
 
   const imageWidthk = 50; 
 const imageHeightk = 10;
