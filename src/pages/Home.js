@@ -322,6 +322,11 @@ const previousMonthPaidCount = bills.filter(bill =>
   (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 
 ).length;
 
+
+const previousMonthBills = bills.filter(bill => bill.monthAndYear === previousMonthCYear);
+// Total Bills Count for previous month
+const previousMonthTotalCount = previousMonthBills.length;
+
 const previousTwoMonthPaidCount = bills.filter(bill => 
   bill.paymentStatus === 'paid' && bill.monthAndYear === previousTwoMonthCYear &&
   (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward) 

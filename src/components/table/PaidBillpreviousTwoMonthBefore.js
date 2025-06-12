@@ -46,6 +46,8 @@ const PaidBillpreviousTwoMonthBefore = () => {
   const [wardPaidCounts, setWardPaidCounts] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const [previousMonthTotalBills, setPreviousMonthTotalBills] = useState({});
+const [beforeTwoMonthTotalBills, setBeforeTwoMonthTotalBills] = useState({});
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
 
   useEffect(() => {
@@ -59,6 +61,16 @@ const PaidBillpreviousTwoMonthBefore = () => {
           }
           return acc;
         }, {});
+
+
+       const beforeTwoCounts = data.reduce((acc, bill) => {
+    if (bill.monthAndYear === previousMonthYear) {
+        const ward = bill.ward;
+        acc[ward] = (acc[ward] || 0) + 1;
+    }
+    return acc;
+}, {});
+setBeforeTwoMonthTotalBills(beforeTwoCounts);
 
         // Ensure all wards are present
         const finalCounts = allWards.reduce((acc, ward) => {
@@ -88,7 +100,8 @@ const PaidBillpreviousTwoMonthBefore = () => {
             <StyledTableHead>
               <TableRow>
                 <StyledHeaderCell>Ward</StyledHeaderCell>
-                <StyledHeaderCell>Count</StyledHeaderCell>
+                <StyledHeaderCell>Paid</StyledHeaderCell>
+                 <StyledHeaderCell>Total</StyledHeaderCell>
               </TableRow>
             </StyledTableHead>
             <TableBody>
@@ -96,6 +109,11 @@ const PaidBillpreviousTwoMonthBefore = () => {
                 <StyledRow key={ward} index={index}>
                   <StyledCell>{ward}</StyledCell>
                   <StyledCell>{wardPaidCounts[ward]}</StyledCell>
+               <StyledCell>{beforeTwoMonthTotalBills[ward]}</StyledCell>
+
+
+
+                  
                 </StyledRow>
               ))}
             </TableBody>

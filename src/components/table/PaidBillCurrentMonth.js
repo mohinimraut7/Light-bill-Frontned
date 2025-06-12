@@ -40,6 +40,7 @@ const StyledCell = styled(TableCell)({
   fontWeight: "500",
 });
 const PaidBillCurrentMonth = () => {
+  const [wardTotalCountsBills, setWardTotalCountsBills] = useState({});
   const [wardPaidCounts, setWardPaidCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
@@ -54,6 +55,18 @@ const PaidBillCurrentMonth = () => {
           }
           return acc;
         }, {});
+
+         // Total bills (paid + unpaid) count wardwise for previous month
+      const totalCounts = data.reduce((acc, bill) => {
+        if (bill.monthAndYear === currentMonthYear) {
+          const ward = bill.ward;
+          acc[ward] = (acc[ward] || 0) + 1;
+        }
+        return acc;
+      }, {})
+
+      setWardTotalCountsBills(totalCounts); // <-- You need to create this state
+
         const finalCounts = allWards.reduce((acc, ward) => {
           acc[ward] = counts[ward] || 0;
           return acc;
@@ -79,7 +92,8 @@ const PaidBillCurrentMonth = () => {
             <StyledTableHead>
               <TableRow>
                 <StyledHeaderCell>Ward</StyledHeaderCell>
-                <StyledHeaderCell>Count</StyledHeaderCell>
+                <StyledHeaderCell>Paid</StyledHeaderCell>
+                <StyledHeaderCell>Total</StyledHeaderCell>
               </TableRow>
             </StyledTableHead>
             <TableBody>
@@ -87,6 +101,8 @@ const PaidBillCurrentMonth = () => {
                 <StyledRow key={ward} index={index}>
                   <StyledCell>{ward}</StyledCell>
                   <StyledCell>{wardPaidCounts[ward]}</StyledCell>
+                   <StyledCell>{wardTotalCountsBills[ward]}</StyledCell>
+
                 </StyledRow>
               ))}
             </TableBody>
