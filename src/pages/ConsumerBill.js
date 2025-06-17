@@ -97,24 +97,51 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
   }, [dispatch, data]);
 
   
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (bills) {
-      const initialSelectedValues = bills.reduce((acc, bill, index) => {
-        acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
-        return acc;
-      }, {});
+  //   if (bills) {
+  //     const initialSelectedValues = bills.reduce((acc, bill, index) => {
+  //       acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
+  //       return acc;
+  //     }, {});
 
-      setSelectedValues(initialSelectedValues);
+  //     setSelectedValues(initialSelectedValues);
      
-      const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
-      const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
+  //     const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
+  //     const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
       
-      setBillPaid(paid)
-      setBillUnPaid(unpaid)
-    }
-  }, [bills]);
+  //     setBillPaid(paid)
+  //     setBillUnPaid(unpaid)
+  //   }
+  // }, [bills]);
 
+
+
+  useEffect(() => {
+  if (bills && user) {
+    const initialSelectedValues = bills.reduce((acc, bill, index) => {
+      acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
+      return acc;
+    }, {});
+    setSelectedValues(initialSelectedValues);
+
+    // 👇 Ward-wise + currentMonthYear + JE restriction logic added here
+    const filteredBills = bills.filter((bill) =>
+      bill.monthAndYear === currentMonthYear &&
+      (
+        user.role !== "Junior Engineer" ||
+        user.ward === bill.ward ||
+        (user.role === "Junior Engineer" && user.ward === "Head Office")
+      )
+    );
+
+    const paid = filteredBills.filter(bill => bill?.paymentStatus === 'paid')?.length;
+    const unpaid = filteredBills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
+
+    setBillPaid(paid);
+    setBillUnPaid(unpaid);
+  }
+}, [bills, user]);
 
 
   useEffect(() => {
@@ -123,7 +150,8 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       
       const wardCounts = bills.reduce((acc, bill) => {
         if (bill.monthAndYear === currentMonthYear && 
-            (user.role !== "Junior Engineer" || user.ward === bill.ward)) {  // ✅ Junior Engineer restriction
+            (user.role !== "Junior Engineer" || user.ward === bill.ward||
+  (user.role === "Junior Engineer" && user.ward === "Head Office") )) {  // ✅ Junior Engineer restriction
           counts[bill.meterStatus] = (counts[bill.meterStatus] || 0) + 1;
 
           acc[bill.ward] = (acc[bill.ward] || 0) + (bill.meterStatus === "FAULTY" ? 1 : 0);
@@ -899,7 +927,16 @@ Remark
     },
   }));
 
-  const totalmeters = `${consumers.length}`;
+  // const totalmeters = `${consumers.length}`;
+  const totalmeters = `${
+  user?.role === 'Super Admin' ||
+  user?.role === 'Admin' ||
+  user?.role === 'Executive Engineer' ||
+  (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')
+    ? consumers.length
+    : consumers.filter((c) => c?.ward === user?.ward).length
+}`;
+
 
   const handleDownloadReport = () => {
     const filteredRows = rows.filter(row => row.meterStatus === 'FAULTY' || row.meterStatus === 'AVERAGE');
