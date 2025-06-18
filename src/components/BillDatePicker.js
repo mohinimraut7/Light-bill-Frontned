@@ -21,7 +21,7 @@ const BillDatePicker = ({ selectedMonthYear, onChange }) => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} >
       <DatePicker
         views={["year", "month"]}
         label="Month and Year"

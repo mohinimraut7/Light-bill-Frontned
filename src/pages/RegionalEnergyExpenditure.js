@@ -3693,7 +3693,9 @@ const numberToMarathiWords = (num) => {
   return (
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
-        <Box sx={{ 
+
+
+        {/* <Box sx={{ 
           width: '100%', 
           display: 'flex', 
           justifyContent: 'space-between', 
@@ -3705,12 +3707,14 @@ const numberToMarathiWords = (num) => {
             xs: 'column'
           }
         }}>
+
           <Typography sx={{ 
+            textTransform:'uppercase',
             paddingLeft: {
               xs: '3px',
               sm: '5px',
               md: '10px',
-              lg: '20px'
+              lg: '0px'
             },
             color: '#0d2136',
             fontSize: {
@@ -3722,6 +3726,7 @@ const numberToMarathiWords = (num) => {
           }}>
             Energy Expenditure
           </Typography>
+          
           <Box sx={{ 
             display: 'flex', 
             width: '250px', 
@@ -3740,8 +3745,15 @@ const numberToMarathiWords = (num) => {
               id="fileInput"
             />
           </Box>
-        </Box>
+        </Box> */}
+
+
+
+
+
+
         <Box sx={{
+          // border:'1px solid red',
           display: 'flex',
           flexDirection: {
             xl: 'row',
@@ -3752,20 +3764,49 @@ const numberToMarathiWords = (num) => {
           },
           justifyContent: {
             md: 'space-between',
-            lg: 'flex-start'
+            lg: 'space-between'
           }
         }}>
 
+   <Box><Typography sx={{ 
+            textTransform:'uppercase',
+            paddingLeft: {
+              xs: '3px',
+              sm: '5px',
+              md: '10px',
+              lg: '0px'
+            },
+            // color: '#0d2136',
+            color:'#000',
+            fontWeight:'bold',
+            fontSize: {
+              sm: '20px',
+              xs: '20px',
+              md: '20px',
+              lg: '20px'
+            },  
+          }}>
+            Energy Expenditure
+          </Typography></Box> 
+
+
+<Box sx={{width:'70%',display:'flex',
+// border:'1px solid red',
+justifyContent:{
+lg:'flex-end'
+}}}>
 
 {
 (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user.role==='Assistant Municipal Commissioner' || user.role==='Dy.Municipal Commissioner')
    &&
     (
 
-          <Box sx={{
+          <Box 
+          sx={{
+            
             width: {
-              lg: '20%',
-              xl: '20%',
+              lg: '30%',
+              xl: '30%',
               md: '30%',
               sm: '100%',
               xs: '100%'
@@ -3780,6 +3821,8 @@ const numberToMarathiWords = (num) => {
               onChange={handleDateChange} 
             />
           </Box>
+
+
 )}
 
 
@@ -3790,8 +3833,8 @@ const numberToMarathiWords = (num) => {
                 variant="outlined"
                 sx={{
                   width: {
-                    xl: isSidebarOpen ? '12%' : '10%',
-                    lg: isSidebarOpen ? '15%' : '15%',
+                    xl: isSidebarOpen ? '30%' : '30%',
+                    lg: isSidebarOpen ? '30%' : '30%',
                     md: '30%',
                     sm: '100%',
                     xs: '100%',
@@ -3824,6 +3867,7 @@ const numberToMarathiWords = (num) => {
               </FormControl>
 
                 )}
+
           {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user?.role === 'Junior Engineer' )  && (
             <>
 
@@ -3837,8 +3881,8 @@ const numberToMarathiWords = (num) => {
       variant="outlined"
       sx={{
         width: {
-          xl: isSidebarOpen ? '20%' : '20%',
-          lg: isSidebarOpen ? '17%' : '17%',
+          xl: isSidebarOpen ? '30%' : '30%',
+          lg: isSidebarOpen ? '30%' : '30%',
           md: '30%',
           sm: '100%',
           xs: '100%',
@@ -3877,12 +3921,44 @@ const numberToMarathiWords = (num) => {
 
           )}
           
-          <Button
+       </Box>  
+
+
+
+
+         
+        </Box>
+
+        <Box sx={{display:'flex',
+        // border:'1px solid red',
+        justifyContent:{
+         lg:'flex-start'
+        },
+        flexDirection: {
+      xs: 'column', // mobile
+      sm: 'column', // small tablets
+      md: 'row', // tablets
+     
+    },
+    mb:{
+      md:2
+    },
+    mt: {
+               
+                lg: 1.5,
+                
+              },
+    }}>
+
+ <Button
             sx={{
-              color: '#757575',
+              // color: '#757575',
+              color:'#000',
+              textTransform: 'uppercase',
               border: '0.1px solid #757575',
               cursor: 'pointer',
-              textTransform: 'none',
+              // textTransform: 'none',
+             
               // display: 'flex',
               // justifyContent: 'space-between',
               width: {
@@ -3894,10 +3970,11 @@ const numberToMarathiWords = (num) => {
               },
               ml: {
                 xl: 1,
-                lg: 1,
+                lg: 0,
                 md: 0,
                 sm: 0
               },
+              
               height: '65%',
             }}
             onClick={handleDownloadPDF}
@@ -3909,24 +3986,15 @@ const numberToMarathiWords = (num) => {
              Ward Bill Totals
             </Typography>
           </Button>
-         
-        </Box>
-        <Box sx={{display:'flex',flexDirection: {
-      xs: 'column', // mobile
-      sm: 'column', // small tablets
-      md: 'row', // tablets
-     
-    },
-    mb:{
-      md:1
-    }
-    }}>
+
         <Button
             sx={{
-              color: '#757575',
+              // color: '#757575',
+               color:'#000',
+              textTransform: 'uppercase',
               border: '0.1px solid #757575',
               cursor: 'pointer',
-              textTransform: 'none',
+              // textTransform: 'none',
              
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
@@ -3964,14 +4032,16 @@ const numberToMarathiWords = (num) => {
 
         <Button
             sx={{
-              color: '#757575',
+              // color: '#757575',
+               color:'#000',
+              textTransform: 'uppercase',
               border: '0.1px solid #757575',
               cursor: 'pointer',
-              textTransform: 'none',
+              // textTransform: 'none',
               
               width: {
-                xl: isSidebarOpen ? '20%' : '20%',
-                lg: isSidebarOpen ? '20%' : '20%',
+                xl: isSidebarOpen ? '21%' : '21%',
+                lg: isSidebarOpen ? '21%' : '21%',
                 md: '30%',
                 sm: '100%',
                 xs: '100%',
@@ -4003,10 +4073,12 @@ const numberToMarathiWords = (num) => {
 
           <Button
             sx={{
-              color: '#757575',
+              // color: '#757575',
+               color:'#000',
+              textTransform: 'uppercase',
               border: '0.1px solid #757575',
               cursor: 'pointer',
-              textTransform: 'none',
+              // textTransform: 'none',
              
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
