@@ -12,13 +12,42 @@ const MonthYearPickerFormoneTwenty = ({ cRDate, handleCRDChange }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-      slotProps={{ field: { size: 'small' } }}
+     slotProps={{
+          textField: {
+            size: 'small',
+            sx: {
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#000',       // Normal border
+                },
+                '&:hover fieldset': {
+                  borderColor: '#000',       // Hover border
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#000',       // Focus border
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: '#000',               // Label text
+                textTransform: 'uppercase',
+                fontSize: '12px',
+              },
+              '& .MuiInputBase-input': {
+                color: '#000',               // Input text color
+                fontSize: '13px',
+              },
+              '& .MuiSvgIcon-root': {
+                color: '#000',               // Calendar icon
+              },
+            },
+          },
+        }}
       enableAccessibleFieldDOMStructure 
       sx={{
         
         width:{
-            xl:isSidebarOpen ? '23%' : '20%',
-         lg:isSidebarOpen ? '23%' : '20%',
+            xl:isSidebarOpen ? '25%' : '25%',
+         lg:isSidebarOpen ? '25%' : '25%',
 
         md:'45%',
         sm:'100%',
