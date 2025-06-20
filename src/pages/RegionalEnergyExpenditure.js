@@ -35,6 +35,7 @@ import mahanagarpaliketarfe from '../Images/mahanagarpaliketarfe.png';
 import pacchim from '../Images/divabatti.png';
 import prabhagsamiti from '../Images/prabhagsamiti.png';
 import aarthikvarsh from '../Images/aarthikvarsh.png';
+import aataparyantachaKharch from '../Images/aataparyantachaKharch.png';
 import Akshari from '../Images/Akshari.png';
 import akshari from '../Images/akshari2.png';
 import matra from '../Images/matra.png';
@@ -90,8 +91,8 @@ import MUUpaaayukta from '../Images/MUUpaaayukta.png';
 import MUDhanadeshKramank from '../Images/MUDhanadeshKramank.png';
 import Mudrank from '../Images/Mudrank.png';
 import PaiseGhenaryachiSahi from '../Images/PaiseGhenaryachiSahi.png';
-
-
+import mahanagarpalikechya from '../Images/mahanagarpalikechya.png';
+import yanaUdaHones from '../Images/yanaUdaHones.png';
 
 import vvcmcKaryashetratil from '../Images/vvcmcKaryashetratil.png';
 import prabhagsamitiKaryashtratil from '../Images/prabhagsamitiKaryashtratil.png';
@@ -99,7 +100,7 @@ import vibhagatilVirar from '../Images/vibhagatilVirar.png';
 import vibhagacheMahe from '../Images/vibhagacheMahe.png';
 import vidvyutDeyak from '../Images/vidvyutDeyak.png';
 import VastuGhenaryaAdhikaryachiSahi from '../Images/VastuGhenaryaAdhikaryachiSahi.png';
-
+import lekhashirshDivabattiVijDeyak from '../Images/lekhashirshDivabattiVijDeyak.png';
 
 import FADurdhwani from '../Images/Durdhwani.png';
 import FAFax from '../Images/Fax.png';
@@ -116,6 +117,7 @@ import FAMahodayUproktaVishayanwaye from '../Images/MahodayUproktaVishayanwaye.p
 import FANavinMeterBasavinyacheMaganipatrak from '../Images/NavinMeterBasavinyacheMaganipatrak.png';
 import FASadarKamiMRVVLINiyam from '../Images/SadarKamiMRVVLINiyam.png';
 import FASadarMeterBadaliKarunMeterBasavine from '../Images/SadarMeterBadaliKarunMeterBasavine.png';
+
 
 
 
@@ -144,6 +146,8 @@ import kanistaabhiyantaho from '../Images/kanistaabhiyantaho.png';
 import lekhashirsh from '../Images/lekhashirsh.png';
 import yanchyakadunpachhim from '../Images/yanchyakadunpachhim.png';
 import prastavitdeyakrakkam from '../Images/prastavitdeyakrakkam.png';
+import prastavitdeyakrakkam2 from '../Images/prastavitdeyakrakkam2.png';
+
 import billkramank from '../Images/billkramank.png';
 import pramanakKramank from '../Images/pramanakKramank.png';
 import pustaksandharbh from '../Images/pustaksandharbh.png';
@@ -2602,8 +2606,21 @@ if (lipikData?.signature) {
    
     doc.addImage(kanistaabhiyantaho, 'PNG', rightSectionStart + 109, yOffsetJRhow,signatureWidthjrhow,signatureHeightjrhow);
     yPos += 7;
-    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
-    doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 60, yPos);
+    // ******
+    const prabhagImageWidth = 26;  // Adjust size as per your layout
+const prabhagImageHeight = 6;
+
+    // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
+    // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 60, yPos);
+
+    doc.addImage(prabhagsamiti, 'PNG', rightSectionStart-1, yPos - 4.5, prabhagImageWidth, prabhagImageHeight);
+// Ward name beside image
+doc.text(reverseDevanagariIfContainsViOrLi(`(${displayWardName})`), rightSectionStart + prabhagImageWidth + 2, yPos);
+
+// Second image instead of second "प्रभाग समिती"
+doc.addImage(prabhagsamiti, 'PNG', rightSectionStart-1 + 60, yPos - 4.5, prabhagImageWidth, prabhagImageHeight);
+// Ward name beside second image
+doc.text(reverseDevanagariIfContainsViOrLi(`(${displayWardName})`), rightSectionStart + 60 + prabhagImageWidth + 2, yPos);
     doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart + 110, yPos);
     yPos += 7;
     doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
@@ -2612,26 +2629,85 @@ if (lipikData?.signature) {
     yPos += 10;
  
 
-  doc.text("मा.सदर,", rightSectionStart, yPos);
+  doc.text("मा.सादर,", rightSectionStart, yPos);
   yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिकेच्या विद्युत विभागाने सदर केलेल्या अहवालानुसार:"), rightSectionStart, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिकेच्या विद्युत विभागाने सादर केलेल्या अहवालानुसार:"), rightSectionStart, yPos);
+
+  // Insert image where "महानगरपालिकेच्या" would be
+  doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर"), rightSectionStart, yPos);
+const mahaImageWidth = 40;  // Adjust size as per image
+const mahaImageHeight = 4.5;  // Adjust size as per image
+doc.addImage(mahanagarpalikechya, 'PNG', rightSectionStart + 28.5, yPos - 4, mahaImageWidth, mahaImageHeight);
+
+// Remaining part text (starting after image)
+doc.text(reverseDevanagariIfContainsViOrLi("विद्युत विभागाने सादर केलेल्या अहवालानुसार:"), rightSectionStart + 27 + mahaImageWidth + 2, yPos);
   yPos += 7;
-  doc.text("१) आर्थिक वर्ष: २०२४-२५", rightSectionStart, yPos);
+  // doc.text("१) आर्थिक वर्ष: २०२४-२५", rightSectionStart, yPos);
+  const imageWidthfy = 30; // तुम्हाला हवी तशी width द्या
+const imageHeightfy = 5.5; // proportion प्रमाणे height द्या
+
+doc.addImage(aarthikvarsh, 'PNG', rightSectionStart, yPos-5, imageWidthfy, imageHeightfy);
   yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi("२) लेखाशिर्ष: दिवाबत्ती वीज देयक"), rightSectionStart, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi("२) लेखाशिर्ष: दिवाबत्ती वीज देयक"), rightSectionStart, yPos);
+
+const imageWidthLes = 28; // आवश्यकतेनुसार width द्या
+const imageHeightLes = 4.4; // proportion प्रमाणे height द्या
+
+doc.addImage(lekhashirshDivabattiVijDeyak, 'PNG', rightSectionStart-0.8, yPos-5, imageWidthLes, imageHeightLes);
   yPos += 7;
   doc.text("३) मूळ तरतूद: २,१७,२०,०००/-", rightSectionStart, yPos);
   yPos += 7;
-  doc.text("४) आतापर्यंतचा खर्च: ३,१६,४५,०३०/-", rightSectionStart, yPos);
+  // doc.text("४) आतापर्यंतचा खर्च: ३,१६,४५,०३०/-", rightSectionStart, yPos);
+  // Use this:
+const imageWidthaata = 38; // तुमच्या PDF layout नुसार width सेट करा
+const imageHeightaata = 5; // proportion नुसार height सेट करा
+
+doc.addImage(aataparyantachaKharch, 'PNG', rightSectionStart, yPos-5, imageWidthaata, imageHeightaata);
+
+// तुम्ही खर्चाची रक्कम हवी असेल, तर ती image नंतर किंवा शेजारी text म्हणून देऊ शकता:
+doc.text("३,१६,४५,०३०/-", rightSectionStart + imageWidthaata + 2, yPos);
   yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi(`५) प्रस्तावित देयक रक्कम: ${totalAmount.toLocaleString('hi-IN')} /-`), rightSectionStart, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi(`५) प्रस्तावित देयक रक्कम: ${totalAmount.toLocaleString('hi-IN')} /-`), rightSectionStart, yPos);
+
+  const imageWidthpra = 39; // तुम्हाला हव्या प्रमाणे width ठरवा
+const imageHeightpra = 5.5; // proportion प्रमाणे height ठरवा
+
+doc.addImage(prastavitdeyakrakkam2, 'PNG', rightSectionStart, yPos-5, imageWidthpra, imageHeightpra);
+
+// प्रस्तावित रक्कम text म्हणून टाका image च्या शेजारी:
+doc.text(`${totalAmount.toLocaleString('hi-IN')} /-`, rightSectionStart + imageWidthpra + 2, yPos);
+
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("६) शिल्लक तरतूद: १८,४८,१४,२५०/-"), rightSectionStart, yPos);
   yPos += 10;
 
-  doc.text(reverseDevanagariIfContainsViOrLi("तरी सदरचे देयक महाराष्ट्र राज्य वीज वितरण कंपनी लिमिटेड यांना"), rightSectionStart, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi("तरी सदरचे देयक महाराष्ट्र राज्य वीज वितरण कंपनी लिमिटेड यांना"), rightSectionStart, yPos);
+
+
+const beforeText = "तरी सदरचे देयक";
+const afterText = "वीज वितरण कंपनी लिमिटेड यांना";
+const imageWidthmtr = 22; // Adjust as needed
+const imageHeightmtr = 5.5; // Adjust as needed
+
+// Add before text
+doc.text(reverseDevanagariIfContainsViOrLi(beforeText), rightSectionStart, yPos);
+
+// Add image right after before text
+const beforeTextWidth = doc.getTextWidth(reverseDevanagariIfContainsViOrLi(beforeText));
+doc.addImage(maharashtra, 'PNG', rightSectionStart + beforeTextWidth + 2, yPos - 4.5, imageWidthmtr, imageHeightmtr);
+
+// Add after text
+doc.text(reverseDevanagariIfContainsViOrLi(afterText), rightSectionStart + beforeTextWidth + imageWidthmtr + 4, yPos);
+
+
+
   yPos += 7;
-  doc.text("उदाहोण्यासाठी मंजुरीस्तव सदर.", rightSectionStart, yPos);
+  // doc.text("उदाहोण्यासाठी मंजुरीस्तव सदर.", rightSectionStart, yPos);
+
+  const imageWidthyana = 60;  // तुमच्या PDF layout नुसार adjust करा
+const imageHeightyana = 5;  // proportion नुसार adjust करा
+
+doc.addImage(yanaUdaHones, 'PNG', rightSectionStart, yPos-3, imageWidthyana, imageHeightyana);
   yPos += 25;
  
 
@@ -2678,8 +2754,17 @@ const signatureWidthAMC = 30;
   doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
-  doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
-  doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 75, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 75, yPos);
+
+  doc.addImage(prabhagsamiti, 'PNG', rightSectionStart, yPos-5, prabhagImageWidth, prabhagImageHeight);
+
+// If you want to display ward name next to image:
+doc.text(`(${displayWardName})`, rightSectionStart + prabhagImageWidth + 2, yPos);
+
+// And for second position:
+doc.addImage(prabhagsamiti, 'PNG', rightSectionStart + 75, yPos-5, prabhagImageWidth, prabhagImageHeight);
+doc.text(`(${displayWardName})`, rightSectionStart + 75 + prabhagImageWidth + 2, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिका"), rightSectionStart, yPos);
