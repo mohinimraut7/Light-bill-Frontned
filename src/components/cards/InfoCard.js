@@ -5,7 +5,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, useMediaQuery,Avatar } from '@mui/material';
 import CountUp from 'react-countup';
 import './InfoCard.css';
-const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
+const InfoCard = ({ title, count, avatarColor, avatarIcon = 'A',
   backgroundColor,IconComponent,onClick
  }) => {
   const open = useSelector((state) => state.sidebar.isOpen);
@@ -32,14 +32,14 @@ const InfoCard = ({ title, count, avatarColor = '#1976d2', avatarIcon = 'A',
       }}
       onClick={onClick}
      >
-        {IconComponent && (
-        <IconComponent sx={{ fontSize:30, color: 'dodgerblue' }} />
-      )}
+        {/* {IconComponent && (
+        <IconComponent sx={{ fontSize:30, color: avatarColor }} />
+      )} */}
         <Typography variant="h6">
-          <CountUp  style={{fontSize:'20px',color:'#9A9A9A',fontWeight:'bold',color:'black'}} end={count} duration={3.5} />
+          <CountUp  style={{fontSize:'30px',color:avatarColor,fontWeight:'bold'}} end={count} duration={3.5} />
         </Typography>
       <CardContent>
-        <Typography component="div" sx={{fontWeight:'bold',color:'black'}}>
+        <Typography component="div" sx={{fontWeight:'bold',color:avatarColor}}>
           {title}
         </Typography>
       </CardContent>

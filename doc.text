@@ -3329,3 +3329,5 @@ In package.json will add this line
  "build": "set GENERATE_SOURCEMAP=false && react-scripts build",
 and just run 
 npm run build
+
+***** sidebar original color => #F8A63F

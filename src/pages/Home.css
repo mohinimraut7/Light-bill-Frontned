@@ -1,6 +1,13 @@
 
 .home-body {
-  background-color: #F7F7F8;
+  /* background-color: #F7F7F8; */
+}
+.S-M-Item{
+  font-weight: bold !important;
+  color: #475569;
+text-transform: uppercase !important;
+font-size: small !important;
+ 
 }
 .containerhome{
   background-size: cover;

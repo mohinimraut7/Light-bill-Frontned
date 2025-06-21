@@ -388,9 +388,10 @@ const previousTwoMonthPaidCount = bills.filter(bill =>
      >
 <InfoCard
 IconComponent={ElectricMeterOutlinedIcon}
-backgroundColor="#fff9ed"
+// backgroundColor="#fff9ed"
+backgroundColor="#EAEFF5"
   className="container-infocard"
-  avatarColor="#23CCEF"
+  avatarColor="#475569"
   avatarIcon="M"
   title="Total Meters"
   count={filteredConsumers.length}
@@ -402,9 +403,11 @@ backgroundColor="#fff9ed"
 <InfoCard
 // IconComponent={PaidIcon}
 IconComponent={FactCheckIcon}
-backgroundColor="#f8fffc"
+// backgroundColor="#f8fffc"
+backgroundColor="#E7F1FF"
   className="container-infocard"
-  avatarColor="#1976D2"
+  // avatarColor="#1976D2"
+avatarColor="#2563EB"
   avatarIcon="M"
   title={`Paid Bills (${currentMonthYear})`}
   count={currentMonthPaidCount}
@@ -415,9 +418,11 @@ backgroundColor="#f8fffc"
 <InfoCard
   // IconComponent={CurrencyRupeeOutlinedIcon}
   IconComponent={FactCheckIcon}
-  backgroundColor="#f3f8fe"
+  // backgroundColor="#f3f8fe"
+ backgroundColor="#E6FCED"
   className="container-infocard"
-  avatarColor="#1976D2"
+  // avatarColor="#1976D2"
+avatarColor="#16A34A"
   avatarIcon="M"
   title={`Paid Bills (${previousMonthCYear})`}
   count={previousMonthPaidCount}
@@ -472,9 +477,11 @@ backgroundColor="#f8fffc"
 
 <InfoCard
 IconComponent={ElectricMeterOutlinedIcon}
-backgroundColor="#FFF9ED"
+// backgroundColor="#FFF9ED"
+backgroundColor="#F6EEFF"
   className="container-infocard"
-  avatarColor="#06763C"
+  // avatarColor="#06763C"
+avatarColor="#9333EA"
   avatarIcon="M"
   title="Total Average Meters"
   count={meterStatusCounts.Average}
@@ -484,9 +491,12 @@ backgroundColor="#FFF9ED"
 />
 <InfoCard
 IconComponent={ErrorOutlinedIcon}
-backgroundColor="#F8FFFC"
+// backgroundColor="#F8FFFC"
+backgroundColor="#FEEAEA"
+
   className="container-infocard"
-  avatarColor="#FFA534"
+  // avatarColor="#FFA534"
+avatarColor="#DC2626"
   avatarIcon="M"
   title="Total Faulty Meters"
   // count={meterStatusCounts.Faulty}
@@ -498,9 +508,13 @@ backgroundColor="#F8FFFC"
 <InfoCard
 // IconComponent={CurrencyRupeeOutlinedIcon}
 IconComponent={UpcomingIcon}
-  backgroundColor='#F3F8FE'
+  // backgroundColor='#F3F8FE'
+backgroundColor='#E8EDFF'
   className="container-infocard"
-  avatarColor="#fedadc"
+  // avatarColor="#fedadc"
+avatarColor="#4F46E5"
+
+  
   avatarIcon="M"
   title="Upcoming Due Bills"
   count={dueAlertCount}
@@ -564,9 +578,11 @@ IconComponent={UpcomingIcon}
 <InfoCard
   // IconComponent={CurrencyRupeeOutlinedIcon}
   IconComponent={FactCheckIcon}
-  backgroundColor="#f3f8fe"
+  // backgroundColor="#f3f8fe"
+backgroundColor="#DCFCF5"
   className="container-infocard"
-  avatarColor="#1976D2"
+  // avatarColor="#1976D2"
+avatarColor="#0D9488"
   avatarIcon="M"
   title={`Paid Bills (${previousTwoMonthCYear})`}
   count={previousTwoMonthPaidCount}
@@ -579,7 +595,8 @@ IconComponent={UpcomingIcon}
 
 <InfoCard
 IconComponent={ErrorOutlinedIcon}
-backgroundColor="#F8FFFC"
+// backgroundColor="#F8FFFC"
+backgroundColor="#FFF7D9"
   className="container-infocard"
   avatarColor="#FFA534"
   avatarIcon="M"
@@ -605,9 +622,11 @@ backgroundColor="#f8fffc"
 
 <InfoCard
 IconComponent={AccessTimeFilledIcon}
-backgroundColor="#f8fffc"
+// backgroundColor="#f8fffc"
+backgroundColor="#F6F7F8"
   className="container-infocard"
-  avatarColor="#1976D2"
+  // avatarColor="#1976D2"
+avatarColor="#D97706"
   avatarIcon="M"
   title="Overdue Bills"
   count={passedDueDateCount}
@@ -644,9 +663,14 @@ backgroundColor="#f8fffc"
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
   <InfoCard
   IconComponent={Person2OutlinedIcon}
- backgroundColor="#fff9ed"
+//  backgroundColor="#fff9ed"
+ backgroundColor="#F6F7F9"
+
     className="container-infocard"
-    avatarColor="#FB404B"
+    // avatarColor="#FB404B"
+// avatarColor="#4B5563"
+avatarColor="#374151"
+    
     avatarIcon="PersonIcon"
     title="Total Users"
     count={roles.length} 
