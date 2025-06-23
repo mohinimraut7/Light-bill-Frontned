@@ -155,6 +155,16 @@ import anukramank from '../Images/anukramank.png';
 import kamachaTapashil from '../Images/kamachaTapashil.png';
 import parimanVajan from '../Images/parimanVajan.png';
 import bookRef from '../Images/bookRef.png';
+
+import meterPurposeIMG from '../Images/meterPurpose.png';
+import PrabhagIMG from '../Images/Prabhag.png';
+import mahinAndVarsh from '../Images/mahinAndVarsh.png';
+import Mahina from '../Images/Mahina.png';
+import Tapshil from '../Images/Tapshil.png';
+import grahakKramank from '../Images/grahakKramank.png';
+import Rakkam from '../Images/Rakkam.png';
+import AntimDinank from '../Images/AntimDinank.png';
+
 import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
@@ -879,12 +889,36 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
     const lineHeight = 10; // Space between lines
     let yPosition = 20; // Initial Y position
   
-    doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
+    // doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
+    const imgWidthwb = 24; // इमेजची रुंदी (आवश्यकतेनुसार समायोजित करा)
+const imgHeightwb = 5; // इमेजची उंची (आवश्यकतेनुसार समायोजित करा)
+
+// X आणि Y पोझिशन्स समायोजित करा
+doc.addImage(meterPurposeIMG, "PNG", 140, yPosition, imgWidthwb, imgHeightwb);
     yPosition += lineHeight; // Move down
-    doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
+
+    // doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
+
+const imgWidthWa = 14;  // इमेजची रुंदी, आवश्यकतेनुसार समायोजित करा
+const imgHeightWa =4; // इमेजची उंची, आवश्यकतेनुसार समायोजित करा
+
+doc.addImage(PrabhagIMG, "PNG", 140, yPosition, imgWidthWa, imgHeightWa);
+
+// गरज असेल तर ward ची value इमेजच्या शेजारी किंवा खाली दाखवू शकता
+// उदा. इमेजच्या उजव्या बाजूला:
+doc.text(`:${ward}`, 175, yPosition + 3, { align: "left" });
+
     yPosition += lineHeight; // Move down
-    doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
-  
+
+    // doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
+  const imgWidthMV = 32; // इमेजची रुंदी (आवश्यकतेनुसार बदल करा)
+const imgHeightMV = 5.5; // इमेजची उंची (आवश्यकतेनुसार बदल करा)
+
+// इमेज लावा
+doc.addImage(mahinAndVarsh, "PNG", 139, yPosition, imgWidthMV, imgHeightMV);
+
+// इमेज शेजारी monthYear दाखवण्यासाठी
+doc.text(`:${monthYear}`, 175, yPosition + 5, { align: "left" }); 
   
     const tableData = rows.map(row => [
       row.consumerNumber,
@@ -896,11 +930,27 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
       row.dueDate
     ]);
 
+    // doc.autoTable({
+    //   head: [['Consumer No.', 'Address', 'Month', 'Ward', 'Meter Purpose', 'Amount', 'Due Date']],
+    //   body: tableData,
+    //   startY: 50,
+    // });
+
     doc.autoTable({
-      head: [['Consumer No.', 'Address', 'Month', 'Ward', 'Meter Purpose', 'Amount', 'Due Date']],
-      body: tableData,
-      startY: 50,
-    });
+  head: [['', '', '', '', '', '', '']],
+  body: tableData,
+  startY: 50,
+});
+
+doc.addImage(grahakKramank, "PNG", 14, 50, 20, 3);
+doc.addImage(Tapshil, "PNG", 50, 50, 20, 3);
+doc.addImage(Mahina, "PNG", 90, 50, 15, 4);
+doc.addImage(PrabhagIMG, "PNG", 120, 50, 15, 3);
+doc.addImage(meterPurposeIMG, "PNG", 150, 50, 25, 3);
+doc.addImage(Rakkam, "PNG", 185, 50, 15, 3);
+doc.addImage(AntimDinank, "PNG", 215, 50, 20, 4);
+
+
     const pdfData = doc.output('datauristring');
    let type="wardbilllist"
     // Now, pass the PDF data to the modal for preview
