@@ -895,6 +895,7 @@ const imgHeightwb = 5; // इमेजची उंची (आवश्यकत
 
 // X आणि Y पोझिशन्स समायोजित करा
 doc.addImage(meterPurposeIMG, "PNG", 140, yPosition, imgWidthwb, imgHeightwb);
+doc.text(`:${meterPurpose}`, 188, yPosition+6, { align: "center" });
     yPosition += lineHeight; // Move down
 
     // doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
@@ -940,15 +941,27 @@ doc.text(`:${monthYear}`, 175, yPosition + 5, { align: "left" });
   head: [['', '', '', '', '', '', '']],
   body: tableData,
   startY: 50,
+  headStyles: {
+    fillColor: [255, 255, 255], // पांढऱ्या रंगाचा बॅकग्राउंड
+    textColor: [0, 0, 0],        // काळा टेक्स्ट (जर आवश्यक असेल तर)
+    lineWidth: 0.1,
+    lineColor: [200, 200, 200]
+  },
+  styles: {
+    fontSize: 10,
+    textColor: [0, 0, 0]
+  }
 });
 
-doc.addImage(grahakKramank, "PNG", 14, 50, 20, 3);
-doc.addImage(Tapshil, "PNG", 50, 50, 20, 3);
-doc.addImage(Mahina, "PNG", 90, 50, 15, 4);
-doc.addImage(PrabhagIMG, "PNG", 120, 50, 15, 3);
-doc.addImage(meterPurposeIMG, "PNG", 150, 50, 25, 3);
-doc.addImage(Rakkam, "PNG", 185, 50, 15, 3);
-doc.addImage(AntimDinank, "PNG", 215, 50, 20, 4);
+doc.addImage(grahakKramank, "PNG", 14, 52, 21, 4.5);
+doc.addImage(Tapshil, "PNG", 47, 52, 16, 4);
+doc.addImage(Mahina, "PNG", 160, 52, 15, 4);
+// doc.addImage(PrabhagIMG, "PNG", 180, 50, 15, 4);
+doc.addImage(PrabhagIMG, "PNG", 180, 53, 14, 3);
+
+doc.addImage(meterPurposeIMG, "PNG", 200, 52, 20, 4);
+doc.addImage(Rakkam, "PNG", 225, 53, 14, 3);
+doc.addImage(AntimDinank, "PNG", 243, 52, 19, 4);
 
 
     const pdfData = doc.output('datauristring');
