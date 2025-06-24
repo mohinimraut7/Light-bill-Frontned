@@ -4046,7 +4046,7 @@ lg:'flex-end'
 
                 )}
 
-          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user?.role === 'Junior Engineer' )  && (
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'|| user?.role === 'Lipik' || user.role==='Accountant' || user?.role === 'Junior Engineer'||user.role==='Assistant Municipal Commissioner'||user.role==='Dy.Municipal Commissioner')  && (
             <>
 
   {/* -----------------------------//----------------------------- */}
