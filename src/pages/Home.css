@@ -6,8 +6,8 @@
   font-weight: bold !important;
   color: #475569;
 text-transform: uppercase !important;
-font-size: small !important;
- 
+/* font-size: small !important; */
+ font-size: 5px !important;
 }
 .containerhome{
   background-size: cover;

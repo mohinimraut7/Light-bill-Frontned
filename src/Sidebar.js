@@ -556,14 +556,15 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
           >
             <List>
               <ListItem disablePadding sx={{ display: open===false && 'block' }}>
-                <ListItemText className='S-M-Item' primary={`${user?.username}`} sx={{ opacity: open ? 1 : 0,ml:2.9 }} />
+                <ListItemText className='S-M-Item' primary={`${user?.username}`} sx={{ opacity: open ? 1 : 0,ml:2.9,color: '#000' }} />
                 <ListItemButton onClick={handleProfileToggle}>
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 0 : 'auto',
                       // color: '#fff',
-                      color: '#475569',
+                      // color: '#475569',
+                      color: '#000',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -584,12 +585,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                        color: '#475569'
+                        // color: '#475569'
+                        color: '#000'
                       }}
                     >
                       <AccessibilityIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
+                    <ListItemText className='S-M-Item' primary="Profile" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
                   </ListItemButton>
                 </ListItem>
               )}
@@ -609,12 +611,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                       minWidth: 0,
                       mr: open ? 0.2 : 'auto',
                       justifyContent: 'center',
-                      color: '#475569'
+                      // color: '#475569'
+                       color: '#000'
                     }}
                   >
                     <HomeIcon />
                   </ListItemIcon>
-                  <ListItemText className='S-M-Item' primary="Home" sx={{ opacity: open ? 1 : 0, }} />
+                  <ListItemText className='S-M-Item' primary="Home" sx={{ opacity: open ? 1 : 0,color:'#000' }} />
                 </ListItemButton>
               </ListItem>
  )}
@@ -634,12 +637,12 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                        color: '#475569'
+                        color: '#000'
                       }}
                     >
                       <AccessibilityIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Role" sx={{ opacity: open ? 1 : 0 }} />
+                    <ListItemText className='S-M-Item' primary="Role" sx={{ opacity: open ? 1 : 0,color:'#000' }} />
                   </ListItemButton>
                 </ListItem>
               )}
@@ -658,12 +661,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                       color: '#475569'
+                      //  color: '#475569',
+                        color: '#000'
                       }}
                     >
                       <Person />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="User" sx={{ opacity: open ? 1 : 0 }} />
+                    <ListItemText className='S-M-Item' primary="User" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
                   </ListItemButton>
                 </ListItem>
               )}
@@ -682,12 +686,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                        color: '#475569'
+                        // color: '#475569'
+                        color: '#000'
                       }}
                     >
                       <Person />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Consumer" sx={{ opacity: open ? 1 : 0, }} />
+                    <ListItemText className='S-M-Item' primary="Consumer" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
                   </ListItemButton>
                 </ListItem>
               )}    
@@ -706,12 +711,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                       color: '#475569'
+                       //  color: '#475569'
+                       color: '#000'
                       }}
                     >
                       <PaymentIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Consumer Bills" sx={{ opacity: open ? 1 : 0 ,textAlign:'left'}} />
+                    <ListItemText className='S-M-Item' primary="Consumer Bills" sx={{ opacity: open ? 1 : 0 ,textAlign:'left',color: '#000'}} />
                   </ListItemButton>
                 </ListItem>
 )}
@@ -733,13 +739,14 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                        color: '#475569'
+                        // color: '#475569'
+                        color: '#000'
                         
                       }}
                     >
                       <UpcomingIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Upcoming Due Bills" sx={{ opacity: open ? 1 : 0}} />
+                    <ListItemText className='S-M-Item' primary="Upcoming Due Bills" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
 
 
                     {dueAlertCount > 0 && open && (
@@ -767,12 +774,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                        color: '#475569'
+                        // color: '#475569'
+                        color: '#000'
                       }}
                     >
                       <PaymentIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Overdue Bills" sx={{ opacity: open ? 1 : 0}} />
+                    <ListItemText className='S-M-Item' primary="Overdue Bills" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
 
 
                     {passedDueDateCount > 0 && open && (
@@ -851,12 +859,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                       minWidth: 0,
                       mr: open ? 0.2 : 'auto',
                       justifyContent: 'center',
-                      color: '#475569'
+                      // color: '#475569'
+                      color: '#000'
                     }}
                   >
                     <ReportIcon />
                   </ListItemIcon>
-                  <ListItemText className='S-M-Item' primary="Form 120 report" sx={{ opacity: open ? 1 : 0}} />
+                  <ListItemText className='S-M-Item' primary="Form 120 report" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
                 </ListItemButton>
               </ListItem>
 )}
@@ -876,12 +885,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
         minWidth: 0,
         mr: open ? 0.2 : 'auto',
         justifyContent: 'center',
-       color: '#475569'
+      //  color: '#475569'
+      color: '#000'
       }}
     >
       <ReportIcon />
     </ListItemIcon>
-    <ListItemText className='S-M-Item' primary="Billing Anomaly" sx={{ opacity: open ? 1 : 0 }} />
+    <ListItemText className='S-M-Item' primary="Billing Anomaly" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
   </ListItemButton>
 </ListItem>
 )}
@@ -900,12 +910,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                       minWidth: 0,
                       mr: open ? 0.2 : 'auto',
                       justifyContent: 'center',
-                     color: '#475569'
+                    //  color: '#475569'
+                    color: '#000'
                     }}
                   >
                     <ReportIcon />
                   </ListItemIcon>
-                  <ListItemText className='S-M-Item' primary="Energy Expenditure" sx={{ opacity: open ? 1 : 0, }} />
+                  <ListItemText className='S-M-Item' primary="Energy Expenditure" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
                 </ListItemButton>
               </ListItem>
               

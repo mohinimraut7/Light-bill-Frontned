@@ -165,6 +165,8 @@ import grahakKramank from '../Images/grahakKramank.png';
 import Rakkam from '../Images/Rakkam.png';
 import AntimDinank from '../Images/AntimDinank.png';
 
+import kelelaAaheYaKami from '../Images/kelelaAaheYaKami.png';
+
 import AddIcon from '@mui/icons-material/Add';
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
@@ -894,8 +896,9 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
 const imgHeightwb = 5; // इमेजची उंची (आवश्यकतेनुसार समायोजित करा)
 
 // X आणि Y पोझिशन्स समायोजित करा
-doc.addImage(meterPurposeIMG, "PNG", 140, yPosition, imgWidthwb, imgHeightwb);
-doc.text(`:${meterPurpose}`, 188, yPosition+6, { align: "center" });
+doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
+doc.setFontSize(12);
+doc.text(`:${meterPurpose}`, 186, yPosition+6, { align: "center" });
     yPosition += lineHeight; // Move down
 
     // doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
@@ -903,11 +906,12 @@ doc.text(`:${meterPurpose}`, 188, yPosition+6, { align: "center" });
 const imgWidthWa = 14;  // इमेजची रुंदी, आवश्यकतेनुसार समायोजित करा
 const imgHeightWa =4; // इमेजची उंची, आवश्यकतेनुसार समायोजित करा
 
-doc.addImage(PrabhagIMG, "PNG", 140, yPosition, imgWidthWa, imgHeightWa);
+doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
 
 // गरज असेल तर ward ची value इमेजच्या शेजारी किंवा खाली दाखवू शकता
 // उदा. इमेजच्या उजव्या बाजूला:
-doc.text(`:${ward}`, 175, yPosition + 3, { align: "left" });
+doc.setFontSize(12);
+doc.text(`:${ward}`, 175, yPosition +4, { align: "left" });
 
     yPosition += lineHeight; // Move down
 
@@ -916,10 +920,11 @@ doc.text(`:${ward}`, 175, yPosition + 3, { align: "left" });
 const imgHeightMV = 5.5; // इमेजची उंची (आवश्यकतेनुसार बदल करा)
 
 // इमेज लावा
-doc.addImage(mahinAndVarsh, "PNG", 139, yPosition, imgWidthMV, imgHeightMV);
+doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, imgWidthMV, imgHeightMV);
 
 // इमेज शेजारी monthYear दाखवण्यासाठी
-doc.text(`:${monthYear}`, 175, yPosition + 5, { align: "left" }); 
+doc.setFontSize(12);
+doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
   
     const tableData = rows.map(row => [
       row.consumerNumber,
@@ -960,8 +965,8 @@ doc.addImage(Mahina, "PNG", 160, 52, 15, 4);
 doc.addImage(PrabhagIMG, "PNG", 180, 53, 14, 3);
 
 doc.addImage(meterPurposeIMG, "PNG", 200, 52, 20, 4);
-doc.addImage(Rakkam, "PNG", 225, 53, 14, 3);
-doc.addImage(AntimDinank, "PNG", 243, 52, 19, 4);
+doc.addImage(Rakkam, "PNG", 225, 53, 13, 4);
+doc.addImage(AntimDinank, "PNG", 243, 52, 20, 4.5);
 
 
     const pdfData = doc.output('datauristring');
@@ -2555,11 +2560,36 @@ doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5);
 
 
   yPos += 12;  
-  doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी म.रा.वि.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
+  // doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी म.रा.वि.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
+
+  doc.addImage(
+  kelelaAaheYaKami,           // इम्पोर्ट केलेली इमेज
+  rightSectionStart,           // X पोझिशन
+  yPos - 4,                    // Y पोझिशन (जर टेक्स्टप्रमाणे लागायला वरखाली हलवायचे असल्यास +/- 4 अजस्ट करा)
+  115,                           // इमेजची रुंदी (गरजेनुसार बदलू शकता)
+  7                             // इमेजची उंची (गरजेनुसार बदलू शकता)
+);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी ${selectedMonthYear} रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
   yPos += 7;
-  doc.text(`(अक्षरी रुपये ${totalAmountInWords} फक्त) चे वीज देयक सदर`, rightSectionStart, yPos);
+  // doc.text(`(अक्षरी रुपये ${totalAmountInWords} फक्त) चे वीज देयक सादर`, rightSectionStart, yPos);
+
+// 1️⃣ पहिला भाग लावा
+doc.text("(", rightSectionStart, yPos);
+
+// 2️⃣ इमेज लावा (स्थानानुसार xPos समायोजित करा.)
+doc.addImage(
+  Akshari,
+  rightSectionStart + 4, // "(" नंतर लगेच बसवण्यासाठी X पोझिशन समायोजित करा
+  yPos - 5,               // Y पोझिशन (गरजेनुसार वरखाली करा.)
+  12,                      // इमेजची रुंदी (गरजेनुसार बदला.)
+  6.5                       // इमेजची उंची (गरजेनुसार बदला.)
+);
+
+// 3️⃣ उरलेला टेक्स्ट लावा
+doc.text(` रुपये ${totalAmountInWords} फक्त) चे वीज देयक सादर`, rightSectionStart + 15, yPos);
+
+
   yPos += 7;
   doc.text("करून मागणी केलेली आहे.", rightSectionStart, yPos);
   yPos += 10;

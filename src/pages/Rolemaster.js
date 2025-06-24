@@ -22,10 +22,11 @@ const columns = (handleDeleteRole,handleEditRole)=>[
     width: 200,
     renderCell: (params) => (
       <>
-        <IconButton sx={{color:'#FFA534'}}  onClick={() => handleDeleteRole(params.row._id)}>
+        {/* <IconButton sx={{color:'#FFA534'}}  onClick={() => handleDeleteRole(params.row._id)}> */}
+         <IconButton sx={{color:'#EA580C'}}  onClick={() => handleDeleteRole(params.row._id)}>
           <DeleteIcon />
         </IconButton>
-        <IconButton sx={{color:'#23CCEF'}}  onClick={() => handleEditRole(params.row)}>
+        <IconButton sx={{color:'#475569'}}  onClick={() => handleEditRole(params.row)}>
           <EditIcon />
         </IconButton>
       </>
@@ -132,13 +133,18 @@ const [currentRole, setCurrentRole] = useState(null);
         <Typography  style={{paddingLeft:'20px',color:'#0d2136'}} className='title-2'>ROLE MASTER</Typography>
         <Button
             sx={{
-              color: '#23CCEF',
-              border: '0.1px solid #23CCEF',
+              backgroundColor:'#475569',
+              color: '#fff',
+              border: '0.1px solid #475569',
               cursor: 'pointer',
               textTransform: 'none',
               display: 'flex',
               justifyContent: 'space-between',
               width: '115px',
+              '&:hover': {
+               backgroundColor: '#fff',
+               color: '#475569',
+              },
             }}
             onClick={handleAddRoleOpen}
           >
