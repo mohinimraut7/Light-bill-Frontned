@@ -833,4 +833,202 @@ let leftSectionWidth = pageWidth * 0.15; // 15% of the page
         signatureWidth,
         signatureHeight
       );
-     
+    //  ===================================
+
+
+    const handleDownloadPDF = () => {
+    setShowFormControl(true);
+    const doc = new jsPDF('landscape');
+
+    const meterPurpose = meterPurposeManyName.length > 0 
+      ? meterPurposeManyName.join(', ')
+      : "N/A";
+
+    const ward = rows.length > 0 
+      ? rows[0].ward 
+      : "N/A";
+
+    const monthYear = rows.length > 0 
+      ? rows[0].monthAndYear  
+      : "N/A";
+
+    doc.setFontSize(14);
+    const lineHeight = 10;
+
+    // ===========================
+    // ✅ पहिला पेज वरचे हेडर - Fixed Alignment
+    // ===========================
+    let yPosition = 20;
+
+    // ✅ Fixed positioning to prevent table alignment issues
+    doc.setFontSize(12);
+    doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+    
+    // ✅ Using fixed X position instead of center alignment to prevent table shift
+    doc.setFontSize(12);
+    doc.text(`:${meterPurpose}`, 155, yPosition + 3, { align: "left" }); 
+    yPosition += lineHeight;
+
+    doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
+    doc.setFontSize(12);
+    doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
+    yPosition += lineHeight;
+
+    doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
+    doc.setFontSize(12);
+    doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
+
+    // ===========================
+    // ✅ Table Data
+    // ===========================
+    const tableData = rows.map(row => [
+      row.consumerNumber,
+      row.consumerAddress,
+      row.monthAndYear,
+      row.ward,
+      row.meterPurpose,
+      row.netBillAmount,
+      row.dueDate,
+    ]);
+
+    doc.autoTable({
+      head: [['', '', '', '', '', '', '']],
+      body: tableData,
+      startY: 50,
+      // ✅ Updated table styles - white background, black borders
+      headStyles: {
+        fillColor: [255, 255, 255], // White background
+        textColor: [0, 0, 0],       // Black text
+        lineWidth: 0.5,             // Thicker border
+        lineColor: [0, 0, 0],       // Black border
+        halign: 'center',
+        valign: 'middle'
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // White background for body
+        textColor: [0, 0, 0],       // Black text
+        lineWidth: 0.5,             // Thicker border
+        lineColor: [0, 0, 0],       // Black border
+        halign: 'left',
+        valign: 'middle'
+      },
+      styles: {
+        fontSize: 10,
+        textColor: [0, 0, 0],
+        lineWidth: 0.5,             // Consistent border width
+        lineColor: [0, 0, 0],       // Black borders
+        cellPadding: 3,
+        overflow: 'linebreak'
+      },
+      tableLineColor: [0, 0, 0],    // Black table borders
+      tableLineWidth: 0.5,          // Table border width
+      didDrawPage: (data) => {
+        // ✅ प्रत्येक page वर header images दाखवण्यासाठी
+        const isFirstPage = data.pageNumber === 1;
+        const topPosition = isFirstPage ? 52 : 15;
+
+        // ✅ Consistent positioning for all header images
+        doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+        doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
+        doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
+        doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
+        doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
+        doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition, 12.5, 4);
+        doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
+      },
+    });
+
+    // ===========================
+    // ✅ Final Output
+    // ===========================
+    const pdfData = doc.output('datauristring');
+    const type = "wardbilllist";
+    handlePdfPreview(pdfData, type, monthYear);
+
+    const pdfBlob = doc.output('blob');
+    setPdfBlob(pdfBlob);
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>PDF Generator - Fixed Alignment</h1>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={handleDownloadPDF}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}
+        >
+          Generate PDF
+        </button>
+      </div>
+
+      {showFormControl && (
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#f8f9fa', 
+          border: '1px solid #dee2e6',
+          borderRadius: '5px',
+          marginTop: '20px'
+        }}>
+          <h3>PDF Generated Successfully!</h3>
+          <p>✅ Fixed alignment issues</p>
+          <p>✅ Updated table styling with white background and black borders</p>
+          <p>✅ Consistent text positioning</p>
+        </div>
+      )}
+
+      <div style={{ marginTop: '30px' }}>
+        <h2>Sample Data:</h2>
+        <div style={{ marginBottom: '10px' }}>
+          <strong>Meter Purpose:</strong> {meterPurposeManyName.join(', ') || 'N/A'}
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <strong>Ward:</strong> {rows.length > 0 ? rows[0].ward : 'N/A'}
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <strong>Month/Year:</strong> {rows.length > 0 ? rows[0].monthAndYear : 'N/A'}
+        </div>
+        
+        <table style={{ 
+          width: '100%', 
+          borderCollapse: 'collapse', 
+          marginTop: '15px',
+          border: '1px solid #000'
+        }}>
+          <thead>
+            <tr style={{ backgroundColor: '#f8f9fa' }}>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Consumer Number</th>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Address</th>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Month/Year</th>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Ward</th>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Purpose</th>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Amount</th>
+              <th style={{ border: '1px solid #000', padding: '8px' }}>Due Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, index) => (
+              <tr key={index}>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.consumerNumber}</td>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.consumerAddress}</td>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.monthAndYear}</td>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.ward}</td>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.meterPurpose}</td>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.netBillAmount}</td>
+                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.dueDate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}

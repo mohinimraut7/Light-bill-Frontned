@@ -21,10 +21,12 @@ const columns = (handleDeleteUser, handleEditUser) => [
     width: 200,
     renderCell: (params) => (
       <>
-        <IconButton sx={{ color: '#FFA534' }} onClick={() => handleDeleteUser(params.row._id)}>
+        {/* <IconButton sx={{ color: '#FFA534' }} onClick={() => handleDeleteUser(params.row._id)}> */}
+          <IconButton sx={{ color: '#EA580C' }} onClick={() => handleDeleteUser(params.row._id)}>
           <DeleteIcon />
         </IconButton>
-        <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditUser(params.row)}>
+        {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditUser(params.row)}> */}
+        <IconButton sx={{ color: '#475569' }} onClick={() => handleEditUser(params.row)}>
           <EditIcon />
         </IconButton>
       </>
@@ -160,13 +162,23 @@ const User = () => {
           </Typography>
           <Button
             sx={{
-              color: '#23CCEF',
-              border: '0.1px solid #23CCEF',
+              backgroundColor:'#475569',
+              color: '#fff',
+              border: '0.1px solid #475569',
               cursor: 'pointer',
+              
+
+              // color: '#23CCEF',
+              // border: '0.1px solid #23CCEF',
+              // cursor: 'pointer',
               textTransform: 'none',
               display: 'flex',
               justifyContent: 'space-between',
               width: '115px',
+               '&:hover': {
+               backgroundColor: '#fff',
+               color: '#475569',
+              },
             }}
             onClick={handleAddUserOpen}
           >

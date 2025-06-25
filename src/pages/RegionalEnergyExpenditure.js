@@ -878,54 +878,587 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
 
   let formtype=['form22','tipani','wardbilllist']
   
-  const handleDownloadPDF = () => {
-    setShowFormControl(true); 
-    const doc = new jsPDF('landscape');
+//   const handleDownloadPDF = () => {
+//     setShowFormControl(true); 
+//     const doc = new jsPDF('landscape');
       
-    const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
+//     const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
-    const ward = rows.length > 0 ? rows[0].ward : "N/A";
-    const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+//     const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//     const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
   
+//     doc.setFontSize(14);
+//     const lineHeight = 10; // Space between lines
+//     let yPosition = 20; // Initial Y position
+  
+//     // doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
+//     const imgWidthwb = 24; // इमेजची रुंदी (आवश्यकतेनुसार समायोजित करा)
+// const imgHeightwb = 5; // इमेजची उंची (आवश्यकतेनुसार समायोजित करा)
+
+// // X आणि Y पोझिशन्स समायोजित करा
+// doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
+// doc.setFontSize(12);
+// doc.text(`:${meterPurpose}`, 186, yPosition+6, { align: "center" });
+//     yPosition += lineHeight; // Move down
+
+//     // doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
+
+// const imgWidthWa = 14;  // इमेजची रुंदी, आवश्यकतेनुसार समायोजित करा
+// const imgHeightWa =4; // इमेजची उंची, आवश्यकतेनुसार समायोजित करा
+
+// doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
+
+// // गरज असेल तर ward ची value इमेजच्या शेजारी किंवा खाली दाखवू शकता
+// // उदा. इमेजच्या उजव्या बाजूला:
+// doc.setFontSize(12);
+// doc.text(`:${ward}`, 175, yPosition +4, { align: "left" });
+
+//     yPosition += lineHeight; // Move down
+
+//     // doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
+//   const imgWidthMV = 32; // इमेजची रुंदी (आवश्यकतेनुसार बदल करा)
+// const imgHeightMV = 5.5; // इमेजची उंची (आवश्यकतेनुसार बदल करा)
+
+// // इमेज लावा
+// doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, imgWidthMV, imgHeightMV);
+
+// // इमेज शेजारी monthYear दाखवण्यासाठी
+// doc.setFontSize(12);
+// doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
+  
+//     const tableData = rows.map(row => [
+//       row.consumerNumber,
+//       row.consumerAddress,
+//       row.monthAndYear,
+//       row.ward,
+//       row.meterPurpose,
+//       row.netBillAmount,
+//       row.dueDate
+//     ]);
+
+//     // doc.autoTable({
+//     //   head: [['Consumer No.', 'Address', 'Month', 'Ward', 'Meter Purpose', 'Amount', 'Due Date']],
+//     //   body: tableData,
+//     //   startY: 50,
+//     // });
+
+//     doc.autoTable({
+//   head: [['', '', '', '', '', '', '']],
+//   body: tableData,
+//   startY: 50,
+//   headStyles: {
+//     fillColor: [255, 255, 255], // पांढऱ्या रंगाचा बॅकग्राउंड
+//     textColor: [0, 0, 0],        // काळा टेक्स्ट (जर आवश्यक असेल तर)
+//     lineWidth: 0.1,
+//     lineColor: [200, 200, 200]
+//   },
+//   styles: {
+//     fontSize: 10,
+//     textColor: [0, 0, 0]
+//   }
+// });
+
+// doc.addImage(grahakKramank, "PNG", 14, 52, 21, 4.5);
+// doc.addImage(Tapshil, "PNG", 47, 52, 16, 4);
+// doc.addImage(Mahina, "PNG", 160, 52, 15, 4);
+// // doc.addImage(PrabhagIMG, "PNG", 180, 50, 15, 4);
+// doc.addImage(PrabhagIMG, "PNG", 180, 53, 14, 3);
+
+// doc.addImage(meterPurposeIMG, "PNG", 200, 52, 20, 4);
+// doc.addImage(Rakkam, "PNG", 225, 53, 13, 4);
+// doc.addImage(AntimDinank, "PNG", 243, 52, 20, 4.5);
+
+
+//     const pdfData = doc.output('datauristring');
+//    let type="wardbilllist"
+//     // Now, pass the PDF data to the modal for preview
+//     handlePdfPreview(pdfData,type,monthYear);  
+
+//     const pdfBlob = doc.output('blob');
+//     setPdfBlob(pdfBlob);
+ 
+//     // doc.save('energy-expenditure-report.pdf');
+//   };
+
+// ------------------------------------------------------------
+
+// const handleDownloadPDF = () => {
+//   setShowFormControl(true);
+//   const doc = new jsPDF("landscape");
+
+//   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(", ") : "N/A";
+//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+
+//   doc.setFontSize(14);
+//   const lineHeight = 10;
+//   let yPosition = 20;
+
+//   // --------------------------------------------------
+//   // भाग 1: वरचे लेबल्स + माहिती
+//   const imgWidthwb = 24;
+//   const imgHeightwb = 5;
+
+//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
+//   doc.setFontSize(12);
+//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
+//   yPosition += lineHeight;
+
+//   const imgWidthWa = 14;
+//   const imgHeightWa = 4;
+
+//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
+//   doc.setFontSize(12);
+//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
+//   yPosition += lineHeight;
+
+//   const imgWidthMV = 32;
+//   const imgHeightMV = 5.5;
+
+//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition - 2, imgWidthMV, imgHeightMV);
+//   doc.setFontSize(12);
+//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" });
+//   yPosition += lineHeight;
+
+//   // --------------------------------------------------
+//   // भाग 2: Table डेटा
+//   const tableData = rows.map((row) => [
+//     row.consumerNumber,
+//     row.consumerAddress,
+//     row.monthAndYear,
+//     row.ward,
+//     row.meterPurpose,
+//     row.netBillAmount,
+//     row.dueDate,
+//   ]);
+
+//   doc.autoTable({
+//     head: [["", "", "", "", "", "", ""]],
+//     body: tableData,
+//     startY: 50,
+//     headStyles: {
+//       fillColor: [255, 255, 255],
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.1,
+//       lineColor: [200, 200, 200],
+//     },
+//     styles: {
+//       fontSize: 10,
+//       textColor: [0, 0, 0],
+//     },
+//     didDrawCell: function (data) {
+//       if (data.row.index === 0 && data.section === "head") {
+//         // Table header images
+//         doc.addImage(grahakKramank, "PNG", data.cell.x + 2, data.cell.y + 2, 21, 4.5);
+//         doc.addImage(Tapshil, "PNG", data.cell.x + 35, data.cell.y + 2, 16, 4);
+//         doc.addImage(Mahina, "PNG", data.cell.x + 146, data.cell.y + 2, 15, 4);
+//         doc.addImage(PrabhagIMG, "PNG", data.cell.x + 166, data.cell.y + 3, 14, 3);
+//         doc.addImage(meterPurposeIMG, "PNG", data.cell.x + 186, data.cell.y + 2, 20, 4);
+//         doc.addImage(Rakkam, "PNG", data.cell.x + 211, data.cell.y + 2, 13, 4);
+//         doc.addImage(AntimDinank, "PNG", data.cell.x + 229, data.cell.y + 2, 20, 4.5);
+//       }
+//     },
+//   });
+
+//   // --------------------------------------------------
+//   // भाग 3: Preview and Blob generation
+//   const pdfData = doc.output("datauristring");
+//   let type = "wardbilllist";
+
+//   handlePdfPreview(pdfData, type, monthYear);
+
+//   const pdfBlob = doc.output("blob");
+//   setPdfBlob(pdfBlob);
+
+//   // --------------------------------------------------
+//   // Option for direct download
+//   // doc.save("energy-expenditure-report.pdf");
+// };
+// ---------------------------------------------------------
+// const handleDownloadPDF = () => {
+//   setShowFormControl(true);
+
+//   const doc = new jsPDF("landscape");
+
+//   const meterPurpose =
+//     meterPurposeManyName.length > 0
+//       ? meterPurposeManyName.join(", ")
+//       : "N/A";
+//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+
+//   doc.setFontSize(14);
+//   const lineHeight = 10;
+//   let yPosition = 20;
+
+//   // 👉 Initial Header Images & Text
+//   const imgWidthwb = 24;
+//   const imgHeightwb = 5;
+
+//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
+//   doc.setFontSize(12);
+//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
+//   yPosition += lineHeight;
+
+//   const imgWidthWa = 14;
+//   const imgHeightWa = 4;
+
+//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
+//   doc.setFontSize(12);
+//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
+//   yPosition += lineHeight;
+
+//   const imgWidthMV = 32;
+//   const imgHeightMV = 5.5;
+
+//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition - 2, imgWidthMV, imgHeightMV);
+//   doc.setFontSize(12);
+//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" });
+
+//   // Table Rows
+//   const tableData = rows.map((row) => [
+//     row.consumerNumber,
+//     row.consumerAddress,
+//     row.monthAndYear,
+//     row.ward,
+//     row.meterPurpose,
+//     row.netBillAmount,
+//     row.dueDate,
+//   ]);
+
+//   // Main Table
+//   doc.autoTable({
+//     head: [["", "", "", "", "", "", ""]],
+//     body: tableData,
+//     startY: 50,
+//     headStyles: {
+//       fillColor: [255, 255, 255],
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.1,
+//       lineColor: [200, 200, 200],
+//     },
+//     styles: {
+//       fontSize: 10,
+//       textColor: [0, 0, 0],
+//     },
+//     // ✅ This handles repeating the header images ONCE PER PAGE
+//     didDrawPage: function (data) {
+//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, data.settings.startY + 2, 21, 4.5);
+//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, data.settings.startY + 2, 16, 4);
+//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 146, data.settings.startY + 2, 15, 4);
+//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 166, data.settings.startY + 3, 14, 3);
+//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 186, data.settings.startY + 2, 20, 4);
+//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 211, data.settings.startY + 2, 13, 4);
+//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 229, data.settings.startY + 2, 20, 4.5);
+//     },
+//   });
+
+//   // Final Export
+//   const pdfData = doc.output("datauristring");
+//   const type = "wardbilllist";
+//   handlePdfPreview(pdfData, type, monthYear);
+
+//   const pdfBlob = doc.output("blob");
+//   setPdfBlob(pdfBlob);
+
+//   // doc.save('energy-expenditure-report.pdf');
+// };
+// -----------------------------------------------------------
+// const handleDownloadPDF = () => {
+//   setShowFormControl(true);
+//   const doc = new jsPDF('landscape');
+
+//   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
+//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+
+//   doc.setFontSize(14);
+//   const lineHeight = 10;
+//   let yPosition = 20;
+
+//   // वरचे हेडर
+//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 24, 5);
+//   doc.setFontSize(12);
+//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
+//   yPosition += lineHeight;
+
+//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, 14, 4);
+//   doc.setFontSize(12);
+//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
+//   yPosition += lineHeight;
+
+//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, 32, 5.5);
+//   doc.setFontSize(12);
+//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
+
+//   const tableData = rows.map(row => [
+//     row.consumerNumber,
+//     row.consumerAddress,
+//     row.monthAndYear,
+//     row.ward,
+//     row.meterPurpose,
+//     row.netBillAmount,
+//     row.dueDate,
+//   ]);
+
+//   doc.autoTable({
+//     head: [['', '', '', '', '', '', '']],
+//     body: tableData,
+//     startY: 50,
+//     headStyles: {
+//       fillColor: [255, 255, 255],
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.1,
+//       lineColor: [200, 200, 200],
+//     },
+//     styles: {
+//       fontSize: 10,
+//       textColor: [0, 0, 0],
+//     },
+//     didDrawPage: (data) => {
+//       // पहिला आणि नंतरच्या प्रत्येक पेजवर हेडर इमेजेस पुन्हा ड्रॉ करा
+//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, 52, 21, 4.5);
+//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, 52, 16, 4);
+//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 146, 52, 15, 4);
+//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 166, 53, 14, 3);
+//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 186, 52, 20, 4);
+//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 211, 53, 13, 4);
+//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 229, 52, 20, 4.5);
+//     },
+//   });
+
+//   const pdfData = doc.output('datauristring');
+//   const type = "wardbilllist";
+//   handlePdfPreview(pdfData, type, monthYear);
+
+//   const pdfBlob = doc.output('blob');
+//   setPdfBlob(pdfBlob);
+// };
+// ------------------------------------------------
+
+// const handleDownloadPDF = () => {
+//   setShowFormControl(true);
+//   const doc = new jsPDF('landscape');
+
+//   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
+//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+
+//   doc.setFontSize(14);
+//   const lineHeight = 10;
+//   let yPosition = 20;
+
+//   // पहिला पेज - हेडर इमेजेस
+//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 24, 5);
+//   doc.setFontSize(12);
+//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
+//   yPosition += lineHeight;
+
+//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, 14, 4);
+//   doc.setFontSize(12);
+//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
+//   yPosition += lineHeight;
+
+//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, 32, 5.5);
+//   doc.setFontSize(12);
+//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
+
+//   const tableData = rows.map(row => [
+//     row.consumerNumber,
+//     row.consumerAddress,
+//     row.monthAndYear,
+//     row.ward,
+//     row.meterPurpose,
+//     row.netBillAmount,
+//     row.dueDate,
+//   ]);
+
+//   doc.autoTable({
+//     head: [['', '', '', '', '', '', '']],
+//     body: tableData,
+//     startY: 50,
+//     headStyles: {
+//       fillColor: [255, 255, 255],
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.1,
+//       lineColor: [200, 200, 200],
+//     },
+//     styles: {
+//       fontSize: 10,
+//       textColor: [0, 0, 0],
+//     },
+//     didDrawPage: (data) => {
+//       // ✅ आता पहिला पेज सोडून पुढचे पेज वगळून देतो
+//       if (data.pageNumber > 1) {
+//         return;
+//       }
+
+//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, 52, 21, 4.5);
+//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, 52, 16, 4);
+//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 146, 52, 15, 4);
+//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 166, 53, 14, 3);
+//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 186, 52, 20, 4);
+//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 211, 53, 13, 4);
+//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 229, 52, 20, 4.5);
+//     },
+//   });
+
+//   const pdfData = doc.output('datauristring');
+//   const type = "wardbilllist";
+//   handlePdfPreview(pdfData, type, monthYear);
+
+//   const pdfBlob = doc.output('blob');
+//   setPdfBlob(pdfBlob);
+// };
+// -----------------------------------------
+// const handleDownloadPDF = () => {
+//   setShowFormControl(true);
+//   const doc = new jsPDF('landscape');
+
+//   const meterPurpose = meterPurposeManyName.length > 0 
+//     ? meterPurposeManyName.join(', ')
+//     : "N/A";
+
+//   const ward = rows.length > 0 
+//     ? rows[0].ward 
+//     : "N/A";
+
+//   const monthYear = rows.length > 0 
+//     ? rows[0].monthAndYear  
+//     : "N/A";
+
+//   doc.setFontSize(14);
+//   const lineHeight = 10;
+
+//   // ===========================
+//   // ✅ पहिला पेज वरचे हेडर
+//   // ===========================
+//   let yPosition = 20;
+// //  doc.setFontSize(12);
+// //   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+// //   doc.setFontSize(12);
+// //   doc.text(`:${meterPurpose}`, 186, yPosition + 3, { align: "center" });
+// //   yPosition += lineHeight;
+
+// doc.setFontSize(12);
+// doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+
+// // ✅ हे कायम 'center' राहायला पाहिजे
+// doc.setFontSize(12);
+// doc.text(`:${meterPurpose}`, 186, yPosition + 3, { align: "center" }); 
+// yPosition += lineHeight;
+
+
+
+//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
+//   doc.setFontSize(12);
+//   doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
+//   yPosition += lineHeight;
+
+//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
+//   doc.setFontSize(12);
+//   doc.text(`:${monthYear}`, 175, yPosition , { align: "left" }); 
+
+//   // ===========================
+//   // ✅ Table Data
+//   // ===========================
+//   const tableData = rows.map(row => [
+//     row.consumerNumber,
+//     row.consumerAddress,
+//     row.monthAndYear,
+//     row.ward,
+//     row.meterPurpose,
+//     row.netBillAmount,
+//     row.dueDate,
+//   ]);
+
+//   doc.autoTable({
+//     head: [['', '', '', '', '', '', '']],
+//     body: tableData,
+//     startY: 50,
+//     headStyles: {
+//       fillColor: [255, 255, 255],
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.1,
+//       lineColor: [200, 200, 200],
+//     },
+//     styles: {
+//       fontSize: 10,
+//       textColor: [0, 0, 0],
+//     },
+//     didDrawPage: (data) => {
+//       // ✅ प्रत्येक page वर header images दाखवण्यासाठी
+//       const isFirstPage = data.pageNumber === 1;
+//       const topPosition = isFirstPage ? 52 : 15;
+
+//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
+//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
+//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
+//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
+//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition , 12.5, 4);
+//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
+//     },
+//   });
+
+//   // ===========================
+//   // ✅ Final Output
+//   // ===========================
+//   const pdfData = doc.output('datauristring');
+//   const type = "wardbilllist";
+//   handlePdfPreview(pdfData, type, monthYear);
+
+//   const pdfBlob = doc.output('blob');
+//   setPdfBlob(pdfBlob);
+// };
+
+// -------------------------------------------------
+
+ const handleDownloadPDF = () => {
+    setShowFormControl(true);
+    const doc = new jsPDF('landscape');
+
+    const meterPurpose = meterPurposeManyName.length > 0 
+      ? meterPurposeManyName.join(', ')
+      : "N/A";
+
+    const ward = rows.length > 0 
+      ? rows[0].ward 
+      : "N/A";
+
+    const monthYear = rows.length > 0 
+      ? rows[0].monthAndYear  
+      : "N/A";
+
     doc.setFontSize(14);
-    const lineHeight = 10; // Space between lines
-    let yPosition = 20; // Initial Y position
-  
-    // doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
-    const imgWidthwb = 24; // इमेजची रुंदी (आवश्यकतेनुसार समायोजित करा)
-const imgHeightwb = 5; // इमेजची उंची (आवश्यकतेनुसार समायोजित करा)
+    const lineHeight = 10;
 
-// X आणि Y पोझिशन्स समायोजित करा
-doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
-doc.setFontSize(12);
-doc.text(`:${meterPurpose}`, 186, yPosition+6, { align: "center" });
-    yPosition += lineHeight; // Move down
+    // ===========================
+    // ✅ पहिला पेज वरचे हेडर - Fixed Alignment
+    // ===========================
+    let yPosition = 20;
 
-    // doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
+    // ✅ Fixed positioning to prevent table alignment issues
+    doc.setFontSize(12);
+    doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+    
+    // ✅ Using fixed X position instead of center alignment to prevent table shift
+    doc.setFontSize(12);
+    doc.text(`:${meterPurpose}`, 155, yPosition + 3, { align: "left" }); 
+    yPosition += lineHeight;
 
-const imgWidthWa = 14;  // इमेजची रुंदी, आवश्यकतेनुसार समायोजित करा
-const imgHeightWa =4; // इमेजची उंची, आवश्यकतेनुसार समायोजित करा
+    doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
+    doc.setFontSize(12);
+    doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
+    yPosition += lineHeight;
 
-doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
+    doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
+    doc.setFontSize(12);
+    doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
 
-// गरज असेल तर ward ची value इमेजच्या शेजारी किंवा खाली दाखवू शकता
-// उदा. इमेजच्या उजव्या बाजूला:
-doc.setFontSize(12);
-doc.text(`:${ward}`, 175, yPosition +4, { align: "left" });
-
-    yPosition += lineHeight; // Move down
-
-    // doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
-  const imgWidthMV = 32; // इमेजची रुंदी (आवश्यकतेनुसार बदल करा)
-const imgHeightMV = 5.5; // इमेजची उंची (आवश्यकतेनुसार बदल करा)
-
-// इमेज लावा
-doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, imgWidthMV, imgHeightMV);
-
-// इमेज शेजारी monthYear दाखवण्यासाठी
-doc.setFontSize(12);
-doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
-  
+    // ===========================
+    // ✅ Table Data
+    // ===========================
     const tableData = rows.map(row => [
       row.consumerNumber,
       row.consumerAddress,
@@ -933,56 +1466,69 @@ doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" });
       row.ward,
       row.meterPurpose,
       row.netBillAmount,
-      row.dueDate
+      row.dueDate,
     ]);
 
-    // doc.autoTable({
-    //   head: [['Consumer No.', 'Address', 'Month', 'Ward', 'Meter Purpose', 'Amount', 'Due Date']],
-    //   body: tableData,
-    //   startY: 50,
-    // });
-
     doc.autoTable({
-  head: [['', '', '', '', '', '', '']],
-  body: tableData,
-  startY: 50,
-  headStyles: {
-    fillColor: [255, 255, 255], // पांढऱ्या रंगाचा बॅकग्राउंड
-    textColor: [0, 0, 0],        // काळा टेक्स्ट (जर आवश्यक असेल तर)
-    lineWidth: 0.1,
-    lineColor: [200, 200, 200]
-  },
-  styles: {
-    fontSize: 10,
-    textColor: [0, 0, 0]
-  }
-});
+      head: [['', '', '', '', '', '', '']],
+      body: tableData,
+      startY: 50,
+      // ✅ Updated table styles - white background, black borders
+      headStyles: {
+        fillColor: [255, 255, 255], // White background
+        textColor: [0, 0, 0],       // Black text
+        lineWidth: 0.5,             // Thicker border
+        lineColor: [0, 0, 0],       // Black border
+        halign: 'center',
+        valign: 'middle'
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // White background for body
+        textColor: [0, 0, 0],       // Black text
+        lineWidth: 0.5,             // Thicker border
+        lineColor: [0, 0, 0],       // Black border
+        halign: 'left',
+        valign: 'middle'
+      },
+      styles: {
+        fontSize: 10,
+        textColor: [0, 0, 0],
+        lineWidth: 0.5,             // Consistent border width
+        lineColor: [0, 0, 0],       // Black borders
+        cellPadding: 3,
+        overflow: 'linebreak'
+      },
+      tableLineColor: [0, 0, 0],    // Black table borders
+      tableLineWidth: 0.5,          // Table border width
+      didDrawPage: (data) => {
+        // ✅ प्रत्येक page वर header images दाखवण्यासाठी
+        const isFirstPage = data.pageNumber === 1;
+        const topPosition = isFirstPage ? 52 : 15;
 
-doc.addImage(grahakKramank, "PNG", 14, 52, 21, 4.5);
-doc.addImage(Tapshil, "PNG", 47, 52, 16, 4);
-doc.addImage(Mahina, "PNG", 160, 52, 15, 4);
-// doc.addImage(PrabhagIMG, "PNG", 180, 50, 15, 4);
-doc.addImage(PrabhagIMG, "PNG", 180, 53, 14, 3);
+        // ✅ Consistent positioning for all header images
+        doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+        doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
+        doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
+        doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
+        doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
+        doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition, 12.5, 4);
+        doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
+      },
+    });
 
-doc.addImage(meterPurposeIMG, "PNG", 200, 52, 20, 4);
-doc.addImage(Rakkam, "PNG", 225, 53, 13, 4);
-doc.addImage(AntimDinank, "PNG", 243, 52, 20, 4.5);
-
-
+    // ===========================
+    // ✅ Final Output
+    // ===========================
     const pdfData = doc.output('datauristring');
-   let type="wardbilllist"
-    // Now, pass the PDF data to the modal for preview
-    handlePdfPreview(pdfData,type,monthYear);  
+    const type = "wardbilllist";
+    handlePdfPreview(pdfData, type, monthYear);
 
     const pdfBlob = doc.output('blob');
     setPdfBlob(pdfBlob);
- 
-    // doc.save('energy-expenditure-report.pdf');
   };
 
+// ----------------------------------------------------------------
 
-
-  
  const checkSignatureVerification = (reports, users) => {
   const matches = [];
 

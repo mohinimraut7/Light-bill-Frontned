@@ -334,7 +334,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   <Typography
                     className='logo-title'
                     sx={{
-                      color: location.pathname === '/login' || location.pathname === '/register' ? '#F0F0F0' : 'green',
+                      // color: location.pathname === '/login' || location.pathname === '/register' ? '#F0F0F0' : 'green',
+                       color: location.pathname === '/login' || location.pathname === '/register' ? '#F0F0F0' : '#16A34A',
                       display: 'flex', alignItems: 'center', justifyContent: {
                         xs: 'flex-start',
                         sm: 'flex-start',
@@ -483,7 +484,10 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
         <Drawer style={{ position: 'relative' }} className='drawerst' variant="permanent" open={open}>
 
           
-          <div style={{ position: 'absolute', backgroundColor: '#7CB9E6', width: '100%', height: '100%', opacity: '0.9' }}></div>
+          <div style={{ position: 'absolute',
+            //  backgroundColor: '#7CB9E6',
+             backgroundColor:'#475569',
+              width: '100%', height: '100%', opacity: '0.9' }}></div>
           <DrawerHeader>
             {open && <Box sx={{ width: '100%', height: '185px', display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
               <Box sx={{ zIndex: 10, height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: 10 }} >
@@ -504,10 +508,12 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
     position: 'absolute',
     top: 50,
     right: 0,
-    backgroundColor: '#475569',
+    // backgroundColor: '#84BAE2',
+     backgroundColor: '#475569',
     zIndex: theme.zIndex.drawer + 2,
     '&:hover': {
-      backgroundColor: '#475569',
+      // backgroundColor: '#84BAE2',
+       backgroundColor: '#475569',
       boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.25)',
       transform: 'translateY(-2px)',
     },
@@ -536,7 +542,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
               },
               '&::-webkit-scrollbar-track': {
                 // background: '#FDB457',
-                background: '#85BCE3',
+                // background: '#85BCE3',
+                  background: '#475569',
+                
                 borderRadius: '10px',
                 width:'0px !important'
               },
@@ -544,6 +552,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 
                 // backgroundColor: '#F8A63F',
                 backgroundColor: '#475569',
+                //  backgroundColor: ' #85BCE3',
                 borderRadius: '10px',
               },
               '&::-webkit-scrollbar-thumb:hover': {
@@ -556,15 +565,23 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
           >
             <List>
               <ListItem disablePadding sx={{ display: open===false && 'block' }}>
-                <ListItemText className='S-M-Item' primary={`${user?.username}`} sx={{ opacity: open ? 1 : 0,ml:2.9,color: '#000' }} />
+                <ListItemText className='S-M-Item' primary={`${user?.username}`} 
+                 primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                sx={{ opacity: open ? 1 : 0,ml:2.9,color: '#fff' }} />
                 <ListItemButton onClick={handleProfileToggle}>
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 0 : 'auto',
-                      // color: '#fff',
+                      color: '#fff',
                       // color: '#475569',
-                      color: '#000',
+                      // color: '#000',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -591,7 +608,15 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     >
                       <AccessibilityIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Profile" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
+                    <ListItemText className='S-M-Item' primary="Profile" 
+                     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0,color: '#000' }} />
                   </ListItemButton>
                 </ListItem>
               )}
@@ -612,12 +637,25 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                       mr: open ? 0.2 : 'auto',
                       justifyContent: 'center',
                       // color: '#475569'
-                       color: '#000'
+                      //  color: '#000'
+                       color: '#fff',
                     }}
                   >
                     <HomeIcon />
                   </ListItemIcon>
-                  <ListItemText className='S-M-Item' primary="Home" sx={{ opacity: open ? 1 : 0,color:'#000' }} />
+                  <ListItemText className='S-M-Item' primary="Home" 
+                   primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                      color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                  sx={{ opacity: open ? 1 : 0,
+                  
+                  // color:'#000' 
+                   color: '#fff',
+                  }} />
                 </ListItemButton>
               </ListItem>
  )}
@@ -627,7 +665,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                 <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate("/rolemaster")}>
                   <ListItemButton
                     sx={{
-                      minHeight: 48,
+                      // minHeight: 48,
                       justifyContent: open ? 'initial' : 'center',
                       // px: 2.5,
                     }}
@@ -637,12 +675,21 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         minWidth: 0,
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
-                        color: '#000'
+                        // color: '#000'
+                         color: '#fff',
                       }}
                     >
                       <AccessibilityIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Role" sx={{ opacity: open ? 1 : 0,color:'#000' }} />
+                    <ListItemText primary="Role" 
+                     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0}} />
                   </ListItemButton>
                 </ListItem>
               )}
@@ -662,12 +709,24 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                       //  color: '#475569',
-                        color: '#000'
+                        // color: '#000'
+                         color: '#fff',
                       }}
                     >
                       <Person />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="User" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
+                    <ListItemText  primary="User" 
+                     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0,
+                    // color: '#000'
+                     color: '#fff',
+                     }} />
                   </ListItemButton>
                 </ListItem>
               )}
@@ -687,12 +746,24 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                         // color: '#475569'
-                        color: '#000'
+                        // color: '#000'
+                         color: '#fff',
                       }}
                     >
                       <Person />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Consumer" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
+                    <ListItemText className='S-M-Item' primary="Consumer" 
+                     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0,
+                    // color: '#000'
+                     color: '#fff',
+                    }} />
                   </ListItemButton>
                 </ListItem>
               )}    
@@ -712,12 +783,24 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                        //  color: '#475569'
-                       color: '#000'
+                      //  color: '#000'
+                        color: '#fff',
                       }}
                     >
                       <PaymentIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Consumer Bills" sx={{ opacity: open ? 1 : 0 ,textAlign:'left',color: '#000'}} />
+                    <ListItemText className='S-M-Item' primary="Consumer Bills"
+                     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0 ,textAlign:'left',
+                    // color: '#000'
+                     color: '#fff',
+                    }} />
                   </ListItemButton>
                 </ListItem>
 )}
@@ -725,7 +808,19 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
              
 
               {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') && (
-                <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/usersupcomingduebills")}>
+                <ListItem disablePadding 
+                 primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                 
+
+                sx={{ display: 'block'}} 
+                
+                onClick={() => navigate("/usersupcomingduebills")}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -740,13 +835,25 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                         // color: '#475569'
-                        color: '#000'
+                        // color: '#000'
+                         color: '#fff',
                         
                       }}
                     >
                       <UpcomingIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Upcoming Due Bills" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
+                    <ListItemText className='S-M-Item' primary="Upcoming Due Bills"
+                     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0,
+                    // color: '#000'
+                     color: '#fff',
+                    }} />
 
 
                     {dueAlertCount > 0 && open && (
@@ -760,7 +867,18 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
               )}
 
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer' || (user?.role === 'Junior Engineer' && user.ward=='Head Office')) && (
-                <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/overduebills")}>
+                <ListItem disablePadding 
+                
+                   primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+
+                sx={{ display: 'block'}} 
+                onClick={() => navigate("/overduebills")}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -775,12 +893,24 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                         // color: '#475569'
-                        color: '#000'
+                        // color: '#000'
+                         color: '#fff',
                       }}
                     >
                       <PaymentIcon />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Overdue Bills" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
+                    <ListItemText className='S-M-Item' primary="Overdue Bills"
+                    primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                    sx={{ opacity: open ? 1 : 0,
+                    // color: '#000'
+                     color: '#fff',
+                    }} />
 
 
                     {passedDueDateCount > 0 && open && (
@@ -846,7 +976,16 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') 
 &&
 (
-              <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/formonetwentynew")}>
+              <ListItem disablePadding sx={{ display: 'block'}} 
+               primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+              
+              onClick={() => navigate("/formonetwentynew")}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -860,19 +999,41 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                       mr: open ? 0.2 : 'auto',
                       justifyContent: 'center',
                       // color: '#475569'
-                      color: '#000'
+                      // color: '#000'
+                       color: '#fff',
                     }}
                   >
                     <ReportIcon />
                   </ListItemIcon>
-                  <ListItemText className='S-M-Item' primary="Form 120 report" sx={{ opacity: open ? 1 : 0,color: '#000'}} />
+                  <ListItemText className='S-M-Item' primary="Form 120 report" 
+                   primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                  
+                  sx={{ opacity: open ? 1 : 0,
+                  // color: '#000'
+                   color: '#fff',
+                  }} />
                 </ListItemButton>
               </ListItem>
 )}
 {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || user?.role === 'Junior Engineer') 
 &&
 (
-  <ListItem disablePadding sx={{ display: 'block'}} onClick={() => navigate("/billinganomaly")}>
+  <ListItem disablePadding sx={{ display: 'block'}} 
+  
+    primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+  onClick={() => navigate("/billinganomaly")}>
   <ListItemButton
     sx={{
       minHeight: 48,
@@ -886,12 +1047,21 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
         mr: open ? 0.2 : 'auto',
         justifyContent: 'center',
       //  color: '#475569'
-      color: '#000'
+      // color: '#000'
+       color: '#fff',
       }}
     >
       <ReportIcon />
     </ListItemIcon>
-    <ListItemText className='S-M-Item' primary="Billing Anomaly" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
+    <ListItemText className='S-M-Item' primary="Billing Anomaly" 
+     primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+    sx={{ opacity: open ? 1 : 0,color: '#000' }} />
   </ListItemButton>
 </ListItem>
 )}
@@ -911,12 +1081,21 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                       mr: open ? 0.2 : 'auto',
                       justifyContent: 'center',
                     //  color: '#475569'
-                    color: '#000'
+                    // color: '#000'
+                     color: '#fff',
                     }}
                   >
                     <ReportIcon />
                   </ListItemIcon>
-                  <ListItemText className='S-M-Item' primary="Energy Expenditure" sx={{ opacity: open ? 1 : 0,color: '#000' }} />
+                  <ListItemText className='S-M-Item' primary="Energy Expenditure" 
+                   primaryTypographyProps={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                    //  color: '#000',
+                     color: '#fff',
+                     fontWeight:'bold'
+                    }}
+                  sx={{ opacity: open ? 1 : 0,color: '#000' }} />
                 </ListItemButton>
               </ListItem>
               

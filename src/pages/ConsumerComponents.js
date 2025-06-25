@@ -37,7 +37,9 @@ const columns = (handleDeleteConsumer,handleEditConsumer)=>[
         {/* <IconButton sx={{color:'#FFA534'}}  onClick={() => handleDeleteConsumer(params.row._id)}>
           <DeleteIcon />
         </IconButton> */}
-        <IconButton sx={{color:'#23CCEF'}}  onClick={() => handleEditConsumer(params.row)}>
+        <IconButton 
+        sx={{color:'#475569'}}
+          onClick={() => handleEditConsumer(params.row)}>
           <EditIcon />
         </IconButton>
       </>
@@ -334,8 +336,10 @@ size="small"
 {/* <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Consumers</ConsumerButton> */}
 <Button
             sx={{
-              color: '#23CCEF',
-              border: '0.1px solid #23CCEF',
+              backgroundColor:'#475569',
+              color: '#fff',
+              border: '0.1px solid #475569',
+
               cursor: 'pointer',
               textTransform: 'none',
               display: 'flex',
@@ -348,6 +352,10 @@ size="small"
                 lg:0,
                 xl:0
                     },
+              '&:hover': {
+               backgroundColor: '#fff',
+               color: '#475569',
+              },
             }}
             onClick={downloadAllTypsOfReport}
           >
@@ -399,8 +407,9 @@ size="small"
 <Button
             sx={{
             
-              color: '#23CCEF',
-              border: '0.1px solid #23CCEF',
+              backgroundColor:'#475569',
+              color: '#fff',
+              border: '0.1px solid #475569',
               cursor: 'pointer',
               textTransform: 'none',
               display: 'flex',
@@ -421,6 +430,10 @@ size="small"
                       xl:0
 
                     },
+                     '&:hover': {
+               backgroundColor: '#fff',
+               color: '#475569',
+              },
             }}
             onClick={handleAddConsumerOpen}
           >
