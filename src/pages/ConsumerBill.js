@@ -809,7 +809,7 @@ return(
         <Link 
           to={`/consumer-bill-details/${params.row.consumerNumber}`} 
           state={{ consumerData: params.row }} 
-          style={{ textDecoration: 'none', color: '#23CCEF' }}
+          style={{ textDecoration: 'none', color:'#475569',fontWeight:'bold' }}
         >
           {params.row.consumerNumber}
         </Link>
@@ -1133,16 +1133,19 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
         </Box>
 
         <Box sx={{display:'flex',
+        // border:"2px solid blue",
         ml: {
           xl: isSidebarOpen ? 0 :0,
           lg: isSidebarOpen ? 0 : 0,
           md: isSidebarOpen ? 2.5 : 1,
          
         },
-        
+        gap:{
+        lg:'5px'
+        },
         width: {
       xl: isSidebarOpen ? '100%' : '85%',
-      lg: isSidebarOpen ? '100%' : '100%',
+      lg: isSidebarOpen ? '85%' : '80%',
       md: isSidebarOpen ? '95%' : '100%',
       sm: '100%',
       xs: '100%',
@@ -1168,7 +1171,7 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
           }
         }}>
 
-            <ConsumerButton onClick={handleProcessClick} disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
+  <ConsumerButton onClick={handleProcessClick} disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
   selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')}>
   Process
 </ConsumerButton>
@@ -1185,6 +1188,7 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
   {/* <ConsumerButton  onClick={handleAddBillOpen} startIcon={<AddIcon/>}>Add Bill</ConsumerButton>            */}
 </Box>
         <Box sx={{
+          // border:'2px solid blue',
           display:'flex',alignItems:'center',
           justifyContent:{xl:'space-between',
             lg:'space-between',
@@ -1193,10 +1197,15 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
             xs:'center'
           },
           width:{xl:'60%',
-            lg:'60%',
+            lg:user.role === "Junior Engineer"
+      ? (user.ward === "Head Office" ? "60%" : "40%")
+      : "35%",
             md:'60%',
             sm:'100%',
             xs:'100%'
+          },
+          gap:{
+          lg:'5px'
           },
          flexDirection:{
           xl:'row',
@@ -1212,7 +1221,14 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
 {/* <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  /> */}
 <Box sx={{
   width:{xl:'35%',
-            lg:'35%',
+
+
+            lg:user.role === "Junior Engineer"
+      ? (user.ward === "Head Office" ? "35%" : "50%")
+      : "35%",
+        md: '48%',
+        sm: '80%',
+        xs: '80%',
             md:'35%',
             sm:'35%',
             xs:'35%'
@@ -1228,20 +1244,21 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
     name="consumerNumber"
     label="Search Consumer ID"
     value={cnId}
+    size="small"
     onChange={
       handleChange}
     variant="outlined"
     InputProps={{
       sx: {
-        height: '40px',
-        mb:1
+        // height: '40px',
+        // mb:1
       },
     }}
     InputLabelProps={{
       sx: {
         color: 'gray',
         transform: 'translate(14px, 8px)',
-        fontSize:'17px',
+        // fontSize:'17px',
         transform: 'translate(14px, 8px)',
         '&.MuiInputLabel-shrink': {
 transform: 'translate(14px, -8px) scale(0.75)', 
@@ -1252,7 +1269,9 @@ transform: 'translate(14px, -8px) scale(0.75)',
     sx={{
       width: {
         xl: '48%',
-        lg: '48%',
+        lg:user.role === "Junior Engineer"
+      ? (user.ward === "Head Office" ? "35%" : "50%")
+      : "35%",
         md: '48%',
         sm: '80%',
         xs: '80%'
@@ -1261,7 +1280,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
         xs:1,
         sm:1,
         md:0,
-        lg:1,
+        lg:0,
         xl:1
       },
       ml:{

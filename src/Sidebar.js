@@ -603,7 +603,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         mr: open ? 0.2 : 'auto',
                         justifyContent: 'center',
                         // color: '#475569'
-                        color: '#000'
+                        // color: '#000'
+                        color: '#fff'
                       }}
                     >
                       <AccessibilityIcon />

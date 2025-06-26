@@ -288,8 +288,8 @@ const downloadAllTypsOfReport = () => {
 
 <Box sx={{display:'flex',
 width:{
-  xl:'45%',
-  lg:'30%',
+  xl:'28%',
+  lg:'28%',
   md:'60%',
   sm:'100%',
   xs:'100%'
@@ -336,12 +336,12 @@ size="small"
 {/* <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Consumers</ConsumerButton> */}
 <Button
             sx={{
-              backgroundColor:'#475569',
-              color: '#fff',
+              backgroundColor:'#fff',
+              color: '#475569',
               border: '0.1px solid #475569',
 
               cursor: 'pointer',
-              textTransform: 'none',
+              textTransform: 'uppercase',
               display: 'flex',
               justifyContent: 'space-between',
               width: 'auto',
@@ -353,14 +353,19 @@ size="small"
                 xl:0
                     },
               '&:hover': {
-               backgroundColor: '#fff',
-               color: '#475569',
+               backgroundColor: '#475569',
+               color: '#fff',
               },
             }}
             onClick={downloadAllTypsOfReport}
           >
             <DownloadIcon sx={{ }} />
-            <Typography>Consumers</Typography>
+            <Typography sx={{
+              fontSize:{
+                  lg:'12px',
+                  fontWeight:'bold'
+              }
+            }}>Consumers</Typography>
 </Button>
 
 {/* <Button
@@ -407,8 +412,8 @@ size="small"
 <Button
             sx={{
             
-              backgroundColor:'#475569',
-              color: '#fff',
+              backgroundColor:'#fff',
+              color: '#475569',
               border: '0.1px solid #475569',
               cursor: 'pointer',
               textTransform: 'none',
@@ -431,14 +436,20 @@ size="small"
 
                     },
                      '&:hover': {
-               backgroundColor: '#fff',
-               color: '#475569',
+               backgroundColor: '#475569',
+               color: '#fff',
               },
             }}
             onClick={handleAddConsumerOpen}
           >
             <AddIcon sx={{ }} />
-            <Typography>Add Consumer</Typography>
+            <Typography sx={{
+               fontSize:{
+                  lg:'12px',
+                  fontWeight:'bold',
+                 textTransform: 'uppercase',
+              }
+            }}>Add Consumer</Typography>
 </Button>
 
 </Box>
