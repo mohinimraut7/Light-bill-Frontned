@@ -1883,3 +1883,118 @@ const numberToMarathiWords = (num) => {
   );
 };
 export default RegionalEnergyExpenditure;
+// ==================================================
+
+import { useState, useRef, useEffect } from 'react';
+import './App.css';
+
+// Mock data for demonstration
+const mockData = [
+  {
+    consumerNumber: "12345",
+    consumerAddress: "123 Main Street, City Area, State",
+    monthAndYear: "Dec 2023",
+    ward: "Ward 1",
+    meterPurpose: "Residential Electricity Supply for Apartment Complex Building A",
+    netBillAmount: "2500.00",
+    dueDate: "2024-01-15"
+  },
+  {
+    consumerNumber: "67890",
+    consumerAddress: "456 Oak Avenue",
+    monthAndYear: "Dec 2023", 
+    ward: "Ward 2",
+    meterPurpose: "Commercial Industrial Manufacturing Unit with Heavy Machinery Operations",
+    netBillAmount: "5000.00",
+    dueDate: "2024-01-20"
+  }
+];
+
+// Utility function to truncate text with fixed width
+function truncateText(text, maxWidth = 250) {
+  if (!text) return "N/A";
+  
+  // Create a temporary element to measure text width
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = '12px Arial'; // Match your PDF font
+  
+  const textWidth = context.measureText(text).width;
+  
+  if (textWidth <= maxWidth) {
+    return { truncated: text, isOverflow: false, original: text };
+  }
+  
+  // Truncate text until it fits
+  let truncated = text;
+  while (context.measureText(truncated + '...').width > maxWidth && truncated.length > 0) {
+    truncated = truncated.slice(0, -1);
+  }
+  
+  return { 
+    truncated: truncated.trim() + '...', 
+    isOverflow: true, 
+    original: text 
+  };
+}
+
+// Tooltip component
+function Tooltip({ children, text, isVisible }) {
+  if (!isVisible) return children;
+  
+  return (
+    <div className="tooltip-container">
+      {children}
+      <div className="tooltip">
+        {text}
+      </div>
+    </div>
+  );
+}
+
+// Dynamic text component with fixed width
+function DynamicText({ text, maxWidth = 250 }) {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const { truncated, isOverflow, original } = truncateText(text, maxWidth);
+  
+  return (
+    <Tooltip text={original} isVisible={showTooltip && isOverflow}>
+      <div 
+        className="dynamic-text"
+        style={{ width: `${maxWidth}px`, maxWidth: `${maxWidth}px` }}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {truncated}
+      </div>
+    </Tooltip>
+  );
+}
+
+// PDF Handler with fixed width implementation
+function PDFHandler() {
+  const [rows, setRows] = useState(mockData);
+  const [meterPurposeManyName, setMeterPurposeManyName] = useState([
+    "Residential Electricity Supply for Apartment Complex Building A",
+    "Commercial Industrial Manufacturing Unit with Heavy Machinery Operations"
+  ]);
+
+  const handleDownloadPDF = async () => {
+    // Dynamic import for jsPDF
+    const { jsPDF } = await import('jspdf');
+    await import('jspdf-autotable');
+    
+    const doc = new jsPDF('landscape');
+
+    const meterPurpose = meterPurposeManyName.length > 0 
+      ? meterPurposeManyName.join(', ')
+      : "N/A";
+
+    const ward = rows.length > 0 ? rows[0].ward : "N/A";
+    const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+
+    doc.setFontSize(14);
+    const lineHeight = 10;
+    let yPosition = 20;
+
+    // ✅ Fixed Width Implementation - 250px ≈ 187.5pt (250 * 0.

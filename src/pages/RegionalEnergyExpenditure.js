@@ -1414,118 +1414,249 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
 
 // -------------------------------------------------
 
- const handleDownloadPDF = () => {
-    setShowFormControl(true);
-    const doc = new jsPDF('landscape');
+//  const handleDownloadPDF = () => {
+//     setShowFormControl(true);
+//     const doc = new jsPDF('landscape');
 
-    const meterPurpose = meterPurposeManyName.length > 0 
-      ? meterPurposeManyName.join(', ')
-      : "N/A";
+//     const meterPurpose = meterPurposeManyName.length > 0 
+//       ? meterPurposeManyName.join(', ')
+//       : "N/A";
 
-    const ward = rows.length > 0 
-      ? rows[0].ward 
-      : "N/A";
+//     const ward = rows.length > 0 
+//       ? rows[0].ward 
+//       : "N/A";
 
-    const monthYear = rows.length > 0 
-      ? rows[0].monthAndYear  
-      : "N/A";
+//     const monthYear = rows.length > 0 
+//       ? rows[0].monthAndYear  
+//       : "N/A";
 
-    doc.setFontSize(14);
-    const lineHeight = 10;
+//     doc.setFontSize(14);
+//     const lineHeight = 10;
 
-    // ===========================
-    // ✅ पहिला पेज वरचे हेडर - Fixed Alignment
-    // ===========================
-    let yPosition = 20;
+//     // ===========================
+//     // ✅ पहिला पेज वरचे हेडर - Fixed Alignment
+//     // ===========================
+//     let yPosition = 20;
 
-    // ✅ Fixed positioning to prevent table alignment issues
-    doc.setFontSize(12);
-    doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+//     // ✅ Fixed positioning to prevent table alignment issues
+//     doc.setFontSize(12);
+//     doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
     
-    // ✅ Using fixed X position instead of center alignment to prevent table shift
-    doc.setFontSize(12);
-    doc.text(`:${meterPurpose}`, 155, yPosition + 3, { align: "left" }); 
-    yPosition += lineHeight;
+//     // ✅ Using fixed X position instead of center alignment to prevent table shift
+//     doc.setFontSize(12);
+//     doc.text(`:${meterPurpose}`, 155, yPosition + 3, { align: "left" }); 
+//     yPosition += lineHeight;
 
-    doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
-    doc.setFontSize(12);
-    doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
-    yPosition += lineHeight;
+//     doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
+//     doc.setFontSize(12);
+//     doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
+//     yPosition += lineHeight;
 
-    doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
-    doc.setFontSize(12);
-    doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
+//     doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
+//     doc.setFontSize(12);
+//     doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
 
-    // ===========================
-    // ✅ Table Data
-    // ===========================
-    const tableData = rows.map(row => [
-      row.consumerNumber,
-      row.consumerAddress,
-      row.monthAndYear,
-      row.ward,
-      row.meterPurpose,
-      row.netBillAmount,
-      row.dueDate,
-    ]);
+//     // ===========================
+//     // ✅ Table Data
+//     // ===========================
+//     const tableData = rows.map(row => [
+//       row.consumerNumber,
+//       row.consumerAddress,
+//       row.monthAndYear,
+//       row.ward,
+//       row.meterPurpose,
+//       row.netBillAmount,
+//       row.dueDate,
+//     ]);
 
-    doc.autoTable({
-      head: [['', '', '', '', '', '', '']],
-      body: tableData,
-      startY: 50,
-      // ✅ Updated table styles - white background, black borders
-      headStyles: {
-        fillColor: [255, 255, 255], // White background
-        textColor: [0, 0, 0],       // Black text
-        lineWidth: 0.5,             // Thicker border
-        lineColor: [0, 0, 0],       // Black border
-        halign: 'center',
-        valign: 'middle'
-      },
-      bodyStyles: {
-        fillColor: [255, 255, 255], // White background for body
-        textColor: [0, 0, 0],       // Black text
-        lineWidth: 0.5,             // Thicker border
-        lineColor: [0, 0, 0],       // Black border
-        halign: 'left',
-        valign: 'middle'
-      },
-      styles: {
-        fontSize: 10,
-        textColor: [0, 0, 0],
-        lineWidth: 0.5,             // Consistent border width
-        lineColor: [0, 0, 0],       // Black borders
-        cellPadding: 3,
-        overflow: 'linebreak'
-      },
-      tableLineColor: [0, 0, 0],    // Black table borders
-      tableLineWidth: 0.5,          // Table border width
-      didDrawPage: (data) => {
-        // ✅ प्रत्येक page वर header images दाखवण्यासाठी
-        const isFirstPage = data.pageNumber === 1;
-        const topPosition = isFirstPage ? 52 : 15;
+//     doc.autoTable({
+//       head: [['', '', '', '', '', '', '']],
+//       body: tableData,
+//       startY: 50,
+//       // ✅ Updated table styles - white background, black borders
+//       headStyles: {
+//         fillColor: [255, 255, 255], // White background
+//         textColor: [0, 0, 0],       // Black text
+//         lineWidth: 0.5,             // Thicker border
+//         lineColor: [0, 0, 0],       // Black border
+//         halign: 'center',
+//         valign: 'middle'
+//       },
+//       bodyStyles: {
+//         fillColor: [255, 255, 255], // White background for body
+//         textColor: [0, 0, 0],       // Black text
+//         lineWidth: 0.5,             // Thicker border
+//         lineColor: [0, 0, 0],       // Black border
+//         halign: 'left',
+//         valign: 'middle'
+//       },
+//       styles: {
+//         fontSize: 10,
+//         textColor: [0, 0, 0],
+//         lineWidth: 0.5,             // Consistent border width
+//         lineColor: [0, 0, 0],       // Black borders
+//         cellPadding: 3,
+//         overflow: 'linebreak'
+//       },
+//       tableLineColor: [0, 0, 0],    // Black table borders
+//       tableLineWidth: 0.5,          // Table border width
+//       didDrawPage: (data) => {
+//         // ✅ प्रत्येक page वर header images दाखवण्यासाठी
+//         const isFirstPage = data.pageNumber === 1;
+//         const topPosition = isFirstPage ? 52 : 15;
 
-        // ✅ Consistent positioning for all header images
-        doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
-        doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
-        doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
-        doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
-        doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
-        doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition, 12.5, 4);
-        doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
-      },
+//         // ✅ Consistent positioning for all header images
+//         doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+//         doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
+//         doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
+//         doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
+//         doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
+//         doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition, 12.5, 4);
+//         doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
+//       },
+//     });
+
+//     // ===========================
+//     // ✅ Final Output
+//     // ===========================
+//     const pdfData = doc.output('datauristring');
+//     const type = "wardbilllist";
+//     handlePdfPreview(pdfData, type, monthYear);
+
+//     const pdfBlob = doc.output('blob');
+//     setPdfBlob(pdfBlob);
+//   };
+
+// ------------------------------------
+const handleDownloadPDF = async () => {
+  setShowFormControl(true);
+  const { jsPDF } = await import('jspdf');
+  await import('jspdf-autotable');
+  const doc = new jsPDF('landscape');
+
+  const meterPurposeOriginal = meterPurposeManyName.length > 0
+    ? meterPurposeManyName.join(', ')
+    : "N/A";
+
+  const ward = rows.length > 0 ? rows[0].ward : "N/A";
+  const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+
+  doc.setFontSize(14);
+  const lineHeight = 10;
+
+  // ===========================
+  // ✅ पहिला पेज वरचे हेडर - Fixed Alignment
+  // ===========================
+  let yPosition = 20;
+
+  doc.setFontSize(12);
+  doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+
+  // ✅ Truncate Meter Purpose within 250px
+  const maxWidthPt = 250 * 0.75; // ~= 187.5pt
+  let meterPurposeTruncated = meterPurposeOriginal;
+
+  while (doc.getTextWidth(`:${meterPurposeTruncated}`) > maxWidthPt && meterPurposeTruncated.length > 0) {
+    meterPurposeTruncated = meterPurposeTruncated.slice(0, -1);
+  }
+  if (meterPurposeTruncated !== meterPurposeOriginal) {
+    meterPurposeTruncated = meterPurposeTruncated.trim() + "...";
+  }
+
+  const meterPurposeX = 175;
+  const meterPurposeY = yPosition + 3;
+
+  doc.text(`:${meterPurposeTruncated}`, meterPurposeX, meterPurposeY, { align: "left" }); 
+  yPosition += lineHeight;
+
+  // ✅ Add Hover Annotation for Full Text
+  if (meterPurposeTruncated !== meterPurposeOriginal) {
+    doc.annotateText(meterPurposeX, meterPurposeY, {
+      text: meterPurposeOriginal,
+      title: "Full Meter Purpose",
     });
+  }
 
-    // ===========================
-    // ✅ Final Output
-    // ===========================
-    const pdfData = doc.output('datauristring');
-    const type = "wardbilllist";
-    handlePdfPreview(pdfData, type, monthYear);
+  doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
+  doc.setFontSize(12);
+  doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" }); 
+  yPosition += lineHeight;
 
-    const pdfBlob = doc.output('blob');
-    setPdfBlob(pdfBlob);
-  };
+  doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
+  doc.setFontSize(12);
+  doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
+
+  // ===========================
+  // ✅ Table Data
+  // ===========================
+  const tableData = rows.map(row => [
+    row.consumerNumber,
+    row.consumerAddress,
+    row.monthAndYear,
+    row.ward,
+    row.meterPurpose,
+    row.netBillAmount,
+    row.dueDate,
+  ]);
+
+  doc.autoTable({
+    head: [['', '', '', '', '', '', '']],
+    body: tableData,
+    startY: 50,
+    headStyles: {
+      fillColor: [255, 255, 255],
+      textColor: [0, 0, 0],
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+      halign: 'center',
+      valign: 'middle',
+    },
+    bodyStyles: {
+      fillColor: [255, 255, 255],
+      textColor: [0, 0, 0],
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+      halign: 'left',
+      valign: 'middle',
+    },
+    alternateRowStyles: {
+    fillColor: [255, 255, 255], // प्रत्येक रौ सुद्धा पांढराच
+  },
+    styles: {
+      fontSize: 10,
+      textColor: [0, 0, 0],
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+      cellPadding: 3,
+      overflow: 'linebreak',
+    },
+    tableLineColor: [0, 0, 0],
+    tableLineWidth: 0.5,
+    didDrawPage: (data) => {
+      const isFirstPage = data.pageNumber === 1;
+      const topPosition = isFirstPage ? 52 : 15;
+
+      doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+      doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
+      doc.addImage(Mahina, "PNG", data.settings.margin.left + 140, topPosition-1, 13, 5);
+      doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 168, topPosition, 11, 4);
+      doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 185, topPosition-1, 18, 4.8);
+      doc.addImage(Rakkam, "PNG", data.settings.margin.left + 213, topPosition, 12.5, 4);
+      doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 235, topPosition-1, 22, 5);
+    },
+  });
+
+  // ===========================
+  // ✅ Final Output
+  // ===========================
+  const pdfData = doc.output('datauristring');
+  const type = "wardbilllist";
+  handlePdfPreview(pdfData, type, monthYear);
+
+  const pdfBlob = doc.output('blob');
+  setPdfBlob(pdfBlob);
+};
+
 
 // ----------------------------------------------------------------
 
@@ -1585,6 +1716,57 @@ const checkSignatureStatusForm22 = (reports) => {
 
   return statuses;
 };
+
+
+function convertNumberToMarathiWords(number) {
+  const units = ["", "एक", "दोन", "तीन", "चार", "पाच", "सहा", "सात", "आठ", "नऊ"];
+  const tens = ["दहा", "वीस", "तीस", "चाळीस", "पन्नास", "साठ", "सत्तर", "ऐंशी", "नव्वद"];
+  const scales = ["", "हजार", "लाख", "कोटी"];
+  
+  if (number === 0) return "शून्य";
+
+  let words = [];
+  let numString = Math.floor(number).toString();
+  let numLength = numString.length;
+
+  // Split the number into sections: Units, Thousands, Lakhs, Crores
+  const sections = [];
+  if (numLength > 3) {
+    sections.push(parseInt(numString.slice(-3)));
+    numString = numString.slice(0, -3);
+  } else {
+    sections.push(parseInt(numString));
+    numString = '';
+  }
+  while (numString.length > 0) {
+    sections.push(parseInt(numString.slice(-2)));
+    numString = numString.slice(0, -2);
+  }
+
+  sections.forEach((section, index) => {
+    if (section === 0) return;
+
+    let sectionWords = [];
+    if (section > 99) {
+      sectionWords.push(units[Math.floor(section / 100)]);
+      sectionWords.push("शे");
+      section = section % 100;
+    }
+    if (section >= 20) {
+      sectionWords.push(tens[Math.floor(section / 10) - 1]);
+      if (section % 10 > 0) {
+        sectionWords.push(units[section % 10]);
+      }
+    } else if (section > 0) {
+      sectionWords.push(units[section]);
+    }
+
+    words.unshift(sectionWords.join(" ") + (scales[index] ? " " + scales[index] : ""));
+  });
+  
+  return words.join(" ").trim();
+}
+
 
 
 const handleDownloadForm22 = async() => {
@@ -1856,7 +2038,9 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
       
       
       const prefix = 'एकूण रक्कम रुपये (';
+
       const suffix = `${totalAmount.toFixed(2)}/-`;
+
       const closingBracket = ')';
       
       const prefixWidth = doc.getTextWidth(prefix);
@@ -2007,7 +2191,8 @@ if (signatureMatches[0] === "verified") {
   const textYa = signatureY + signatureHeight + 4 - 3;
 
   doc.setFontSize(8);
-  doc.setTextColor(0, 128, 0); // green color for Verified
+  // doc.setTextColor(0, 128, 0); // green color for Verified
+   doc.setTextColor(0, 0, 0); // green color for Verified
   doc.text('Verified', textXa, textYa, { align: 'center' });
 }
 
@@ -2243,7 +2428,8 @@ if (signatureMatches[3] === "verified") {
   doc.text(formattedDate, textX, dateY, { align: 'center' });
 
   doc.setFontSize(8);
-  doc.setTextColor(0, 128, 0); // green for 'Verified'
+  // doc.setTextColor(0, 128, 0); // green for 'Verified'
+  doc.setTextColor(0, 0, 0); // green for 'Verified'
   doc.text('Verified', textX, verifiedY, { align: 'center' });
 }
 
@@ -2290,7 +2476,8 @@ if (signatureMatches[4] === "verified") {
   doc.text(formattedDate, textX, dateY, { align: 'center' });
 
   doc.setFontSize(8);
-  doc.setTextColor(0, 128, 0); // green for 'Verified'
+  // doc.setTextColor(0, 128, 0); // green for 'Verified'
+   doc.setTextColor(0, 0, 0); // green for 'Verified'
   doc.text('Verified', textX, verifiedY, { align: 'center' });
 }
 
@@ -2680,7 +2867,8 @@ if (signatureMatches[5] === "verified") {
   doc.text(formattedDate, textX, dateY, { align: 'center' });
 
   doc.setFontSize(8);
-  doc.setTextColor(0, 128, 0); // green for 'Verified'
+  // doc.setTextColor(0, 128, 0); // green for 'Verified'
+  doc.setTextColor(0, 0, 0); // green for 'Verified'
   doc.text('Verified', textX, verifiedY, { align: 'center' });
 }
 
