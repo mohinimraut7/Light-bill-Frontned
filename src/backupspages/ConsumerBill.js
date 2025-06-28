@@ -1,39 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation,Link} from 'react-router-dom';
-
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box, Button, Modal, Checkbox,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-
-
-import CheckIcon from '@mui/icons-material/Check';
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
-
 import ConsumerButton from '../components/ConsumerButton';
 import { toast } from "react-toastify";
-
 import dayjs from 'dayjs';
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import '../App.css';
-
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { styled } from '@mui/material/styles';
-
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
 import BillDatePicker from '../components/BillDatePicker';
-
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
 import { AddRemarkModal } from '../components/modals/AddRemark';
 import ViewRemarkModal from '../components/modals/ViewRemarkModal';
@@ -42,7 +29,6 @@ const ConsumerBill = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { bills, loading, error } = useSelector((state) => state.bills);
-  
     const { consumers } = useSelector((state) => state?.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [billOpen, setBillOpen] = useState(false);
@@ -85,8 +71,6 @@ const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
 const [wardName, setWardName] = useState('');
  const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
- 
-
   const currentDate = new Date();
 const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 const currentYear = currentDate.getFullYear();
@@ -96,27 +80,6 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     dispatch(fetchBills());
   }, [dispatch, data]);
 
-  
-  // useEffect(() => {
-
-  //   if (bills) {
-  //     const initialSelectedValues = bills.reduce((acc, bill, index) => {
-  //       acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
-  //       return acc;
-  //     }, {});
-
-  //     setSelectedValues(initialSelectedValues);
-     
-  //     const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
-  //     const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
-      
-  //     setBillPaid(paid)
-  //     setBillUnPaid(unpaid)
-  //   }
-  // }, [bills]);
-
-
-
   useEffect(() => {
   if (bills && user) {
     const initialSelectedValues = bills.reduce((acc, bill, index) => {
@@ -125,7 +88,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     }, {});
     setSelectedValues(initialSelectedValues);
 
-    // 👇 Ward-wise + currentMonthYear + JE restriction logic added here
+   
     const filteredBills = bills.filter((bill) =>
       bill.monthAndYear === currentMonthYear &&
       (
@@ -159,7 +122,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
         return acc;
       }, {});
 
-      // Ensure all wards have a count (even if zero)
+      
       const finalWardCounts = allWards.reduce((acc, ward) => {
         acc[ward] = wardCounts[ward] || 0;
         return acc;
@@ -269,7 +232,6 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
   };
 
   const getFilteredBills = () => {
-    // if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user.ward === 'Head Office')) {
        if (
     user?.role === 'Super Admin' ||
     user?.role === 'Admin' ||
