@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+// Pagination madhil changes
+
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation,Link} from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Button, Modal, Checkbox,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
+import { Typography, Box, Button, Modal, Checkbox, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
@@ -18,18 +20,19 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
-import { CircularProgress} from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
 import BillDatePicker from '../components/BillDatePicker';
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
 import { AddRemarkModal } from '../components/modals/AddRemark';
 import ViewRemarkModal from '../components/modals/ViewRemarkModal';
 import wardDataAtoI from '../data/warddataAtoI';
+
 const ConsumerBill = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { bills, loading, error } = useSelector((state) => state.bills);
-    const { consumers } = useSelector((state) => state?.consumers);
+  const { bills, loading, error, totalCount, currentPage } = useSelector((state) => state.bills);
+  const { consumers } = useSelector((state) => state?.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [billOpen, setBillOpen] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
@@ -61,51 +64,109 @@ const ConsumerBill = () => {
   const [rollbackSuperAdmBtnEnabled, setRollbackSuperAdmBtnEnabled] = useState(false);
   const [cnId, setCnId] = useState('');
   const [cRDate, setCRDate] = useState('');
-  const [myear,setMyear]=useState('');
+  const [myear, setMyear] = useState('');
   const [wardFaultyCounts, setWardFaultyCounts] = useState({});
   const [totalFaultyMeters, setTotalFaultyMeters] = useState(0);
   const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
-const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
+  const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   const [selectedRemarks, setSelectedRemarks] = useState([]);
   const [billRemarkOpen, setBillRemarkOpen] = useState(false);
-const [wardName, setWardName] = useState('');
- const [selectedMonthYear, setSelectedMonthYear] = useState('');
+  const [wardName, setWardName] = useState('');
+  const [selectedMonthYear, setSelectedMonthYear] = useState('');
+  
+  // Pagination states
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 100
+  });
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [searchDebounce, setSearchDebounce] = useState('');
+
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
   const currentDate = new Date();
-const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-const currentYear = currentDate.getFullYear();
-const currentMonthYear = `${currentMonth}-${currentYear}`;
+  const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const currentYear = currentDate.getFullYear();
+  const currentMonthYear = `${currentMonth}-${currentYear}`;
+
+  // Debounced search for consumer ID
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchDebounce(cnId);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [cnId]);
+
+  // Enhanced fetchBills function with pagination
+  const fetchBillsWithPagination = useCallback(async (page, pageSize, filters = {}) => {
+    setIsDataLoading(true);
+    
+    const paginationParams = {
+      page,
+      pageSize,
+      consumerNumber: filters.consumerNumber || '',
+      ward: filters.ward || '',
+      monthYear: filters.monthYear || '',
+      userRole: user?.role,
+      userWard: user?.ward
+    };
+
+    try {
+      await dispatch(fetchBills(paginationParams));
+    } catch (error) {
+      toast.error('Failed to fetch bills');
+      console.error('Error fetching bills:', error);
+    } finally {
+      setIsDataLoading(false);
+    }
+  }, [dispatch, user]);
+
+  // Initial data fetch and when filters change
+  useEffect(() => {
+    const filters = {
+      consumerNumber: searchDebounce,
+      ward: wardName,
+      monthYear: selectedMonthYear
+    };
+    
+    fetchBillsWithPagination(paginationModel.page, paginationModel.pageSize, filters);
+  }, [fetchBillsWithPagination, paginationModel.page, paginationModel.pageSize, searchDebounce, wardName, selectedMonthYear]);
+
+  // Handle pagination change
+  const handlePaginationChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+  };
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    if (paginationModel.page !== 0) {
+      setPaginationModel(prev => ({ ...prev, page: 0 }));
+    }
+  }, [searchDebounce, wardName, selectedMonthYear]);
 
   useEffect(() => {
-    dispatch(fetchBills());
-  }, [dispatch, data]);
+    if (bills && user) {
+      const initialSelectedValues = bills.reduce((acc, bill, index) => {
+        acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
+        return acc;
+      }, {});
+      setSelectedValues(initialSelectedValues);
 
-  useEffect(() => {
-  if (bills && user) {
-    const initialSelectedValues = bills.reduce((acc, bill, index) => {
-      acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
-      return acc;
-    }, {});
-    setSelectedValues(initialSelectedValues);
+      const filteredBills = bills.filter((bill) =>
+        bill.monthAndYear === currentMonthYear &&
+        (
+          user.role !== "Junior Engineer" ||
+          user.ward === bill.ward ||
+          (user.role === "Junior Engineer" && user.ward === "Head Office")
+        )
+      );
 
-   
-    const filteredBills = bills.filter((bill) =>
-      bill.monthAndYear === currentMonthYear &&
-      (
-        user.role !== "Junior Engineer" ||
-        user.ward === bill.ward ||
-        (user.role === "Junior Engineer" && user.ward === "Head Office")
-      )
-    );
+      const paid = filteredBills.filter(bill => bill?.paymentStatus === 'paid')?.length;
+      const unpaid = filteredBills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
 
-    const paid = filteredBills.filter(bill => bill?.paymentStatus === 'paid')?.length;
-    const unpaid = filteredBills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
-
-    setBillPaid(paid);
-    setBillUnPaid(unpaid);
-  }
-}, [bills, user]);
-
+      setBillPaid(paid);
+      setBillUnPaid(unpaid);
+    }
+  }, [bills, user]);
 
   useEffect(() => {
     if (!loading && bills.length > 0 && user) {
@@ -113,16 +174,14 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       
       const wardCounts = bills.reduce((acc, bill) => {
         if (bill.monthAndYear === currentMonthYear && 
-            (user.role !== "Junior Engineer" || user.ward === bill.ward||
-  (user.role === "Junior Engineer" && user.ward === "Head Office") )) {  // ✅ Junior Engineer restriction
+            (user.role !== "Junior Engineer" || user.ward === bill.ward ||
+              (user.role === "Junior Engineer" && user.ward === "Head Office"))) {
           counts[bill.meterStatus] = (counts[bill.meterStatus] || 0) + 1;
-
           acc[bill.ward] = (acc[bill.ward] || 0) + (bill.meterStatus === "FAULTY" ? 1 : 0);
         }
         return acc;
       }, {});
 
-      
       const finalWardCounts = allWards.reduce((acc, ward) => {
         acc[ward] = wardCounts[ward] || 0;
         return acc;
@@ -134,8 +193,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       setWardFaultyCounts(finalWardCounts);
       setTotalFaultyMeters(counts.FAULTY);
     }
-}, [bills, loading, user]);
-
+  }, [bills, loading, user]);
 
   useEffect(() => {
     setCBillAmount(bills?.currentBillAmount)
@@ -144,12 +202,11 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     setRBillAmount(bills?.roundedBillAmount)
     setPaidAfter(bills?.ifPaidBefore)
     setPaidBefore(bills?.ifPaidAfter)
-  }, [])
+  }, []);
 
   useEffect(() => {
     const checkProcessBtnEnable = () => {
       if (user.role === 'Junior Engineer') {
-        
         const pendingForJuniorCount = bills.filter(
           item => item?.approvedStatus === 'PendingForJuniorEngineer'
         )?.length;
@@ -159,22 +216,21 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
         )?.length;
         
         if (pendingForExecutiveCount > pendingForJuniorCount) {
-          setRollbackBtnEnabled(true); 
-          setProcessBtnEnabled(false); 
+          setRollbackBtnEnabled(true);
+          setProcessBtnEnabled(false);
         } else {
           if (pendingForJuniorCount > 1) {
-            setProcessBtnEnabled(true); 
-            setRollbackBtnEnabled(false); 
+            setProcessBtnEnabled(true);
+            setRollbackBtnEnabled(false);
           } else if (pendingForJuniorCount === 1) {
-            setProcessBtnEnabled(false); 
-            setRollbackBtnEnabled(true); 
+            setProcessBtnEnabled(false);
+            setRollbackBtnEnabled(true);
           } else {
-            setProcessBtnEnabled(false); 
-            setRollbackBtnEnabled(true); 
+            setProcessBtnEnabled(false);
+            setRollbackBtnEnabled(true);
           }
         }
       } 
-      
       else if (user.role === 'Executive Engineer') {
         const pendingForExecutiveCount = bills.filter(
           item => item.approvedStatus === 'PendingForExecutiveEngineer'
@@ -226,59 +282,59 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     checkProcessBtnEnable();
   }, [bills, user.role]);
 
-
   const handleChangeWard = (event) => {
     setWardName(event.target.value);
   };
 
   const getFilteredBills = () => {
-       if (
-    user?.role === 'Super Admin' ||
-    user?.role === 'Admin' ||
-    user?.role === 'Executive Engineer' ||
-    (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
-  ) {
-    // If wardName is selected, filter by that ward
-    if (wardName && wardName.trim() !== '') {
-      return bills.filter((bill) => bill?.ward === wardName);
-    }
-      
-      
+    if (
+      user?.role === 'Super Admin' ||
+      user?.role === 'Admin' ||
+      user?.role === 'Executive Engineer' ||
+      (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+    ) {
+      if (wardName && wardName.trim() !== '') {
+        return bills.filter((bill) => bill?.ward === wardName);
+      }
       return bills;
     } 
-    
     else if (user?.role.startsWith('Junior Engineer')) {
       const specificWard = user?.ward;
       return bills.filter((bill) => bill?.ward === specificWard);
     }
     return [];
   };
+
   const filteredBills = getFilteredBills();
   
-  if (loading) {
+  if (loading && !isDataLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
       </Box>
     );
   }
+
   if (error) {
     return <p>Error: {error}</p>;
   }
+
   const handleAddBillOpen = () => {
     setBillOpen(true);
   };
+
   const handleAddBillClose = () => {
     setBillOpen(false);
   };
+
   const handleAddBill = (billData) => {
     dispatch(addBill(billData));
     handleAddBillClose();
   };
+
   const handleAddPaymentClose = () => {
     setAddPaymentOpen(false);
   };
- 
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -289,8 +345,6 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     return `${year} , ${month} - ${day}`;
   };
 
- 
-  
   const handleFileChange = (event) => { 
     const file = event.target.files[0];
     if (!file) return;
@@ -308,6 +362,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     };
     reader.readAsArrayBuffer(file);
   };
+
   const isDisabledForEngineer = (row) => {
     if (user?.role === 'Junior Engineer') {
       return (
@@ -336,6 +391,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     }
     return false;
   };
+
   const handleSelectAll = (event) => {
     if (event.target.checked) {
       const selectableRows = rows.filter((row) => !isDisabledForEngineer(row));
@@ -344,6 +400,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       setSelectedItems([]);
     }
   };
+
   const handleCheckboxChange = (event, row) => {
     if (event.target.checked) {
       setSelectedItems((prev) => [...prev, row]);
@@ -351,38 +408,20 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       setSelectedItems((prev) => prev.filter((item) => item.id !== row.id));
     }
   };
+
   const handleProcessClick = () => {
-    console.log("selectedItems----",selectedItems)
-    console.log("user checking<<<<<<<<<",user)
+    console.log("selectedItems----", selectedItems)
+    console.log("user checking<<<<<<<<<", user)
     if (selectedItems.length === 0) {
       toast.warn('No bills selected for processing');
       return;
     }
     
-      // सर्व बिल्समध्ये remarks आहेत का?
-    // const hasRemarks = selectedItems.every(item => item.remarks && item.remarks.length > 0);
-    // if (!hasRemarks) {
-    //     toast.error("Please approve before proceeding");
-    //     return;
-    // }
-
-    // प्रत्येक बिलच्या remarks मध्ये user.role आणि user.signature आहे का तपासा
-    // const allHaveUserRoleAndSignature = selectedItems.every(item => 
-    //     item.remarks.some(remark => remark.role === user.role && remark.signature === user.signature)
-    // );
-
-    // if (!allHaveUserRoleAndSignature) {
-    //     toast.error("Your role and signature must be present in remarks before processing");
-    //     return;
-    // }
-
-    // जर सर्व चेक पास झाले, तर पुढील प्रोसेस सुरु करा
     console.log("Processing selected bills...");
-
- 
     dispatch(massBillApprovalsAction(selectedItems));
     setSelectedItems([]);
   };
+
   const handleReverseApprovals = () => {
     if (selectedItems.length === 0) {
       toast.warn('No bills selected for processing');
@@ -392,13 +431,11 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     setSelectedItems([]);
   }
 
-
   const generateBillURL = (billType, param1, param2, param3, param4) => {
     if (!billType || !param1 || !param2 || !param3) {
       return "#"; 
     }
   
-    // **Dynamic baseURL based on billType**
     let baseURL = "";
   
     if (billType === "LT") {
@@ -414,127 +451,91 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
     }
   
-    return "#"; // Default return if `billType` does not match
+    return "#";
   };
   
- const handleDateChange = (value) => {
+  const handleDateChange = (value) => {
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
     setSelectedMonthYear(formattedValue);
   };
 
   const combinedData = [...filteredBills, ...data];
-  
-
 
   let filteredData = cnId
-  ? combinedData.filter(bill => bill.consumerNumber.includes(cnId))
-  : combinedData;
+    ? combinedData.filter(bill => bill.consumerNumber.includes(cnId))
+    : combinedData;
 
-   
   filteredData = filteredData.filter(
-  bill => !selectedMonthYear || bill.monthAndYear.toUpperCase() === selectedMonthYear
-);
+    bill => !selectedMonthYear || bill.monthAndYear.toUpperCase() === selectedMonthYear
+  );
 
+  const toCapitalized = (text) => {
+    return text
+      ?.toLowerCase()
+      .replace(/\b\w/g, (match) => match.toUpperCase());
+  };
 
-//     if (cRDate) {
-//       const crDateObj = new Date(cRDate);
-// const cRYear = crDateObj.getFullYear();
-// const cRMonth = crDateObj.getMonth(); 
-
-   
-
-//       filteredData = filteredData.filter(bill => {
-//         if (bill.currentReadingDate) {
-//           const billDateObj = new Date(bill.currentReadingDate);
-//           const billYear = billDateObj.getFullYear();
-//           const billMonth = billDateObj.getMonth(); 
+  const handleEditBillRemark = (bill) => {
+    console.log("ahshashahshas>>>>>>>>", bill)
+    setCurrentBill(bill);
+    setBillRemarkOpen(true);
+  };
     
-          
-//           return cRYear === billYear && cRMonth === billMonth;
-//         }
-//         return false; 
-//       });
-    
-//     }
+  const handleAddBillRemark = (billData) => {
+    dispatch(addBill(billData));
+    handleAddBillRemarkClose();
+  };
 
-
-
-    const toCapitalized = (text) => {
-      return text
-        ?.toLowerCase()
-        .replace(/\b\w/g, (match) => match.toUpperCase());
-    };
-
-    const handleEditBillRemark = (bill) => {
-      console.log("ahshashahshas>>>>>>>>",bill)
-      setCurrentBill(bill);
-      setBillRemarkOpen(true);
-    };
-    
-    const handleAddBillRemark = (billData) => {
-          dispatch(addBill(billData));
-          handleAddBillRemarkClose();
-        };
-  const rows = 
-    filteredData.map((bill, index) => ({
+  const rows = filteredData.map((bill, index) => ({
     _id: bill._id,
-    id: index + 1,
+    id: (paginationModel.page * paginationModel.pageSize) + index + 1,
     consumerNumber: bill?.consumerNumber,
     consumerName: bill?.consumerName,
     username: bill.username || '-',
-    billType:bill?.billType,
-    billDisplayParameter1:bill?.billDisplayParameter1,
-    billDisplayParameter2:bill?.billDisplayParameter2,
-    billDisplayParameter3:bill?.billDisplayParameter3,
-    billDisplayParameter4:bill?.billDisplayParameter4,
+    billType: bill?.billType,
+    billDisplayParameter1: bill?.billDisplayParameter1,
+    billDisplayParameter2: bill?.billDisplayParameter2,
+    billDisplayParameter3: bill?.billDisplayParameter3,
+    billDisplayParameter4: bill?.billDisplayParameter4,
     contactNumber: bill?.contactNumber,
     meterNumber: bill?.meterNumber || '-',
     place: bill?.place || '-',
-    meterStatus: bill?.meterStatus||'-',
-    phaseType: bill?.phaseType||'-',
-    tariffDescription: bill?.tariffDescription||'-',
-    netLoad:bill.netLoad||'-',
-    sanctionedLoad:bill?.sanctionedLoad||'-',
-    installationDate:bill?.installationDate||'-',
+    meterStatus: bill?.meterStatus || '-',
+    phaseType: bill?.phaseType || '-',
+    tariffDescription: bill?.tariffDescription || '-',
+    netLoad: bill.netLoad || '-',
+    sanctionedLoad: bill?.sanctionedLoad || '-',
+    installationDate: bill?.installationDate || '-',
     totalConsumption: bill.totalConsumption,
     previousReadingDate: formatDate(bill.previousReadingDate),
     previousReading: bill.previousReading,
-    monthAndYear:bill.monthAndYear,
+    monthAndYear: bill.monthAndYear,
     currentReadingDate: formatDate(bill.currentReadingDate),
     currentReading: bill.currentReading,
     billDate: formatDate(bill.billDate),
     currentBillAmount: bill.currentBillAmount,
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
-    billingUnit:bill.billingUnit,
+    billingUnit: bill.billingUnit,
     ward: bill?.ward,
-    // paymentStatus: bill?.paymentStatus || '-',
     paymentStatus: bill?.paymentStatus ? toCapitalized(bill.paymentStatus) : '-',
     approvedStatus: bill?.approvedStatus || 'PendingForJuniorEngineer',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
-    promptPaymentDate:bill.promptPaymentDate,
-    promptPaymentAmount:bill.promptPaymentAmount,
-    dueDate:bill.dueDate,
-    netBillAmountWithDPC: bill.netBillAmountWithDPC||'-',
-    phaseType:bill?.phaseType||'-',
-    receiptNoBillPayment:bill.receiptNoBillPayment||'-',
-    lastReceiptDate: formatDate(bill.lastReceiptDate)||'-',
-    billPaymentDate:bill.billPaymentDate||'-',
-    paidAmount:bill.paidAmount||'-',
-    remark:bill.remark,
+    promptPaymentDate: bill.promptPaymentDate,
+    promptPaymentAmount: bill.promptPaymentAmount,
+    dueDate: bill.dueDate,
+    netBillAmountWithDPC: bill.netBillAmountWithDPC || '-',
+    receiptNoBillPayment: bill.receiptNoBillPayment || '-',
+    lastReceiptDate: formatDate(bill.lastReceiptDate) || '-',
+    billPaymentDate: bill.billPaymentDate || '-',
+    paidAmount: bill.paidAmount || '-',
+    remark: bill.remark,
     remarks: bill.remarks,
-
-    // remark:bill.remark,
-    }));
+  }));
 
   const handleApproveClick = (bill, yesno) => {
     let approvedStatus;
-    // let currentBillAmount;
-    // let ifPaidBefore;
-    // let ifPaidAfter;
-    // let totalArrears;
     let netBillAmount;
-    // let roundedBillAmount;
     if (!bill || !bill._id) {
       return;
     }
@@ -546,7 +547,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
         toast.info('Bill sent back to Junior Engineer for review');
       } else if (yesno === 'Yes' && paymentStatus === 'unpaid') {
         approvedStatus = 'PendingForExecutiveEngineer';
-        paymentStatus =bill.paymentStatus ? bill.paymentStatus : 'unpaid';
+        paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
         toast.success('Record forwarded to Executive Engineer');
       }
       else {
@@ -558,38 +559,24 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       approvedStatus = 'PendingForAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } else if (user?.role === 'Admin') {
-      // approvedStatus = 'PendingForSuperAdmin';
       approvedStatus = 'PendingForAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } 
-    // else if (user?.role === 'Super Admin' && yesno === 'Yes') {
-    //   approvedStatus = 'Done';
-    //   paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-    // } 
-    // else if (user?.role === 'Super Admin' && yesno === 'No') {
-    //   approvedStatus = 'PendingForSuperAdmin';
-    //   paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-    //   currentBillAmount = tArrears;
-    //   ifPaidBefore = paidBefore;
-    //   ifPaidAfter = paidAfter;
-    //   totalArrears = tArrears
-    //   netBillAmount = nBillAmount;
-    //   roundedBillAmount = rBillAmount;
-    // }
-    // dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, currentBillAmount, totalArrears, netBillAmount, roundedBillAmount, ifPaidBefore, ifPaidAfter));
+   
     dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, netBillAmount));
-
   };
 
   const handleChange = (event) => {
     setCnId(event.target.value);
   };
+
   const handleCRDChange = (value) => {
     console.log("Selected Month-Year:", value);
     setCRDate(value); 
   };
   
   const handleAddBillRemarkClose = () => setBillRemarkOpen(false);
+
   const columns = (handleDeleteBill) => [
     {
       field: 'checkbox',
@@ -646,138 +633,41 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       },
     },
    
-    { field: 'id', headerName: 'ID', width: 40},
+    { field: 'id', headerName: 'ID', width: 40 },
 
-
-
-
-    //old
-       
-    // {
-   
-    //   headerName: 'VIEW BILL',
-    //   width: 80,
-     
-    //   renderCell: (params) => {
-    //     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-    
-    //     const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-    
-    //     return (
-    //       <Link
-    //         to={billURL}
-         
-    //         // style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
-    //       >
-    //         <VisibilityIcon/>
-    //       </Link>
-    //     );
-    //   } 
-      
-    // },
-
-
-
-    // ===========================================
-    //new
-
-
-    { field: 'cont', headerName: 'VIEW BILL', width: 80,
+    { 
+      field: 'cont', 
+      headerName: 'VIEW BILL', 
+      width: 80,
       renderCell: (params) => {
         const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
         const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-return(
-  <Link
-  className="eyeconsumer"
-  to={billURL}
-   target="_blank"
-  >
-   <VisibilityIcon/>
-  </Link>
- 
-)}
-
-     },
+        return (
+          <Link
+            className="eyeconsumer"
+            to={billURL}
+            target="_blank"
+          >
+            <VisibilityIcon />
+          </Link>
+        )
+      },
+    },
     
-
-
-
-
-
-
-
-
-// ----------------------------------------------------------
-// testing
-
-// { field: 'id', headerName: 'ID', width: 40, headerClassName: 'view-bill-column',
-//   cellClassName: 'view-bill-cell', },
-
-
-// {
-//   field: '',
-//   headerName: 'VIEW BILL',
-//   width: 80,
-//   headerClassName: 'view-bill-column',
-//   cellClassName: 'view-bill-cell',
-//   renderCell: (params) => {
-//     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-
-// const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-
-// return (
-//       <Link
-//         to={billURL}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
-//       >
-//         <VisibilityIcon/>
-//       </Link>
-//     );
-//   } 
-// },
-
-
-// ==============================
-    //  {
-    //   field: 'actions',
-    //   headerName: 'Actions',
-    //   width: 200,
-    //   renderCell: (params) => (
-    //     <>
-    //       <IconButton
-    //         sx={{ color: '#FFA534' }}
-    //         onClick={() => handleDeleteBill(params.row._id)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <DeleteIcon />
-    //       </IconButton>
-    //       { }
-    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <EditIcon />
-    //       </IconButton> */}
-    //     </>
-    //   ),
-    // },
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NO.',
       width: 130,
-      
       renderCell: (params) => (
         <Link 
           to={`/consumer-bill-details/${params.row.consumerNumber}`} 
           state={{ consumerData: params.row }} 
-          style={{ textDecoration: 'none', color:'#475569',fontWeight:'bold' }}
+          style={{ textDecoration: 'none', color: '#475569', fontWeight: 'bold' }}
         >
           {params.row.consumerNumber}
         </Link>
       ),
     },
-   
     
     { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 80 },
@@ -795,7 +685,6 @@ return(
     { field: 'previousReadingDate', headerName: 'PREVIOUS READING DATE', width: 130 },
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
-   
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
@@ -815,50 +704,31 @@ return(
       width: 250,
       renderCell: (params) => (
         <>  
-{
-  <Button size="small" sx={{ color: '#23CCEF'}} onClick={() => handleEditBillRemark(params.row)}
-  disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-  startIcon={<AddIcon size="small"/>}
-  variant='outlined'
->
-Remark
-</Button>
-} 
+          <Button 
+            size="small" 
+            sx={{ color: '#23CCEF' }} 
+            onClick={() => handleEditBillRemark(params.row)}
+            disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
+            startIcon={<AddIcon size="small" />}
+            variant='outlined'
+          >
+            Remark
+          </Button>
 
-<Button 
-size="small" 
-sx={{ color: '#23CCEF',ml:1}} 
-onClick={() => handleViewRemark(params.row)} // Function to open the View Remark Modal
-variant='outlined'
-startIcon={  <VisibilityIcon/>}
->
-Remark
-</Button>
-</>
+          <Button 
+            size="small" 
+            sx={{ color: '#23CCEF', ml: 1 }} 
+            onClick={() => handleViewRemark(params.row)} 
+            variant='outlined'
+            startIcon={<VisibilityIcon />}
+          >
+            Remark
+          </Button>
+        </>
       ),
     },
-
-    // { field: 'remark', headerName: 'REMARK', width: 130 },
-    
-      // ...(!user?.role === 'Junior Engineer'
-      // ? [
-      //   {
-      //     field: 'actions',
-      //     headerName: 'Actions',
-      //     width: 200,
-      //     renderCell: (params) => (
-      //       <>
-      //         <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
-      //           <CheckIcon />
-      //         </IconButton>
-      //       </>
-      //     ),
-      //   },
-      // ]
-      // : []),
-
-
   ];
+
   const gridStyle = {
     height: 'auto',
     width: isSidebarOpen ? '80%' : '90%',
@@ -871,9 +741,11 @@ Remark
     padding: '0px 0px',
     paddingLeft: '10px',
   };
+
   const innerDivStyle = {
     width: '99%',
   };
+
   const rowColors = ['#F7F9FB', 'white'];
   const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     '& .MuiDataGrid-cell': {
@@ -887,18 +759,25 @@ Remark
         backgroundColor: rowColors[1],
       },
     },
+    '& .MuiDataGrid-overlay': {
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    },
+    '& .MuiDataGrid-loadingOverlay': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   }));
-
-  // const totalmeters = `${consumers.length}`;
+ 
   const totalmeters = `${
-  user?.role === 'Super Admin' ||
-  user?.role === 'Admin' ||
-  user?.role === 'Executive Engineer' ||
-  (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')
-    ? consumers.length
-    : consumers.filter((c) => c?.ward === user?.ward).length
-}`;
-
+    user?.role === 'Super Admin' ||
+    user?.role === 'Admin' ||
+    user?.role === 'Executive Engineer' ||
+    (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')
+      ? consumers.length
+      : consumers.filter((c) => c?.ward === user?.ward).length
+  }`;
 
   const handleDownloadReport = () => {
     const filteredRows = rows.filter(row => row.meterStatus === 'FAULTY' || row.meterStatus === 'AVERAGE');
@@ -928,6 +807,7 @@ Remark
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
     XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
   };
+
   const downloadAllTypsOfReport = () => {
     const worksheet = XLSX.utils.json_to_sheet(rows?.map(row => ({
       'ID': row.id,
@@ -948,7 +828,7 @@ Remark
       'Due Date': row.dueDate,
       'NET BILL AMOUNT WITH DPC': row.netBillAmountWithDPC,
       'Last Receipt Date': row.lastReceiptDate,
-      'paymentStatus':row.paymentStatus
+      'paymentStatus': row.paymentStatus
     })));
 
     const workbook = XLSX.utils.book_new();
@@ -966,11 +846,11 @@ Remark
   };
 
   const handleViewRemark = (row) => {
-    console.log("row",row)
+    console.log("row", row)
     if (Array.isArray(row.remarks)) {
       setSelectedRemarks(row.remarks);
     } else {
-      setSelectedRemarks([]); // Handle cases where there are no remarks
+      setSelectedRemarks([]); 
     }
     setIsRemarkModalOpen(true);
   };
@@ -980,106 +860,140 @@ Remark
       <Box>
         
       </Box>
-      {/* <Box sx={{display:'flex',mb:1, 
-        mt:{
-          xl:0,
-          lg:0,
-          md:5,
-          sm:5,
-          xs:5
+     
+      <Box sx={{
+        width: '100%',
+        width: {
+          xl: '100%',
+          lg: '100%',
+          md: '92%'
         },
-        justifyContent:{
-            xs:'center',
-            sm:'center',
-            md:'center',
-            xl:'flex-start',
-            lg:'flex-start'
-          },
-          alignItems:{
-            xs:'center',
-            sm:'center',
-            md:'center',
-            xl:'flex-start',
-            lg:'flex-start'
-          }}}> <Typography sx={{color: '#0d2136',display:'flex',paddingTop:'20px'
-       
-          }} className="title-2">
-            BILL MASTER
-          </Typography></Box> */}
-
-      <Box sx={{width:'100%',
-   
-      width:{xl:'100%',
-        lg:'100%',
-        md:'92%'
-      },
-      display:'flex',
-   justifyContent:'space-between',
-
-   flexDirection:{
-    xl:'row',
-    lg:'row',
-    md:'row',
-    sm:'column',
-    xs:'column'
-   },
-
-    mt:{
-      xl:8,
-      lg:8,
-      md:8,
-      sm:8,
-      xs:8
-    },
-           marginTop: isSidebarOpen === false? '5%' : '2%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: {
+          xl: 'row',
+          lg: 'row',
+          md: 'row',
+          sm: 'column',
+          xs: 'column'
+        },
+        mt: {
+          xl: 8,
+          lg: 8,
+          md: 8,
+          sm: 8,
+          xs: 8
+        },
+        marginTop: isSidebarOpen === false ? '5%' : '2%',
       }}>
-        <Box sx={{display:'flex', justifyContent:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},alignItems:{xl:'center',lg:'center',md:'center',sm:'center',xs:'center'},
-flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
-  <Typography sx={{color: '#0d2136',fontWeight:'bold'}} className="title-2">BILL MASTER</Typography>
-  </Box>
+        <Box sx={{
+          display: 'flex', 
+          justifyContent: {
+            xl: 'center',
+            lg: 'center',
+            md: 'center',
+            sm: 'center',
+            xs: 'center'
+          },
+          alignItems: {
+            xl: 'center',
+            lg: 'center',
+            md: 'center',
+            sm: 'center',
+            xs: 'center'
+          },
+          flexDirection: {
+            xl: 'row',
+            lg: 'row',
+            md: 'row',
+            sm: 'row',
+            xs: 'row',
+          }
+        }}>
+          <Typography sx={{ color: '#0d2136', fontWeight: 'bold' }} className="title-2">
+            BILL MASTER
+          </Typography>
+        </Box>
       
-      
-        <Box sx={{display:'flex',flexDirection:{
-    xl:'row',
-    lg:'row',
-    md:'row',
-    sm:'column',
-    xs:'column'
-   },}}> <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
-          <Button sx={{color: '#373C5D','&:hover': { backgroundColor: '#F7F9FB' } }}  placement="top">Total Meter</Button>
-        </CustomWidthTooltip>
-        <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`}  placement="top">
-          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Meter Status</Button>
-        </CustomWidthTooltip>
-        <CustomWidthTooltip title={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`}  placement="top">
-          <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Payment Status</Button>
-        </CustomWidthTooltip></Box>
-
-       
+        <Box sx={{
+          display: 'flex',
+          flexDirection: {
+            xl: 'row',
+            lg: 'row',
+            md: 'row',
+            sm: 'column',
+            xs: 'column'
+          },
+        }}>
+          <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
+            <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }} placement="top">
+              Total Meter
+            </Button>
+          </CustomWidthTooltip>
+          <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`} placement="top">
+            <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>
+              Meter Status
+            </Button>
+          </CustomWidthTooltip>
+          <CustomWidthTooltip title={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`} placement="top">
+            <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>
+              Payment Status
+            </Button>
+          </CustomWidthTooltip>
+        </Box>
       </Box>
 
       <Box sx={innerDivStyle}>
-
-        
-
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: {xl:'space-between',lg:'space-between',md:'space-between',sm:'space-between',xs:'center'},
-        flexDirection:{xl:'row',lg:'row',md:'row',sm:'column',xs:'column'},
-        mb: 2 }}>
-         
-          <Box sx={{ display: 'flex', width: {xl:'690px',lg:'1000px',md:'100%',sm:'100%',width:'100%'},
-            justifyContent: {lg:'space-between',xl:'space-between',md:'space-between',sm:'center',xs:'center' },
-            flexDirection:{
-              lg:'row',
-              xl:'row',
-              md:'column',
-              sm:'column',
-              xs:'column'
+        <Box sx={{ 
+          width: '100%', 
+          display: 'flex', 
+          justifyContent: {
+            xl: 'space-between',
+            lg: 'space-between',
+            md: 'space-between',
+            sm: 'space-between',
+            xs: 'center'
+          },
+          flexDirection: {
+            xl: 'row',
+            lg: 'row',
+            md: 'row',
+            sm: 'column',
+            xs: 'column'
+          },
+          mb: 2 
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            width: {
+              xl: '690px',
+              lg: '1000px',
+              md: '100%',
+              sm: '100%',
+              width: '100%'
             },
-            alignItems: {lg:'space-between',xl:'space-between',md:'space-between',sm:'center',xs:'center' },
-
-            
-            }}>
-
+            justifyContent: {
+              lg: 'space-between',
+              xl: 'space-between',
+              md: 'space-between',
+              sm: 'center',
+              xs: 'center' 
+            },
+            flexDirection: {
+              lg: 'row',
+              xl: 'row',
+              md: 'column',
+              sm: 'column',
+              xs: 'column'
+            },
+            alignItems: {
+              lg: 'space-between',
+              xl: 'space-between',
+              md: 'space-between',
+              sm: 'center',
+              xs: 'center' 
+            },
+          }}>
             <input
               type="file"
               accept=".xlsx, .xls"
@@ -1087,275 +1001,303 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
               style={{ display: 'none' }}
               id="fileInput"
             />
-
-
-
           </Box>
-        
         </Box>
 
-        <Box sx={{display:'flex',
-        // border:"2px solid blue",
-        ml: {
-          xl: isSidebarOpen ? 0 :0,
-          lg: isSidebarOpen ? 0 : 0,
-          md: isSidebarOpen ? 2.5 : 1,
-         
-        },
-        gap:{
-        lg:'5px'
-        },
-        width: {
-      xl: isSidebarOpen ? '100%' : '85%',
-      lg: isSidebarOpen ? '85%' : '80%',
-      md: isSidebarOpen ? '95%' : '100%',
-      sm: '100%',
-      xs: '100%',
-    },
-        
-        justifyContent:{
-  xl:'space-between',
-  lg:'space-between',
-  md:'space-between',
-  sm:'center',
-  xs:'center'
-        },
-        
-      alignItems:'center',
-        
-        mb:2,   
-          flexDirection:{
-            xl:'row',
-            lg:'row',
-            md:'row',
-            sm:'column',
-            xs:'column'
+        <Box sx={{
+          display: 'flex',
+          ml: {
+            xl: isSidebarOpen ? 0 : 0,
+            lg: isSidebarOpen ? 0 : 0,
+            md: isSidebarOpen ? 2.5 : 1,
+          },
+          gap: {
+            lg: '5px'
+          },
+          width: {
+            xl: isSidebarOpen ? '100%' : '85%',
+            lg: isSidebarOpen ? '85%' : '80%',
+            md: isSidebarOpen ? '95%' : '100%',
+            sm: '100%',
+            xs: '100%',
+          },
+          justifyContent: {
+            xl: 'space-between',
+            lg: 'space-between',
+            md: 'space-between',
+            sm: 'center',
+            xs: 'center'
+          },
+          alignItems: 'center',
+          mb: 2,   
+          flexDirection: {
+            xl: 'row',
+            lg: 'row',
+            md: 'row',
+            sm: 'column',
+            xs: 'column'
           }
         }}>
-
-  <ConsumerButton onClick={handleProcessClick} disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
-  selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')}>
-  Process
-</ConsumerButton>
-
-<ConsumerButton onClick={handleReverseApprovals}
-              disabled={
-                user.role === 'Junior Engineer' &&
-                selectedItems.length > 0 &&
-                selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')
-              }>Rollback Approvals</ConsumerButton>
-
-                <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Download Reports</ConsumerButton>
- <ConsumerButton  onClick={handleDownloadReport} startIcon={<DownloadIcon/>}>Faulty | Average Bills</ConsumerButton>
-  {/* <ConsumerButton  onClick={handleAddBillOpen} startIcon={<AddIcon/>}>Add Bill</ConsumerButton>            */}
-</Box>
-        <Box sx={{
-          // border:'2px solid blue',
-          display:'flex',alignItems:'center',
-          justifyContent:{xl:'space-between',
-            lg:'space-between',
-            md:'space-between',
-            sm:'center',
-            xs:'center'
-          },
-
-
-      //     width:{xl:'60%',
-      //       lg:user.role === "Junior Engineer"
-      // ? (user.ward === "Head Office" ? "60%" : "40%")
-      // : "35%",
-      //       md:'60%',
-      //       sm:'100%',
-      //       xs:'100%'
-      //     },
-
-width: {
-  xl:
-    user.role === "Super Admin" ||
-    user.role === "Admin" ||
-    user.role === "Executive Engineer" ||
-    (user.role === "Junior Engineer" && user.ward === "Head Office")
-      ? "60%"
-      : "40%",
-  lg:
-    user.role === "Super Admin" ||
-    user.role === "Admin" ||
-    user.role === "Executive Engineer" ||
-    (user.role === "Junior Engineer" && user.ward === "Head Office")
-      ? "60%"
-      : "40%",
-  md: "60%",
-  sm: "100%",
-  xs: "100%",
-},
-
-          gap:{
-          lg:'5px'
-          },
-         flexDirection:{
-          xl:'row',
-          lg:'row',
-          md:'row',
-          sm:'column',
-          xs:'column'
-         },
-          mb:5,}}
+          <ConsumerButton 
+            onClick={handleProcessClick} 
+            disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
+              selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')}
           >
+            Process
+          </ConsumerButton>
 
+          <ConsumerButton 
+            onClick={handleReverseApprovals}
+            disabled={
+              user.role === 'Junior Engineer' &&
+              selectedItems.length > 0 &&
+              selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')
+            }
+          >
+            Rollback Approvals
+          </ConsumerButton>
 
-{/* <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  /> */}
-<Box sx={{
-  width:{xl:'35%',
+          <ConsumerButton onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon />}>
+            Download Reports
+          </ConsumerButton>
+          <ConsumerButton onClick={handleDownloadReport} startIcon={<DownloadIcon />}>
+            Faulty | Average Bills
+          </ConsumerButton>
+        </Box>
 
-
-            lg:user.role === "Junior Engineer"
-      ? (user.ward === "Head Office" ? "35%" : "50%")
-      : "35%",
-        md: '48%',
-        sm: '80%',
-        xs: '80%',
-            md:'35%',
-            sm:'35%',
-            xs:'35%'
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: {
+            xl: 'space-between',
+            lg: 'space-between',
+            md: 'space-between',
+            sm: 'center',
+            xs: 'center'
           },
-}}>
-  <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
+          width: {
+            xl: user.role === "Super Admin" ||
+              user.role === "Admin" ||
+              user.role === "Executive Engineer" ||
+              (user.role === "Junior Engineer" && user.ward === "Head Office")
+              ? "60%"
+              : "40%",
+            lg: user.role === "Super Admin" ||
+              user.role === "Admin" ||
+              user.role === "Executive Engineer" ||
+              (user.role === "Junior Engineer" && user.ward === "Head Office")
+              ? "60%"
+              : "40%",
+            md: "60%",
+            sm: "100%",
+            xs: "100%",
+          },
+          gap: {
+            lg: '5px'
+          },
+          flexDirection: {
+            xl: 'row',
+            lg: 'row',
+            md: 'row',
+            sm: 'column',
+            xs: 'column'
+          },
+          mb: 5,
+        }}>
+          <Box sx={{
+            width: {
+              xl: '35%',
+              lg: user.role === "Junior Engineer"
+                ? (user.ward === "Head Office" ? "35%" : "50%")
+                : "35%",
+              md: '48%',
+              sm: '80%',
+              xs: '80%',
+              md: '35%',
+              sm: '35%',
+              xs: '35%'
+            },
+          }}>
+            <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
+          </Box>
 
-</Box>
+          <TextField
+            id="consumerNumber"
+            name="consumerNumber"
+            label="Search Consumer ID"
+            value={cnId}
+            size="small"
+            onChange={handleChange}
+            variant="outlined"
+            InputProps={{
+              sx: {
+               
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                color: 'gray',
+                transform: 'translate(14px, 8px)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -8px) scale(0.75)', 
+                },
+              },
+            }}
+            sx={{
+              width: {
+                xl: '48%',
+                lg: user.role === "Junior Engineer"
+                  ? (user.ward === "Head Office" ? "35%" : "50%")
+                  : "35%",
+                md: '48%',
+                sm: '80%',
+                xs: '80%'
+              }, 
+              mt: {
+                xs: 1,
+                sm: 1,
+                md: 0,
+                lg: 0,
+                xl: 1
+              },
+              ml: {
+                md: 1,
+                lg: 1
+              }
+            }}
+          />
 
+          {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+            <FormControl
+              fullWidth
+              size="small"
+              variant="outlined"
+              sx={{
+                width: {
+                  xl: '30%',
+                  lg: '30%',
+                  md: '30%',
+                  sm: '40%',
+                  xs: '100%',
+                },
+                mt: { sm: 1, md: 0, lg: 0, xl: 0 }, 
+                ml: {
+                  xl: 1,
+                  lg: 1,
+                  md: 1,
+                  sm: 1
+                }
+              }}
+            >
+              <InputLabel id="ward-label">Search Ward</InputLabel>
+              <Select
+                labelId="ward-label"
+                id="ward"
+                name="ward"
+                value={wardName}
+                onChange={handleChangeWard}
+                label="Search Ward"
+              >
+                {wardDataAtoI.length > 0 ? (
+                  wardDataAtoI.map((ward, index) => (
+                    <MenuItem key={index} value={ward.ward}>
+                      {ward.ward}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No Wards Available</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+          )}
+        </Box>
 
-<TextField
-    id="consumerNumber"
-    name="consumerNumber"
-    label="Search Consumer ID"
-    value={cnId}
-    size="small"
-    onChange={
-      handleChange}
-    variant="outlined"
-    InputProps={{
-      sx: {
-        // height: '40px',
-        // mb:1
-      },
-    }}
-    InputLabelProps={{
-      sx: {
-        color: 'gray',
-        transform: 'translate(14px, 8px)',
-        // fontSize:'17px',
-        transform: 'translate(14px, 8px)',
-        '&.MuiInputLabel-shrink': {
-transform: 'translate(14px, -8px) scale(0.75)', 
-},
-      },
-     
-    }}
-    sx={{
-      width: {
-        xl: '48%',
-        lg:user.role === "Junior Engineer"
-      ? (user.ward === "Head Office" ? "35%" : "50%")
-      : "35%",
-        md: '48%',
-        sm: '80%',
-        xs: '80%'
-      }, 
-      mt:{
-        xs:1,
-        sm:1,
-        md:0,
-        lg:0,
-        xl:1
-      },
-      ml:{
-        md:1,
-        lg:1
-      }
-      
-    }}
-  />
-
-
-  {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'||(user?.role==='Junior Engineer'&& user?.ward==='Head Office')) && (
-    <FormControl
-    fullWidth
-    size="small"
-    variant="outlined"
-    sx={{
-      width: {
-        xl: '30%',
-        lg: '30%',
-        md: '30%',
-        sm: '40%',
-        xs: '100%',
-      },
-      mt: { sm: 1,md:0,lg:0,xl:0 }, 
-      ml:{
-        xl:1,
-        lg:1,
-        md:1,
-        sm:1
-      }
-    }}
-  >
-    <InputLabel id="ward-label">Search Ward</InputLabel>
-    <Select
-      labelId="ward-label"
-      id="ward"
-      name="ward"
-      value={wardName}
-      onChange={handleChangeWard}
-      label="Search Ward"
-    >
-      {wardDataAtoI.length > 0 ? (
-        wardDataAtoI.map((ward, index) => (
-          <MenuItem key={index} value={ward.ward}>
-            {ward.ward}
-          </MenuItem>
-        ))
-      ) : (
-        <MenuItem disabled>No Wards Available</MenuItem>
-      )}
-    </Select>
-  </FormControl>
-  )}
-  
-
-</Box>
-        <StyledDataGrid rows={rows}
+        <StyledDataGrid 
+          rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 100 },
+          paginationMode="server"
+          rowCount={totalCount || 0}
+          paginationModel={paginationModel}
+          onPaginationModelChange={handlePaginationChange}
+          pageSizeOptions={[25, 50, 100]}
+          loading={isDataLoading}
+          sx={{ 
+            paddingRight: 0.5, 
+            paddingLeft: 0.5,
+            minHeight: '400px',
+            '& .MuiDataGrid-loadingOverlay': {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.1rem',
+              color: '#3B82F6',
             },
           }}
-          pageSizeOptions={[5, 10, 15,25,35,45,55,100]}
-          sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
+          slots={{
+            loadingOverlay: () => (
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                height: '100%',
+                gap: 2
+              }}>
+                <CircularProgress size={60} thickness={4} sx={{ color: '#3B82F6' }} />
+                <Typography variant="h6" sx={{ color: '#374151', fontWeight: 500 }}>
+                  Loading Bills...
+                </Typography>
+              </Box>
+            ),
+          }}
         />
+
         <Modal open={billOpen} onClose={handleAddBillClose}>
-          <AddBill open={billOpen} handleClose={handleAddBillClose} handleAddBill={handleAddBill}
+          <AddBill 
+            open={billOpen} 
+            handleClose={handleAddBillClose} 
+            handleAddBill={handleAddBill}
             currentBill={currentBill}
             editBill={(billId, billData) => {
               dispatch(editBill(billId, billData));
-              dispatch(fetchBills());
+              // Refresh current page data
+              fetchBillsWithPagination(
+                paginationModel.page, 
+                paginationModel.pageSize, 
+                { consumerNumber: searchDebounce, ward: wardName, monthYear: selectedMonthYear }
+              );
             }}
           />
         </Modal>
-        <Modal open={addPaymentOpen} onClose={handleAddPaymentClose}>
-          <AddPayment open={addPaymentOpen} handleClose={handleAddPaymentClose} selectedBill={selectedBill} />
-        </Modal>
-        <Modal open={billRemarkOpen} onClose={handleAddBillRemarkClose}>
-                  <AddRemarkModal open={billRemarkOpen} handleClose={handleAddBillRemarkClose} handleAddBill={handleAddBillRemark}
-                    currentBill={currentBill}
-                    editBill={(billId, billData) => {
-                      dispatch(editBill(billId, billData));
-                      dispatch(fetchBills());
-                    }}
-                  />
-                </Modal>
 
-         <ViewRemarkModal 
+        <Modal open={addPaymentOpen} onClose={handleAddPaymentClose}>
+          <AddPayment 
+            open={addPaymentOpen} 
+            handleClose={handleAddPaymentClose} 
+            selectedBill={selectedBill} 
+          />
+        </Modal>
+
+        <Modal open={billRemarkOpen} onClose={handleAddBillRemarkClose}>
+          <AddRemarkModal 
+            open={billRemarkOpen} 
+            handleClose={handleAddBillRemarkClose} 
+            handleAddBill={handleAddBillRemark}
+            currentBill={currentBill}
+            editBill={(billId, billData) => {
+              dispatch(editBill(billId, billData));
+              // Refresh current page data
+              fetchBillsWithPagination(
+                paginationModel.page, 
+                paginationModel.pageSize, 
+                { consumerNumber: searchDebounce, ward: wardName, monthYear: selectedMonthYear }
+              );
+            }}
+          />
+        </Modal>
+
+        <ViewRemarkModal 
           open={isRemarkModalOpen} 
           onClose={() => setIsRemarkModalOpen(false)}   
           remarks={selectedRemarks} 
@@ -1364,5 +1306,470 @@ transform: 'translate(14px, -8px) scale(0.75)',
     </div>
   );
 };
-export default ConsumerBill;
 
+export default ConsumerBill;
+====================================
+
+// Enhanced bill actions with pagination support
+
+// Action types
+export const FETCH_BILLS_REQUEST = 'FETCH_BILLS_REQUEST';
+export const FETCH_BILLS_SUCCESS = 'FETCH_BILLS_SUCCESS';
+export const FETCH_BILLS_FAILURE = 'FETCH_BILLS_FAILURE';
+export const ADD_BILL_SUCCESS = 'ADD_BILL_SUCCESS';
+export const UPDATE_BILL_STATUS_SUCCESS = 'UPDATE_BILL_STATUS_SUCCESS';
+export const DELETE_BILL_SUCCESS = 'DELETE_BILL_SUCCESS';
+export const EDIT_BILL_SUCCESS = 'EDIT_BILL_SUCCESS';
+export const MASS_BILL_APPROVALS_SUCCESS = 'MASS_BILL_APPROVALS_SUCCESS';
+export const MASS_BILL_ROLLBACK_SUCCESS = 'MASS_BILL_ROLLBACK_SUCCESS';
+
+// Enhanced fetchBills action with pagination
+export const fetchBills = (paginationParams = {}) => {
+  return async (dispatch, getState) => {
+    dispatch({ type: FETCH_BILLS_REQUEST });
+    
+    try {
+      // Build query parameters
+      const queryParams = new URLSearchParams({
+        page: paginationParams.page || 0,
+        pageSize: paginationParams.pageSize || 100,
+        ...(paginationParams.consumerNumber && { consumerNumber: paginationParams.consumerNumber }),
+        ...(paginationParams.ward && { ward: paginationParams.ward }),
+        ...(paginationParams.monthYear && { monthYear: paginationParams.monthYear }),
+        ...(paginationParams.userRole && { userRole: paginationParams.userRole }),
+        ...(paginationParams.userWard && { userWard: paginationParams.userWard }),
+      });
+
+      // Replace with your actual API endpoint
+      const response = await fetch(`/api/bills?${queryParams}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch bills');
+      }
+
+      const data = await response.json();
+      
+      dispatch({
+        type: FETCH_BILLS_SUCCESS,
+        payload: {
+          bills: data.bills,
+          totalCount: data.totalCount,
+          currentPage: data.currentPage,
+          hasMore: data.hasMore,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: FETCH_BILLS_FAILURE,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const addBill = (billData) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch('/api/bills', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+        body: JSON.stringify(billData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add bill');
+      }
+
+      const newBill = await response.json();
+      
+      dispatch({
+        type: ADD_BILL_SUCCESS,
+        payload: newBill,
+      });
+    } catch (error) {
+      console.error('Error adding bill:', error);
+    }
+  };
+};
+
+export const updateBillStatusAction = (billId, approvedStatus, paymentStatus, yesno, netBillAmount) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(`/api/bills/${billId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+        body: JSON.stringify({
+          approvedStatus,
+          paymentStatus,
+          yesno,
+          netBillAmount,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update bill status');
+      }
+
+      const updatedBill = await response.json();
+      
+      dispatch({
+        type: UPDATE_BILL_STATUS_SUCCESS,
+        payload: updatedBill,
+      });
+    } catch (error) {
+      console.error('Error updating bill status:', error);
+    }
+  };
+};
+
+export const deleteBill = (billId) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(`/api/bills/${billId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete bill');
+      }
+
+      dispatch({
+        type: DELETE_BILL_SUCCESS,
+        payload: billId,
+      });
+    } catch (error) {
+      console.error('Error deleting bill:', error);
+    }
+  };
+};
+
+export const editBill = (billId, billData) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(`/api/bills/${billId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+        body: JSON.stringify(billData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to edit bill');
+      }
+
+      const updatedBill = await response.json();
+      
+      dispatch({
+        type: EDIT_BILL_SUCCESS,
+        payload: updatedBill,
+      });
+    } catch (error) {
+      console.error('Error editing bill:', error);
+    }
+  };
+};
+
+export const massBillApprovalsAction = (selectedItems) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch('/api/bills/mass-approve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+        body: JSON.stringify({ bills: selectedItems }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to process mass approvals');
+      }
+
+      const result = await response.json();
+      
+      dispatch({
+        type: MASS_BILL_APPROVALS_SUCCESS,
+        payload: result,
+      });
+    } catch (error) {
+      console.error('Error processing mass approvals:', error);
+    }
+  };
+};
+
+export const massBillRollbackApprovalsAction = (selectedItems) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch('/api/bills/mass-rollback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getState().auth.token}`,
+        },
+        body: JSON.stringify({ bills: selectedItems }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to process mass rollbacks');
+      }
+
+      const result = await response.json();
+      
+      dispatch({
+        type: MASS_BILL_ROLLBACK_SUCCESS,
+        payload: result,
+      });
+    } catch (error) {
+      console.error('Error processing mass rollbacks:', error);
+    }
+  };
+};
+=========================================
+nodejs 
+-----------
+const Bill = require('../models/Bill');
+
+// Get bills with pagination and filtering
+exports.getBills = async (req, res) => {
+  try {
+    const {
+      page = 0,
+      pageSize = 100,
+      consumerNumber = '',
+      ward = '',
+      monthYear = '',
+      userRole = '',
+      userWard = ''
+    } = req.query;
+
+    // Convert page and pageSize to numbers
+    const pageNum = parseInt(page);
+    const limit = parseInt(pageSize);
+    const skip = pageNum * limit;
+
+    // Build filter object
+    let filter = {};
+
+    // Consumer number search
+    if (consumerNumber) {
+      filter.consumerNumber = { $regex: consumerNumber, $options: 'i' };
+    }
+
+    // Ward filter
+    if (ward) {
+      filter.ward = ward;
+    }
+
+    // Month and year filter
+    if (monthYear) {
+      filter.monthAndYear = monthYear.toUpperCase();
+    }
+
+    // Role-based filtering
+    if (userRole === 'Junior Engineer' && userWard && userWard !== 'Head Office') {
+      filter.ward = userWard;
+    }
+
+    // Get total count for pagination
+    const totalCount = await Bill.countDocuments(filter);
+
+    // Get bills with pagination
+    const bills = await Bill.find(filter)
+      .sort({ createdAt: -1 }) // Sort by newest first
+      .skip(skip)
+      .limit(limit);
+
+    // Calculate if there are more pages
+    const hasMore = (pageNum + 1) * limit < totalCount;
+
+    res.status(200).json({
+      bills,
+      totalCount,
+      currentPage: pageNum,
+      hasMore,
+      totalPages: Math.ceil(totalCount / limit)
+    });
+
+  } catch (error) {
+    console.error('Error fetching bills:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Add a new bill
+exports.addBill = async (req, res) => {
+  try {
+    const billData = req.body;
+    const newBill = new Bill(billData);
+    const savedBill = await newBill.save();
+    
+    res.status(201).json(savedBill);
+  } catch (error) {
+    console.error('Error adding bill:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Update bill status
+exports.updateBillStatus = async (req, res) => {
+  try {
+    const { billId } = req.params;
+    const { approvedStatus, paymentStatus, yesno, netBillAmount } = req.body;
+
+    const updatedBill = await Bill.findByIdAndUpdate(
+      billId,
+      {
+        approvedStatus,
+        paymentStatus,
+        forwardForGeneration: yesno,
+        ...(netBillAmount && { netBillAmount })
+      },
+      { new: true }
+    );
+
+    if (!updatedBill) {
+      return res.status(404).json({ message: 'Bill not found' });
+    }
+
+    res.status(200).json(updatedBill);
+  } catch (error) {
+    console.error('Error updating bill status:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Delete a bill
+exports.deleteBill = async (req, res) => {
+  try {
+    const { billId } = req.params;
+    
+    const deletedBill = await Bill.findByIdAndDelete(billId);
+    
+    if (!deletedBill) {
+      return res.status(404).json({ message: 'Bill not found' });
+    }
+
+    res.status(200).json({ message: 'Bill deleted successfully', billId });
+  } catch (error) {
+    console.error('Error deleting bill:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Edit a bill
+exports.editBill = async (req, res) => {
+  try {
+    const { billId } = req.params;
+    const billData = req.body;
+
+    const updatedBill = await Bill.findByIdAndUpdate(
+      billId,
+      billData,
+      { new: true }
+    );
+
+    if (!updatedBill) {
+      return res.status(404).json({ message: 'Bill not found' });
+    }
+
+    res.status(200).json(updatedBill);
+  } catch (error) {
+    console.error('Error editing bill:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Mass bill approvals
+exports.massBillApprovals = async (req, res) => {
+  try {
+    const { bills } = req.body;
+    const billIds = bills.map(bill => bill._id);
+
+    // Determine the next approval status based on current status
+    const updatedBills = [];
+    
+    for (const bill of bills) {
+      let nextStatus = bill.approvedStatus;
+      
+      if (bill.approvedStatus === 'PendingForJuniorEngineer') {
+        nextStatus = 'PendingForExecutiveEngineer';
+      } else if (bill.approvedStatus === 'PendingForExecutiveEngineer') {
+        nextStatus = 'PendingForAdmin';
+      } else if (bill.approvedStatus === 'PendingForAdmin') {
+        nextStatus = 'PendingForSuperAdmin';
+      } else if (bill.approvedStatus === 'PendingForSuperAdmin') {
+        nextStatus = 'Done';
+      }
+
+      const updatedBill = await Bill.findByIdAndUpdate(
+        bill._id,
+        { approvedStatus: nextStatus },
+        { new: true }
+      );
+      
+      if (updatedBill) {
+        updatedBills.push(updatedBill);
+      }
+    }
+
+    res.status(200).json({ updatedBills });
+  } catch (error) {
+    console.error('Error processing mass approvals:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Mass bill rollback approvals
+exports.massBillRollback = async (req, res) => {
+  try {
+    const { bills } = req.body;
+    
+    const rolledBackBills = [];
+    
+    for (const bill of bills) {
+      let previousStatus = bill.approvedStatus;
+      
+      if (bill.approvedStatus === 'Done') {
+        previousStatus = 'PendingForSuperAdmin';
+      } else if (bill.approvedStatus === 'PendingForSuperAdmin') {
+        previousStatus = 'PendingForAdmin';
+      } else if (bill.approvedStatus === 'PendingForAdmin') {
+        previousStatus = 'PendingForExecutiveEngineer';
+      } else if (bill.approvedStatus === 'PendingForExecutiveEngineer') {
+        previousStatus = 'PendingForJuniorEngineer';
+      }
+
+      const updatedBill = await Bill.findByIdAndUpdate(
+        bill._id,
+        { approvedStatus: previousStatus },
+        { new: true }
+      );
+      
+      if (updatedBill) {
+        rolledBackBills.push(updatedBill);
+      }
+    }
+
+    res.status(200).json({ rolledBackBills });
+  } catch (error) {
+    console.error('Error processing mass rollbacks:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
