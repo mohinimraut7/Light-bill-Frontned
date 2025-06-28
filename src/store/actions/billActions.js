@@ -48,6 +48,9 @@ export const fetchBillsFailure = (error) => ({
   type: FETCH_BILLS_ERROR,
   payload: error.message
 });
+
+
+//before server pagination
 export const fetchBills = () => {
   return async (dispatch) => {
     dispatch(fetchBillsRequest());
@@ -59,6 +62,39 @@ export const fetchBills = () => {
     }
   };
 };
+
+
+
+
+// Dynamic pagination fetchBills function
+
+
+
+
+// export const fetchBills = (paginationParams = {}) => {
+//   return async (dispatch) => {
+//     dispatch(fetchBillsRequest());
+//     try {
+//       // Build query parameters dynamically
+//       const queryParams = new URLSearchParams({
+//         page: paginationParams.page || 0,
+//         pageSize: paginationParams.pageSize || 100,
+//         ...(paginationParams.consumerNumber && { consumerNumber: paginationParams.consumerNumber }),
+//         ...(paginationParams.ward && { ward: paginationParams.ward }),
+//         ...(paginationParams.monthYear && { monthYear: paginationParams.monthYear }),
+//         ...(paginationParams.userRole && { userRole: paginationParams.userRole }),
+//         ...(paginationParams.userWard && { userWard: paginationParams.userWard }),
+//       });
+
+//       const response = await axios.get(`${baseUrl}/getBills?${queryParams}`);
+//       dispatch(fetchBillsSuccess(response.data));
+//     } catch (error) {
+//       dispatch(fetchBillsFailure(error.message));
+//     }
+//   };
+// };
+
+
 export const addBillRequest = () => ({
   type: ADD_BILL_REQUEST,
 })
