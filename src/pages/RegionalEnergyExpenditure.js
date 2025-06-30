@@ -2311,11 +2311,11 @@ doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35 * imgShrinkRatio, imgH
             imgY += imgGap;
             
            
-            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 77, imgHeight+1);
+            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 78, imgHeight+2);
             imgY += imgGap;
             
            
-            const shrinkRatio = 0.93;
+            const shrinkRatio = 0.94;
 doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40 * shrinkRatio, imgHeight * shrinkRatio);
 
            
