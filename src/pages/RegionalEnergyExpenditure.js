@@ -1863,10 +1863,14 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
       doc.setFontSize(11);
       
       
-      doc.addImage(billkramank, 'PNG', 15, yPos - 3, 20, 5);
-      
+      //doc.addImage(billkramank, 'PNG', 15, yPos - 3, 20, 5);
+      doc.addImage(billkramank, 'PNG', 14, yPos - 4, 21, 6);
+
+
       doc.line(40, yPos, 100, yPos);
-      doc.addImage(pramanakKramank, 'PNG', 105, yPos - 2.5, 23, 4);
+       //doc.addImage(pramanakKramank, 'PNG', 105, yPos - 2.5, 23, 4);
+      doc.addImage(pramanakKramank, 'PNG', 104, yPos - 3.5, 28, 4.5);
+
       
       doc.line(140, yPos, 170, yPos);
       const currentDate = new Date().toLocaleDateString('en-IN');
@@ -1882,7 +1886,7 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
       doc.text(reverseDevanagariIfContainsViOrLi("माल : विद्युत विभाग"), 15, yPos);
       yPos += 8;
       
-      doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 119, 6);
+      doc.addImage(bookRef, 'PNG', 15, yPos - 2.5, 100, 6);
       
       const totalAmount = rows
         .filter(row => row.monthAndYear === selectedMonthYear)
@@ -1918,7 +1922,20 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
           { content: 'एकूण',  colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } },
           { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
         ]],
+
+
+
+
+        
         didParseCell: function (data) {
+          // दर आणि युनिट headings vertical center साठी
+  if (
+    data.section === 'head' &&
+    (data.column.index === 0||data.column.index === 1||data.column.index === 2 || data.column.index === 3 || data.column.index === 4)
+  ) {
+    data.cell.styles.valign = 'middle'; // vertical align center
+  }
+// ------
           if (data.section === 'body' && data.row.index === 0 && data.column.index === 1) {
             data.cell.styles.minCellHeight = 30; 
             data.cell.styles.textColor = [0, 0, 0];
@@ -1931,34 +1948,34 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
               NAkaryashetraPrabhaSamiti,
               'PNG',
               data.cell.x + 2,
-              data.cell.y + 6,
-              40,             
-              5              
+              data.cell.y + 6.3,
+              41,             
+              5.7             
             );
             
             doc.setFontSize(10);
             doc.setTextColor(0, 0, 0);
             doc.text(
               `${user?.ward}`,           
-              data.cell.x + 2 + 40 ,         
-              data.cell.y + 6 + 3.5           
+              data.cell.x + 3 + 40 ,         
+              data.cell.y + 6.4 + 3.9           
             );
             
             doc.addImage(
               NAVibhagatilVirarVibhagache,
               'PNG',
               data.cell.x + 2,
-              data.cell.y + 11,   
-              40,
-              4
+              data.cell.y + 11.6,   
+              41,
+              4.8
             );
             doc.addImage(
               NAMRaVVComMahe,
               'PNG',
               data.cell.x + 2,
-              data.cell.y + 16,    
+              data.cell.y + 17,    
               35,
-              4
+              4.8
             );
            
             doc.setFontSize(8);
@@ -1972,23 +1989,30 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
               NACheVidvutDeyak,
               'PNG',
               data.cell.x + 2,
-              data.cell.y + 21,   
+              data.cell.y + 22.5,   
               26,
-              4
+              4.8
             );
           }
+
+          
           
           if (data.section === 'head') {
             if (data.column.index === 0 && data.row.index === 0) {
-              doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3, 13, 6);
+              // doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3, 15, 6);
+
+              doc.addImage(anukramank, 'PNG', data.cell.x + 2, data.cell.y + 3.7, 16.8, 6.37);
+
             }
             
             if (data.column.index === 1 && data.row.index === 0) {
-              doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 3, 40, 6);
+              doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 3.7, 44, 6);
             }
             
             if (data.column.index === 2 && data.row.index === 0) {
-              doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 28, 6);
+              // doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 28, 6);
+              doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2.7, 30, 7);
+
             }
           }
         },
@@ -2003,11 +2027,13 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
           fillColor: [255, 255, 255],
           textColor: 0,
           lineWidth: 0.1,
-          lineColor: [0, 0, 0]
+          lineColor: [0, 0, 0],
+           fontSize: 11 // default पेक्षा 1px ने वाढवले
         },
         bodyStyles: {
           lineWidth: 0.1,
-          lineColor: [0, 0, 0]
+          lineColor: [0, 0, 0],
+          fontSize: 11 // default पेक्षा 1px ने वाढवले
         },
         footStyles: {
           fillColor: [255, 255, 255],
@@ -2016,7 +2042,7 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
           lineColor: [0, 0, 0]
         },
         columnStyles: {
-          0: { cellWidth: 15 },
+          0: { cellWidth: 20 },
           1: { cellWidth: 82 },
           2: { cellWidth: 35 },
           3: { cellWidth: 15 },
@@ -2033,7 +2059,7 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
       yPos = doc.autoTable.previous.finalY + 10;
       
     
-      doc.setFontSize(10);
+      doc.setFontSize(11);
       const pageWidth = doc.internal.pageSize.getWidth();
       
       
@@ -2058,8 +2084,8 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
       doc.text(prefix, currentX, y);
       currentX += prefixWidth;
       
-      
-      doc.addImage(akshari, 'PNG', currentX, y - 4, akshariImageWidth, 4);
+      // ***please dont remove this is remaining akshari logic put karane.nuntur uncomment karne
+      // doc.addImage(akshari, 'PNG', currentX, y - 4, akshariImageWidth, 4);
       currentX += akshariImageWidth;
       
       
@@ -2223,13 +2249,13 @@ doc.setTextColor(0, 0, 0);
           if (data.column.index === 0 && data.row.index === 0) {
             const leftColX = data.cell.x + 2;
             let imgY = data.cell.y + 5;
-            const imgHeight = 6;
+            const imgHeight = 6.7;
             const imgGap = 12; // Gap between images
             
           
 
          const shrinkRatio = 0.83; 
-doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 30 * shrinkRatio, imgHeight * shrinkRatio);
+doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 36 * shrinkRatio, imgHeight * shrinkRatio);
 
 
             doc.text("_______________ रु.", leftColX + 37, imgY + 4);
@@ -2237,7 +2263,7 @@ doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 30 * shrinkRatio, imgH
             
             
 
-const imageScaleFactor = 0.75; 
+const imageScaleFactor = 0.76; 
 doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28 * imageScaleFactor, imgHeight * imageScaleFactor);
 
 
@@ -2247,7 +2273,7 @@ doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28 * imageScaleFactor, img
             
             
 
-            const scaleFactor = 0.83; 
+            const scaleFactor = 0.91; 
 const newWidth = 45 * scaleFactor;
 const newHeight = imgHeight * scaleFactor;
 
@@ -2255,7 +2281,7 @@ doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX, imgY, newWidth, newHeight)
             doc.text(`${totalAmount.toFixed(2)}/-`, leftColX + 47, imgY + 4);
             imgY += imgGap;
             
-           
+           doc.setFontSize(11); 
             doc.text("२ व ३ यांची बेरीज", leftColX, imgY + 4);
 
 // Line आणि "रु." हा भाग 20px ने उजवीकडे
@@ -2280,16 +2306,16 @@ doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35 * imgShrinkRatio, imgH
             const imgGap = 12; 
             
            
-             const shrinkRatioPr = 0.84;
-            doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 70, imgHeight*shrinkRatioPr);
-            imgY += imgGap;
-            
-          
-            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 70, imgHeight);
+             const shrinkRatioPr = 0.92;
+            doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 74, imgHeight*shrinkRatioPr);
             imgY += imgGap;
             
            
-            const shrinkRatio = 0.88;
+            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 77, imgHeight+1);
+            imgY += imgGap;
+            
+           
+            const shrinkRatio = 0.93;
 doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40 * shrinkRatio, imgHeight * shrinkRatio);
 
            
@@ -4670,7 +4696,7 @@ const numberToMarathiWords = (num) => {
           flexDirection: {
             xl: 'row',
             lg: 'row',
-            md: 'row',
+            md: 'column',
             sm: 'column',
             xs: 'column'
           },
@@ -4702,10 +4728,22 @@ const numberToMarathiWords = (num) => {
           </Typography></Box> 
 
 
-<Box sx={{width:'70%',display:'flex',
-// border:'1px solid red',
+<Box sx={{width:{
+  xs:'100%',
+  sm:'100%',
+  md:'100%',
+  lg:'70%'
+},
+display:'flex',
+//  border:'1px solid blue',
+ flexDirection:{
+xs:'column',
+sm:'column',
+md:'row'
+ },
 justifyContent:{
-lg:'flex-end'
+lg:'flex-end',
+md:'space-around',
 }}}>
 
 {
@@ -4715,7 +4753,7 @@ lg:'flex-end'
 
           <Box 
           sx={{
-            
+            // border:'2px solid green',
             width: {
               lg: '30%',
               xl: '30%',
@@ -4886,14 +4924,26 @@ lg:'flex-end'
                 md: 0,
                 sm: 0
               },
-              
-              height: '65%',
+               height: {
+              xs: '65%',
+              sm: '65%',
+              md: '30px',
+              lg: '65%',
+              xl: '65%',
+              },
+         
             }}
             onClick={handleDownloadPDF}
           >
             {/* <DownloadIcon /> */}
             <Typography sx={{
-              fontSize: isSidebarOpen ? '12.2px' : '14px'
+              fontSize: {
+              xs: isSidebarOpen ? '12.2px' : '14px',
+              sm: isSidebarOpen ? '12.2px' : '14px',
+              lg: isSidebarOpen ? '12.2px' : '14px',
+              xl: isSidebarOpen ? '12.2px' : '14px',
+              md: isSidebarOpen ? '9px' : '11px',
+                       }
             }}>
              Ward Bill Totals
             </Typography>
@@ -4918,7 +4968,7 @@ lg:'flex-end'
               ml: {
                 xl: 1,
                 lg: 1,
-                md: 0,
+                md: 1,
                 sm: 0
               },
               mt:{
@@ -4928,13 +4978,25 @@ lg:'flex-end'
                 sm: 1,
                 xs:1
               },
-              height: '65%',
+               height: {
+              xs: '65%',
+              sm: '65%',
+              md: '30px',
+              lg: '65%',
+              xl: '65%',
+              },
             }}
             onClick={handleDownloadForm22}
           >
             {/* <DownloadIcon /> */}
             <Typography sx={{
-              fontSize: isSidebarOpen ? '12.2px' : '14px'
+             fontSize: {
+              xs: isSidebarOpen ? '12.2px' : '14px',
+              sm: isSidebarOpen ? '12.2px' : '14px',
+              lg: isSidebarOpen ? '12.2px' : '14px',
+              xl: isSidebarOpen ? '12.2px' : '14px',
+              md: isSidebarOpen ? '9px' : '11px',
+                       }
             }}>
               Form 22 report PDF
             </Typography>
@@ -4971,13 +5033,25 @@ lg:'flex-end'
                 sm: 1,
                 xs:1
               },
-              height: '65%',
+              height: {
+              xs: '65%',
+              sm: '65%',
+              md: '30px',
+              lg: '65%',
+              xl: '65%',
+              },
             }}
             onClick={downloadKaryalayinTipani}
           >
             {/* <DownloadIcon /> */}
             <Typography sx={{
-              fontSize: isSidebarOpen ? '12.2px' : '14px'
+              fontSize: {
+              xs: isSidebarOpen ? '12.2px' : '14px',
+              sm: isSidebarOpen ? '12.2px' : '14px',
+              lg: isSidebarOpen ? '12.2px' : '14px',
+              xl: isSidebarOpen ? '12.2px' : '14px',
+              md: isSidebarOpen ? '9px' : '11px',
+                       }
             }}>
               Genrate Karyalayin Tipani
             </Typography>
@@ -5013,7 +5087,13 @@ lg:'flex-end'
                 xs:1
 
               },
-              height: '65%',
+               height: {
+              xs: '65%',
+              sm: '65%',
+              md: '30px',
+              lg: '65%',
+              xl: '65%',
+              },
             }}
             // onClick={downloadFaultyMeterReport}
 
@@ -5021,7 +5101,13 @@ lg:'flex-end'
           >
             {/* <DownloadIcon /> */}
             <Typography sx={{
-              fontSize: isSidebarOpen ? '12.2px' : '14px'
+               fontSize: {
+              xs: isSidebarOpen ? '12.2px' : '14px',
+              sm: isSidebarOpen ? '12.2px' : '14px',
+              lg: isSidebarOpen ? '12.2px' : '14px',
+              xl: isSidebarOpen ? '12.2px' : '14px',
+              md: isSidebarOpen ? '9px' : '11px',
+                       }
             }}>
              Faulty Meter Report
             </Typography>
