@@ -2311,7 +2311,7 @@ doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35 * imgShrinkRatio, imgH
             imgY += imgGap;
             
            
-            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 78, imgHeight+2);
+            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 78, imgHeight);
             imgY += imgGap;
             
            
