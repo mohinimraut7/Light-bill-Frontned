@@ -485,8 +485,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
 
           
           <div style={{ position: 'absolute',
-            //  backgroundColor: '#7CB9E6',
-             backgroundColor:'#475569',
+            backgroundColor: '#F8A63F',
+            //  backgroundColor:'#475569',
               width: '100%', height: '100%', opacity: '0.9' }}></div>
           <DrawerHeader>
             {open && <Box sx={{ width: '100%', height: '185px', display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
@@ -508,12 +508,12 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
     position: 'absolute',
     top: 50,
     right: 0,
-    // backgroundColor: '#84BAE2',
-     backgroundColor: '#475569',
+    backgroundColor: '#F8A63F',
+    //  backgroundColor: '#475569',
     zIndex: theme.zIndex.drawer + 2,
     '&:hover': {
-      // backgroundColor: '#84BAE2',
-       backgroundColor: '#475569',
+      backgroundColor: '#F8A63F',
+      //  backgroundColor: '#475569',
       boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.25)',
       transform: 'translateY(-2px)',
     },
@@ -542,22 +542,22 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
               },
               '&::-webkit-scrollbar-track': {
                 // background: '#FDB457',
-                // background: '#85BCE3',
-                  background: '#475569',
+                background: '#F8A63F',
+                  // background: '#475569',
                 
                 borderRadius: '10px',
                 width:'0px !important'
               },
               '&::-webkit-scrollbar-thumb': {
                 
-                // backgroundColor: '#F8A63F',
-                backgroundColor: '#475569',
+                backgroundColor: '#F8A63F',
+                // backgroundColor: '#475569',
                 //  backgroundColor: ' #85BCE3',
                 borderRadius: '10px',
               },
               '&::-webkit-scrollbar-thumb:hover': {
-                // backgroundColor: ' #FFB65A',
-                  backgroundColor: ' #85BCE3',
+                 backgroundColor: ' #FFB65A',
+                  //backgroundColor: ' #85BCE3',
 
                
               },
