@@ -9,7 +9,9 @@ import {
   Paper,
   CircularProgress,
   Typography,
+  IconButton
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { styled } from "@mui/material/styles";
 import { baseUrl } from "../../config/config";
 const getCurrentMonthYear = () => {
@@ -22,6 +24,16 @@ const StyledTableContainer = styled(TableContainer)({
   borderRadius: "10px",
   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
   overflow: "hidden",
+});
+const CloseButton = styled(IconButton)({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  zIndex: 1000,
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  }
 });
 const StyledTableHead = styled(TableHead)({
   backgroundColor: "#07773D",
@@ -39,7 +51,7 @@ const StyledCell = styled(TableCell)({
   fontSize: "14px",
   fontWeight: "500",
 });
-const PaidBillCurrentMonth = () => {
+const PaidBillCurrentMonth = ({onClose}) => {
   const [wardTotalCountsBills, setWardTotalCountsBills] = useState({});
   const [wardPaidCounts, setWardPaidCounts] = useState({});
   const [loading, setLoading] = useState(true);
@@ -88,6 +100,9 @@ const PaidBillCurrentMonth = () => {
       lg: '100%',
       xl: '100%',height:'100%'}
      }}>
+      <CloseButton onClick={onClose} size="small">
+          <CloseIcon fontSize="small" />
+        </CloseButton>
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
       ) : (
@@ -108,7 +123,7 @@ const PaidBillCurrentMonth = () => {
                 <StyledRow key={ward} index={index}>
                   <StyledCell>{ward}</StyledCell>
                   <StyledCell>{wardPaidCounts[ward]}</StyledCell>
-                   <StyledCell>{wardTotalCountsBills[ward]}</StyledCell>
+                   <StyledCell>{wardTotalCountsBills[ward]||'-'}</StyledCell>
 
                 </StyledRow>
               ))}
