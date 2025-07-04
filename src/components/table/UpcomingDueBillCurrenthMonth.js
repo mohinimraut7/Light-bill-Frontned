@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography,IconButton} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { styled } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 
@@ -10,7 +11,16 @@ const StyledTableContainer = styled(TableContainer)({
   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
   overflow: "hidden",
 });
-
+const CloseButton = styled(IconButton)({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  zIndex: 1000,
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  }
+});
 const StyledTableHead = styled(TableHead)({
   backgroundColor: "#07773D", // Light color for due warning
 });
@@ -37,7 +47,7 @@ const getMonthYear = (date) => {
   
   const currentMonthYear = getMonthYear(new Date());
 
-const UpcomingDueBillCurrentMonth = () => {
+const UpcomingDueBillCurrentMonth = ({onClose}) => {
   const { bills } = useSelector((state) => state.bills);
   const user = useSelector((state) => state.auth.user);
   const [wardDueCounts, setWardDueCounts] = useState({});
@@ -166,6 +176,9 @@ const UpcomingDueBillCurrentMonth = () => {
       lg: '100%',
       xl: '100%',height:'100%'} 
    }}>
+     <CloseButton onClick={onClose} size="small">
+              <CloseIcon fontSize="small" />
+            </CloseButton>
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
       ) : (
