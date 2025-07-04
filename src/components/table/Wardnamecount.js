@@ -296,7 +296,7 @@ const Wardnamecount = ({ onClose }) => {
       xl: '100%',
     },
     height:"100%",
-    mt: 5,
+    // mt: 5,
     mx: 'auto',
     position: 'relative',
   }}
