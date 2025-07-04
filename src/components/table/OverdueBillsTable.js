@@ -9,7 +9,9 @@ import {
   Paper,
   CircularProgress,
   Typography,
+  IconButton
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { styled } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 
@@ -20,7 +22,16 @@ const StyledTableContainer = styled(TableContainer)({
   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
   overflow: "hidden",
 });
-
+const CloseButton = styled(IconButton)({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  zIndex: 1000,
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  }
+});
 const StyledTableHead = styled(TableHead)({
   backgroundColor: "#FCAB44", // Red tone for overdue
 });
@@ -62,7 +73,7 @@ const convertMonthAndYear = (monthAndYear) => {
   return `${monthsMap[shortMonth.toUpperCase()] || shortMonth}-${year}`;
 };
 
-const OverdueBillsTable = () => {
+const OverdueBillsTable = ({onClose}) => {
   const { bills } = useSelector((state) => state.bills);
   const user = useSelector((state) => state.auth.user);
   const [overdueData, setOverdueData] = useState({});
@@ -127,6 +138,9 @@ const OverdueBillsTable = () => {
       xl: '100%',height:'100%'}
     }}
     >
+       <CloseButton onClick={onClose} size="small">
+          <CloseIcon fontSize="small" />
+        </CloseButton>
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
       ) : (
