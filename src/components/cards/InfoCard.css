@@ -1,4 +1,4 @@
-.container-infocard:hover{
+/* .container-infocard:hover{
     opacity: 1;
     transition: opacity 0.3s ease;
     }
@@ -9,4 +9,24 @@ scale:1.01 !important;
 
 opacity: 0.8;
 transition: opacity 0.3s ease;
+} */
+
+/* ============================== */
+
+.container-infocard {
+   z-index: 2 !important;
+   font-family: "Playwrite GB S", cursive;
+   font-optical-sizing: auto;
+   font-weight: 100;
+   font-style: normal;
+   color: #655d5d !important;
+   display: flex;
+   background-color: white;
+   height: 100%;
+   width: 100%;
+}
+
+.container-infocard:hover {
+   transform: translateY(-2px);
+   transition: all 0.3s ease;
 }
