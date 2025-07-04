@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress,Typography,IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { styled } from "@mui/material/styles";
 import { baseUrl } from "../../config/config";
 
@@ -22,6 +23,16 @@ const StyledTableContainer = styled(TableContainer)({
   overflow: "hidden",
 });
 
+const CloseButton = styled(IconButton)({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  zIndex: 1000,
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  }
+});
 const StyledTableHead = styled(TableHead)({
   backgroundColor: "#07773D",
 });
@@ -42,7 +53,7 @@ const StyledCell = styled(TableCell)({
   fontWeight: "500",
 });
 
-const PaidBillpreviousTwoMonthBefore = () => {
+const PaidBillpreviousTwoMonthBefore = ({onClose}) => {
   const [wardPaidCounts, setWardPaidCounts] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -95,6 +106,12 @@ setBeforeTwoMonthTotalBills(beforeTwoCounts);
       lg: '100%',
       xl: '100%',height:'100%'} 
      }}>
+ <CloseButton onClick={onClose} size="small">
+          <CloseIcon fontSize="small" />
+        </CloseButton>
+
+
+      
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
       ) : (

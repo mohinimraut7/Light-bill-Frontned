@@ -1863,7 +1863,18 @@ const Home = () => {
   const gridStyle = {
     width: '100%',
     width: isSm || isXs ? '80%' : isSidebarOpen ? '90%' : '99%',
-    marginLeft: isSm || isXs ? '60px' : isSidebarOpen ? '12%' : '3%',
+    // marginLeft: isSm || isXs ? '60px' : isSidebarOpen ? '28%' : '8%',
+    marginLeft:
+  isXs || isSm
+    ? '60px'
+    : isMd
+    ? isSidebarOpen
+      ? '28%'
+      : '8%'
+    : isSidebarOpen
+    ? '18%'
+    : '5%',
+
   };
 
   // Modal style for tables
@@ -2011,12 +2022,13 @@ const Home = () => {
             item 
             key={index}
             xs={12}  // 1 card per row on extra small screens
-            sm={12}  // 1 card per row on small screens
-            md={3}   // 4 cards per row on medium screens
-            lg={2.4} // 5 cards per row on large screens
-            xl={2.4} // 5 cards per row on extra large screens
+            // sm={12}  // 1 card per row on small screens
+             sm={isSidebarOpen ? 5 : 5}  // 4 cards per row on medium screens
+            md={isSidebarOpen ? 3 : 3}  // 4 cards per row on medium screens
+          lg={isSidebarOpen ? 2.2 : 2.3} // 5 cards per row on large screens
+            xl={isSidebarOpen ? 2.2 : 2.3} // 5 cards per row on extra large screens
           >
-            <InfoCard
+            <InfoCard 
               IconComponent={card.IconComponent}
               backgroundColor={card.backgroundColor}
               className="container-infocard"

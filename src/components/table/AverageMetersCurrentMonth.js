@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography,IconButton} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { styled } from "@mui/material/styles";
 import { baseUrl } from "../../config/config";
 const getMonthYear = (date) => {
@@ -29,7 +30,18 @@ const StyledCell = styled(TableCell)({
   fontSize: "14px",
   fontWeight: "500",
 });
-const AverageMetersCurrentMonth = () => {
+const CloseButton = styled(IconButton)({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  zIndex: 1000,
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  }
+});
+
+const AverageMetersCurrentMonth = ({onClose}) => {
   const [wardPaidCounts, setWardPaidCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
@@ -65,6 +77,9 @@ const AverageMetersCurrentMonth = () => {
       lg: '100%',
       xl: '100%',height:'100%'}
      }}>
+      <CloseButton onClick={onClose} size="small">
+          <CloseIcon fontSize="small" />
+        </CloseButton>
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
       ) : (
