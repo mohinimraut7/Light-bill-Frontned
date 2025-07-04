@@ -79,7 +79,13 @@ const FaultyMetersBeforeTwoMonth = () => {
   }, []);
 
   return (
-    <StyledTableContainer component={Paper} sx={{ width: { lg: "25%", xl: "25%", md: "25%", sm: "60%", xs: "100%" } }}>
+    <StyledTableContainer component={Paper} sx={{ width: 
+  {   xs: '100%',
+      sm: '100%',
+      md: '100%',
+      lg: '100%',
+      xl: '100%',height:'100%'} 
+     }}>
       {loading ? (
         <CircularProgress style={{ display: "block", margin: "20px auto" }} />
       ) : (

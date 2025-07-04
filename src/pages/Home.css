@@ -85,6 +85,92 @@ text-transform: uppercase !important;
 
 /* ========================== */
 
+/* .home-body {
+  
+}
+
+.S-M-Item{
+  font-weight: bold !important;
+  color: #475569;
+  text-transform: uppercase !important;
+  font-size: 5px !important;
+}
+
+.containerhome{
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background-position: center;
+  z-index: 1;
+  flex-direction: column;
+} 
+
+.opacity-layer{
+    position: absolute;
+    width:100%;
+    height: 100%;
+    opacity: 0.1 !important;
+    z-index: 1;
+}
+
+.info-card-container {
+  width: 100% !important;
+  margin-bottom: 2rem;
+}
+
+.container-infocard{
+   z-index: 2 !important;
+   font-family: "Playwrite GB S", cursive;
+   font-optical-sizing: auto;
+   font-weight:100;
+   font-style: normal;
+   color:#655d5d !important;
+   display: flex;
+   background-color: white;
+   height: 100%;
+   width: 100%;
+} 
+
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 400px !important;
+}
+
+
+@media (max-width: 599.9px) {
+  .info-card-container {
+    
+  }
+}
+
+@media (min-width: 600px) and (max-width: 959.9px) {
+  .info-card-container {
+    
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1279.9px) {
+  .info-card-container {
+    
+  }
+}
+
+@media (min-width: 1280px) {
+  .info-card-container {
+      
+  }
+}
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .info-card-container {
+    margin-top: 90px;
+  }
+} */
+/* ====================== */
+
+
 .home-body {
   /* background-color: #F7F7F8; */
 }
