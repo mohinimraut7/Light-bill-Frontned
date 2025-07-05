@@ -23,10 +23,10 @@ const columns = (handleDeleteRole,handleEditRole)=>[
     renderCell: (params) => (
       <>
         {/* <IconButton sx={{color:'#FFA534'}}  onClick={() => handleDeleteRole(params.row._id)}> */}
-         <IconButton sx={{color:'#EA580C'}}  onClick={() => handleDeleteRole(params.row._id)}>
+         <IconButton sx={{color: '#F8A63F','&:hover': {color:'#e58e1f'},}}  onClick={() => handleDeleteRole(params.row._id)}>
           <DeleteIcon />
         </IconButton>
-        <IconButton sx={{color:'#475569'}}  onClick={() => handleEditRole(params.row)}>
+        <IconButton sx={{color:'#23CCEF','&:hover':{color:'#1AB3D1' }}}  onClick={() => handleEditRole(params.row)}>
           <EditIcon />
         </IconButton>
       </>
@@ -130,26 +130,28 @@ const [currentRole, setCurrentRole] = useState(null);
     <div style={gridStyle}>
       <Box sx={innerDivStyle}>
       <Box sx={{   width:'100%',display:'flex',justifyContent:'space-between',mb:2}}>
-        <Typography  style={{paddingLeft:'20px',color:'#0d2136'}} className='title-2'>ROLE MASTER</Typography>
+        <Typography  style={{color:'#0d2136'}} className='title-2'>ROLE MASTER</Typography>
         <Button
+        size="small"
             sx={{
-              backgroundColor:'#475569',
+             backgroundColor:'#23CCEF',
+              border: '0.1px solid #23CCEF',
               color: '#fff',
-              border: '0.1px solid #475569',
               cursor: 'pointer',
               textTransform: 'none',
               display: 'flex',
               justifyContent: 'space-between',
-              width: '115px',
+              // width: '115px',
               '&:hover': {
-               backgroundColor: '#fff',
-               color: '#475569',
+              backgroundColor: '#1AB3D1',
+           border:'1px solid #1AB3D1',
+           color: '#fff',
               },
             }}
             onClick={handleAddRoleOpen}
           >
-            <AddIcon sx={{ marginLeft: '2px' }} />
-            <Typography onClick={handleAddRoleOpen}>Add Role</Typography>
+            <AddIcon fontSize="small"/>
+            <Typography sx={{textTransform:'uppercase',fontSize:'12px'}} onClick={handleAddRoleOpen}>Add Role</Typography>
           </Button>
         </Box>
       <StyledDataGrid

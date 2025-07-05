@@ -38,7 +38,7 @@ const columns = (handleDeleteConsumer,handleEditConsumer)=>[
           <DeleteIcon />
         </IconButton> */}
         <IconButton 
-        sx={{color:'#475569'}}
+        sx={{color:'#23CCEF'}}
           onClick={() => handleEditConsumer(params.row)}>
           <EditIcon />
         </IconButton>
@@ -334,17 +334,18 @@ size="small"
 
 
 {/* <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Consumers</ConsumerButton> */}
-<Button
+            <Button
+             size="small"
             sx={{
-              backgroundColor:'#fff',
-              color: '#475569',
-              border: '0.1px solid #475569',
+              backgroundColor:'#23CCEF',
+              color: '#fff',
+              border: '0.1px solid #23CCEF',
 
               cursor: 'pointer',
               textTransform: 'uppercase',
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: 'auto',
+              // display: 'flex',
+              // justifyContent: 'space-between',
+              // width: 'auto',
               ml:{
                 xs:2,
                 sm:5,
@@ -353,18 +354,16 @@ size="small"
                 xl:0
                     },
               '&:hover': {
-               backgroundColor: '#475569',
-               color: '#fff',
+              backgroundColor: '#1AB3D1',
+           border:'1px solid #1AB3D1',
+           color: '#fff',
               },
             }}
             onClick={downloadAllTypsOfReport}
           >
-            <DownloadIcon sx={{ }} />
+            <DownloadIcon fontSize='small' />
             <Typography sx={{
-              fontSize:{
-                  lg:'12px',
-                  fontWeight:'bold'
-              }
+            textTransform:'uppercase',fontSize:'12px',fontWeight:'bold'
             }}>Consumers</Typography>
 </Button>
 
