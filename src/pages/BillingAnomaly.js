@@ -1125,7 +1125,13 @@ const BillingAnomaly = () => {
       }
     }}>
       {/* Tabs */}
-      <Paper elevation={0} sx={{ backgroundColor: '#fff', borderRadius: '8px', mb: 3 }}>
+      <Paper elevation={0} 
+      sx={{ backgroundColor: '#fff',
+       borderRadius: '8px',
+        mb: 3,
+        mt:isSidebarOpen?0:5
+        
+        }}>
         <Tabs 
           value={tabValue} 
           onChange={(e, newValue) => setTabValue(newValue)}
@@ -1154,7 +1160,7 @@ const BillingAnomaly = () => {
         gap: 2,
         alignItems: { xs: 'stretch', sm: 'center' },
         flexWrap: 'wrap',
-        mb: 3
+        mb: 3,
       }}>
         <Button 
           variant="contained" 
@@ -1170,7 +1176,7 @@ const BillingAnomaly = () => {
             px: 2
           }}
         >
-          DOWNLOAD REPORTS
+REPORTS
         </Button>
 
         <Box sx={smallControlStyles}>
