@@ -22,11 +22,12 @@ const columns = (handleDeleteUser, handleEditUser) => [
     renderCell: (params) => (
       <>
         {/* <IconButton sx={{ color: '#FFA534' }} onClick={() => handleDeleteUser(params.row._id)}> */}
-          <IconButton sx={{ color: '#EA580C' }} onClick={() => handleDeleteUser(params.row._id)}>
+          <IconButton sx={{ color: '#F8A63F','&:hover': {color:'#e58e1f'}, }} onClick={() => handleDeleteUser(params.row._id)}>
+           
           <DeleteIcon />
         </IconButton>
         {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditUser(params.row)}> */}
-        <IconButton sx={{ color: '#475569' }} onClick={() => handleEditUser(params.row)}>
+        <IconButton sx={{ color: '#23CCEF', '&:hover': { color: '#1AB3D1' }, }} onClick={() => handleEditUser(params.row)}>
           <EditIcon />
         </IconButton>
       </>
@@ -161,29 +162,33 @@ const User = () => {
             USER MASTER
           </Typography>
           <Button
+          size="small"
             sx={{
-              backgroundColor:'#475569',
+              // backgroundColor:'#2196f3',
+              //  border: '0.1px solid #2196f3',
               color: '#fff',
-              border: '0.1px solid #475569',
+             
               cursor: 'pointer',
               
 
               // color: '#23CCEF',
-              // border: '0.1px solid #23CCEF',
+               border: '0.1px solid #23CCEF',
+               backgroundColor:'#23CCEF',
               // cursor: 'pointer',
               textTransform: 'none',
               display: 'flex',
               justifyContent: 'space-between',
-              width: '115px',
+              // width: '115px',
                '&:hover': {
-               backgroundColor: '#fff',
-               color: '#475569',
+               backgroundColor: '#1AB3D1',
+               border:'1px solid #1AB3D1',
+               color: '#fff',
               },
             }}
             onClick={handleAddUserOpen}
           >
-            <AddIcon sx={{ marginLeft: '2px' }} />
-            <Typography onClick={handleAddUserOpen}>Add User</Typography>
+            <AddIcon fontSize="small"/>
+            <Typography sx={{textTransform:'uppercase',fontSize:'12px'}} onClick={handleAddUserOpen}>Add User</Typography>
           </Button>
         </Box>
         <StyledDataGrid

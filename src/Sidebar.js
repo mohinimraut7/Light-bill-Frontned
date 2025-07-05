@@ -362,7 +362,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                   className='title-lightbill'
                   sx={{
                     // color: location.pathname === '/login' || location.pathname === '/register' ? '#BB981A' : '#BB981A',
-                     color: location.pathname === '/login' || location.pathname === '/register' ? '#BB981A' : '#EA580C',
+                     color: location.pathname === '/login' || location.pathname === '/register' ? '#BB981A' : '#F8A63F',
                     fontSize: { xs: '11px', sm: '12px', md: '', lg: '', fontWeight: '500' },
                     display: 'flex', alignItems: 'center', justifyContent: {
                       xs: 'flex-start',
