@@ -3,23 +3,26 @@ import { Button, Typography } from "@mui/material";
 
 const ConsumerButton = ({ onClick, disabled, children, customStyles,startIcon}) => {
   const defaultStyles = {
-    backgroundColor: "#ffffff",
-    border: "2px solid #475569",
+    backgroundColor: "#23CCEF",
+    border: "2px solid #23CCEF",
     cursor: "pointer",
     textTransform:"uppercase",
     display: "flex",
     // backgroundColor: "#23CCEF",
-   color: "#475569",
+   color: "#fff",
     // fontSize: "1px",
     // fontWeight: "bold",
     borderRadius: "8px",
     transition: "background-color 0.3s ease, transform 0.2s ease",
 
      '&:hover': {
-               backgroundColor:'#475569',
+              
                color: '#fff',
                 opacity: 0.7,
       transform: "scale(1.02)",
+ backgroundColor: '#1AB3D1',
+                  border: '1px solid #1AB3D1',
+      
               },
     // "&:hover": {
     //   backgroundColor: "#23CCEF",

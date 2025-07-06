@@ -1137,14 +1137,40 @@ const BillingAnomaly = () => {
           onChange={(e, newValue) => setTabValue(newValue)}
           variant="fullWidth"
           sx={{
-            '& .MuiTab-root': {
-              fontSize: { xs: '0.75rem', sm: '0.875rem' },
-              fontWeight: 500,
-              py: 2,
-              textTransform: 'none',
-              '&.Mui-selected': { color: '#2196f3', fontWeight: 600 }
-            },
-            '& .MuiTabs-indicator': { backgroundColor: '#2196f3', height: 3 }
+            // '& .MuiTab-root': {
+            //   fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            //   fontWeight: 500,
+            //   py: 2,
+            //   textTransform: 'none',
+            //   '&.Mui-selected': { color: '#23CCEF', fontWeight: 600 }
+            // },
+            // '& .MuiTabs-indicator': { backgroundColor: '#23CCEF', height: 3 }
+              '& .MuiTab-root': {
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            fontWeight: 500,
+            py: 2,
+            textTransform: 'none',
+            position: 'relative',
+            '&.Mui-selected': { 
+              color: '#23CCEF', 
+              fontWeight: 600,
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 'fit-content',
+                minWidth: '60%',
+                height: '3px',
+                backgroundColor: '#23CCEF',
+                borderRadius: '2px'
+              }
+            }
+          },
+          '& .MuiTabs-indicator': { 
+            display: 'none' // Hide default indicator
+          }
           }}
         >
           <Tab label={getTabLabel(0)} />
@@ -1168,8 +1194,8 @@ const BillingAnomaly = () => {
           onClick={downloadAllTypsOfReport}
           sx={{
             ...smallControlStyles,
-            backgroundColor: '#2196f3',
-            '&:hover': { backgroundColor: '#1976d2' },
+            backgroundColor: '#23CCEF',
+            '&:hover': { backgroundColor: '#1AB3D1' },
             borderRadius: '6px',
             textTransform: 'none',
             fontSize: '0.75rem',
