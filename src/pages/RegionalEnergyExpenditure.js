@@ -1550,7 +1550,7 @@ const handleDownloadPDF = async () => {
   let yPosition = 20;
 
   doc.setFontSize(12);
-  doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
+  doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 22.2, 5.3);
 
   // ✅ Truncate Meter Purpose within 250px
   const maxWidthPt = 250 * 0.75; // ~= 187.5pt
@@ -1577,12 +1577,12 @@ const handleDownloadPDF = async () => {
     });
   }
 
-  doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
+  doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.1);
   doc.setFontSize(12);
   doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" }); 
   yPosition += lineHeight;
 
-  doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
+  doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 33, 5);
   doc.setFontSize(12);
   doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
 
