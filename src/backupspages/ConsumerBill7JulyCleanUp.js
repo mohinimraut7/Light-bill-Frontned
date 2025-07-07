@@ -985,7 +985,6 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
 
                 <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Download Reports</ConsumerButton>
  <ConsumerButton  onClick={handleDownloadReport} startIcon={<DownloadIcon/>}>Faulty | Average Bills</ConsumerButton>
- 
 </Box>
         <Box sx={{
        
@@ -996,9 +995,6 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
             sm:'center',
             xs:'center'
           },
-
-
-     
 width: {
   xl:
     user.role === "Super Admin" ||
@@ -1031,13 +1027,8 @@ width: {
          },
           mb:5,}}
           >
-
-
-
 <Box sx={{
   width:{xl:'35%',
-
-
             lg:user.role === "Junior Engineer"
       ? (user.ward === "Head Office" ? "35%" : "50%")
       : "35%",
@@ -1050,10 +1041,7 @@ width: {
           },
 }}>
   <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
-
 </Box>
-
-
 <TextField
     id="consumerNumber"
     name="consumerNumber"
@@ -1078,7 +1066,6 @@ width: {
 transform: 'translate(14px, -8px) scale(0.75)', 
 },
       },
-     
     }}
     sx={{
       width: {
@@ -1101,11 +1088,8 @@ transform: 'translate(14px, -8px) scale(0.75)',
         md:1,
         lg:1
       }
-      
     }}
   />
-
-
   {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer'||(user?.role==='Junior Engineer'&& user?.ward==='Head Office')) && (
     <FormControl
     fullWidth
@@ -1149,8 +1133,6 @@ transform: 'translate(14px, -8px) scale(0.75)',
     </Select>
   </FormControl>
   )}
-  
-
 </Box>
         <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
@@ -1183,7 +1165,6 @@ transform: 'translate(14px, -8px) scale(0.75)',
                     }}
                   />
                 </Modal>
-
          <ViewRemarkModal 
           open={isRemarkModalOpen} 
           onClose={() => setIsRemarkModalOpen(false)}   
