@@ -2118,8 +2118,9 @@ const vastuImgScaledW = parseFloat((vastuImgOrigW * vastuDiagScale).toFixed(2));
 const vastuImgScaledH = parseFloat((vastuImgOrigH * vastuDiagScale).toFixed(2));
 
 
-const vastuImgPosX = 140; 
+const vastuImgPosX = 130; 
 const vastuImgPosY = yPos+85; 
+doc.setFontSize(13);
 doc.text(
   reverseDevanagariIfContainsViOrLi("दिनांक:"),
   vastuImgPosX - 20, 
@@ -2127,16 +2128,27 @@ doc.text(
 );
 
 
+// const vastuImgPosXa = 140; 
+// const vastuImgPosYb = yPos+85; 
+// doc.addImage(
+//   VastuGhenaryaAdhikaryachiSahi,
+//   'PNG',
+//   vastuImgPosXa,
+//   vastuImgPosYb,
+//   vastuImgScaledW,
+//   vastuImgScaledH
+// );
 
+const vastuImgPosXa = 130; 
+const vastuImgPosYb = yPos + 82; 
 doc.addImage(
   VastuGhenaryaAdhikaryachiSahi,
   'PNG',
-  vastuImgPosX,
-  vastuImgPosY,
-  vastuImgScaledW,
-  vastuImgScaledH
+  vastuImgPosXa,
+  vastuImgPosYb,
+  vastuImgScaledW + 2.5,
+  vastuImgScaledH + 2.5
 );
-
 
 
 
@@ -2255,7 +2267,7 @@ doc.setTextColor(0, 0, 0);
           
 
          const shrinkRatio = 0.83; 
-doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 36 * shrinkRatio, imgHeight * shrinkRatio);
+doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, (36 * shrinkRatio)+2.1,(imgHeight * shrinkRatio)+1.1);
 
 
             doc.text("_______________ रु.", leftColX + 37, imgY + 4);
@@ -2264,7 +2276,7 @@ doc.addImage(FTRakmecheNiyamWatap, 'PNG', leftColX, imgY, 36 * shrinkRatio, imgH
             
 
 const imageScaleFactor = 0.76; 
-doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28 * imageScaleFactor, imgHeight * imageScaleFactor);
+doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, (28 * imageScaleFactor)+1.7, (imgHeight * imageScaleFactor)+1.2);
 
 
 
@@ -2277,11 +2289,11 @@ doc.addImage(FTPurvichaKharch, 'PNG', leftColX, imgY, 28 * imageScaleFactor, img
 const newWidth = 45 * scaleFactor;
 const newHeight = imgHeight * scaleFactor;
 
-doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX, imgY, newWidth, newHeight);
-            doc.text(`${totalAmount.toFixed(2)}/-`, leftColX + 47, imgY + 4);
+doc.addImage(FTHyaBilantDakhavilela, 'PNG', leftColX-1, imgY, newWidth, newHeight);
+            doc.text(`${totalAmount.toFixed(2)}/-`, leftColX + 50, imgY + 6);
             imgY += imgGap;
             
-           doc.setFontSize(11); 
+           doc.setFontSize(12); 
             doc.text("२ व ३ यांची बेरीज", leftColX, imgY + 4);
 
 // Line आणि "रु." हा भाग 20px ने उजवीकडे
@@ -2291,7 +2303,7 @@ doc.text("_______________ रु.", leftColX + 37, imgY + 4);
           
             
  const imgShrinkRatio = 0.75; 
-doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35 * imgShrinkRatio, imgHeight * imgShrinkRatio);
+doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, (35 * imgShrinkRatio)+1, (imgHeight * imgShrinkRatio)+1);
 
 
 
@@ -2307,22 +2319,32 @@ doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, 35 * imgShrinkRatio, imgH
             
            
              const shrinkRatioPr = 0.92;
-            doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 74, imgHeight*shrinkRatioPr);
+            // doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 74, imgHeight*shrinkRatioPr);
+            doc.addImage(FTPramanitKarnyat, 'PNG', rightColX, imgY, 82, (imgHeight * shrinkRatioPr) + 1);
+
             imgY += imgGap;
             
            
-            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 78, imgHeight);
+            doc.addImage(FTParimaneAchuk, 'PNG', rightColX, imgY, 84, imgHeight+1.7);
             imgY += imgGap;
             
            
             const shrinkRatio = 0.94;
-doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40 * shrinkRatio, imgHeight * shrinkRatio);
+// doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40 * shrinkRatio, imgHeight * shrinkRatio);
 
-           
+           doc.addImage(
+  FTSthititMilalya,
+  'PNG',
+  rightColX,
+  imgY,
+  (42 * shrinkRatio) + 1.7,
+  (imgHeight * shrinkRatio) + 1.7
+);
+
             imgY += imgGap;
             
           
-            doc.addImage(FTSakhyatmakLekhachya, 'PNG', rightColX, imgY, 65, imgHeight);
+            doc.addImage(FTSakhyatmakLekhachya, 'PNG', rightColX, imgY, 66.7, imgHeight+1.7);
             imgY += imgGap;
             
             
@@ -2330,16 +2352,12 @@ doc.addImage(FTSthititMilalya, 'PNG', rightColX, imgY, 40 * shrinkRatio, imgHeig
 const imageWidth = 40 - 2; 
 const imageHeight = imgHeight - 2;
 
-doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeight);
-
-
-
-
+doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth+1.7, imageHeight+1.7);
           
             imgY += imgGap * 1.5;
             
          
-            doc.text("       ________    ________", rightColX, imgY);
+            doc.text("       ________    ________", rightColX-9, imgY-2);
           }
         }
       });
@@ -2363,7 +2381,7 @@ doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth, imageHeigh
       
       
       doc.addPage();
-      yPos = 30; 
+      yPos = 17; 
       doc.setFontSize(12);
      
 
@@ -2378,8 +2396,8 @@ doc.addImage(
   'PNG',
   15,
   yPos,
-  ayuktaImgWidth,
-  ayuktaImgHeight
+  ayuktaImgWidth+3,
+  ayuktaImgHeight+1.5
 );
    
       yPos += 10;
@@ -2391,17 +2409,18 @@ doc.addImage(
   MUMemaganichiTapasani,
   'PNG',
   15,
-  yPos - 3, 
+  yPos - 2, 
   tapasaniImgWidth,
-  tapasaniImgHeight
+  tapasaniImgHeight+1.6
 );
 
 
 
-      yPos += 10;
-      doc.setFontSize(10);
+      yPos += 12;
+      doc.setFontSize(12);
       doc.text("अचूक आहे.", 15, yPos);
       yPos += 10;
+         doc.setFontSize(12);
       doc.text(reverseDevanagariIfContainsViOrLi("दिनांक: ----------------------------"), 15, yPos);
       yPos += 15;
       
@@ -2508,7 +2527,7 @@ if (signatureMatches[4] === "verified") {
 }
 
       
-      doc.text("-----------------                     -------------------", 15, yPos);
+      doc.text("-------------                  -------------", 15, yPos);
       yPos += 10;
       // doc.text("प्र.लेखापाल                            सहा.आयुक्त", 15, yPos);
 
@@ -2529,7 +2548,7 @@ doc.addImage(
   15,
   yPos-4,
   lekhapalWidth,
-  lekhapalHeight
+  lekhapalHeight+2
 );
 
 // Second image (सहा.आयुक्त)
@@ -2539,7 +2558,7 @@ doc.addImage(
   66, // Adjusted to align with right side
   yPos-4,
   ayuktaWidth,
-  ayuktaHeight
+  ayuktaHeight+1
 );
 
 yPos += lekhapalHeight + 5; // Add vertical space after images
@@ -2585,9 +2604,9 @@ doc.addImage(
   prabhagsamiti,
   'PNG',
   15,
-  yPos - 3,
+  yPos - 5,
   samitiImgWidth,
-  samitiImgHeight
+  samitiImgHeight+2
 );
 
 
@@ -2617,12 +2636,12 @@ doc.addImage(
   15,
   yPos - 5, 
   akshariImgWidth,
-  akshariImgHeight
+  akshariImgHeight+1
 );
 
 
 
-
+doc.setFontSize(12); // Match image font size
 
 doc.text(
   `: रुपये देण्यात यावेत)`,
@@ -2727,9 +2746,9 @@ doc.addImage(
   MUNirnayKramank,
   'PNG',
   imgX,
-  imgY,
+  imgY-10,
   nirnayImgWidth,
-  nirnayImgHeight
+  nirnayImgHeight+1
 );
 
 
@@ -2738,22 +2757,37 @@ const lineY = yPos + 1;
 const lineEndX = lineStartX + 15;
 
 doc.setLineWidth(0.3);
-doc.line(lineStartX, lineY, lineEndX, lineY);
+doc.line(lineStartX, lineY-9, lineEndX, lineY-9);
 
 
 
 const textX = lineEndX + 5;  
-const textY = lineY - 1;    
+const textY = lineY - 9;    
 
 doc.text(reverseDevanagariIfContainsViOrLi("दिनांक_____"), textX, textY);
       
      
-      yPos += 10;
+      yPos += 1;
       
       
       doc.text(reverseDevanagariIfContainsViOrLi(`बिलांत दाखवलेली रु. ${totalAmount.toLocaleString('hi-IN')}/- ची रक्कम`), 120, yPos);
-      yPos += 7;
-      doc.text(`(अक्षरी रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
+      yPos += 9;
+      // doc.text(`(अक्षरी रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
+      // ??????
+      // doc.text(`(रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
+      const rupyaText = `(रुपये ${totalAmountInWords} `;
+doc.text(rupyaText, 120, yPos);
+
+// आता 'मात्र' च्या जागी image टाका:
+const textWidth = doc.getTextWidth(rupyaText);
+const matraX = 120 + textWidth + 1; // 1px gap ठेवला
+const matraY = yPos - 4; // text height नुसार fine-tune करा
+
+doc.addImage(matra, 'PNG', matraX, matraY, 12, 5); // width/height गरजेनुसार adjust करा
+
+// शेवटचा bracket पूर्ण करा (जर हवा असेल तर):
+doc.text(")", matraX + 13, yPos); // 13 म्हणजे image width + gap
+
       yPos += 10;
       doc.text("मंजूर करण्यात येत आहे.", 120, yPos);
       yPos += 10;
@@ -2779,8 +2813,8 @@ doc.addImage(
   'PNG',
   muImgX,
   muImgY,
-  muImgWidth,
-  muImgHeight
+  muImgWidth+1,
+  muImgHeight+1.1
 );
 
 
@@ -2833,20 +2867,15 @@ doc.addImage(
 
 const muLineStartX = muImgX + muImgWidth + 5;  
 const muLineY = yPos + 1;
-const muLineEndX = muLineStartX + 20;  
+const muLineHeight = 200;
 
 doc.setLineWidth(0.3);
-doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
+doc.line(muLineStartX, muLineY, muLineStartX, muLineY + muLineHeight);
+
 
       
       yPos += 13;
       // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
-
-
-
-
-
-
 
 
 const upaayuktaOriginalWidth = 22;
@@ -2902,6 +2931,9 @@ if (signatureMatches[5] === "verified") {
 
 
 // 'दिनांक' टेक्स्ट (डाव्या बाजूला)
+
+// doc.text(reverseDevanagariIfContainsViOrLi("दिनांक>>>>"), 120, yPos);
+doc.setFontSize(13); // आपल्या हवेप्रमाणे size द्या (उदा. 12)
 doc.text(reverseDevanagariIfContainsViOrLi("दिनांक"), 120, yPos);
 
 // उप-आयुक्त इमेज PDF मध्ये टाका
@@ -2911,8 +2943,8 @@ doc.addImage(
   'PNG',
   upaayuktaImgX,
   upaayuktaImgY,
-  upaayuktaImgWidth,
-  upaayuktaImgHeight
+  upaayuktaImgWidth+1,
+  upaayuktaImgHeight+1.7
 );
 
   
@@ -2943,8 +2975,8 @@ doc.addImage(
   'PNG',
   pradanarthImgX,
   pradanarthImgY,
-  pradanarthImgWidth,
-  pradanarthImgHeight
+  pradanarthImgWidth-1,
+  pradanarthImgHeight+2
 );
 
 
@@ -2952,6 +2984,7 @@ doc.addImage(
       yPos += 15;
       doc.text("---------                           ---------", 120, yPos-3);
  yPos += 10;
+ doc.setFontSize(13); // आपल्या हवेप्रमाणे size द्या (उदा. 12)
       doc.text("---------------------------------------------- यांस", 118, yPos);
 
      
@@ -2963,21 +2996,21 @@ yPos += 20;
 const upaayuktaTestUser = users[19];
 const upaayuktaTestSignature = upaayuktaTestUser?.signature || null;
 
-if (upaayuktaTestSignature) {
-  const upaayuktaSigWidth = 40;
-  const upaayuktaSigHeight = 12;
-  const upaayuktaSigX = 66 + 100; // 40px right shift
-  const upaayuktaSigY = yPos - 14-2;
+// if (upaayuktaTestSignature) {
+//   const upaayuktaSigWidth = 40;
+//   const upaayuktaSigHeight = 12;
+//   const upaayuktaSigX = 66 + 100; // 40px right shift
+//   const upaayuktaSigY = yPos - 14-2;
 
-  doc.addImage(
-    upaayuktaTestSignature,
-    'PNG',
-    upaayuktaSigX,
-    upaayuktaSigY,
-    upaayuktaSigWidth,
-    upaayuktaSigHeight
-  );
-}
+//   doc.addImage(
+//     upaayuktaTestSignature,
+//     'PNG',
+//     upaayuktaSigX,
+//     upaayuktaSigY,
+//     upaayuktaSigWidth,
+//     upaayuktaSigHeight
+//   );
+// }
 
 
 
@@ -3013,8 +3046,8 @@ doc.addImage(
   'PNG',
   deputyCommissionerImgX,
   deputyCommissionerImgY,
-  deputyCommissionerImgWidth,
-  deputyCommissionerImgHeight
+  deputyCommissionerImgWidth+1,
+  deputyCommissionerImgHeight+2
 );
 
 // Municipal name slightly shifted to right (5px)
@@ -3051,7 +3084,7 @@ doc.addImage(
   ddNumberImgX,
   ddNumberImgY,
   ddNumberImgWidth,
-  ddNumberImgHeight
+  ddNumberImgHeight+2
 );
 
 // Remaining text after image
@@ -3080,7 +3113,7 @@ doc.addImage(
   ddnImgX,
   ddnImgY,
   ddnImgWidth,
-  ddnImgHeight
+  ddnImgHeight+1.5
 );
 
 // Add dashed line after image
@@ -3111,7 +3144,7 @@ doc.addImage(
   prustavImgX,
   prustavImgY,
   prustavImgWidth,
-  prustavImgHeight
+  prustavImgHeight+1.5
 );
 
       yPos += 20;
