@@ -2865,17 +2865,22 @@ doc.addImage(
 
 
 
-const muLineStartX = muImgX + muImgWidth + 5;  
-const muLineY = yPos + 1;
-const muLineHeight = 200;
+  const muLineStartX = muImgX + muImgWidth + 5;  
+  const muLineY = yPos + 1;
+  const muLineEndX = muLineStartX + 20;  
 
-doc.setLineWidth(0.3);
-doc.line(muLineStartX, muLineY, muLineStartX, muLineY + muLineHeight);
-
+  doc.setLineWidth(0.3);
+  doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
 
       
       yPos += 13;
       // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
+
+
+
+
+
+
 
 
 const upaayuktaOriginalWidth = 22;
