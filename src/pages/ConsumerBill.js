@@ -1253,8 +1253,8 @@ width: {
         sm: '80%',
         xs: '80%',
             md:'35%',
-            sm:'35%',
-            xs:'35%'
+            sm:'80%',
+            xs:'80%'
           },
 }}>
   <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
@@ -1325,10 +1325,10 @@ transform: 'translate(14px, -8px) scale(0.75)',
         xl: '30%',
         lg: '30%',
         md: '30%',
-        sm: '40%',
-        xs: '100%',
+        sm: '80%',
+        xs: '80%',
       },
-      mt: { sm: 1,md:0,lg:0,xl:0 }, 
+      mt: { xs:1,sm: 1,md:0,lg:0,xl:0 }, 
       ml:{
         xl:1,
         lg:1,
