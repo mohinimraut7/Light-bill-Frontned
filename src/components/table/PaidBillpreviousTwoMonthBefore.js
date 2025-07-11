@@ -132,11 +132,8 @@ setBeforeTwoMonthTotalBills(beforeTwoCounts);
                 <StyledRow key={ward} index={index}>
                   <StyledCell>{ward}</StyledCell>
                   <StyledCell>{wardPaidCounts[ward]}</StyledCell>
-               <StyledCell>{beforeTwoMonthTotalBills[ward]}</StyledCell>
-
-
-
-                  
+               {/* <StyledCell>{beforeTwoMonthTotalBills[ward]}</StyledCell> */}
+                  <StyledCell>{beforeTwoMonthTotalBills[ward] != null ? beforeTwoMonthTotalBills[ward] : '-'}</StyledCell> 
                 </StyledRow>
               ))}
             </TableBody>
