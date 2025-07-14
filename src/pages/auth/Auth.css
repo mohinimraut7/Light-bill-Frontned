@@ -1,4 +1,4 @@
-.auth-body {
+/* .auth-body {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
               url('../../Images/vasaivirarmahangarpalika.jpg');
   background-size: cover;
@@ -22,9 +22,7 @@
     margin-bottom: 4vh!important;
 }
 .Auth-LIB{
-  /* height: 16vh !important;  */
-  /* border: 1px solid red; */
-  /* margin-bottom: 2vh; */
+ 
 }
 .Auth-Label{
 color:#B1B1B1;
@@ -32,7 +30,7 @@ font-size:small !important;
 
 }
 .Auth-Button{
- /* background-color:#FFA534 !important;  */
+
  background-color:#0866FF !important;
  width: 80%;
  margin-top:4vh !important;
@@ -53,4 +51,168 @@ font-size:small !important;
     .Auth-Button-Signup{
       width:70%;
     }
-  }
+  } */
+
+
+  /* --------------------------- */
+  .auth-body {
+  background: linear-gradient(135deg, rgba(8, 102, 255, 0.1), rgba(49, 162, 76, 0.1)), 
+              linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+              url('../../Images/vasaivirarmahangarpalika.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(8, 102, 255, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(49, 162, 76, 0.15) 0%, transparent 50%);
+  animation: backgroundPulse 8s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.Auth-Container {
+    height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+}
+
+.Auth-Title {
+    font-size: x-large !important;
+    text-align: center;
+    margin-bottom: 4vh !important;
+    color: #333 !important;
+}
+
+.Auth-LIB {
+    /* height: 16vh !important; */
+    /* border: 1px solid red; */
+    /* margin-bottom: 2vh; */
+}
+
+.Auth-Label {
+    color: #B1B1B1;
+    font-size: small !important;
+}
+
+.Auth-Button {
+    /* background-color:#FFA534 !important; */
+    background-color: #0866FF !important;
+    width: 80%;
+    margin-top: 4vh !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    font-weight: bold !important;
+    text-transform: none !important;
+    box-shadow: 0 4px 16px rgba(8, 102, 255, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.Auth-Button:hover {
+    background-color: #1976D2 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(8, 102, 255, 0.4) !important;
+}
+
+.Auth-Button-Signup {
+    background-color: #31A24C !important;
+    width: 55%;
+    margin-top: 4vh !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    font-weight: bold !important;
+    text-transform: none !important;
+    box-shadow: 0 4px 16px rgba(49, 162, 76, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.Auth-Button-Signup:hover {
+    background-color: #4CAF50 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(49, 162, 76, 0.4) !important;
+}
+
+.Auth-Input {
+    margin-top: 0px !important;
+    border-radius: 12px !important;
+}
+
+.Auth-R-Input {
+    margin-top: 10px !important;
+    border-radius: 12px !important;
+}
+
+/* Responsive Design */
+@media (max-width: 800px) {
+    .Auth-Button-Signup {
+        width: 70% !important;
+    }
+    
+    .Auth-Container {
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .auth-body {
+        background-attachment: scroll;
+    }
+    
+    .Auth-Button {
+        width: 100% !important;
+        font-size: 1rem !important;
+    }
+    
+    .Auth-Button-Signup {
+        width: 100% !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .Auth-Container {
+        padding: 5px !important;
+    }
+}
+
+/* Enhanced input field styles */
+.MuiTextField-root {
+    transition: all 0.3s ease !important;
+}
+
+.MuiOutlinedInput-root:hover {
+    box-shadow: 0 2px 8px rgba(8, 102, 255, 0.15) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused {
+    box-shadow: 0 4px 16px rgba(8, 102, 255, 0.25) !important;
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.MuiPaper-root {
+    animation: fadeIn 0.5s ease-out !important;
+}

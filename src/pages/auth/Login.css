@@ -1,7 +1,207 @@
-.anchorverificationlink{
+/* .anchorverificationlink{
     text-decoration: none !important;
     color: dodgerblue !important;
 }
 .Auth-Button-Signup{
     background-color:'#rgb(49,162,76)' !important;
+} */
+
+.anchorverificationlink {
+    text-decoration: none !important;
+    color: #0866FF !important;
+    font-weight: 500 !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+}
+
+.anchorverificationlink:hover {
+    background-color: rgba(8, 102, 255, 0.1) !important;
+    transform: translateY(-1px) !important;
+    text-decoration: none !important;
+}
+
+/* Enhanced CAPTCHA styling */
+.captcha-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px !important;
+    background-color: rgba(8, 102, 255, 0.05) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(8, 102, 255, 0.1) !important;
+    margin-bottom: 16px !important;
+}
+
+.captcha-question {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #0866FF !important;
+    margin-right: 8px !important;
+}
+
+.captcha-input {
+    border-radius: 6px !important;
+    border: 1px solid rgba(8, 102, 255, 0.3) !important;
+    padding: 6px 12px !important;
+    font-size: 1rem !important;
+    width: 80px !important;
+    text-align: center !important;
+}
+
+.captcha-refresh {
+    background: none !important;
+    border: none !important;
+    color: #0866FF !important;
+    cursor: pointer !important;
+    font-size: 1.2rem !important;
+    padding: 4px !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+.captcha-refresh:hover {
+    background-color: rgba(8, 102, 255, 0.1) !important;
+    transform: rotate(180deg) !important;
+}
+
+.Auth-Button-Signup {
+    background-color: #31A24C !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(49, 162, 76, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.Auth-Button-Signup:hover {
+    background-color: #4CAF50 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(49, 162, 76, 0.4) !important;
+}
+
+/* Enhanced responsive design for login specific elements */
+@media (max-width: 768px) {
+    .anchorverificationlink {
+        padding: 6px 12px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .anchorverificationlink {
+        padding: 4px 8px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Enhanced error and success message styling */
+.error-box {
+    background-color: rgba(244, 67, 54, 0.1) !important;
+    border: 1px solid rgba(244, 67, 54, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    margin-bottom: 16px !important;
+    animation: slideIn 0.3s ease-out !important;
+}
+
+.success-box {
+    background-color: rgba(33, 150, 243, 0.1) !important;
+    border: 1px solid rgba(33, 150, 243, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    margin-bottom: 16px !important;
+    animation: slideIn 0.3s ease-out !important;
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Enhanced loader container */
+.loader-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 16px 0 !important;
+    margin-bottom: 16px !important;
+}
+
+/* Enhanced button states */
+.login-button {
+    background: linear-gradient(135deg, #0866FF 0%, #1976D2 100%) !important;
+    box-shadow: 0 4px 16px rgba(8, 102, 255, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, #1976D2 0%, #0866FF 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(8, 102, 255, 0.4) !important;
+}
+
+.signup-button {
+    background: linear-gradient(135deg, #31A24C 0%, #4CAF50 100%) !important;
+    box-shadow: 0 4px 16px rgba(49, 162, 76, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.signup-button:hover {
+    background: linear-gradient(135deg, #4CAF50 0%, #31A24C 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(49, 162, 76, 0.4) !important;
+}
+
+/* Enhanced divider styling */
+.custom-divider {
+    position: relative !important;
+    margin: 24px 0 !important;
+}
+
+.custom-divider::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.12), transparent) !important;
+}
+
+/* Enhanced logo styling */
+.logo-container {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+}
+
+.logo-container:hover {
+    transform: scale(1.05) !important;
+}
+
+.logo-container::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -2px !important;
+    left: -2px !important;
+    right: -2px !important;
+    bottom: -2px !important;
+    background: linear-gradient(45deg, #0866FF, #31A24C, #0866FF) !important;
+    border-radius: 50% !important;
+    z-index: -1 !important;
+    animation: rotate 3s linear infinite !important;
+    opacity: 0.3 !important;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
