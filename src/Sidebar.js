@@ -272,7 +272,13 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
     <Box sx={{ display: 'flex', backgroundColor: isAuthPage ? 'transparent' : 'white'}} >
       <CssBaseline />
 
-      {!isAuthPage && <BlurAppBar position="fixed" open={open} sx={{ display: 'flex', justifyContent: 'center', backgroundColor: isAuthPage ? 'transparent' : 'white', height: open ? 'auto' : '16%' }} >
+      {!isAuthPage && <BlurAppBar position="fixed" open={open} sx={{ display: 'flex', justifyContent: 'center', backgroundColor: isAuthPage ? 'transparent' : 'white',height: {
+      xs: 'auto',   // mobile/small screen: content grow hoil
+      sm: 'auto',   // small screen paryant auto
+      md:'auto',
+      lg:'auto',
+      // lg: open ? 'auto' : '16%', // md ani upersathi: 16% jari open=false asel
+    }, }} >
         <Toolbar>
           {location.pathname !== '/login' && location.pathname !== '/register' && (
             <MenuButton
@@ -299,7 +305,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
             <Box sx={{ width: '100px', height: '100%', mr: 2, display: isSm && 'none' }}><img src={logo} height='100%' width='100%' /></Box>}
 
           <Box sx={{
-         
+        //  border:'2px solid red',
             width: '100%',
             display: isSm && open ? 'none' : 'flex',
             justifyContent: 'space-between',
@@ -564,7 +570,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
             }:{}}
           >
             <List>
-              <ListItem disablePadding sx={{ display: open===false && 'block' }}>
+            {/* *** */}
+              <ListItem disablePadding sx={{ display: open===false && 'block',mt:open?1:3 }}>
                 <ListItemText className='S-M-Item' primary={`${user?.username}`} 
                  primaryTypographyProps={{
                       fontSize: '14px',

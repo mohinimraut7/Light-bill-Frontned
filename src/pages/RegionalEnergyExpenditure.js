@@ -4913,7 +4913,6 @@ md:'space-around',
 
 
 
-
          
         </Box>
 
@@ -4938,20 +4937,17 @@ md:'space-around',
               },
     }}>
 
- <Button
+ {/* <Button
             sx={{
-              // color: '#757575',
+             
               color:'#000',
               textTransform: 'uppercase',
               border: '0.1px solid #757575',
               cursor: 'pointer',
-              // textTransform: 'none',
-             
-              // display: 'flex',
-              // justifyContent: 'space-between',
+              
               width: {
                 xl: isSidebarOpen ? '12%' : '10%',
-                lg: isSidebarOpen ? '15%' : '15%',
+                lg: isSidebarOpen ? '15%' : '17%',
                 md: '30%',
                 sm: '100%',
                 xs: '100%',
@@ -4973,7 +4969,7 @@ md:'space-around',
             }}
             onClick={handleDownloadPDF}
           >
-            {/* <DownloadIcon /> */}
+           
             <Typography sx={{
               fontSize: {
               xs: isSidebarOpen ? '12.2px' : '14px',
@@ -4985,7 +4981,67 @@ md:'space-around',
             }}>
              Ward Bill Totals
             </Typography>
+          </Button> */}
+           <Button
+            sx={{
+              // color: '#757575',
+               color:'#000',
+              textTransform: 'uppercase',
+              border: '0.1px solid #757575',
+              cursor: 'pointer',
+              // textTransform: 'none',
+             
+              width: {
+                xl: isSidebarOpen ? '20%' : '20%',
+                lg: isSidebarOpen ? '17%' : '17%',
+                md: '30%',
+                sm: '100%',
+                xs: '100%',
+              },
+              ml: {
+                xl: 1,
+                lg: 1,
+                md: 1,
+                sm: 0
+              },
+              mt:{
+                xl: 0,
+                lg: 0,
+                md: 0,
+                sm: 1,
+                xs:1
+              },
+               height: {
+              xs: '65%',
+              sm: '65%',
+              md: '30px',
+              lg: '65%',
+              xl: '65%',
+              },
+            }}
+             onClick={handleDownloadPDF}
+          >
+           
+            <Typography sx={{
+             fontSize: {
+              xs: isSidebarOpen ? '12.2px' : '14px',
+              sm: isSidebarOpen ? '12.2px' : '14px',
+              lg: isSidebarOpen ? '12.2px' : '14px',
+              xl: isSidebarOpen ? '12.2px' : '14px',
+              md: isSidebarOpen ? '9px' : '11px',
+                       }
+            }}>
+              Ward Bill Totals
+            </Typography>
           </Button>
+
+
+
+
+
+
+
+
 
         <Button
             sx={{
