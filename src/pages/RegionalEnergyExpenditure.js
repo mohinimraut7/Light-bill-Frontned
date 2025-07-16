@@ -523,13 +523,13 @@ function convertToMarathiDigits(numberStr) {
   // Phone
   const phoneText = ": ०२५०-२३३४१४४";
   const phoneTextWidth = doc.getTextWidth(phoneText);
-  doc.addImage(FADurdhwani, 'PNG', rightX - phoneTextWidth - 15 + 50, y - 2.5, 15, 5.2);
-  doc.text(phoneText, rightX - phoneTextWidth + 50, y + 1.5);
+  doc.addImage(FADurdhwani, 'PNG', rightX - phoneTextWidth - 15 + 50, y - 1.2, 15, 5.2);
+  doc.text(phoneText, rightX - phoneTextWidth + 50, y + 2.5);
 
   // Fax
   const faxText = ": ०२५०-२५२५१०७";
   const faxTextWidth = doc.getTextWidth(faxText);
-  doc.addImage(FAFax, 'PNG', rightX - faxTextWidth - 13 + 48 - 0.8, y + 5.5, 13, 5);
+  doc.addImage(FAFax, 'PNG', rightX - faxTextWidth - 13 + 48 - 0.3, y + 5.5, 12, 5);
   doc.text(faxText, rightX - faxTextWidth + 47, y + 9.5);
 
   // जा.क्र.
@@ -537,21 +537,21 @@ function convertToMarathiDigits(numberStr) {
   const jaKraTextWidth = doc.getTextWidth(jaKraSuffix);
   doc.addImage(FAJaKra, 'PNG', rightX - jaKraTextWidth - 12 + 15, y + 13, 12, 4);
   doc.text(jaKraSuffix, rightX - jaKraTextWidth + 15, y + 17);
-  doc.addImage(FAJakraFirstValue, 'PNG', rightX - jaKraTextWidth + 15 + 2, y + 12, 26, 6);
+  doc.addImage(FAJakraFirstValue, 'PNG', rightX - jaKraTextWidth + 16, y + 11.8, 29,7);
 
  
 
 
 if (jakraKramank) {
     const marathiJakra = convertToMarathiDigits(jakraKramank); 
-  doc.setFontSize(9); // 1pt ने कमी
+  doc.setFontSize(12); // 1pt ने कमी
   doc.text(
     // String(jakraKramank),
     marathiJakra,
-    rightX - jaKraTextWidth + 15 + 2 + 26 + 2 - 1, // 1px left
-    y + 17 - 1 // 1px up
+    rightX - jaKraTextWidth + 18 + 26 + 2 - 1, // 1px left
+    y + 16.7 // 1px up
   );
-  doc.setFontSize(10); // reset font size if needed
+  doc.setFontSize(12); // reset font size if needed
 }
 
 
@@ -561,7 +561,7 @@ if (jakraKramank) {
     month: '2-digit',
     year: 'numeric'
   });
-  doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`), rightX, y + 24);
+  doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`), rightX+1, y + 24);
 
   // Center logo
   const logoWidth = 30;
@@ -586,7 +586,7 @@ if (jakraKramank) {
   const updatedWidth = 46;
   const updatedHeight = 7.2;
   const imageX = (pageWidth - updatedWidth) / 2;
-  doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, headingY, updatedWidth, updatedHeight);
+  doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, headingY, updatedWidth+2, updatedHeight-1);
 
   // 🔒 Optionally add consumer number/date inside the PDF body
   // doc.text(`Customer No: ${consumerNumber}`, 20, headingY + 20);
@@ -653,7 +653,7 @@ const grahakImageStartX = leftspaceX + grahakIconWidth + 2 + grahakTextWidth + 4
 
 const grahakImageWidth = 99;
 const grahakImageHeight = 5;
-doc.addImage(FAGrahakKRaBadali, 'PNG', grahakImageStartX, y, grahakImageWidth, grahakImageHeight);
+doc.addImage(FAGrahakKRaBadali, 'PNG', grahakImageStartX, y, grahakImageWidth-3.8, grahakImageHeight+0.8);
 
 
 
@@ -662,7 +662,7 @@ y += grahakImageHeight + 2;
 // Add FAGrahakKNextNavinMeter image on new line
 const navinMeterWidth = 70;
 const navinMeterHeight = 5;
-doc.addImage(FAGrahakKNextNavinMeter, 'PNG', leftspaceX, y, navinMeterWidth, navinMeterHeight);
+doc.addImage(FAGrahakKNextNavinMeter, 'PNG', leftspaceX, y, navinMeterWidth-4, navinMeterHeight+0.8);
 
 
 
