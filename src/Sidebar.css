@@ -38,27 +38,9 @@
 }
 
 
-@media (min-width:308px) and (max-width: 408px) {
-  .logo-title{
-   font-size: 13.5px !important;
-   font-weight: bold !important;
-  }
-  .title-lightbill{
-    font-size: 17.5px !important;
-    font-weight: bold !important;
-  }
-}
 
-@media (min-width:408px) and (max-width: 600px) {
-  .logo-title{
-   font-size: 14px !important;
-   font-weight: bold !important;
-  }
-  .title-lightbill{
-    font-size: 16px !important;
-    font-weight: bold !important;
-  }
-}
+
+
 
 /* @media (min-width:683px) and (max-width:768px) {
   .logo-title{
@@ -86,8 +68,33 @@
    /* width:100%; */
   }
 }
+@media (min-width:375.5px) and (max-width: 600px) {
+  .logo-title{
+   font-size: 17px !important;
+   font-weight: bold !important;
+  }
+  .title-lightbill{
+    font-size: 14.5px !important;
+    font-weight: bold !important;
+  }
+}
+@media (min-width:320.1px) and (max-width:375px) {
+  .logo-title{
+   font-size: 17px !important;
+  }
+   .title-lightbill{
+    font-size: 12px !important;
+    font-weight: bold !important;
+    /* margin-top: 2px !important; */
+  }
+}
 @media (max-width:320px) {
   .logo-title{
-   font-size: 8px !important;
+   font-size: 13px !important;
+  }
+   .title-lightbill{
+    font-size: 12px !important;
+    font-weight: bold !important;
+    /* margin-top: 2px !important; */
   }
 }

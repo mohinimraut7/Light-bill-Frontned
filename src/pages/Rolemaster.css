@@ -4,3 +4,10 @@
     color: #0d2136 !important;
     letter-spacing: 1px !important;
   }
+  @media screen and (max-width: 500px) {
+  .title-2 {
+   font-size: 18px !important;
+   /* border:1px solid red; */
+   padding-left:12px !important;
+   }
+}

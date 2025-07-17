@@ -28,6 +28,12 @@ import UpcomingIcon from '@mui/icons-material/Upcoming';
 import ReportIcon from '@mui/icons-material/Report';
 
 import Badge from '@mui/material/Badge';
+
+import DifferenceIcon from '@mui/icons-material/Difference';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from './store/actions/toggleSidebar';
@@ -46,7 +52,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   
-  backgroundImage: `url(${drawerbg})`,
+  // backgroundImage: `url(${drawerbg})`,
   backgroundSize: 'cover',
   
 });
@@ -58,7 +64,7 @@ const closedMixin = (theme) => ({
   overflowX: 'hidden',
   backgroundColor: '#FFA534',
   overflowX: 'hidden',
-  backgroundImage: `url(${drawerbg})`,
+  // backgroundImage: `url(${drawerbg})`,
   backgroundSize: 'cover',
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
@@ -317,17 +323,18 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
             {location.pathname !== '/login' && location.pathname !== '/register' &&
               <Box sx={{
                 // ****
+                // backgroundColor:'green',
                 // border:'2px solid green',
                 display: 'flex', width: {
                   lg: '100%',
                   md: '100%',
-                  sm: '100%',
+                  sm: '60%',
                   xs: '100%'
                 }
               }}>
                 <Box sx={{
                   
-                  // border:'2px solid red',
+                  // border:'2px solid yellow',
                   width:{
                     lg:'59%',
                     xl:'59%',
@@ -384,8 +391,8 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
             }
 
             <Box sx={{
-              // border:'2px solid red',
-              // width: '100%',
+              // border:'2px solid blue',
+              width: '100%',
               display: {
                 xs: 'flex',
                 md: 'flex',
@@ -401,7 +408,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
               
 
 
-              justifyContent: { xs: 'space-between', sm: 'center', md: 'flex-end', lg: 'flex-end' },
+              justifyContent: { xs: 'space-between', sm: 'center', md: 'flex-start', lg: 'flex-end' },
              
               width: {
                 xs: user?.role === 'Super Admin' ? '100%' : user?.role === 'Executive Engineer' ? '280px' : user?.role === 'Admin' ? '180px' : '260px',
@@ -487,13 +494,16 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
       
       
       {location.pathname !== '/login' && location.pathname !== '/register' && (
-        <Drawer style={{ position: 'relative' }} className='drawerst' variant="permanent" open={open}>
+        <Drawer style={{ position: 'relative'}} className='drawerst' variant="permanent" open={open}>
 
           
           <div style={{ position: 'absolute',
             backgroundColor: '#F8A63F',
             //  backgroundColor:'#475569',
-              width: '100%', height: '100%', opacity: '0.9' }}></div>
+              width: '100%', height: '100%', opacity: '0.9' }}>
+
+              </div>
+              
           <DrawerHeader>
             {open && <Box sx={{ width: '100%', height: '185px', display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
               <Box sx={{ zIndex: 10, height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: 10 }} >
@@ -614,7 +624,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                         color: '#fff'
                       }}
                     >
-                      <AccessibilityIcon />
+                      <AccountCircleIcon />
                     </ListItemIcon>
                     <ListItemText className='S-M-Item' primary="Profile" 
                      primaryTypographyProps={{
@@ -689,7 +699,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     >
                       <AccessibilityIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Role" 
+                    <ListItemText primary="Roles" 
                      primaryTypographyProps={{
                       fontSize: '14px',
                       textTransform: 'uppercase',
@@ -721,9 +731,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                          color: '#fff',
                       }}
                     >
-                      <Person />
+                      <ManageAccountsIcon />
                     </ListItemIcon>
-                    <ListItemText  primary="User" 
+                    <ListItemText  primary="Users" 
                      primaryTypographyProps={{
                       fontSize: '14px',
                       textTransform: 'uppercase',
@@ -760,7 +770,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                     >
                       <Person />
                     </ListItemIcon>
-                    <ListItemText className='S-M-Item' primary="Consumer" 
+                    <ListItemText className='S-M-Item' primary="Consumers" 
                      primaryTypographyProps={{
                       fontSize: '14px',
                       textTransform: 'uppercase',
@@ -1011,7 +1021,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
                        color: '#fff',
                     }}
                   >
-                    <ReportIcon />
+                    <SummarizeIcon/>
                   </ListItemIcon>
                   <ListItemText className='S-M-Item' primary="Form 120 report" 
                    primaryTypographyProps={{
@@ -1059,9 +1069,9 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
        color: '#fff',
       }}
     >
-      <ReportIcon />
+      <DifferenceIcon/>
     </ListItemIcon>
-    <ListItemText className='S-M-Item' primary="Billing Anomaly" 
+    <ListItemText className='S-M-Item' primary="Billing Anomalies" 
      primaryTypographyProps={{
                       fontSize: '14px',
                       textTransform: 'uppercase',
