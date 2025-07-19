@@ -1861,20 +1861,9 @@ const Home = () => {
   }
 
   const gridStyle = {
-    width: '100%',
-    width: isSm || isXs ? '80%' : isSidebarOpen ? '90%' : '99%',
-    // marginLeft: isSm || isXs ? '60px' : isSidebarOpen ? '28%' : '8%',
-    marginLeft:
-  isXs || isSm
-    ? '60px'
-    : isMd
-    ? isSidebarOpen
-      ? '28%'
-      : '8%'
-    : isSidebarOpen
-    ? '18%'
-    : '5%',
-
+    // width: isSm || isXs ? '90%' : isSidebarOpen ? '90%' : '90%',
+    // marginLeft: isSm || isXs ? '10%' : '0%'
+ 
   };
 
   // Modal style for tables
@@ -2016,17 +2005,30 @@ const Home = () => {
     }} className="containerhome">
       
       {/* Responsive Cards Grid */}
-      <Grid container spacing={2} className="info-card-container">
+      <Grid container spacing={2} className="info-card-container"
+      sx={{
+        pl:{
+          md:isSidebarOpen?'17%':'6%',
+           xs:'20%'
+        },
+       
+        // border:'2px solid red'
+      }}
+      
+      >
         {cardData.map((card, index) => (
           <Grid 
+          sx={{
+            // border:'2px solid red'
+          }}
             item 
             key={index}
-            xs={12}  // 1 card per row on extra small screens
+            xs={11}  // 1 card per row on extra small screens
             // sm={12}  // 1 card per row on small screens
              sm={isSidebarOpen ? 5 : 5}  // 4 cards per row on medium screens
             md={isSidebarOpen ? 3 : 3}  // 4 cards per row on medium screens
-          lg={isSidebarOpen ? 2.2 : 2.3} // 5 cards per row on large screens
-            xl={isSidebarOpen ? 2.2 : 2.3} // 5 cards per row on extra large screens
+          lg={isSidebarOpen ? 2.4 : 2.3} // 5 cards per row on large screens
+            xl={isSidebarOpen ? 2.4 : 2.3} // 5 cards per row on extra large screens
           >
             <InfoCard 
               IconComponent={card.IconComponent}
@@ -2147,11 +2149,14 @@ const Home = () => {
       )}
 
       {/* Charts Section */}
-      {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
-        <Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},pl:{xl:'5%',lg:'5%',sm:'0%',xs:'0%'}}}></Box>
-      )}
+      {/* {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer') && (
+        <Box sx={{display:'flex',width:'100%',justifyContent:{lg:'flex-start',xl:'flex-start',sm:'center'},
+        pl:{xl:'%',lg:'0%',sm:'0%',xs:'0%'}
       
-      <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
+      }}></Box>
+      )} */}
+      
+      {/* <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',flexDirection:{xs:'column',md:'row',lg:'row',xl:'row'},mt:10}}>
         <Box sx={{
           width:{
           xs:'100%',
@@ -2168,7 +2173,7 @@ const Home = () => {
           xl:'0%'
         },
         height:'80%',display:'flex',alignItems:'center',alignContent:'center',justifyContent:'center',flexDirection:'column'}}>
-        <h4 style={{color:'black'}}>Meter Status Of Months {previousMonth},{currentMonth}-{currentYear}</h4>
+       
         <ChartComponent />
         </Box>
 
@@ -2192,10 +2197,203 @@ const Home = () => {
           lg:1,
           xl:1
         },}}>
-        <h4 style={{color:'black'}}>Light Bill Payment Status of {currentYear}</h4>
+       
         <PieChartBills />
         </Box>
+      </Box> */}
+
+
+
+{/* =========================================== */}
+
+  {/* <Box sx={{
+    border:'2px solid red',
+      width: '96%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: { xs: 'column', md: 'row', lg: 'row', xl: 'row' },
+      mt: 0,
+      gap: { xs: 4, md: 2, lg: 0, xl: 0 },
+      px: { xs: 2, sm: 3, md: 2, lg: 0, xl: 0 }
+    }}>
+   
+      <Box sx={{
+         border:'2px solid blue',
+        width: {
+          xs: '100%',
+          sm: '90%',
+          md: '42%',
+          lg: '50%',
+          xl: '42%'
+        },
+        ml: {
+          xs: '0%',
+          sm: isSidebarOpen ? '13%' : '2%',
+          md: isSidebarOpen ? '0%' : '0%',
+          lg: '0%',
+          xl: '0%'
+        },
+        height: { xs: '400px', md: '80%' },
+        display: 'flex',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column'
+      }}>
+        <ChartComponent />
       </Box>
+
+    
+      <Box sx={{
+        border:'2px solid green',
+        width: {
+          xs: '100%',
+          sm: '80%',
+          md: '42%',
+          lg: '50%',
+          xl: '42%'
+        },
+        ml: {
+          xs: '0%',
+          sm: isSidebarOpen ? '13%' : '2%',
+          md: '0%',
+          lg: '0%',
+          xl: '0%'
+        },
+        height: { xs: '400px', md: '80%' },
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexDirection: 'column',
+        mt: {
+          xs: 4,
+          md: 1,
+          lg: 0,
+          xl: 1
+        }
+      }}>
+        <PieChartBills />
+      </Box>
+    </Box>
+ */}
+
+
+{/* ======================================= */}
+
+{/* <Box sx={{
+  border: '2px solid red',
+  width: '91%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexDirection: { xs: 'column', md: 'row' },
+  mt: 0,
+  gap: { xs: 4, md: 0 },
+  px: { xs: 2, sm: 3, md: 0 }
+}}>
+
+ 
+  <Box sx={{
+    border: '2px solid blue',
+    width: { xs: '100%', sm: '90%', md: '48%', lg: '50%', xl: '42%' },
+    mx: { xs: 'auto', sm: 'auto' }, 
+    height: { xs: '400px', md: '80%' },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  }}>
+    <ChartComponent />
+  </Box>
+
+ 
+  <Box sx={{
+    border: '2px solid green',
+    width: { xs: '100%', sm: '90%', md: '42%', lg: '48%', xl: '42%' },
+    mx: { xs: 'auto', sm: 'auto' },
+    height: { xs: '400px', md: '80%' },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+   
+  }}>
+    <PieChartBills />
+  </Box>
+
+</Box> */}
+{/* ----------------------------- */}
+
+
+<Box sx={{
+  // border: '2px solid red',
+  width:{
+    xs:'90%',
+    
+    
+    md:isSidebarOpen?'85%':'96%'
+  },
+  ml:{
+    md:isSidebarOpen?'14%':'4%',
+    xs:'9%'
+    
+  },
+  display: 'flex',
+  justifyContent: 'space-around',
+  flexDirection: { xs: 'column', md: 'row' },
+  mt: 0,
+  gap: { xs: 4, md: 0 },
+  px: { xs: 2, sm: 3, md: 0 }
+}}>
+
+  {/* Left Chart */}
+  <Box sx={{
+    // border: '2px solid blue',
+    width: { xs: '100%', sm: '100%', md: '48%', lg: '48%', xl: '48%' },
+    height: { xs: '400px', md: '80%' },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    mx: 0
+  }}>
+    <ChartComponent />
+  </Box>
+
+  {/* Right Chart */}
+  <Box sx={{
+    // border: '2px solid green',
+    width: { xs: '100%', sm: '100%', md: '48%', lg: '48%', xl: '48%' },
+    height: { xs: '400px', md: '80%' },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    mx: 0
+  }}>
+    <PieChartBills />
+  </Box>
+
+</Box>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+      
     </div>
   );
 };
