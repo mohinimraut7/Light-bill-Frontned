@@ -2334,7 +2334,7 @@ const Home = () => {
     md:isSidebarOpen?'85%':'96%'
   },
   ml:{
-    md:isSidebarOpen?'14%':'4%',
+    md:isSidebarOpen?'15%':'4%',
     xs:'9%'
     
   },
