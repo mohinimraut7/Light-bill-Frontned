@@ -2118,7 +2118,7 @@ const vastuImgScaledW = parseFloat((vastuImgOrigW * vastuDiagScale).toFixed(2));
 const vastuImgScaledH = parseFloat((vastuImgOrigH * vastuDiagScale).toFixed(2));
 
 
-const vastuImgPosX = 130; 
+const vastuImgPosX = 140; 
 const vastuImgPosY = yPos+85; 
 doc.setFontSize(13);
 doc.text(
@@ -2139,8 +2139,15 @@ doc.text(
 //   vastuImgScaledH
 // );
 
-const vastuImgPosXa = 130; 
-const vastuImgPosYb = yPos + 82; 
+
+// Add vertical line on first page from 200px to bottom
+const pageHeight = doc.internal.pageSize.getHeight();
+doc.setLineWidth(0.1);
+doc.setDrawColor(0, 0, 0);
+doc.line(110, 206, 110, pageHeight - 17);
+
+const vastuImgPosXa = 135; 
+const vastuImgPosYb = yPos + 82.5; 
 doc.addImage(
   VastuGhenaryaAdhikaryachiSahi,
   'PNG',
@@ -2312,7 +2319,7 @@ doc.addImage(FTUpalabdhShillak, 'PNG', leftColX, imgY, (35 * imgShrinkRatio)+1, 
           
           
           if (data.column.index === 1 && data.row.index === 0) {
-            const rightColX = data.cell.x + 5;
+            const rightColX = data.cell.x + 15;
             let imgY = data.cell.y + 5;
             const imgHeight = 6;
             const imgGap = 12; 
@@ -2357,7 +2364,7 @@ doc.addImage(FTKarnyatAalyaAahet, 'PNG', rightColX, imgY, imageWidth+1.7, imageH
             imgY += imgGap * 1.5;
             
          
-            doc.text("       ________    ________", rightColX-9, imgY-2);
+            doc.text("       ________    ________", rightColX+1, imgY-2);
           }
         }
       });
@@ -3156,9 +3163,9 @@ doc.addImage(
       doc.text("-------------                      -------------", 120, yPos);
       yPos += 10;
       doc.text("रोखपाल                          उप-आयुक्त", 120, yPos);
-      doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 130, yPos + 7);
+      doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 130, yPos + 7); 
       
-      doc.line(110, 60, 110, yPos + 10); // **ही लाइन आता  60 पासून सुरू होईल**
+      doc.line(110, 15, 110, yPos + 30); // **ही लाइन आता  60 पासून सुरू होईल**
       
       
       
