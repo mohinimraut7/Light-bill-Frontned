@@ -2008,7 +2008,7 @@ const Home = () => {
       <Grid container spacing={2} className="info-card-container"
       sx={{
         pl:{
-          md:isSidebarOpen?'17%':'6%',
+          md:isSidebarOpen?'18%':'6%',
            xs:'20%'
         },
        
