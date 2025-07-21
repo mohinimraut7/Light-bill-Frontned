@@ -1638,11 +1638,11 @@ const handleDownloadPDF = async () => {
 
       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
-      doc.addImage(Mahina, "PNG", data.settings.margin.left + 140, topPosition-1, 13, 5);
-      doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 168, topPosition, 11, 4);
-      doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 185, topPosition-1, 18, 4.8);
-      doc.addImage(Rakkam, "PNG", data.settings.margin.left + 213, topPosition, 12.5, 4);
-      doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 235, topPosition-1, 22, 5);
+      doc.addImage(Mahina, "PNG", data.settings.margin.left + 150.7, topPosition-1, 13, 5);
+      doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 174, topPosition, 11, 4);
+      doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 192.9, topPosition-1, 18, 4.8);
+      doc.addImage(Rakkam, "PNG", data.settings.margin.left + 218.7, topPosition, 12.5, 4);
+      doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239.5, topPosition-1, 22, 5);
     },
   });
 
