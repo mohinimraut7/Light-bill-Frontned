@@ -1322,7 +1322,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         },
         {
           role: 'Junior Engineer:',
-          status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.ward === 'Head Office') ? 'verified' : 'unverified',
+          status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.userWard === 'Head Office') ? 'verified' : 'unverified',
           ward: '(via Head Office)',
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
@@ -1451,25 +1451,50 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         // First download the original PDF (like old code)
         let currentPdfUrl = pdfUrlnew ? pdfUrlnew : pdfUrl;
         
-        if (currentPdfUrl) {
+        // if (currentPdfUrl) {
+        //   // Download original PDF first
+        //   const link = document.createElement('a');
+        //   link.href = currentPdfUrl;
+        //   link.download = `${title || 'download'}.pdf`;
+        //   link.click();
+          
+        //   // Wait a moment then download signatures
+        //   setTimeout(async () => {
+        //     try {
+        //       const signatureDoc = await generateSignaturePdf();
+        //       signatureDoc.save(`${title || 'download'}_signatures.pdf`);
+        //     } catch (error) {
+        //       console.error('Error generating signature PDF:', error);
+        //       toast.error('Error generating signature PDF. Please try again.');
+        //     }
+        //   }, 1000);
+        // }
+ if (currentPdfUrl) {
           // Download original PDF first
           const link = document.createElement('a');
           link.href = currentPdfUrl;
           link.download = `${title || 'download'}.pdf`;
           link.click();
           
-          // Wait a moment then download signatures
+          // Wait a moment then download signatures only if data exists
           setTimeout(async () => {
             try {
-              const signatureDoc = await generateSignaturePdf();
-              signatureDoc.save(`${title || 'download'}_signatures.pdf`);
+              if (signaturesData && signaturesData.length > 0) {
+                const signatureDoc = await generateSignaturePdf();
+                signatureDoc.save(`${title || 'download'}_signatures.pdf`);
+              }
             } catch (error) {
               console.error('Error generating signature PDF:', error);
               toast.error('Error generating signature PDF. Please try again.');
             }
           }, 1000);
         }
-      } else if (pdfBlobUrl) {
+      
+
+
+      }
+      
+      else if (pdfBlobUrl) {
         // For other forms, use old logic
         const link = document.createElement('a');
         link.href = pdfBlobUrl;

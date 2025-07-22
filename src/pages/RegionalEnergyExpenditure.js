@@ -2008,12 +2008,16 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
             if (data.column.index === 1 && data.row.index === 0) {
               doc.addImage(kamachaTapashil, 'PNG', data.cell.x + 2, data.cell.y + 3.7, 44, 6);
             }
+
+            
             
             if (data.column.index === 2 && data.row.index === 0) {
               // doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2, 28, 6);
               doc.addImage(parimanVajan, 'PNG', data.cell.x + 2, data.cell.y + 2.7, 30, 7);
 
             }
+            
+            
           }
         },
         styles: {
