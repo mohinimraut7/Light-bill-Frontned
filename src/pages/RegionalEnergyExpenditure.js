@@ -1982,8 +1982,8 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
             doc.setTextColor(0, 0, 0);
             doc.text(
               `${selectedMonthYear}`,
-              data.cell.x + 2 + 35, 
-              data.cell.y + 16 + 2.8    
+              data.cell.x + 2 + 35+1, 
+              data.cell.y + 16 + 2.8+2    
             );
             doc.addImage(
               NACheVidvutDeyak,

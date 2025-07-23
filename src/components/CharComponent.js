@@ -519,8 +519,12 @@ const ChartComponent = () => {
   };
 
   // Get all unique statuses from both current and previous month bills
-  const allBills = [...latestBills, ...previousBills];
-  const meterStatuses = getAllUniqueStatuses(allBills);
+  // const allBills = [...latestBills, ...previousBills];
+  // const meterStatuses = getAllUniqueStatuses(allBills);
+
+
+  const meterStatuses = getAllUniqueStatuses(bills);
+
 
   // ✅ Enhanced Function to Count Meter Status Occurrences
   const getStatusCounts = (bills) => {
