@@ -33,6 +33,10 @@ export const DELETE_BILL_ERROR = 'DELETE_BILL_ERROR';
 export const UPDATE_BILL_FLAG_REQUEST = 'UPDATE_BILL_FLAG_REQUEST';
 export const UPDATE_BILL_FLAG_SUCCESS = 'UPDATE_BILL_FLAG_SUCCESS';
 export const UPDATE_BILL_FLAG_ERROR = 'UPDATE_BILL_FLAG_ERROR';
+
+export const FETCH_OVERDUE_BILLS_REQUEST ='FETCH_OVERDUE_BILLS_REQUEST';
+export const FETCH_OVERDUE_BILLS_SUCCESS ='FETCH_OVERDUE_BILLS_SUCCESS';
+export const FETCH_OVERDUE_BILLS_ERROR = 'FETCH_OVERDUE_BILLS_ERROR';
 const getToken = () => {
   const resdata = JSON.parse(localStorage.getItem('resdata'));
   return resdata ? resdata.token : null;
