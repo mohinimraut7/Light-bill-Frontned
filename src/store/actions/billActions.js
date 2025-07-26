@@ -54,6 +54,24 @@ export const fetchBillsFailure = (error) => ({
 });
 
 
+
+export const fetchOverdueBillsRequest = () => ({
+  type: FETCH_OVERDUE_BILLS_REQUEST
+});
+
+export const fetchOverdueBillsSuccess = (data) => ({
+  type: FETCH_OVERDUE_BILLS_SUCCESS,
+  payload: data
+});
+
+export const fetchOverdueBillsFailure = (error) => ({
+  type: FETCH_OVERDUE_BILLS_ERROR,
+  payload: error
+});
+
+
+
+
 //before server pagination
 export const fetchBills = () => {
   return async (dispatch) => {
@@ -68,7 +86,17 @@ export const fetchBills = () => {
 };
 
 
-
+export const fetchOverdueBills = () => {
+  return async (dispatch) => {
+    dispatch(fetchOverdueBillsRequest());
+    try {
+      const response = await axios.get(`${billBaseUrl}/api/getOverdueBills`);
+      dispatch(fetchOverdueBillsSuccess(response.data));
+    } catch (error) {
+      dispatch(fetchOverdueBillsFailure(error.message));
+    }
+  };
+};
 
 // Dynamic pagination fetchBills function
 
