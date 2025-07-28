@@ -85,12 +85,11 @@ export const fetchBills = () => {
   };
 };
 
-
-export const fetchOverdueBills = () => {
+export const fetchOverdueBills = (page = 1, limit = 5) => {
   return async (dispatch) => {
     dispatch(fetchOverdueBillsRequest());
     try {
-      const response = await axios.get(`${billBaseUrl}/api/getOverdueBills`);
+      const response = await axios.get(`${baseUrl}/getBillsOverdue?page=${page}&limit=${limit}`);
       dispatch(fetchOverdueBillsSuccess(response.data));
     } catch (error) {
       dispatch(fetchOverdueBillsFailure(error.message));

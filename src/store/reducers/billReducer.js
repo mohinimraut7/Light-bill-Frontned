@@ -1,5 +1,5 @@
 //Before server pagination
-import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,
+import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,FETCH_OVERDUE_BILLS_SUCCESS,FETCH_OVERDUE_BILLS_ERROR,FETCH_OVERDUE_BILLS_REQUEST,
     ADD_BILL_REQUEST,ADD_BILL_SUCCESS,ADD_BILL_ERROR,
     EDIT_BILL_REQUEST,
   EDIT_BILL_SUCCESS,
@@ -14,6 +14,14 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,
   
   const initialState = {
     bills: [],
+     pagination: {
+        currentPage: 1,
+        totalPages: 0,
+        totalTenders: 0,
+        hasNextPage: false,
+        hasPrevPage: false,
+        limit: 50
+    },
     loading: false,
     error: null
   };
@@ -21,6 +29,7 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,
   const billReducer = (state = initialState, action) => {
     switch (action.type) {
       case FETCH_BILLS_REQUEST:
+          case FETCH_OVERDUE_BILLS_REQUEST:
         case ADD_BILL_REQUEST:
           case EDIT_BILL_REQUEST:
           case DELETE_BILL_REQUEST:
@@ -36,7 +45,17 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,
           ...state,
           loading: false,
           bills: action.payload,
+           pagination: action.payload.pagination || state.pagination
         };
+         // Overdue Bills with Server-side Pagination
+    case FETCH_OVERDUE_BILLS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        bills: action.payload.bills,
+        pagination: action.payload.pagination,
+        error: null
+      };
         case ADD_BILL_SUCCESS:
           return {
               ...state,
@@ -107,6 +126,7 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,
         };
       
   case FETCH_BILLS_ERROR:
+     case FETCH_OVERDUE_BILLS_ERROR:
         case ADD_BILL_ERROR:
           case EDIT_BILL_ERROR:
           case UPDATE_BILL_STATUS_ERROR:
