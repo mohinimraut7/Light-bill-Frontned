@@ -566,7 +566,7 @@ const OverdueBills = () => {
   const [selectedMonthYear, setSelectedMonthYear] = useState("");
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 5,
+    pageSize: 50,
   });
 
   // Fetch bills when component mounts or pagination changes

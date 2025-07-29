@@ -85,7 +85,7 @@ export const fetchBills = () => {
   };
 };
 
-export const fetchOverdueBills = (page = 1, limit = 5) => {
+export const fetchOverdueBills = (page = 1, limit = 50) => {
   return async (dispatch) => {
     dispatch(fetchOverdueBillsRequest());
     try {
