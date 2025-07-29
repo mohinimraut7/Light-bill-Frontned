@@ -553,6 +553,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { styled } from '@mui/material/styles';
 import dayjs from "dayjs";
+import BillDatePicker from '../components/BillDatePicker';
+
 
 const OverdueBills = () => {
   const dispatch = useDispatch();
@@ -612,13 +614,39 @@ const OverdueBills = () => {
   const today = new Date();
 
   // Map bills to rows for DataGrid
-  const rows = filteredBills.map((bill, index) => ({
+  // const rows = filteredBills
+  // const rows = filteredBills
+  // .filter(bill => !selectedMonthYear || bill.monthAndYear === selectedMonthYear)
+  // ---------------------------------------
+  
+  // const rows = filteredBills
+  // .filter(bill => 
+  //   // If no month is selected, include all bills
+  //   !selectedMonthYear || 
+  //   // If a month is selected, include only matching bills
+  //   bill.monthAndYear === selectedMonthYear 
+  // ).
+  
+  
+  
+  const rows = filteredBills
+  .filter(bill => 
+    (
+      // If no month is selected, include all bills
+      !selectedMonthYear || 
+      // If a month is selected, include only matching bills
+      bill.monthAndYear === selectedMonthYear
+    ) &&
+    // Additional condition: due date passed and status is unpaid
+    new Date(bill.dueDate) < new Date() && bill.paymentStatus === 'unpaid'
+  ).map((bill, index) => ({
     id: paginationModel.page * paginationModel.pageSize + index + 1,
     _id: bill._id,
     consumerNumber: bill.consumerNumber,
     email: bill?.email || '-',
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
+    monthAndYear: bill.monthAndYear,
     meterNumber: bill?.meterNumber || '-',
     totalConsumption: bill.totalConsumption,
     meterStatus: bill.meterStatus,
@@ -626,7 +654,6 @@ const OverdueBills = () => {
     previousReading: bill.previousReading,
     currentReadingDate: formatDate(bill.currentReadingDate),
     currentReading: bill.currentReading,
-    monthAndYear: bill.monthAndYear,
     billDate: formatDate(bill.billDate),
     currentBillAmount: bill.currentBillAmount,
     totalArrears: bill.totalArrears,
@@ -707,6 +734,7 @@ const OverdueBills = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
+     { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
     { field: 'ward', headerName: 'WARD', width: 130 },
     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -715,7 +743,7 @@ const OverdueBills = () => {
     { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
     { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 180 },
     { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
-    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
+   
     { field: 'billDate', headerName: 'BILL DATE', width: 130 },
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
     { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 180 },
@@ -725,30 +753,30 @@ const OverdueBills = () => {
     { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
     { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 180 },
     { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 130 },
-    {
-      field: 'actions',
-      headerName: 'ACTIONS',
-      width: 150,
-      renderCell: (params) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={() => handleEditBill(params.row)}
-          >
-            Edit
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={() => handleDeleteBill(params.row._id)}
-          >
-            Delete
-          </Button>
-        </Box>
-      ),
-    },
+    // {
+    //   field: 'actions',
+    //   headerName: 'ACTIONS',
+    //   width: 150,
+    //   renderCell: (params) => (
+    //     <Box sx={{ display: 'flex', gap: 1 }}>
+    //       <Button
+    //         size="small"
+    //         startIcon={<EditIcon />}
+    //         onClick={() => handleEditBill(params.row)}
+    //       >
+    //         Edit
+    //       </Button>
+    //       <Button
+    //         size="small"
+    //         color="error"
+    //         startIcon={<DeleteIcon />}
+    //         onClick={() => handleDeleteBill(params.row._id)}
+    //       >
+    //         Delete
+    //       </Button>
+    //     </Box>
+    //   ),
+    // },
   ];
 
   const getPadding = () => {
@@ -825,6 +853,10 @@ const OverdueBills = () => {
           }} className="title-2">
             Users with Over Due Bills
           </Typography>
+        </Box>
+
+         <Box sx={{width:{lg:'20%',xl:'20%',md:'80%',sm:'80%',xs:'100%'},mb:2}}>
+        <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
         </Box>
 
         <StyledDataGrid 
