@@ -293,6 +293,7 @@ const dueAlertCount = dueAlertrows.length;
     // email: bill?.email,
     username: bill.username || '-',
     contactNumber: bill?.contactNumber,
+    monthAndYear: bill.monthAndYear,
     meterNumber: bill?.meterNumber || '-',
     totalConsumption: bill.totalConsumption,
     meterStatus: bill.meterStatus,
@@ -306,7 +307,10 @@ const dueAlertCount = dueAlertrows.length;
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
     ward: bill?.ward,
-    paymentStatus: bill.paymentStatus || '-',
+    // paymentStatus: bill.paymentStatus || '-',
+     paymentStatus: bill.paymentStatus
+      ? bill.paymentStatus.charAt(0).toUpperCase() + bill.paymentStatus.slice(1)
+      : '-',
     approvedStatus: bill.approvedStatus || '-',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     pendingAmount: bill.lastReceiptAmount ? bill.roundedBillAmount - bill.lastReceiptAmount : bill.roundedBillAmount,
@@ -403,7 +407,8 @@ const dueAlertCount = dueAlertrows.length;
     { field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
 
     { field: 'contactNumber', headerName: 'CONTACT NUMBER', width: 130 },
-    
+    { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
+
     { field: 'ward', headerName: 'WARD', width: 130 },
     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
@@ -689,10 +694,10 @@ const dueAlertCount = dueAlertrows.length;
           columns={columns(handleDeleteBill, handleEditBill)}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
-          pageSizeOptions={[5, 10, 15]}
+          pageSizeOptions={[5,10,15,20,30,40,50,100]}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
         />
         <Modal open={billOpen} onClose={handleAddBillClose}>

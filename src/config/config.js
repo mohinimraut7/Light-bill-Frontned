@@ -10,9 +10,9 @@
 
  
 
-export const baseUrl='http://localhost:5000/api';
-export const billBaseUrl = 'http://localhost:5000';
+// export const baseUrl='http://localhost:5000/api';
+// export const billBaseUrl = 'http://localhost:5000';
 
 
-    // export const baseUrl='https://lightbillbackend.saavi.co.in/api'
-    // export const billBaseUrl = 'https://lightbillbackend.saavi.co.in';
+    export const baseUrl='https://lightbillbackend.saavi.co.in/api'
+    export const billBaseUrl = 'https://lightbillbackend.saavi.co.in';

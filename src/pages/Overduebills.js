@@ -660,7 +660,10 @@ const OverdueBills = () => {
     netBillAmount: bill.netBillAmount,
     roundedBillAmount: bill.roundedBillAmount,
     ward: bill?.ward,
-    paymentStatus: bill.paymentStatus || '-',
+    // paymentStatus: bill.paymentStatus || '-',
+     paymentStatus: bill.paymentStatus
+      ? bill.paymentStatus.charAt(0).toUpperCase() + bill.paymentStatus.slice(1)
+      : '-',
     approvedStatus: bill.approvedStatus || '-',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
     overDueAmount: bill.overDueAmount,
