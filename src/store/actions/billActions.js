@@ -85,17 +85,42 @@ export const fetchBills = () => {
   };
 };
 
-export const fetchOverdueBills = (page = 1,limit = 50) => {
+// -------------------------------------------------------------
+
+// export const fetchOverdueBills = (page = 1,limit = 50,selectedMonthYear) => {
+//   return async (dispatch) => {
+//     dispatch(fetchOverdueBillsRequest());
+//     try {
+//       const response = await axios.get(`${baseUrl}/getBillsOverdue?page=${page}&limit=${limit}`);
+//       dispatch(fetchOverdueBillsSuccess(response.data));
+//     } catch (error) {
+//       dispatch(fetchOverdueBillsFailure(error.message));
+//     }
+//   };
+// };
+
+// -----------------------------------------------------
+
+export const fetchOverdueBills = (page = 1, limit = 50, selectedMonthYear) => {
   return async (dispatch) => {
     dispatch(fetchOverdueBillsRequest());
     try {
-      const response = await axios.get(`${baseUrl}/getBillsOverdue?page=${page}&limit=${limit}`);
+      // Build query parameters
+      let queryParams = `page=${page}&limit=${limit}`;
+      
+      // Add selectedMonthYear to query if provided
+      if (selectedMonthYear) {
+        queryParams += `&selectedMonthYear=${encodeURIComponent(selectedMonthYear)}`;
+      }
+      
+      const response = await axios.get(`${baseUrl}/getBillsOverdue?${queryParams}`);
       dispatch(fetchOverdueBillsSuccess(response.data));
     } catch (error) {
       dispatch(fetchOverdueBillsFailure(error.message));
     }
   };
 };
+
 
 // Dynamic pagination fetchBills function
 

@@ -566,7 +566,7 @@ const OverdueBills = () => {
   const [selectedMonthYear, setSelectedMonthYear] = useState("");
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 50,
+    pageSize: 10,
   });
 
   // Fetch bills when component mounts or pagination changes
@@ -586,6 +586,7 @@ const OverdueBills = () => {
   };
 
   const getFilteredBills = () => {
+    console.log("bills.paymentStatus",bills)
     if (!bills) return [];
     
     if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) {
