@@ -734,6 +734,7 @@ const columns = (handleDeleteConsumer,handleEditConsumer)=>[
     ),
   },
   { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 180 },
+  { field: 'meterNumber', headerName: 'METER NUMBER', width: 180 },
   { field: 'consumerPlace', headerName: 'CONSUMER PLACE', width: 200 },
   { field: 'ward', headerName: 'WARD', width: 130 },
   { field: 'meterPurpose', headerName: 'METER PURPOSE', width: 180 },
@@ -781,6 +782,7 @@ const importExcel = async (event) => {
 
     const cleanedData = jsonData.map(item => ({
       consumerNumber: item.consumerNumber || '',
+      meterNumber:item.meterNumber||'',
       consumerPlace: item.consumerPlace || '',
       consumerAddress: item.consumerAddress || '',
       ward: item.ward || '',
@@ -819,6 +821,7 @@ const downloadAllTypsOfReport = () => {
     const worksheet = XLSX.utils.json_to_sheet(rows?.map(row => ({
       'ID': row.id,
       'Consumer No.': row.consumerNumber,
+      'Meter No.':row.meterNumber,
       'Ward': row.ward,
       'Consumer Place': row.consumerPlace,
       'Consumer Address': row.consumerAddress,
@@ -898,6 +901,7 @@ const downloadAllTypsOfReport = () => {
     id:index+1,
     _id:consumer._id,
     consumerNumber:consumer?.consumerNumber||'-',
+    meterNumber:consumer?.meterNumber||'-',
     consumerPlace:consumer?.consumerPlace||'-',
     consumerAddress: consumer?.consumerAddress||'-',
     ward:consumer?.ward||'-',
