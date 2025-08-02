@@ -1062,7 +1062,7 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // ✅ xs & s
 
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
-    XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
+    XLSX.writeFile(workbook, 'Anomaly_Report.xlsx');
   };
 
   const columns = [
@@ -1092,7 +1092,7 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // ✅ xs & s
       case 1: return 'HIGH ANOMALY BILLS';
       case 2: return 'LOW ANOMALY BILLS';
       default: return '';
-    }
+    } 
   };
 
   const smallControlStyles = {
