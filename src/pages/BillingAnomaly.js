@@ -1039,32 +1039,118 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // ✅ xs & s
     }
   });
 
+  // const downloadAllTypsOfReport = () => {
+  //   const rows = getRows().filter(
+  //     bill =>
+  //       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
+  //       (!wardName || bill.ward === wardName)
+  //   );
+
+  //   const worksheet = XLSX.utils.json_to_sheet(
+  //     rows.map((row, index) => ({
+  //       'ID': index + 1,
+  //       'Consumer No.': row.consumerNumber,
+  //       'Ward': row.ward,
+  //       'Meter Number': row.meterNumber,
+  //       'Total Consumption': row.totalConsumption,
+  //       'Meter Status': row.meterStatus,
+  //       'billMonth': row.monthAndYear,
+  //       'previousBillAmount': row.prevNetBillAmount,
+  //       'Net Bill Amount': row.netBillAmount,
+  //     }))
+  //   );
+
+  //   const workbook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+  //   XLSX.writeFile(workbook, 'Anomaly_Report.xlsx');
+  // };
+
+  // ---------------------------------------------------------
+
   const downloadAllTypsOfReport = () => {
-    const rows = getRows().filter(
-      bill =>
-        (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
-        (!wardName || bill.ward === wardName)
-    );
+  const rows = getRows().filter(
+    bill =>
+      (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
+      (!wardName || bill.ward === wardName)
+  );
 
-    const worksheet = XLSX.utils.json_to_sheet(
-      rows.map((row, index) => ({
-        'ID': index + 1,
-        'Consumer No.': row.consumerNumber,
-        'Ward': row.ward,
-        'Meter Number': row.meterNumber,
-        'Total Consumption': row.totalConsumption,
-        'Meter Status': row.meterStatus,
-        'billMonth': row.monthAndYear,
-        'previousBillAmount': row.prevNetBillAmount,
-        'Net Bill Amount': row.netBillAmount,
-      }))
-    );
+  // Prepare data rows for the sheet
+  const dataRows = rows.map((row, index) => ({
+    'ID': index + 1,
+    'Consumer No.': row.consumerNumber,
+    'Ward': row.ward,
+    'Meter Number': row.meterNumber,
+    'Total Consumption': row.totalConsumption,
+    'Meter Status': row.meterStatus,
+    'Bill Month': row.monthAndYear,
+    'Previous Bill Amount': row.prevNetBillAmount,
+    'Net Bill Amount': row.netBillAmount,
+  }));
 
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
-    XLSX.writeFile(workbook, 'Anomaly_Report.xlsx');
-  };
+  // Insert the heading row at the top of the data array
+  const heading = [[getTabLabel(tabValue) + ' - REPORT']]; // heading text
+  const worksheet = XLSX.utils.aoa_to_sheet(heading);
 
+  // Add the data rows starting from the third row (so you leave one blank line below the heading)
+  XLSX.utils.sheet_add_json(worksheet, dataRows, { origin: 'A3' });
+
+  // Merge the heading cell across all columns
+  const numColumns = Object.keys(dataRows[0] || {}).length;
+  worksheet['!merges'] = [
+    {
+      s: { r: 0, c: 0 }, // start at row 0, col 0
+      e: { r: 0, c: numColumns - 1 } // end at row 0, last column
+    }
+  ];
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+  XLSX.writeFile(workbook, `${getTabLabel(tabValue)}_REPORT.xlsx`);
+};
+
+  
+  
+//   const downloadAllTypsOfReport = () => {
+//   const rows = getRows().filter(
+//     bill =>
+//       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
+//       (!wardName || bill.ward === wardName)
+//   );
+
+//   const worksheet = XLSX.utils.json_to_sheet(
+//     rows.map((row, index) => ({
+//       'ID': index + 1,
+//       'Consumer No.': row.consumerNumber,
+//       'Ward': row.ward,
+//       'Meter Number': row.meterNumber,
+//       'Total Consumption': row.totalConsumption,
+//       'Meter Status': row.meterStatus,
+//       'billMonth': row.monthAndYear,
+//       'previousBillAmount': row.prevNetBillAmount,
+//       'Net Bill Amount': row.netBillAmount,
+//     }))
+//   );
+
+//   const workbook = XLSX.utils.book_new();
+//   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+
+//   const reportName = getReportFileName(tabValue); // Dynamic file name
+//   XLSX.writeFile(workbook, reportName);
+// };
+
+
+
+
+
+const getReportFileName = (tabIndex) => {
+  switch (tabIndex) {
+    case 0: return 'ZERO_CONSUMPTION_BILLS.xlsx';
+    case 1: return 'HIGH_ANOMALY_BILLS.xlsx';
+    case 2: return 'LOW_ANOMALY_BILLS.xlsx';
+    default: return 'Anomaly_Report.xlsx';
+  }
+};
+  
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 140 },
