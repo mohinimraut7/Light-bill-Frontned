@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation,Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
@@ -8,7 +8,7 @@ import { Typography, Box, Button, Modal, Checkbox,TextField,FormControl,InputLab
 import AddIcon from '@mui/icons-material/Add';
 
 
-import CheckIcon from '@mui/icons-material/Check';
+
 import AddBill from '../components/modals/AddBill';
 import AddPayment from '../components/modals/AddPayment';
 
@@ -20,18 +20,13 @@ import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import '../App.css';
 
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { styled } from '@mui/material/styles';
 
-import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
-import MonthYearPicker from '../components/MonthYearPicker';
+
 import BillDatePicker from '../components/BillDatePicker';
 
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
@@ -39,9 +34,9 @@ import { AddRemarkModal } from '../components/modals/AddRemark';
 import ViewRemarkModal from '../components/modals/ViewRemarkModal';
 import wardDataAtoI from '../data/warddataAtoI';
 const ConsumerBill = () => {
-  const location = useLocation();
+  
   const dispatch = useDispatch();
-  const { bills, loading, error,pagination} = useSelector((state) => state.bills);
+  const { bills, loading, error } = useSelector((state) => state.bills);
   
     const { consumers } = useSelector((state) => state?.consumers);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -78,7 +73,7 @@ const ConsumerBill = () => {
   const [myear,setMyear]=useState('');
   const [wardFaultyCounts, setWardFaultyCounts] = useState({});
   const [totalFaultyMeters, setTotalFaultyMeters] = useState(0);
-  const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
+  
 const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   const [selectedRemarks, setSelectedRemarks] = useState([]);
   const [billRemarkOpen, setBillRemarkOpen] = useState(false);
@@ -86,81 +81,15 @@ const [wardName, setWardName] = useState('');
  const [selectedMonthYear, setSelectedMonthYear] = useState('');
   const allWards = ["Ward-A", "Ward-B", "Ward-C", "Ward-D", "Ward-E", "Ward-F", "Ward-G", "Ward-H", "Ward-I"];
  
-   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(50);
-  const [paginationModel, setPaginationModel] = useState({
-    page: 0,
-    pageSize: 10,
-  });
 
   const currentDate = new Date();
 const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 const currentYear = currentDate.getFullYear();
 const currentMonthYear = `${currentMonth}-${currentYear}`;
 
-
-
- // Function to fetch bills with pagination and filters
-  const fetchBillsWithFilters = (page = 1, limit = 10) => {
-    const filters = {};
-    
-    if (selectedMonthYear) {
-      filters.selectedMonthYear = selectedMonthYear;
-    }
-    
-    if (cnId) {
-      filters.consumerNumber = cnId;
-    }
-    
-    if (wardName && (
-      user?.role === 'Super Admin' ||
-      user?.role === 'Admin' ||
-      user?.role === 'Executive Engineer' ||
-      (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
-    )) {
-      filters.wardName = wardName;
-    }
-    
-    dispatch(fetchBills(page, limit, filters));
-  };
-
   useEffect(() => {
     dispatch(fetchBills());
   }, [dispatch, data]);
-
-
-
-   useEffect(() => {
-    fetchBillsWithFilters(currentPage, pageSize);
-  }, [dispatch, currentPage, pageSize]);
-
-  // Refetch when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-    setPaginationModel({ ...paginationModel, page: 0 });
-    fetchBillsWithFilters(1, pageSize);
-  }, [selectedMonthYear, cnId, wardName]);
-
-  
-  // useEffect(() => {
-
-  //   if (bills) {
-  //     const initialSelectedValues = bills.reduce((acc, bill, index) => {
-  //       acc[index + 1] = bill?.forwardForGeneration ? 'Yes' : 'No';
-  //       return acc;
-  //     }, {});
-
-  //     setSelectedValues(initialSelectedValues);
-     
-  //     const paid = bills.filter(bill => bill?.paymentStatus === 'paid')?.length;
-  //     const unpaid = bills.filter(bill => bill?.paymentStatus === 'unpaid')?.length;
-      
-  //     setBillPaid(paid)
-  //     setBillUnPaid(unpaid)
-  //   }
-  // }, [bills]);
-
-
 
   useEffect(() => {
   if (bills && user) {
@@ -169,8 +98,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       return acc;
     }, {});
     setSelectedValues(initialSelectedValues);
-
-    // 👇 Ward-wise + currentMonthYear + JE restriction logic added here
+    
     const filteredBills = bills.filter((bill) =>
       bill.monthAndYear === currentMonthYear &&
       (
@@ -196,7 +124,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       const wardCounts = bills.reduce((acc, bill) => {
         if (bill.monthAndYear === currentMonthYear && 
             (user.role !== "Junior Engineer" || user.ward === bill.ward||
-  (user.role === "Junior Engineer" && user.ward === "Head Office") )) {  // ✅ Junior Engineer restriction
+  (user.role === "Junior Engineer" && user.ward === "Head Office") )) {  
           counts[bill.meterStatus] = (counts[bill.meterStatus] || 0) + 1;
 
           acc[bill.ward] = (acc[bill.ward] || 0) + (bill.meterStatus === "FAULTY" ? 1 : 0);
@@ -204,7 +132,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
         return acc;
       }, {});
 
-      // Ensure all wards have a count (even if zero)
+      
       const finalWardCounts = allWards.reduce((acc, ward) => {
         acc[ward] = wardCounts[ward] || 0;
         return acc;
@@ -309,33 +237,19 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
   }, [bills, user.role]);
 
 
-
-   // Handle pagination change
-  const handlePaginationModelChange = (newPaginationModel) => {
-    setPaginationModel(newPaginationModel);
-    const newPage = newPaginationModel.page + 1; // MUI DataGrid uses 0-based indexing
-    const newPageSize = newPaginationModel.pageSize;
-    
-    if (newPage !== currentPage || newPageSize !== pageSize) {
-      setCurrentPage(newPage);
-      setPageSize(newPageSize);
-      fetchBillsWithFilters(newPage, newPageSize);
-    }
-  };
-
   const handleChangeWard = (event) => {
     setWardName(event.target.value);
   };
 
   const getFilteredBills = () => {
-    // if (user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user.ward === 'Head Office')) {
+    
        if (
     user?.role === 'Super Admin' ||
     user?.role === 'Admin' ||
     user?.role === 'Executive Engineer' ||
     (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
   ) {
-    // If wardName is selected, filter by that ward
+    
     if (wardName && wardName.trim() !== '') {
       return bills.filter((bill) => bill?.ward === wardName);
     }
@@ -362,9 +276,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
   if (error) {
     return <p>Error: {error}</p>;
   }
-  const handleAddBillOpen = () => {
-    setBillOpen(true);
-  };
+  
   const handleAddBillClose = () => {
     setBillOpen(false);
   };
@@ -456,24 +368,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       return;
     }
     
-      // सर्व बिल्समध्ये remarks आहेत का?
-    // const hasRemarks = selectedItems.every(item => item.remarks && item.remarks.length > 0);
-    // if (!hasRemarks) {
-    //     toast.error("Please approve before proceeding");
-    //     return;
-    // }
-
-    // प्रत्येक बिलच्या remarks मध्ये user.role आणि user.signature आहे का तपासा
-    // const allHaveUserRoleAndSignature = selectedItems.every(item => 
-    //     item.remarks.some(remark => remark.role === user.role && remark.signature === user.signature)
-    // );
-
-    // if (!allHaveUserRoleAndSignature) {
-    //     toast.error("Your role and signature must be present in remarks before processing");
-    //     return;
-    // }
-
-    // जर सर्व चेक पास झाले, तर पुढील प्रोसेस सुरु करा
+    
     console.log("Processing selected bills...");
 
  
@@ -495,7 +390,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       return "#"; 
     }
   
-    // **Dynamic baseURL based on billType**
+    
     let baseURL = "";
   
     if (billType === "LT") {
@@ -511,7 +406,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       return `${baseURL}&A=${encodeURIComponent(param1)}&B=${encodeURIComponent(param2)}&C=${encodeURIComponent(param3)}`;
     }
   
-    return "#"; // Default return if `billType` does not match
+    return "#"; 
   };
   
  const handleDateChange = (value) => {
@@ -533,29 +428,6 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
 );
 
 
-//     if (cRDate) {
-//       const crDateObj = new Date(cRDate);
-// const cRYear = crDateObj.getFullYear();
-// const cRMonth = crDateObj.getMonth(); 
-
-   
-
-//       filteredData = filteredData.filter(bill => {
-//         if (bill.currentReadingDate) {
-//           const billDateObj = new Date(bill.currentReadingDate);
-//           const billYear = billDateObj.getFullYear();
-//           const billMonth = billDateObj.getMonth(); 
-    
-          
-//           return cRYear === billYear && cRMonth === billMonth;
-//         }
-//         return false; 
-//       });
-    
-//     }
-
-
-
     const toCapitalized = (text) => {
       return text
         ?.toLowerCase()
@@ -574,9 +446,8 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
         };
   const rows = 
     filteredData.map((bill, index) => ({
-      // id: index + 1,
-       id: paginationModel.page * paginationModel.pageSize + index + 1,
     _id: bill._id,
+    id: index + 1,
     consumerNumber: bill?.consumerNumber,
     consumerName: bill?.consumerName,
     username: bill.username || '-',
@@ -606,7 +477,6 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     roundedBillAmount: bill.roundedBillAmount,
     billingUnit:bill.billingUnit,
     ward: bill?.ward,
-    // paymentStatus: bill?.paymentStatus || '-',
     paymentStatus: bill?.paymentStatus ? toCapitalized(bill.paymentStatus) : '-',
     approvedStatus: bill?.approvedStatus || 'PendingForJuniorEngineer',
     lastReceiptAmount: bill.lastReceiptAmount ? bill.lastReceiptAmount : 0,
@@ -621,18 +491,11 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
     paidAmount:bill.paidAmount||'-',
     remark:bill.remark,
     remarks: bill.remarks,
-
-    // remark:bill.remark,
     }));
 
   const handleApproveClick = (bill, yesno) => {
     let approvedStatus;
-    // let currentBillAmount;
-    // let ifPaidBefore;
-    // let ifPaidAfter;
-    // let totalArrears;
     let netBillAmount;
-    // let roundedBillAmount;
     if (!bill || !bill._id) {
       return;
     }
@@ -656,25 +519,10 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
       approvedStatus = 'PendingForAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } else if (user?.role === 'Admin') {
-      // approvedStatus = 'PendingForSuperAdmin';
       approvedStatus = 'PendingForAdmin';
       paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
     } 
-    // else if (user?.role === 'Super Admin' && yesno === 'Yes') {
-    //   approvedStatus = 'Done';
-    //   paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-    // } 
-    // else if (user?.role === 'Super Admin' && yesno === 'No') {
-    //   approvedStatus = 'PendingForSuperAdmin';
-    //   paymentStatus = bill.paymentStatus ? bill.paymentStatus : 'unpaid';
-    //   currentBillAmount = tArrears;
-    //   ifPaidBefore = paidBefore;
-    //   ifPaidAfter = paidAfter;
-    //   totalArrears = tArrears
-    //   netBillAmount = nBillAmount;
-    //   roundedBillAmount = rBillAmount;
-    // }
-    // dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, currentBillAmount, totalArrears, netBillAmount, roundedBillAmount, ifPaidBefore, ifPaidAfter));
+    
     dispatch(updateBillStatusAction(bill._id, approvedStatus, paymentStatus, yesno, netBillAmount));
 
   };
@@ -749,36 +597,7 @@ const currentMonthYear = `${currentMonth}-${currentYear}`;
 
 
 
-    //old
-       
-    // {
    
-    //   headerName: 'VIEW BILL',
-    //   width: 80,
-     
-    //   renderCell: (params) => {
-    //     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-    
-    //     const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-    
-    //     return (
-    //       <Link
-    //         to={billURL}
-         
-    //         // style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
-    //       >
-    //         <VisibilityIcon/>
-    //       </Link>
-    //     );
-    //   } 
-      
-    // },
-
-
-
-    // ===========================================
-    //new
-
 
     { field: 'cont', headerName: 'VIEW BILL', width: 80,
       renderCell: (params) => {
@@ -797,69 +616,6 @@ return(
 
      },
     
-
-
-
-
-
-
-
-
-// ----------------------------------------------------------
-// testing
-
-// { field: 'id', headerName: 'ID', width: 40, headerClassName: 'view-bill-column',
-//   cellClassName: 'view-bill-cell', },
-
-
-// {
-//   field: '',
-//   headerName: 'VIEW BILL',
-//   width: 80,
-//   headerClassName: 'view-bill-column',
-//   cellClassName: 'view-bill-cell',
-//   renderCell: (params) => {
-//     const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
-
-// const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
-
-// return (
-//       <Link
-//         to={billURL}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         style={{ textDecoration: 'none', color: 'dodgerblue', cursor: 'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'100%' }}
-//       >
-//         <VisibilityIcon/>
-//       </Link>
-//     );
-//   } 
-// },
-
-
-// ==============================
-    //  {
-    //   field: 'actions',
-    //   headerName: 'Actions',
-    //   width: 200,
-    //   renderCell: (params) => (
-    //     <>
-    //       <IconButton
-    //         sx={{ color: '#FFA534' }}
-    //         onClick={() => handleDeleteBill(params.row._id)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <DeleteIcon />
-    //       </IconButton>
-    //       { }
-    //       {/* <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleEditBill(params.row)}
-    //         disabled={user.role === 'Junior Engineer' && (params.row.approvedStatus === 'PendingForExecutiveEngineer' || params.row.approvedStatus === 'PendingForAdmin' || params.row.approvedStatus === 'PendingForSuperAdmin' || params.row.approvedStatus === 'Done')}
-    //       >
-    //         <EditIcon />
-    //       </IconButton> */}
-    //     </>
-    //   ),
-    // },
     {
       field: 'consumerNumber',
       headerName: 'CONSUMER NO.',
@@ -936,25 +692,7 @@ Remark
       ),
     },
 
-    // { field: 'remark', headerName: 'REMARK', width: 130 },
-    
-      // ...(!user?.role === 'Junior Engineer'
-      // ? [
-      //   {
-      //     field: 'actions',
-      //     headerName: 'Actions',
-      //     width: 200,
-      //     renderCell: (params) => (
-      //       <>
-      //         <IconButton sx={{ color: '#23CCEF' }} onClick={() => handleApproveClick(params.row)}>
-      //           <CheckIcon />
-      //         </IconButton>
-      //       </>
-      //     ),
-      //   },
-      // ]
-      // : []),
-
+   
 
   ];
   const gridStyle = {
@@ -987,7 +725,6 @@ Remark
     },
   }));
 
-  // const totalmeters = `${consumers.length}`;
   const totalmeters = `${
   user?.role === 'Super Admin' ||
   user?.role === 'Admin' ||
@@ -1068,7 +805,7 @@ Remark
     if (Array.isArray(row.remarks)) {
       setSelectedRemarks(row.remarks);
     } else {
-      setSelectedRemarks([]); // Handle cases where there are no remarks
+      setSelectedRemarks([]); 
     }
     setIsRemarkModalOpen(true);
   };
@@ -1078,32 +815,7 @@ Remark
       <Box>
         
       </Box>
-      {/* <Box sx={{display:'flex',mb:1, 
-        mt:{
-          xl:0,
-          lg:0,
-          md:5,
-          sm:5,
-          xs:5
-        },
-        justifyContent:{
-            xs:'center',
-            sm:'center',
-            md:'center',
-            xl:'flex-start',
-            lg:'flex-start'
-          },
-          alignItems:{
-            xs:'center',
-            sm:'center',
-            md:'center',
-            xl:'flex-start',
-            lg:'flex-start'
-          }}}> <Typography sx={{color: '#0d2136',display:'flex',paddingTop:'20px'
-       
-          }} className="title-2">
-            BILL MASTER
-          </Typography></Box> */}
+    
 
       <Box sx={{width:'100%',
    
@@ -1193,7 +905,7 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
         </Box>
 
         <Box sx={{display:'flex',
-        // border:"2px solid blue",
+        
         ml: {
           xl: isSidebarOpen ? 0 :0,
           lg: isSidebarOpen ? 0 : 0,
@@ -1245,10 +957,10 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
 
                 <ConsumerButton  onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon/>}>Download Reports</ConsumerButton>
  <ConsumerButton  onClick={handleDownloadReport} startIcon={<DownloadIcon/>}>Faulty | Average Bills</ConsumerButton>
-  {/* <ConsumerButton  onClick={handleAddBillOpen} startIcon={<AddIcon/>}>Add Bill</ConsumerButton>            */}
+  
 </Box>
         <Box sx={{
-          // border:'2px solid blue',
+          
           display:'flex',alignItems:'center',
           justifyContent:{xl:'space-between',
             lg:'space-between',
@@ -1256,16 +968,6 @@ flexDirection:{xl:'row',lg:'row',md:'row',sm:'row',xs:'row',} }}>
             sm:'center',
             xs:'center'
           },
-
-
-      //     width:{xl:'60%',
-      //       lg:user.role === "Junior Engineer"
-      // ? (user.ward === "Head Office" ? "60%" : "40%")
-      // : "35%",
-      //       md:'60%',
-      //       sm:'100%',
-      //       xs:'100%'
-      //     },
 
 width: {
   xl:
@@ -1301,7 +1003,7 @@ width: {
           >
 
 
-{/* <MonthYearPicker cRDate={cRDate} handleCRDChange={handleCRDChange}  /> */}
+
 <Box sx={{
   width:{xl:'35%',
 
@@ -1333,15 +1035,14 @@ width: {
     variant="outlined"
     InputProps={{
       sx: {
-        // height: '40px',
-        // mb:1
+       
       },
     }}
     InputLabelProps={{
       sx: {
         color: 'gray',
         transform: 'translate(14px, 8px)',
-        // fontSize:'17px',
+        
         transform: 'translate(14px, 8px)',
         '&.MuiInputLabel-shrink': {
 transform: 'translate(14px, -8px) scale(0.75)', 
@@ -1421,7 +1122,7 @@ transform: 'translate(14px, -8px) scale(0.75)',
   
 
 </Box>
-        {/* <StyledDataGrid rows={rows}
+        <StyledDataGrid rows={rows}
           columns={columns(handleDeleteBill, handleEditBill)}
           initialState={{
             pagination: {
@@ -1429,19 +1130,6 @@ transform: 'translate(14px, -8px) scale(0.75)',
             },
           }}
           pageSizeOptions={[5, 10, 15,25,35,45,55,100]}
-          sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
-        /> */}
-
-          <StyledDataGrid 
-          rows={rows}
-          columns={columns(handleDeleteBill, handleEditBill)}
-          pagination
-          paginationMode="server"
-          paginationModel={paginationModel}
-          onPaginationModelChange={handlePaginationModelChange}
-          pageSizeOptions={[10, 25, 50, 100]}
-          rowCount={pagination.totalBills || 0}
-          loading={loading}
           sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
         />
         <Modal open={billOpen} onClose={handleAddBillClose}>

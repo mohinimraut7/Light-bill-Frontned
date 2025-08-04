@@ -70,28 +70,14 @@ export const fetchOverdueBillsFailure = (error) => ({
 });
 
 
-// Updated fetchBills function with pagination support
-export const fetchBills = (page = 1, limit = 10, filters = {}) => {
+
+
+
+export const fetchBills = () => {
   return async (dispatch) => {
     dispatch(fetchBillsRequest());
     try {
-      // Build query parameters
-      let queryParams = `page=${page}&limit=${limit}`;
-      
-      // Add filters to query if provided
-      if (filters.selectedMonthYear) {
-        queryParams += `&selectedMonthYear=${encodeURIComponent(filters.selectedMonthYear)}`;
-      }
-      
-      if (filters.consumerNumber) {
-        queryParams += `&consumerNumber=${encodeURIComponent(filters.consumerNumber)}`;
-      }
-      
-      if (filters.wardName) {
-        queryParams += `&wardName=${encodeURIComponent(filters.wardName)}`;
-      }
-      
-      const response = await axios.get(`${baseUrl}/getBills?${queryParams}`);
+      const response = await axios.get(`${baseUrl}/getBills`);
       dispatch(fetchBillsSuccess(response.data));
     } catch (error) {
       dispatch(fetchBillsFailure(error.message));
@@ -99,43 +85,16 @@ export const fetchBills = (page = 1, limit = 10, filters = {}) => {
   };
 };
 
-//before server pagination
-// export const fetchBills = () => {
-//   return async (dispatch) => {
-//     dispatch(fetchBillsRequest());
-//     try {
-//       const response = await axios.get(`${baseUrl}/getBills`);
-//       dispatch(fetchBillsSuccess(response.data));
-//     } catch (error) {
-//       dispatch(fetchBillsFailure(error.message));
-//     }
-//   };
-// };
 
-// -------------------------------------------------------------
-
-// export const fetchOverdueBills = (page = 1,limit = 50,selectedMonthYear) => {
-//   return async (dispatch) => {
-//     dispatch(fetchOverdueBillsRequest());
-//     try {
-//       const response = await axios.get(`${baseUrl}/getBillsOverdue?page=${page}&limit=${limit}`);
-//       dispatch(fetchOverdueBillsSuccess(response.data));
-//     } catch (error) {
-//       dispatch(fetchOverdueBillsFailure(error.message));
-//     }
-//   };
-// };
-
-// -----------------------------------------------------
 
 export const fetchOverdueBills = (page = 1, limit = 50, selectedMonthYear) => {
   return async (dispatch) => {
     dispatch(fetchOverdueBillsRequest());
     try {
-      // Build query parameters
+      
       let queryParams = `page=${page}&limit=${limit}`;
       
-      // Add selectedMonthYear to query if provided
+      
       if (selectedMonthYear) {
         queryParams += `&selectedMonthYear=${encodeURIComponent(selectedMonthYear)}`;
       }
@@ -149,33 +108,7 @@ export const fetchOverdueBills = (page = 1, limit = 50, selectedMonthYear) => {
 };
 
 
-// Dynamic pagination fetchBills function
 
-
-
-
-// export const fetchBills = (paginationParams = {}) => {
-//   return async (dispatch) => {
-//     dispatch(fetchBillsRequest());
-//     try {
-//       // Build query parameters dynamically
-//       const queryParams = new URLSearchParams({
-//         page: paginationParams.page || 0,
-//         pageSize: paginationParams.pageSize || 100,
-//         ...(paginationParams.consumerNumber && { consumerNumber: paginationParams.consumerNumber }),
-//         ...(paginationParams.ward && { ward: paginationParams.ward }),
-//         ...(paginationParams.monthYear && { monthYear: paginationParams.monthYear }),
-//         ...(paginationParams.userRole && { userRole: paginationParams.userRole }),
-//         ...(paginationParams.userWard && { userWard: paginationParams.userWard }),
-//       });
-
-//       const response = await axios.get(`${baseUrl}/getBills?${queryParams}`);
-//       dispatch(fetchBillsSuccess(response.data));
-//     } catch (error) {
-//       dispatch(fetchBillsFailure(error.message));
-//     }
-//   };
-// };
 
 
 export const addBillRequest = () => ({
@@ -237,9 +170,7 @@ export const addBill = (billData) => {
       const token = getToken();
       const response = await axios.post(`${baseUrl}/addBill`, billData
         , {
-        // headers: {
-        //   Authorization: `Bearer ${token}`
-        // }
+       
         headers: {
           vvcmcsaaviinfinet: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTZmYmI3NjZkMWYxNWY1OGM0NTNhYiIsInJvbGUiOiJTdXBlciBBZG1pbiIsImlhdCI6MTczODk5ODIyMywiZXhwIjoxNzQxNTkwMjIzfQ.YQRt7Kj4-eRejrs-G073tvzLdM_9oQDOYuQYmxSWsgs"
         }
@@ -257,46 +188,6 @@ export const addBill = (billData) => {
 }
 
 
-// export const addBill = (billData) => {
-//   return async (dispatch) => {
-//     dispatch(addBillRequest());
-//     try {
-//       // const token = getToken();
-//       const response = await axios.post(`${baseUrl}/addBill`, billData, {
-//         headers: {
-//           vvcmc: "saavi@infinet"
-//         }
-//       });
-
-//       console.log("response.data.bill", response.data.bill);
-
-//       if (Array.isArray(response.data.bill)) {
-//         const hasSuccess = response.data.bill.some(item => item.status === "SUCCESS");
-//         const hasFailure = response.data.bill.some(item => item.status === "FAILURE");
-
-//         if (hasSuccess) {
-//           dispatch(addBillSuccess(response.data.bill.filter(item => item.status === "SUCCESS")));
-//           toast.success("Bill Added Successfully", { position: "top-center" });
-//           dispatch(fetchBills());
-//         }
-
-//         if (hasFailure) {
-//           response.data.bill
-//             .filter(item => item.status === "FAILURE")
-//             .forEach(error => {
-//               toast.error(error.errorMessage || "Error processing bill", { position: "top-center" });
-//             });
-//         }
-//       } else {
-//         throw new Error("Unexpected response format");
-//       }
-      
-//     } catch (error) {
-//       dispatch(addBillFailure(error));
-//       toast.error(error.response?.data?.message || "Error adding lightbill", { position: "top-center" });
-//     }
-//   };
-// };
 
 
 export const updateBillStatusAction = (id, approvedStatus, paymentStatus, yesno) => async (dispatch) => {

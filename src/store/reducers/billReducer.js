@@ -20,7 +20,8 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,FETCH_OVERDUE
         totalTenders: 0,
         hasNextPage: false,
         hasPrevPage: false,
-        limit: 50
+        limit: 50,
+        totalBills: 0,
     },
     loading: false,
     error: null
@@ -44,8 +45,8 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,FETCH_OVERDUE
         return {
           ...state,
           loading: false,
-          bills: action.payload,
-           pagination: action.payload.pagination || state.pagination
+         bills: action.payload.bills || action.payload,
+          pagination: action.payload.pagination || state.pagination
         };
          // Overdue Bills with Server-side Pagination
     case FETCH_OVERDUE_BILLS_SUCCESS:
