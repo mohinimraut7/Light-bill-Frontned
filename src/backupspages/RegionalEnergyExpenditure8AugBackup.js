@@ -13,12 +13,9 @@ import meterPurposeData from '../data/meterpurpose';
 import dayjs from "dayjs";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import {loadDevanagariFont,notoserifbase} from '../fonts/NotoSerifbase';
-import { checkSignatureVerification, getSignaturesByRole, getRoleHierarchy } from './SignatureVerification';
 import "react-toastify/dist/ReactToastify.css";
 import './ConsumerBill.css';
 import { styled } from '@mui/material/styles';
-import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { CircularProgress} from '@mui/material';
 import { baseUrl } from '../config/config';
@@ -26,18 +23,16 @@ import axios from 'axios';
 import 'jspdf-autotable';
 import logovvcmc from '../Images/vvcmclogo.jpg';
 import logovvcmccmp from '../Images/logovvcmccmp.png';
-import checkIcon from '../Images/checkedCorr.png';
 import karyalayintipani from '../Images/karyalayintipani.png';
 import maharashtra from '../Images/maharashtra.png';
 import maharashtarlong from '../Images/maharashtarlong.png';
 import divabatti from '../Images/divabatti.png';
 import mahanagarpaliketarfe from '../Images/mahanagarpaliketarfe.png';
-import pacchim from '../Images/divabatti.png';
 import prabhagsamiti from '../Images/prabhagsamiti.png';
 import aarthikvarsh from '../Images/aarthikvarsh.png';
 import aataparyantachaKharch from '../Images/aataparyantachaKharch.png';
 import Akshari from '../Images/Akshari.png';
-import akshari from '../Images/akshari2.png';
+
 import matra from '../Images/matra.png';
 import NACheVidvutDeyak from '../Images/NACheVidvutDeyak.png';
 import NAkaryashetraPrabhaSamiti from '../Images/NAkaryashetraPrabhaSamiti.png';
@@ -48,17 +43,17 @@ import FTHyaBilantDakhavilela from '../Images/FTHyaBilantDakhavilela.png';
 import FTKarnyatAalyaAahet from '../Images/FTKarnyatAalyaAahet.png';
 import FTParimaneAchuk from '../Images/FTParimaneAchuk.png';
 import FTPramanitKarnyat from '../Images/FTPramanitKarnyat.png';
-import FTPrustavaril from '../Images/FTPrustavaril.png';
+
 import FTPurvichaKharch from '../Images/FTPurvichaKharch.png';
 import FTSakhyatmakLekhachya from '../Images/FTSakhyatmakLekhachya.png';
 import FTSthititMilalya from '../Images/FTSthititMilalya.png';
 import FTUpalabdhShillak from '../Images/FTUpalabdhShillak.png';
 import FTRakmecheNiyamWatap from '../Images/FTRakmecheNiyamWatap.png';
 
-import MUAkshariRupay from '../Images/MUAkshariRupay.png';
+
 import MUDwareDenyatAale from '../Images/MUDwareDenyatAale.png';
 import MUMaAayuktaYanchyakade from '../Images/MUMaAayuktaYanchyakade.png';
-import MUMatraManjurKarnyat from '../Images/MUMatraManjurKarnyat.png';
+
 import MUMemaganichiTapasani from '../Images/MUMemaganichiTapasani.png';
 import MUMukhyaLekhadhikari from '../Images/MUMukhyaLekhadhikari.png';
 import MUNirnayKramank from '../Images/MUNirnayKramank.png';
@@ -90,15 +85,11 @@ import MUSahaAayukta from '../Images/MUSahaAayukta.png';
 import MUUpaaayukta from '../Images/MUUpaaayukta.png';
 import MUDhanadeshKramank from '../Images/MUDhanadeshKramank.png';
 import Mudrank from '../Images/Mudrank.png';
-import PaiseGhenaryachiSahi from '../Images/PaiseGhenaryachiSahi.png';
+
 import mahanagarpalikechya from '../Images/mahanagarpalikechya.png';
 import yanaUdaHones from '../Images/yanaUdaHones.png';
 
-import vvcmcKaryashetratil from '../Images/vvcmcKaryashetratil.png';
-import prabhagsamitiKaryashtratil from '../Images/prabhagsamitiKaryashtratil.png';
-import vibhagatilVirar from '../Images/vibhagatilVirar.png';
-import vibhagacheMahe from '../Images/vibhagacheMahe.png';
-import vidvyutDeyak from '../Images/vidvyutDeyak.png';
+i
 import VastuGhenaryaAdhikaryachiSahi from '../Images/VastuGhenaryaAdhikaryachiSahi.png';
 import lekhashirshDivabattiVijDeyak from '../Images/lekhashirshDivabattiVijDeyak.png';
 
@@ -106,20 +97,10 @@ import FADurdhwani from '../Images/Durdhwani.png';
 import FAFax from '../Images/Fax.png';
 import FAJaKra from '../Images/JaKra.png';
 import FAJakraFirstValue from '../Images/JakraFirstValue.png';
-import Dinank from '../Images/Dinank.png';
-import FADinank from '../Images/Dinank.png';
+
 import FAFaultyMeterBabat from '../Images/FaultyMeterBabat.png';
 
-
-import FAJeneKarunReadingPramaneBillBharane from '../Images/JeneKarunReadingPramaneBillBharane.png';
-import FAMahapalikekadePathavaveHiVinanti from '../Images/MahapalikekadePathavaveHiVinanti.png';
 import FAMahodayUproktaVishayanwaye from '../Images/MahodayUproktaVishayanwaye.png';
-import FANavinMeterBasavinyacheMaganipatrak from '../Images/NavinMeterBasavinyacheMaganipatrak.png';
-import FASadarKamiMRVVLINiyam from '../Images/SadarKamiMRVVLINiyam.png';
-import FASadarMeterBadaliKarunMeterBasavine from '../Images/SadarMeterBadaliKarunMeterBasavine.png';
-
-
-
 
 
 import FAWardAAddress from '../Images/FAWardAAddress.png';
@@ -143,9 +124,7 @@ import FAVVCMCPrabhagSamiti from '../Images/VVCMCPrabhagSamiti.png';
 
 import kanistaabhiyanataward from '../Images/kanistaabhiyanataward.png';
 import kanistaabhiyantaho from '../Images/kanistaabhiyantaho.png';
-import lekhashirsh from '../Images/lekhashirsh.png';
-import yanchyakadunpachhim from '../Images/yanchyakadunpachhim.png';
-import prastavitdeyakrakkam from '../Images/prastavitdeyakrakkam.png';
+
 import prastavitdeyakrakkam2 from '../Images/prastavitdeyakrakkam2.png';
 
 import billkramank from '../Images/billkramank.png';
@@ -167,7 +146,7 @@ import AntimDinank from '../Images/AntimDinank.png';
 
 import kelelaAaheYaKami from '../Images/kelelaAaheYaKami.png';
 
-import AddIcon from '@mui/icons-material/Add';
+
 import { fetchConsumers } from '../store/actions/consumerActions';
 import { AddRemarkReport } from '../components/modals/AddRemarkReport';
 import { AddRemarkReportExp } from '../components/modals/AddRemarkReportExp';
@@ -240,30 +219,18 @@ const [jakraKramank, setJakraKramank] = React.useState('');
   const [date, setDate] = React.useState('');
   const [faultyMeterModalOpen, setFaultyMeterModalOpen] = React.useState(false);
   const [pdfData,setPdfData ] = React.useState({});
-const [modalOpen, setModalOpen] = useState(false);
-
-
-
-
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [remark, setRemark] = useState('');
-  const [openRemarkModal, setOpenRemarkModal] = useState(false);
-  const [openFaultyMModal, setOpenFaultyMModal] = useState(false);
   
   // Consumer details state
  
 const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
 
-
-
-
   useEffect(() => {
     dispatch(fetchBills());
     dispatch(fetchConsumers());
   }, [dispatch, data]);
-
 
 
 useEffect(() => {
@@ -272,11 +239,8 @@ useEffect(() => {
       const response = await fetch(`${baseUrl}/getReports`);
       const reports = await response.json();
       console.log("response>>>>>",reports)
-      
-
 
       const latestSignatures = {};
-
       
       reports.forEach(report => {
         report.reportingRemarks.forEach(remark => {
@@ -357,121 +321,6 @@ const generatePdf = (data) => {
 
     return doc;
   };
-
-
-// const handleSaveConsumerDetails = () => {
-//   if (!jakraKramank || !consumerNumber || !date) {
-//     setSnackbarMessage('Please fill all consumer details');
-//     setSnackbarOpen(true);
-//     setPdfData({ jakraKramank, consumerNumber, date });
-//     setPdfPreviewOpen(true);
-//     handleCloseFaultyMeterModal();
-//     return;
-//   }
-
-//   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
-//   setSnackbarMessage('Consumer details saved successfully!');
-//   setSnackbarOpen(true);
-
-//   setFaultyMeterModalOpen(false);
-//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
-//   const pdfBlob = doc.output('blob');
-//   const url = URL.createObjectURL(pdfBlob);
-//   setPdfBlobUrl(url);
-// };
-
-
-
-   
-// const handleSaveConsumerDetails = () => {
-
-// //  setPdfTitle("faultymeter");
-// //     setPdfData(data);
-// //     setOpenFaultyMeterModal(false);
-// //     setOpenPdfModal(true);
-
-
-//   // Check if all required fields are filled
-//   if (!jakraKramank || !consumerNumber || !date) {
-//     setSnackbarMessage('Please fill all consumer details');
-//     setSnackbarOpen(true);
-    
-//     // Show the PDF preview with whatever partial data is present
-//     setPdfData({ jakraKramank, consumerNumber, date });
-//     setPdfPreviewOpen(true);
-    
-//     // Close the faulty meter modal as user can't save without full details
-//     handleCloseFaultyMeterModal();
-//     return;
-//   }
-
-//   // All required fields are filled, proceed to save
-//   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
-  
-//   // Show success message
-//   setSnackbarMessage('Consumer details saved successfully!');
-//   setSnackbarOpen(true);
-
-//   // Close the faulty meter modal
-//   setFaultyMeterModalOpen(false);
-
-//   // Generate the PDF document based on the consumer details
-//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
-  
-//   // Convert the generated PDF document to a Blob
-//   const pdfBlob = doc.output('blob');
-  
-//   // Create a URL for the Blob to use in preview or download
-//   const url = URL.createObjectURL(pdfBlob);
-  
-//   // Set the URL in state for displaying PDF preview or downloading
-//   setPdfBlobUrl(url);
-// };
-
-// -------------------------------------------
-
-// const handleSaveConsumerDetails = () => {
-//   if (!jakraKramank || !consumerNumber || !date) {
-//     setSnackbarMessage('Please fill all consumer details');
-//     setSnackbarOpen(true);
-    
-//     // Show the PDF preview with whatever partial data is present
-//     setPdfData({ jakraKramank, consumerNumber, date });
-//     setPdfPreviewOpen(true);
-
-//     // Close the faulty meter modal as user can't save without full details
-//     handleCloseFaultyMeterModal();
-//     return;
-//   }
-
-//   // All required fields are filled, proceed to save
-//   console.log('Consumer details saved:', { jakraKramank, consumerNumber, date });
-
-//   // Show success message
-//   setSnackbarMessage('Consumer details saved successfully!');
-//   setSnackbarOpen(true);
-
-//   // Close the faulty meter modal
-//   setFaultyMeterModalOpen(false);
-
-//   // Generate the PDF document based on the consumer details
-//   const doc = generatePdf({ jakraKramank, consumerNumber, date });
-
-//   // Open the PdfPreviewModal with title 'faultymeter'
-//   const pdfData = doc.output('datauristring');
-//   const type = 'faultymeter';
-//   const selectedMonthYear = date; // or convert date to 'YYYY-MM' if needed
-
-//   handlePdfPreview(pdfData, type, selectedMonthYear);
-
-//   // Also store the PDF blob if needed
-//   const pdfBlob = doc.output('blob');
-//   const url = URL.createObjectURL(pdfBlob);
-//   setPdfBlobUrl(url);
-// };
-
-// -----------------------------------------------
-
 
 const handleSaveConsumerDetails = () => {
   if (!jakraKramank || !consumerNumber || !date) {
@@ -588,32 +437,23 @@ if (jakraKramank) {
   const imageX = (pageWidth - updatedWidth) / 2;
   doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, headingY, updatedWidth+2, updatedHeight-1);
 
-  // 🔒 Optionally add consumer number/date inside the PDF body
-  // doc.text(`Customer No: ${consumerNumber}`, 20, headingY + 20);
+ 
 
   // Output
 let currentY;
 currentY += updatedHeight + 30;
-
-
-
  
 const normalSpacing = 8;
 const extraSpacing = 14;
 const leftspaceX = leftX + 15;
  doc.setFontSize(14); 
 y += 10;
- 
-
-
-
 
 const imageWidth = 75;
 const imageHeight = 6;
 
 const prabhagImageWidth = 75;
 const prabhagImageHeight = 6;
-
 
 doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y+6, imageWidth, imageHeight);
 
@@ -631,11 +471,6 @@ const grahakIconHeight = 6;
 // Draw FAGrahakK icon on left
 doc.addImage(FAGrahakK, 'PNG', leftspaceX, y, grahakIconWidth, grahakIconHeight);
 
-// Draw Consumer Number next to icon
-// if (consumerNumber) {
-//   doc.setFontSize(8);
-//   doc.text(`${consumerNumber}`, leftspaceX + grahakIconWidth + 2, y + 4);
-// }
 
 if (consumerNumber) {
   const marathiConsumerNumber = convertToMarathiDigits(consumerNumber); // ← मराठीत रूपांतर
@@ -655,17 +490,12 @@ const grahakImageWidth = 99;
 const grahakImageHeight = 5;
 doc.addImage(FAGrahakKRaBadali, 'PNG', grahakImageStartX, y, grahakImageWidth-3.8, grahakImageHeight+0.8);
 
-
-
 y += grahakImageHeight + 2;
 
 // Add FAGrahakKNextNavinMeter image on new line
 const navinMeterWidth = 70;
 const navinMeterHeight = 5;
 doc.addImage(FAGrahakKNextNavinMeter, 'PNG', leftspaceX, y, navinMeterWidth-4, navinMeterHeight+0.8);
-
-
-
 
 const jenekarunImageWidth = 150;
 const jenekarunImageHeight = 6;
@@ -675,13 +505,10 @@ doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImage
 // Prepare y for next content
 y += jenekarunImageHeight + 2;
 
-
 const navinMeterImageWidth = 150; 
 const navinMeterImageHeight = 6; 
 
-
 doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
-
 
 y += navinMeterImageHeight + 2;
    
@@ -711,14 +538,11 @@ if (user?.ward === "Ward-A") {
   prabhagSamitiText = "प्रभाग समिती आय";
 }
 
-
 ;
 
 
 const rightPadding = 100;
 const rightlX = pageWidth - 10; 
-
-
 
 const wardImageMap = {
   'Ward-A': FAAdhikshakWardA,
@@ -732,21 +556,7 @@ const wardImageMap = {
   'Ward-I': FAAdhikshakWardI,
 };
 
-// const isPrivilegedUser =
-//   user.role === 'Executive Engineer' ||
-//   user.role === 'Admin' ||
-//   user.role === 'Super Admin' ||
-//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
-
-
-// const selectedWard = isPrivilegedUser ? wardName : user.ward;
-
 const adhikshakImage = wardImageMap[selectedWard];
-
-
-
-
-
 
 if (adhikshakImage) {
   const adhikshakImageWidth = 60;
@@ -763,8 +573,6 @@ if (adhikshakImage) {
 
   y += adhikshakImageHeight + 2;
 }
-
-
   
   const pdfData = doc.output('datauristring');
   const pdfBlob = doc.output('blob');
@@ -775,9 +583,6 @@ if (adhikshakImage) {
   handlePdfPreview(pdfData, type, selectedMonthYear);
   setPdfBlobUrl(url);
 };
-
-
-
 
 const handleFaultyMeterSubmit = () => {
     setPdfData({ jakraKramank, consumerNumber, date });
@@ -802,8 +607,7 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
     );
     let filteredBills = bills;
 
-    // if (user?.role.startsWith('Junior Engineer')) {
-    //   if (user?.ward !== 'Head Office') 
+  
     if (
       (user?.role?.startsWith('Junior Engineer') && user?.ward !== 'Head Office') ||
       ['Lipik', 'Accountant', 'Assistant Municipal Commissioner', 'Dy.Municipal Commissioner'].includes(user?.role)
@@ -837,12 +641,10 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
       target: { value },
     } = event;
   
-    // It will be string if using autofill, so ensure it's array
+   
     setMeterPurposeManyName(typeof value === 'string' ? value.split(',') : value);
   };
   
-  
-
 
   const handlePdfPreview = (pdfData,type,selMonthYear,wardName) => {
     console.log("typev  ---- ",type)
@@ -856,678 +658,10 @@ console.log("userSignatures tsting&&&&&&&&&&",userSignatures)
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
     setSelectedMonthYear(formattedValue);
   };
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const json = XLSX.utils.sheet_to_json(worksheet);
-      setData(json);
-      json.forEach((bill) => {
-        dispatch(addBill(bill));
-      });
-    };
-    reader.readAsArrayBuffer(file);
-  };
-  
 
   let formtype=['form22','tipani','wardbilllist']
   
-//   const handleDownloadPDF = () => {
-//     setShowFormControl(true); 
-//     const doc = new jsPDF('landscape');
-      
-//     const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
 
-//     const ward = rows.length > 0 ? rows[0].ward : "N/A";
-//     const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
-  
-//     doc.setFontSize(14);
-//     const lineHeight = 10; // Space between lines
-//     let yPosition = 20; // Initial Y position
-  
-//     // doc.text(`Meter Purpose: ${meterPurpose}`, 140, yPosition, { align: "center" });
-//     const imgWidthwb = 24; // इमेजची रुंदी (आवश्यकतेनुसार समायोजित करा)
-// const imgHeightwb = 5; // इमेजची उंची (आवश्यकतेनुसार समायोजित करा)
-
-// // X आणि Y पोझिशन्स समायोजित करा
-// doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
-// doc.setFontSize(12);
-// doc.text(`:${meterPurpose}`, 186, yPosition+6, { align: "center" });
-//     yPosition += lineHeight; // Move down
-
-//     // doc.text(`Ward: ${ward}`, 140, yPosition, { align: "center" });
-
-// const imgWidthWa = 14;  // इमेजची रुंदी, आवश्यकतेनुसार समायोजित करा
-// const imgHeightWa =4; // इमेजची उंची, आवश्यकतेनुसार समायोजित करा
-
-// doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
-
-// // गरज असेल तर ward ची value इमेजच्या शेजारी किंवा खाली दाखवू शकता
-// // उदा. इमेजच्या उजव्या बाजूला:
-// doc.setFontSize(12);
-// doc.text(`:${ward}`, 175, yPosition +4, { align: "left" });
-
-//     yPosition += lineHeight; // Move down
-
-//     // doc.text(`Month & Year: ${monthYear}`, 140, yPosition, { align: "center" });
-//   const imgWidthMV = 32; // इमेजची रुंदी (आवश्यकतेनुसार बदल करा)
-// const imgHeightMV = 5.5; // इमेजची उंची (आवश्यकतेनुसार बदल करा)
-
-// // इमेज लावा
-// doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, imgWidthMV, imgHeightMV);
-
-// // इमेज शेजारी monthYear दाखवण्यासाठी
-// doc.setFontSize(12);
-// doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
-  
-//     const tableData = rows.map(row => [
-//       row.consumerNumber,
-//       row.consumerAddress,
-//       row.monthAndYear,
-//       row.ward,
-//       row.meterPurpose,
-//       row.netBillAmount,
-//       row.dueDate
-//     ]);
-
-//     // doc.autoTable({
-//     //   head: [['Consumer No.', 'Address', 'Month', 'Ward', 'Meter Purpose', 'Amount', 'Due Date']],
-//     //   body: tableData,
-//     //   startY: 50,
-//     // });
-
-//     doc.autoTable({
-//   head: [['', '', '', '', '', '', '']],
-//   body: tableData,
-//   startY: 50,
-//   headStyles: {
-//     fillColor: [255, 255, 255], // पांढऱ्या रंगाचा बॅकग्राउंड
-//     textColor: [0, 0, 0],        // काळा टेक्स्ट (जर आवश्यक असेल तर)
-//     lineWidth: 0.1,
-//     lineColor: [200, 200, 200]
-//   },
-//   styles: {
-//     fontSize: 10,
-//     textColor: [0, 0, 0]
-//   }
-// });
-
-// doc.addImage(grahakKramank, "PNG", 14, 52, 21, 4.5);
-// doc.addImage(Tapshil, "PNG", 47, 52, 16, 4);
-// doc.addImage(Mahina, "PNG", 160, 52, 15, 4);
-// // doc.addImage(PrabhagIMG, "PNG", 180, 50, 15, 4);
-// doc.addImage(PrabhagIMG, "PNG", 180, 53, 14, 3);
-
-// doc.addImage(meterPurposeIMG, "PNG", 200, 52, 20, 4);
-// doc.addImage(Rakkam, "PNG", 225, 53, 13, 4);
-// doc.addImage(AntimDinank, "PNG", 243, 52, 20, 4.5);
-
-
-//     const pdfData = doc.output('datauristring');
-//    let type="wardbilllist"
-//     // Now, pass the PDF data to the modal for preview
-//     handlePdfPreview(pdfData,type,monthYear);  
-
-//     const pdfBlob = doc.output('blob');
-//     setPdfBlob(pdfBlob);
- 
-//     // doc.save('energy-expenditure-report.pdf');
-//   };
-
-// ------------------------------------------------------------
-
-// const handleDownloadPDF = () => {
-//   setShowFormControl(true);
-//   const doc = new jsPDF("landscape");
-
-//   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(", ") : "N/A";
-//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
-//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
-
-//   doc.setFontSize(14);
-//   const lineHeight = 10;
-//   let yPosition = 20;
-
-//   // --------------------------------------------------
-//   // भाग 1: वरचे लेबल्स + माहिती
-//   const imgWidthwb = 24;
-//   const imgHeightwb = 5;
-
-//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
-//   doc.setFontSize(12);
-//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
-//   yPosition += lineHeight;
-
-//   const imgWidthWa = 14;
-//   const imgHeightWa = 4;
-
-//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
-//   doc.setFontSize(12);
-//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
-//   yPosition += lineHeight;
-
-//   const imgWidthMV = 32;
-//   const imgHeightMV = 5.5;
-
-//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition - 2, imgWidthMV, imgHeightMV);
-//   doc.setFontSize(12);
-//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" });
-//   yPosition += lineHeight;
-
-//   // --------------------------------------------------
-//   // भाग 2: Table डेटा
-//   const tableData = rows.map((row) => [
-//     row.consumerNumber,
-//     row.consumerAddress,
-//     row.monthAndYear,
-//     row.ward,
-//     row.meterPurpose,
-//     row.netBillAmount,
-//     row.dueDate,
-//   ]);
-
-//   doc.autoTable({
-//     head: [["", "", "", "", "", "", ""]],
-//     body: tableData,
-//     startY: 50,
-//     headStyles: {
-//       fillColor: [255, 255, 255],
-//       textColor: [0, 0, 0],
-//       lineWidth: 0.1,
-//       lineColor: [200, 200, 200],
-//     },
-//     styles: {
-//       fontSize: 10,
-//       textColor: [0, 0, 0],
-//     },
-//     didDrawCell: function (data) {
-//       if (data.row.index === 0 && data.section === "head") {
-//         // Table header images
-//         doc.addImage(grahakKramank, "PNG", data.cell.x + 2, data.cell.y + 2, 21, 4.5);
-//         doc.addImage(Tapshil, "PNG", data.cell.x + 35, data.cell.y + 2, 16, 4);
-//         doc.addImage(Mahina, "PNG", data.cell.x + 146, data.cell.y + 2, 15, 4);
-//         doc.addImage(PrabhagIMG, "PNG", data.cell.x + 166, data.cell.y + 3, 14, 3);
-//         doc.addImage(meterPurposeIMG, "PNG", data.cell.x + 186, data.cell.y + 2, 20, 4);
-//         doc.addImage(Rakkam, "PNG", data.cell.x + 211, data.cell.y + 2, 13, 4);
-//         doc.addImage(AntimDinank, "PNG", data.cell.x + 229, data.cell.y + 2, 20, 4.5);
-//       }
-//     },
-//   });
-
-//   // --------------------------------------------------
-//   // भाग 3: Preview and Blob generation
-//   const pdfData = doc.output("datauristring");
-//   let type = "wardbilllist";
-
-//   handlePdfPreview(pdfData, type, monthYear);
-
-//   const pdfBlob = doc.output("blob");
-//   setPdfBlob(pdfBlob);
-
-//   // --------------------------------------------------
-//   // Option for direct download
-//   // doc.save("energy-expenditure-report.pdf");
-// };
-// ---------------------------------------------------------
-// const handleDownloadPDF = () => {
-//   setShowFormControl(true);
-
-//   const doc = new jsPDF("landscape");
-
-//   const meterPurpose =
-//     meterPurposeManyName.length > 0
-//       ? meterPurposeManyName.join(", ")
-//       : "N/A";
-//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
-//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
-
-//   doc.setFontSize(14);
-//   const lineHeight = 10;
-//   let yPosition = 20;
-
-//   // 👉 Initial Header Images & Text
-//   const imgWidthwb = 24;
-//   const imgHeightwb = 5;
-
-//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, imgWidthwb, imgHeightwb);
-//   doc.setFontSize(12);
-//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
-//   yPosition += lineHeight;
-
-//   const imgWidthWa = 14;
-//   const imgHeightWa = 4;
-
-//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, imgWidthWa, imgHeightWa);
-//   doc.setFontSize(12);
-//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
-//   yPosition += lineHeight;
-
-//   const imgWidthMV = 32;
-//   const imgHeightMV = 5.5;
-
-//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition - 2, imgWidthMV, imgHeightMV);
-//   doc.setFontSize(12);
-//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" });
-
-//   // Table Rows
-//   const tableData = rows.map((row) => [
-//     row.consumerNumber,
-//     row.consumerAddress,
-//     row.monthAndYear,
-//     row.ward,
-//     row.meterPurpose,
-//     row.netBillAmount,
-//     row.dueDate,
-//   ]);
-
-//   // Main Table
-//   doc.autoTable({
-//     head: [["", "", "", "", "", "", ""]],
-//     body: tableData,
-//     startY: 50,
-//     headStyles: {
-//       fillColor: [255, 255, 255],
-//       textColor: [0, 0, 0],
-//       lineWidth: 0.1,
-//       lineColor: [200, 200, 200],
-//     },
-//     styles: {
-//       fontSize: 10,
-//       textColor: [0, 0, 0],
-//     },
-//     // ✅ This handles repeating the header images ONCE PER PAGE
-//     didDrawPage: function (data) {
-//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, data.settings.startY + 2, 21, 4.5);
-//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, data.settings.startY + 2, 16, 4);
-//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 146, data.settings.startY + 2, 15, 4);
-//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 166, data.settings.startY + 3, 14, 3);
-//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 186, data.settings.startY + 2, 20, 4);
-//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 211, data.settings.startY + 2, 13, 4);
-//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 229, data.settings.startY + 2, 20, 4.5);
-//     },
-//   });
-
-//   // Final Export
-//   const pdfData = doc.output("datauristring");
-//   const type = "wardbilllist";
-//   handlePdfPreview(pdfData, type, monthYear);
-
-//   const pdfBlob = doc.output("blob");
-//   setPdfBlob(pdfBlob);
-
-//   // doc.save('energy-expenditure-report.pdf');
-// };
-// -----------------------------------------------------------
-// const handleDownloadPDF = () => {
-//   setShowFormControl(true);
-//   const doc = new jsPDF('landscape');
-
-//   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
-//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
-//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
-
-//   doc.setFontSize(14);
-//   const lineHeight = 10;
-//   let yPosition = 20;
-
-//   // वरचे हेडर
-//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 24, 5);
-//   doc.setFontSize(12);
-//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
-//   yPosition += lineHeight;
-
-//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, 14, 4);
-//   doc.setFontSize(12);
-//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
-//   yPosition += lineHeight;
-
-//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, 32, 5.5);
-//   doc.setFontSize(12);
-//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
-
-//   const tableData = rows.map(row => [
-//     row.consumerNumber,
-//     row.consumerAddress,
-//     row.monthAndYear,
-//     row.ward,
-//     row.meterPurpose,
-//     row.netBillAmount,
-//     row.dueDate,
-//   ]);
-
-//   doc.autoTable({
-//     head: [['', '', '', '', '', '', '']],
-//     body: tableData,
-//     startY: 50,
-//     headStyles: {
-//       fillColor: [255, 255, 255],
-//       textColor: [0, 0, 0],
-//       lineWidth: 0.1,
-//       lineColor: [200, 200, 200],
-//     },
-//     styles: {
-//       fontSize: 10,
-//       textColor: [0, 0, 0],
-//     },
-//     didDrawPage: (data) => {
-//       // पहिला आणि नंतरच्या प्रत्येक पेजवर हेडर इमेजेस पुन्हा ड्रॉ करा
-//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, 52, 21, 4.5);
-//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, 52, 16, 4);
-//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 146, 52, 15, 4);
-//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 166, 53, 14, 3);
-//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 186, 52, 20, 4);
-//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 211, 53, 13, 4);
-//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 229, 52, 20, 4.5);
-//     },
-//   });
-
-//   const pdfData = doc.output('datauristring');
-//   const type = "wardbilllist";
-//   handlePdfPreview(pdfData, type, monthYear);
-
-//   const pdfBlob = doc.output('blob');
-//   setPdfBlob(pdfBlob);
-// };
-// ------------------------------------------------
-
-// const handleDownloadPDF = () => {
-//   setShowFormControl(true);
-//   const doc = new jsPDF('landscape');
-
-//   const meterPurpose = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
-//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
-//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
-
-//   doc.setFontSize(14);
-//   const lineHeight = 10;
-//   let yPosition = 20;
-
-//   // पहिला पेज - हेडर इमेजेस
-//   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 24, 5);
-//   doc.setFontSize(12);
-//   doc.text(`:${meterPurpose}`, 186, yPosition + 6, { align: "center" });
-//   yPosition += lineHeight;
-
-//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition, 14, 4);
-//   doc.setFontSize(12);
-//   doc.text(`:${ward}`, 175, yPosition + 4, { align: "left" });
-//   yPosition += lineHeight;
-
-//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-2, 32, 5.5);
-//   doc.setFontSize(12);
-//   doc.text(`:${monthYear}`, 175, yPosition + 3, { align: "left" }); 
-
-//   const tableData = rows.map(row => [
-//     row.consumerNumber,
-//     row.consumerAddress,
-//     row.monthAndYear,
-//     row.ward,
-//     row.meterPurpose,
-//     row.netBillAmount,
-//     row.dueDate,
-//   ]);
-
-//   doc.autoTable({
-//     head: [['', '', '', '', '', '', '']],
-//     body: tableData,
-//     startY: 50,
-//     headStyles: {
-//       fillColor: [255, 255, 255],
-//       textColor: [0, 0, 0],
-//       lineWidth: 0.1,
-//       lineColor: [200, 200, 200],
-//     },
-//     styles: {
-//       fontSize: 10,
-//       textColor: [0, 0, 0],
-//     },
-//     didDrawPage: (data) => {
-//       // ✅ आता पहिला पेज सोडून पुढचे पेज वगळून देतो
-//       if (data.pageNumber > 1) {
-//         return;
-//       }
-
-//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, 52, 21, 4.5);
-//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, 52, 16, 4);
-//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 146, 52, 15, 4);
-//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 166, 53, 14, 3);
-//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 186, 52, 20, 4);
-//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 211, 53, 13, 4);
-//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 229, 52, 20, 4.5);
-//     },
-//   });
-
-//   const pdfData = doc.output('datauristring');
-//   const type = "wardbilllist";
-//   handlePdfPreview(pdfData, type, monthYear);
-
-//   const pdfBlob = doc.output('blob');
-//   setPdfBlob(pdfBlob);
-// };
-// -----------------------------------------
-// const handleDownloadPDF = () => {
-//   setShowFormControl(true);
-//   const doc = new jsPDF('landscape');
-
-//   const meterPurpose = meterPurposeManyName.length > 0 
-//     ? meterPurposeManyName.join(', ')
-//     : "N/A";
-
-//   const ward = rows.length > 0 
-//     ? rows[0].ward 
-//     : "N/A";
-
-//   const monthYear = rows.length > 0 
-//     ? rows[0].monthAndYear  
-//     : "N/A";
-
-//   doc.setFontSize(14);
-//   const lineHeight = 10;
-
-//   // ===========================
-//   // ✅ पहिला पेज वरचे हेडर
-//   // ===========================
-//   let yPosition = 20;
-// //  doc.setFontSize(12);
-// //   doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
-// //   doc.setFontSize(12);
-// //   doc.text(`:${meterPurpose}`, 186, yPosition + 3, { align: "center" });
-// //   yPosition += lineHeight;
-
-// doc.setFontSize(12);
-// doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
-
-// // ✅ हे कायम 'center' राहायला पाहिजे
-// doc.setFontSize(12);
-// doc.text(`:${meterPurpose}`, 186, yPosition + 3, { align: "center" }); 
-// yPosition += lineHeight;
-
-
-
-//   doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
-//   doc.setFontSize(12);
-//   doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
-//   yPosition += lineHeight;
-
-//   doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
-//   doc.setFontSize(12);
-//   doc.text(`:${monthYear}`, 175, yPosition , { align: "left" }); 
-
-//   // ===========================
-//   // ✅ Table Data
-//   // ===========================
-//   const tableData = rows.map(row => [
-//     row.consumerNumber,
-//     row.consumerAddress,
-//     row.monthAndYear,
-//     row.ward,
-//     row.meterPurpose,
-//     row.netBillAmount,
-//     row.dueDate,
-//   ]);
-
-//   doc.autoTable({
-//     head: [['', '', '', '', '', '', '']],
-//     body: tableData,
-//     startY: 50,
-//     headStyles: {
-//       fillColor: [255, 255, 255],
-//       textColor: [0, 0, 0],
-//       lineWidth: 0.1,
-//       lineColor: [200, 200, 200],
-//     },
-//     styles: {
-//       fontSize: 10,
-//       textColor: [0, 0, 0],
-//     },
-//     didDrawPage: (data) => {
-//       // ✅ प्रत्येक page वर header images दाखवण्यासाठी
-//       const isFirstPage = data.pageNumber === 1;
-//       const topPosition = isFirstPage ? 52 : 15;
-
-//       doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
-//       doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
-//       doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
-//       doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
-//       doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
-//       doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition , 12.5, 4);
-//       doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
-//     },
-//   });
-
-//   // ===========================
-//   // ✅ Final Output
-//   // ===========================
-//   const pdfData = doc.output('datauristring');
-//   const type = "wardbilllist";
-//   handlePdfPreview(pdfData, type, monthYear);
-
-//   const pdfBlob = doc.output('blob');
-//   setPdfBlob(pdfBlob);
-// };
-
-// -------------------------------------------------
-
-//  const handleDownloadPDF = () => {
-//     setShowFormControl(true);
-//     const doc = new jsPDF('landscape');
-
-//     const meterPurpose = meterPurposeManyName.length > 0 
-//       ? meterPurposeManyName.join(', ')
-//       : "N/A";
-
-//     const ward = rows.length > 0 
-//       ? rows[0].ward 
-//       : "N/A";
-
-//     const monthYear = rows.length > 0 
-//       ? rows[0].monthAndYear  
-//       : "N/A";
-
-//     doc.setFontSize(14);
-//     const lineHeight = 10;
-
-//     // ===========================
-//     // ✅ पहिला पेज वरचे हेडर - Fixed Alignment
-//     // ===========================
-//     let yPosition = 20;
-
-//     // ✅ Fixed positioning to prevent table alignment issues
-//     doc.setFontSize(12);
-//     doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 23, 5.6);
-    
-//     // ✅ Using fixed X position instead of center alignment to prevent table shift
-//     doc.setFontSize(12);
-//     doc.text(`:${meterPurpose}`, 155, yPosition + 3, { align: "left" }); 
-//     yPosition += lineHeight;
-
-//     doc.addImage(PrabhagIMG, "PNG", 130, yPosition-1, 13.5, 4.5);
-//     doc.setFontSize(12);
-//     doc.text(`:${ward}`, 175, yPosition + 1, { align: "left" });
-//     yPosition += lineHeight;
-
-//     doc.addImage(mahinAndVarsh, "PNG", 129, yPosition-4, 31, 5.7);
-//     doc.setFontSize(12);
-//     doc.text(`:${monthYear}`, 175, yPosition, { align: "left" }); 
-
-//     // ===========================
-//     // ✅ Table Data
-//     // ===========================
-//     const tableData = rows.map(row => [
-//       row.consumerNumber,
-//       row.consumerAddress,
-//       row.monthAndYear,
-//       row.ward,
-//       row.meterPurpose,
-//       row.netBillAmount,
-//       row.dueDate,
-//     ]);
-
-//     doc.autoTable({
-//       head: [['', '', '', '', '', '', '']],
-//       body: tableData,
-//       startY: 50,
-//       // ✅ Updated table styles - white background, black borders
-//       headStyles: {
-//         fillColor: [255, 255, 255], // White background
-//         textColor: [0, 0, 0],       // Black text
-//         lineWidth: 0.5,             // Thicker border
-//         lineColor: [0, 0, 0],       // Black border
-//         halign: 'center',
-//         valign: 'middle'
-//       },
-//       bodyStyles: {
-//         fillColor: [255, 255, 255], // White background for body
-//         textColor: [0, 0, 0],       // Black text
-//         lineWidth: 0.5,             // Thicker border
-//         lineColor: [0, 0, 0],       // Black border
-//         halign: 'left',
-//         valign: 'middle'
-//       },
-//       styles: {
-//         fontSize: 10,
-//         textColor: [0, 0, 0],
-//         lineWidth: 0.5,             // Consistent border width
-//         lineColor: [0, 0, 0],       // Black borders
-//         cellPadding: 3,
-//         overflow: 'linebreak'
-//       },
-//       tableLineColor: [0, 0, 0],    // Black table borders
-//       tableLineWidth: 0.5,          // Table border width
-//       didDrawPage: (data) => {
-//         // ✅ प्रत्येक page वर header images दाखवण्यासाठी
-//         const isFirstPage = data.pageNumber === 1;
-//         const topPosition = isFirstPage ? 52 : 15;
-
-//         // ✅ Consistent positioning for all header images
-//         doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
-//         doc.addImage(Tapshil, "PNG", data.settings.margin.left + 35, topPosition-1, 14, 5);
-//         doc.addImage(Mahina, "PNG", data.settings.margin.left + 130, topPosition-1, 13, 5);
-//         doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 148, topPosition, 11, 4);
-//         doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 165, topPosition-1, 18, 4.8);
-//         doc.addImage(Rakkam, "PNG", data.settings.margin.left + 223, topPosition, 12.5, 4);
-//         doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239, topPosition-1, 22, 5);
-//       },
-//     });
-
-//     // ===========================
-//     // ✅ Final Output
-//     // ===========================
-//     const pdfData = doc.output('datauristring');
-//     const type = "wardbilllist";
-//     handlePdfPreview(pdfData, type, monthYear);
-
-//     const pdfBlob = doc.output('blob');
-//     setPdfBlob(pdfBlob);
-//   };
-
-// ------------------------------------
 const handleDownloadPDF = async () => {
   setShowFormControl(true);
   const { jsPDF } = await import('jspdf');
@@ -1656,46 +790,6 @@ const handleDownloadPDF = async () => {
   const pdfBlob = doc.output('blob');
   setPdfBlob(pdfBlob);
 };
-
-
-// ----------------------------------------------------------------
-
- const checkSignatureVerification = (reports, users) => {
-  const matches = [];
-
-  reports.forEach(report => {
-    report.reportingRemarks?.forEach(remark => {
-      if (remark.remark === "Approved") {
-        remark.documents?.forEach(document => {
-          if (document.formType === "form22") {
-            document.approvedBy?.forEach(approvedById => {
-              const matchedUser = users.find(user => user._id === approvedById);
-
-              if (matchedUser) {
-                const isLipik = matchedUser.role === "Lipik";
-                const hasSignature = matchedUser.signature && matchedUser.signature.length > 0;
-
-                matches.push({
-                  user: matchedUser,
-                  document,
-                  remark,
-                  isVerified: hasSignature,
-                  checked: isLipik && hasSignature,
-                  role: matchedUser.role,
-                  ward: matchedUser.ward
-                });
-              }
-            });
-          }
-        });
-      }
-    });
-  });
-
-  return matches;
-};
-
-
 
 const checkSignatureStatusForm22 = (reports) => {
   const statuses = [];
@@ -1923,9 +1017,6 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
           { content: `${totalAmount.toFixed(2)}/-`, styles: { halign: 'right', fontStyle: 'bold' } }
         ]],
 
-
-
-
         
         didParseCell: function (data) {
           // दर आणि युनिट headings vertical center साठी
@@ -2088,8 +1179,7 @@ console.log("signatureMatches test form22-->>",signatureMatches[0])
       doc.text(prefix, currentX, y);
       currentX += prefixWidth;
       
-      // ***please dont remove this is remaining akshari logic put karane.nuntur uncomment karne
-      // doc.addImage(akshari, 'PNG', currentX, y - 4, akshariImageWidth, 4);
+     
       currentX += akshariImageWidth;
       
       
@@ -2131,19 +1221,6 @@ doc.text(
   vastuImgPosY + (vastuImgScaledH / 2) 
 );
 
-
-// const vastuImgPosXa = 140; 
-// const vastuImgPosYb = yPos+85; 
-// doc.addImage(
-//   VastuGhenaryaAdhikaryachiSahi,
-//   'PNG',
-//   vastuImgPosXa,
-//   vastuImgPosYb,
-//   vastuImgScaledW,
-//   vastuImgScaledH
-// );
-
-
 // Add vertical line on first page from 200px to bottom
 const pageHeight = doc.internal.pageSize.getHeight();
 doc.setLineWidth(0.1);
@@ -2168,55 +1245,6 @@ const testUser = users[19];
 
 const testSignature = testUser?.signature || null; 
 
-// if (testSignature) {
-//   const signatureWidth = 40;
-//   const signatureHeight = 12;
-
-//   // 🠘 Shift 13px to the left and 5px upward
-//   const signatureX = pageWidth - signatureWidth - 15 - 13;
-//   const signatureY = labelY - signatureHeight - 8;
-//   // ----------------------
-//   // *******
-
-//   doc.addImage(
-//     testSignature,
-//     'PNG',
-//     signatureX,
-//     signatureY,
-//     signatureWidth,
-//     signatureHeight
-//   );
-
-
-
-
-//  const today = new Date();
-//   const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${
-//     (today.getMonth() + 1).toString().padStart(2, '0')
-//   }/${today.getFullYear()}`;
-
-//   doc.text(
-//     `${formattedDate}`,
-//     signatureX - 22,
-//     signatureY + signatureHeight - 1
-//   );
-
-
-
-//   const textX = signatureX + signatureWidth / 2;
-//   const textY = signatureY + signatureHeight + 4; // little below the image
-
-
-
-  
-// // if (lipikInfo && lipikInfo.checked && lipikInfo.isVerified){
-// doc.setFontSize(8);
-// doc.setTextColor(0, 128, 0); // green color
-// doc.text('Verified', textX, textY, { align: 'center' });
-
-// // }
-
-// }  
 
 
 if (signatureMatches[0] === "verified") {
@@ -2443,23 +1471,6 @@ doc.addImage(
 const testUsert = users[19]; // Make sure at least 20 users exist
 const demoSignature = testUsert?.signature || null; // or testUser?.sahi if applicable
 
-// if (demoSignature) {
-//   var demoSigWidth = 40;
-//   var demoSigHeight = 12;
-//   var demoSigX = 15;
-//   var demoSigY = yPos;
-
-//   doc.addImage(
-//     demoSignature,
-//     'PNG',
-//     demoSigX,
-//     demoSigY - demoSigHeight - 2,
-//     demoSigWidth,
-//     demoSigHeight
-//   );
-// }
-
-
 
 if (signatureMatches[3] === "verified") {
     var demoSigWidth = 40;
@@ -2488,27 +1499,6 @@ if (signatureMatches[3] === "verified") {
   doc.setTextColor(0, 0, 0); // green for 'Verified'
   doc.text('Verified', textX, verifiedY, { align: 'center' });
 }
-
-
-// const amcTestUser = users[19];
-// const amcTestSignature = amcTestUser?.signature || null;
-
-// if (amcTestSignature) {
-//   const amcSigWidth = 40;
-//   const amcSigHeight = 12;
-//   const amcSigX = 66;
-//   const amcSigY = yPos - 14;
-
-//   doc.addImage(
-//     amcTestSignature,
-//     'PNG',
-//     amcSigX,
-//     amcSigY,
-//     amcSigWidth,
-//     amcSigHeight
-//   );
-// }
-
 
 
 if (signatureMatches[4] === "verified") {
@@ -2783,9 +1773,7 @@ doc.text(reverseDevanagariIfContainsViOrLi("दिनांक_____"), textX, te
       
       doc.text(reverseDevanagariIfContainsViOrLi(`बिलांत दाखवलेली रु. ${totalAmount.toLocaleString('hi-IN')}/- ची रक्कम`), 120, yPos);
       yPos += 9;
-      // doc.text(`(अक्षरी रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
-      // ??????
-      // doc.text(`(रुपये ${totalAmountInWords} मात्र)`, 120, yPos);
+     
       const rupyaText = `(रुपये ${totalAmountInWords} `;
 doc.text(rupyaText, 120, yPos);
 
@@ -2794,9 +1782,9 @@ const textWidth = doc.getTextWidth(rupyaText);
 const matraX = 120 + textWidth + 1; // 1px gap ठेवला
 const matraY = yPos - 4; // text height नुसार fine-tune करा
 
-doc.addImage(matra, 'PNG', matraX, matraY, 12, 5); // width/height गरजेनुसार adjust करा
+doc.addImage(matra, 'PNG', matraX, matraY, 12, 5); 
 
-// शेवटचा bracket पूर्ण करा (जर हवा असेल तर):
+
 doc.text(")", matraX + 13, yPos); // 13 म्हणजे image width + gap
 
       yPos += 10;
@@ -2829,50 +1817,7 @@ doc.addImage(
 );
 
 
-// const muLineStartX = muImgX + muImgWidth + 5;  
-// const muLineY = yPos + 1;
-// const muLineEndX = muLineStartX + 20;  
 
-// doc.setLineWidth(0.3);
-// doc.line(muLineStartX, muLineY, muLineEndX, muLineY);
-
-      
-//       yPos += 13;
-//       // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
-      
-// const upaayuktaOriginalWidth = 22;
-// const upaayuktaOriginalHeight = 5;
-
-// const upaayuktaOriginalDiagonal = Math.sqrt(
-//   upaayuktaOriginalWidth ** 2 + upaayuktaOriginalHeight ** 2
-// );
-// const upaayuktaTargetDiagonal = upaayuktaOriginalDiagonal - 2;
-// const upaayuktaScaleRatio = upaayuktaTargetDiagonal / upaayuktaOriginalDiagonal;
-
-
-// const upaayuktaImgWidth = parseFloat(
-//   (upaayuktaOriginalWidth * upaayuktaScaleRatio).toFixed(2)
-// );
-// const upaayuktaImgHeight = parseFloat(
-//   (upaayuktaOriginalHeight * upaayuktaScaleRatio).toFixed(2)
-// );
-
-
-// const upaayuktaImgX = 168;           
-// const upaayuktaImgY = yPos - 5 + 2;  
-
-
-// doc.text(reverseDevanagariIfContainsViOrLi("दिनांक"), 120, yPos);
-
-// // उप-आयुक्त इमेज PDF मध्ये टाका
-// doc.addImage(
-//   MUUpaaayukta,
-//   'PNG',
-//   upaayuktaImgX,
-//   upaayuktaImgY,
-//   upaayuktaImgWidth,
-//   upaayuktaImgHeight
-// );
 
 
 
@@ -2886,12 +1831,6 @@ doc.addImage(
       
       yPos += 13;
       // doc.text(reverseDevanagariIfContainsViOrLi("दिनांक                          उप-आयुक्त"), 120, yPos);
-
-
-
-
-
-
 
 
 const upaayuktaOriginalWidth = 22;
@@ -2963,8 +1902,6 @@ doc.addImage(
   upaayuktaImgHeight+1.7
 );
 
-  
-      
 
       doc.text(reverseDevanagariIfContainsViOrLi("वसई-विरार शहर महानगरपालिका"), 140, yPos + 7);
       
@@ -3012,25 +1949,7 @@ yPos += 20;
 const upaayuktaTestUser = users[19];
 const upaayuktaTestSignature = upaayuktaTestUser?.signature || null;
 
-// if (upaayuktaTestSignature) {
-//   const upaayuktaSigWidth = 40;
-//   const upaayuktaSigHeight = 12;
-//   const upaayuktaSigX = 66 + 100; // 40px right shift
-//   const upaayuktaSigY = yPos - 14-2;
 
-//   doc.addImage(
-//     upaayuktaTestSignature,
-//     'PNG',
-//     upaayuktaSigX,
-//     upaayuktaSigY,
-//     upaayuktaSigWidth,
-//     upaayuktaSigHeight
-//   );
-// }
-
-
-
-// Draw 'दिनांक' on left side
 doc.text(reverseDevanagariIfContainsViOrLi("दिनांक"), 120, yPos);
 
 // Original size of 'उप-आयुक्त' image
@@ -3369,8 +2288,7 @@ doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5);
 
 
   yPos += 12;  
-  // doc.text(reverseDevanagariIfContainsViOrLi("केलेला आहे. या कामी म.रा.वि.वितरण कंपनी लिमिटेड यांच्याकडून पश्चिम"), rightSectionStart, yPos);
-
+ 
   doc.addImage(
   kelelaAaheYaKami,           // इम्पोर्ट केलेली इमेज
   rightSectionStart,           // X पोझिशन
@@ -3381,7 +2299,7 @@ doc.addImage(maharashtarlong, 'PNG', rightSectionStart, yPos, 115, 7.5);
   yPos += 7;
   doc.text(reverseDevanagariIfContainsViOrLi(`विभागासाठी ${selectedMonthYear} रक्कम रुपये ${totalAmount.toLocaleString('hi-IN')}/-`), rightSectionStart, yPos);
   yPos += 7;
-  // doc.text(`(अक्षरी रुपये ${totalAmountInWords} फक्त) चे वीज देयक सादर`, rightSectionStart, yPos);
+  
 
 // 1️⃣ पहिला भाग लावा
 doc.text("(", rightSectionStart, yPos);
@@ -3512,9 +2430,6 @@ if (lipikData?.signature) {
     const prabhagImageWidth = 26;  // Adjust size as per your layout
 const prabhagImageHeight = 6;
 
-    // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
-    // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 60, yPos);
-
     doc.addImage(prabhagsamiti, 'PNG', rightSectionStart-1, yPos - 4.5, prabhagImageWidth, prabhagImageHeight);
 // Ward name beside image
 doc.text(reverseDevanagariIfContainsViOrLi(`(${displayWardName})`), rightSectionStart + prabhagImageWidth + 2, yPos);
@@ -3533,9 +2448,7 @@ doc.text(reverseDevanagariIfContainsViOrLi(`(${displayWardName})`), rightSection
 
   doc.text("मा.सादर,", rightSectionStart, yPos);
   yPos += 7;
-  // doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर महानगरपालिकेच्या विद्युत विभागाने सादर केलेल्या अहवालानुसार:"), rightSectionStart, yPos);
-
-  // Insert image where "महानगरपालिकेच्या" would be
+ 
   doc.text(reverseDevanagariIfContainsViOrLi("वसई विरार शहर"), rightSectionStart, yPos);
 const mahaImageWidth = 40;  // Adjust size as per image
 const mahaImageHeight = 4.5;  // Adjust size as per image
@@ -3550,7 +2463,6 @@ const imageHeightfy = 5.5; // proportion प्रमाणे height द्य�
 
 doc.addImage(aarthikvarsh, 'PNG', rightSectionStart, yPos-5, imageWidthfy, imageHeightfy);
   yPos += 7;
-  // doc.text(reverseDevanagariIfContainsViOrLi("२) लेखाशिर्ष: दिवाबत्ती वीज देयक"), rightSectionStart, yPos);
 
 const imageWidthLes = 28; // आवश्यकतेनुसार width द्या
 const imageHeightLes = 4.4; // proportion प्रमाणे height द्या
@@ -3569,7 +2481,7 @@ doc.addImage(aataparyantachaKharch, 'PNG', rightSectionStart, yPos-5, imageWidth
 // तुम्ही खर्चाची रक्कम हवी असेल, तर ती image नंतर किंवा शेजारी text म्हणून देऊ शकता:
 doc.text("३,१६,४५,०३०/-", rightSectionStart + imageWidthaata + 2, yPos);
   yPos += 7;
-  // doc.text(reverseDevanagariIfContainsViOrLi(`५) प्रस्तावित देयक रक्कम: ${totalAmount.toLocaleString('hi-IN')} /-`), rightSectionStart, yPos);
+  
 
   const imageWidthpra = 39; // तुम्हाला हव्या प्रमाणे width ठरवा
 const imageHeightpra = 5.5; // proportion प्रमाणे height ठरवा
@@ -3583,7 +2495,7 @@ doc.text(`${totalAmount.toLocaleString('hi-IN')} /-`, rightSectionStart + imageW
   doc.text(reverseDevanagariIfContainsViOrLi("६) शिल्लक तरतूद: १८,४८,१४,२५०/-"), rightSectionStart, yPos);
   yPos += 10;
 
-  // doc.text(reverseDevanagariIfContainsViOrLi("तरी सदरचे देयक महाराष्ट्र राज्य वीज वितरण कंपनी लिमिटेड यांना"), rightSectionStart, yPos);
+ 
 
 
 const beforeText = "तरी सदरचे देयक";
@@ -3656,9 +2568,7 @@ const signatureWidthAMC = 30;
   doc.text("सहाय्यक आयुक्त", rightSectionStart + 75, yPos);
   doc.text("", rightSectionStart + 140, yPos);
   yPos += 7;
-  // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart, yPos);
-  // doc.text(reverseDevanagariIfContainsViOrLi(`प्रभाग समिती (${displayWardName})`), rightSectionStart + 75, yPos);
-
+  
   doc.addImage(prabhagsamiti, 'PNG', rightSectionStart, yPos-5, prabhagImageWidth, prabhagImageHeight);
 
 // If you want to display ward name next to image:
@@ -3723,394 +2633,6 @@ const getWardAddressImage = (ward) => {
   };
 
 
-// const downloadFaultyMeterReport = () => {
-//   setShowFormControl(true);
-//   try {
- 
-//     var doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-   
-//     doc.addFileToVFS("DVOTSurekh_B_Ship.ttf",DVOTSurekhBShip);
-//     doc.addFont("DVOTSurekh_B_Ship.ttf", "DVOTSurekh_B_Ship", "normal");
-//     loadDvoSBShipFont(doc);
-//     doc.setFont("DVOTSurekh_B_Ship");
-
-
-//     doc.setFontSize(12);
-
-//     const pageWidth = doc.internal.pageSize.getWidth();
-
-    
-//     const leftX = 10;
-//     const centerX = pageWidth / 2-10;
-//     const rightX = pageWidth - 60;
-//     let y = 20;
-
-    
-//   const isPrivilegedUserp =
-//   user.role === 'Executive Engineer' ||
-//   user.role === 'Admin' ||
-//   user.role === 'Super Admin' ||
-//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
-
-// const selectedWardp = isPrivilegedUserp ? wardName : user.ward;
-
-// if (selectedWardp) {
-//   const addressImage = getWardAddressImage(selectedWardp);
-//   if (addressImage) {
-//     const imgWidth = 50;
-//     const imgHeight = 28;
-//     doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
-//   }
-// }
-  
-
-
-// //  if (user?.ward) {
-// //         const addressImage = getWardAddressImage(user.ward);
-// //         if (addressImage) {
-          
-// //           const imgWidth = 50;
-// //           const imgHeight = 28;
-// //           doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
-// //         }
-// //       }
-
-    
-//     // doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
-
-    
-    
-
-
-
-// const phoneNumberText     = ": ०२५०-२३३४१४४";
-// const phoneTextWidth      = doc.getTextWidth(phoneNumberText);
-// const durdhwaniImgWidth   = 15;  
-// const durdhwaniImgHeight  = 5.2;   
-
-// // Compute base positions
-// const baseImgX   = rightX - phoneTextWidth - durdhwaniImgWidth;
-// const baseTextX  = rightX - phoneTextWidth;
-
-// // Shift both by +100px
-// const durdhwaniImgX = baseImgX + 50;
-// const phoneTextX    = baseTextX + 50;
-
-// doc.addImage(
-//   FADurdhwani,
-//   'PNG',
-//   durdhwaniImgX,
-//   y - 4+1.5 ,            
-//   durdhwaniImgWidth,
-//   durdhwaniImgHeight
-// );
-
-// // Draw the “: ०२५०-२३३४१४४” text
-// doc.text(phoneNumberText, phoneTextX, y+1.5);
-
-    
-//     // doc.text("फॅक्स : ०२५०-२५२५१०७", rightX, y + 6);
-
-// const faxText           = ": ०२५०-२५२५१०७";
-// const faxTextWidth      = doc.getTextWidth(faxText);
-// const faxImgWidth       = 13;   
-// const faxImgHeight      = 5;   
-
-
-// const baseFaxImgX  = rightX - faxTextWidth - faxImgWidth;
-// const baseFaxTextX = rightX - faxTextWidth;
-
-// // Shift both 80px right
-// const faxImgX  = baseFaxImgX + 48;
-// const faxTextX = baseFaxTextX + 47;
-
-// doc.addImage(
-//   FAFax,
-//   'PNG',
-//   faxImgX-0.8,
-//   y + 6 - 4+3,   
-//   faxImgWidth,
-//   faxImgHeight
-// );
-
-
-// doc.text(faxText, faxTextX, y + 9.5);
-
-
-//     // doc.text("जा.क्र. :", rightX, y + 18);
-
-// const jaKraSuffix       = " :";
-// const jaKraTextWidth    = doc.getTextWidth(jaKraSuffix);
-// const jaKraImgWidth     = 12;   
-// const jaKraImgHeight    = 4;    
-// const baseJaKraImgX     = rightX - jaKraTextWidth - jaKraImgWidth;
-// const baseJaKraTextX    = rightX - jaKraTextWidth;
-
-// doc.addImage(
-//   FAJaKra,
-//   'PNG',
-//   baseJaKraImgX + 15,     // shifted 40px right
-//   y + 18 - 4-1,    
-//   jaKraImgWidth,
-//   jaKraImgHeight
-// );
-
-// doc.text(
-//   jaKraSuffix,
-//   baseJaKraTextX + 15,    // shifted 40px right
-//   y + 18-1
-// );
-
-// const jakraValueImgWidth  = 26;  
-// const jakraValueImgHeight = 6;   
-
-// // X so it sits just to the right of the “ :” text
-// const jakraValueImgX = baseJaKraTextX + 15 + jaKraTextWidth + 2;  // +2px gap
-
-// doc.addImage(
-//   FAJakraFirstValue,
-//   'PNG',
-//   jakraValueImgX,
-//   y + 18 - 4 - 1-1,   // same vertical alignment as FAJaKra
-//   jakraValueImgWidth,
-//   jakraValueImgHeight
-// );
-
-//     // doc.text(reverseDevanagariIfContainsViOrLi(`दिनांक :${selectedMonthYear}`), rightX, y + 24);
-//     // Get today's date in Marathi locale (uses Devanagari digits automatically)
-// const today = new Date();
-// const formattedDate = today.toLocaleDateString('mr-IN', {
-//   day:   '2-digit',
-//   month: '2-digit',
-//   year:  'numeric'
-// });
-
-// // Now draw “दिनांक : DD/MM/YYYY” with today's date
-// doc.text(
-//   reverseDevanagariIfContainsViOrLi(`दिनांक : ${formattedDate}`),
-//   rightX,
-//   y + 24
-// );
-
-//    let yPos = 15;
-//     const logoWidth = 30;
-// const logoHeight = 30;
-
-// const pageHeight = doc.internal.pageSize.getHeight();
-// const centerY = yPos + 0;
-
-
-// doc.addImage(logovvcmccmp, 'PNG', centerX, centerY, logoWidth, logoHeight);
-
-// y += 36; 
-// const lineY = y - 2; 
-// doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY); 
-// y += 15; 
-
-
-// const isPrivilegedUserprati =
-//   user.role === 'Executive Engineer' ||
-//   user.role === 'Admin' ||
-//   user.role === 'Super Admin' ||
-//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
-
-// const selectedWardprati = isPrivilegedUserp ? wardName : user.ward;
-
-// if (selectedWardp) {
-//   const pratiImage = getWardPrati(selectedWardp);
-//    if (pratiImage) {
-//           const pratiWidth = 50;
-//           const pratiHeight = 28;
-//           doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
-//           y += pratiHeight + 12; 
-//         }
-// }
-
-
-
-
-    
-//       // if (user?.ward) {
-//       //   const pratiImage = getWardPrati(user.ward);
-//       //   if (pratiImage) {
-//       //     const pratiWidth = 50;
-//       //     const pratiHeight = 28;
-//       //     doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
-//       //     y += pratiHeight + 12; 
-//       //   }
-//       // }
-
-
-    
-//     doc.setFontSize(15);
-    
-
-// let currentY = 100 + 7;
-// const pdfPageWidth = doc.internal.pageSize.getWidth();
-
-// const updatedWidth = 46; 
-// const updatedHeight = 7.2; 
-
-// const imageX = (pdfPageWidth - updatedWidth) / 2;
-
-// doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, currentY, updatedWidth, updatedHeight);
-
-
-// currentY += updatedHeight + 30;
-
-
-
- 
-// const normalSpacing = 8;
-// const extraSpacing = 14;
-// const leftspaceX = leftX + 15;
-//  doc.setFontSize(14); 
-// y += 10;
- 
-
-
-
-
-// const imageWidth = 75;
-// const imageHeight = 6;
-
-// const prabhagImageWidth = 75;
-// const prabhagImageHeight = 6;
-
-
-// doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y+6, imageWidth, imageHeight);
-
-
-// const gapBetweenImages = 1;
-// const secondImageX = leftspaceX + imageWidth + gapBetweenImages;
-
-// doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y+6, prabhagImageWidth, prabhagImageHeight);
-
-
-// y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
-
-
-
-
-
-
-
-// const grahakImageWidth = 150;
-// const grahakImageHeight = 6; 
-// doc.addImage(FAGrahakKRaBadali, 'PNG', leftspaceX, y, grahakImageWidth, grahakImageHeight);
-// y += grahakImageHeight + 2;
-// const jenekarunImageWidth = 150; 
-// const jenekarunImageHeight = 6; 
-// doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImageWidth, jenekarunImageHeight);
-// y += jenekarunImageHeight + 2;
-
-
-
-
-
-// const navinMeterImageWidth = 150; 
-// const navinMeterImageHeight = 6; 
-
-
-// doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
-
-
-// y += navinMeterImageHeight + 2;
-   
-//     y = 240;
-// const signatureX = pageWidth - 60;
-
-
-// let prabhagSamitiText = "प्रभाग समिती";
-
-
-// if (user?.ward === "Ward-A") {
-//   prabhagSamitiText = "प्रभाग समिती अ";
-// } else if (user?.ward === "Ward-B") {
-//   prabhagSamitiText = "प्रभाग समिती बी";
-// } else if (user?.ward === "Ward-C") {
-//   prabhagSamitiText = "प्रभाग समिती सी";
-// } else if (user?.ward === "Ward-D") {
-//   prabhagSamitiText = "प्रभाग समिती डी";
-// } else if (user?.ward === "Ward-E") {
-//   prabhagSamitiText = "प्रभाग समिती 'ई'";
-// } else if (user?.ward === "Ward-F") {
-//   prabhagSamitiText = "प्रभाग समिती एफ";
-// } else if (user?.ward === "Ward-G") {
-//   prabhagSamitiText = "प्रभाग समिती जी";
-// } else if (user?.ward === "Ward-H") {
-//   prabhagSamitiText = "प्रभाग समिती एच";
-// } else if (user?.ward === "Ward-I") {
-//   prabhagSamitiText = "प्रभाग समिती आय";
-// }
-
-
-// ;
-
-
-// const rightPadding = 100;
-// const rightlX = pageWidth - 10; 
-
-
-
-// const wardImageMap = {
-//   'Ward-A': FAAdhikshakWardA,
-//   'Ward-B': FAAdhikshakWardB,
-//   'Ward-C': FAAdhikshakWardC,
-//   'Ward-D': FAAdhikshakWardD,
-//   'Ward-E': FAAdhikshakWardE,
-//   'Ward-F': FAAdhikshakWardF,
-//   'Ward-G': FAAdhikshakWardG,
-//   'Ward-H': FAAdhikshakWardH,
-//   'Ward-I': FAAdhikshakWardI,
-// };
-
-// const isPrivilegedUser =
-//   user.role === 'Executive Engineer' ||
-//   user.role === 'Admin' ||
-//   user.role === 'Super Admin' ||
-//   (user.role === 'Junior Engineer' && user.ward === 'Head Office');
-
-
-// const selectedWard = isPrivilegedUser ? wardName : user.ward;
-
-// const adhikshakImage = wardImageMap[selectedWard];
-
-
-
-
-
-
-// if (adhikshakImage) {
-//   const adhikshakImageWidth = 60;
-//   const adhikshakImageHeight = 20;
-
-//   doc.addImage(
-//     adhikshakImage,
-//     'PNG',
-//     rightlX - adhikshakImageWidth,
-//     y - 50, // shifted 15px upward
-//     adhikshakImageWidth,
-//     adhikshakImageHeight
-//   );
-
-//   y += adhikshakImageHeight + 2;
-// }
-
-
-
-//     const pdfData = doc.output('datauristring');
-//     let type = "faultymeter";
-    
-//     handlePdfPreview(pdfData, type, selectedMonthYear);
-
-//     const pdfBlob = doc.output('blob');
-//     setPdfBlob(pdfBlob);
-//   } catch (error) {
-//     console.error("Error generating PDF:", error);
-//   }
-// };
-
 
 
 
@@ -4156,25 +2678,6 @@ if (selectedWardp) {
   }
 }
   
-
-
-//  if (user?.ward) {
-//         const addressImage = getWardAddressImage(user.ward);
-//         if (addressImage) {
-          
-//           const imgWidth = 50;
-//           const imgHeight = 28;
-//           doc.addImage(addressImage, 'PNG', leftX, y, imgWidth, imgHeight);
-//         }
-//       }
-
-    
-    // doc.text("दूरध्वनी : ०२५०-२३३४१४४", rightX, y);
-
-    
-    
-
-
 
 const phoneNumberText     = ": ०२५०-२३३४१४४";
 const phoneTextWidth      = doc.getTextWidth(phoneNumberText);
@@ -4269,20 +2772,6 @@ doc.addImage(
   jakraValueImgHeight
 );
 
-// Add the jakraKramank value to the right of the image
-// if (jakraKramank) {
-//   doc.text(jakraKramank, jakraValueImgX + jakraValueImgWidth + 2, y + 18 - 1);
-// }
-
-
-// if (jakraKramank) {
-//   console.log("jakraKramank", jakraKramank);
-//   doc.setFontSize(4); // येथे तुम्ही font size कमी करत आहात
-//   doc.text(String(jakraKramank), jakraValueImgX +y + 17);
-//   doc.setFontSize(6); // परत default size ला सेट करा, जर बाकी text साठी मोठं असेल
-// }
-
-
 
 if (jakraKramank) {
   console.log("jakraKramank", jakraKramank);
@@ -4290,8 +2779,6 @@ if (jakraKramank) {
   doc.text(String(jakraKramank), jakraValueImgX + jakraValueImgWidth + 2, y + 17); // Correct X, Y
   doc.setFontSize(6); // Reset to default font size
 }
-
-
 
     // Use the provided date value if available, otherwise use current date
     let formattedDate;
@@ -4354,21 +2841,6 @@ if (selectedWardp) {
         }
 }
 
-
-
-
-    
-      // if (user?.ward) {
-      //   const pratiImage = getWardPrati(user.ward);
-      //   if (pratiImage) {
-      //     const pratiWidth = 50;
-      //     const pratiHeight = 28;
-      //     doc.addImage(pratiImage, 'PNG', leftX, y, pratiWidth, pratiHeight);
-      //     y += pratiHeight + 12; 
-      //   }
-      // }
-
-
     
     doc.setFontSize(15);
     
@@ -4386,18 +2858,11 @@ doc.addImage(FAFaultyMeterBabat, 'PNG', imageX, currentY, updatedWidth, updatedH
 
 currentY += updatedHeight + 30;
 
-
-
- 
 const normalSpacing = 8;
 const extraSpacing = 14;
 const leftspaceX = leftX + 15;
  doc.setFontSize(14); 
 y += 10;
- 
-
-
-
 
 const imageWidth = 75;
 const imageHeight = 6;
@@ -4405,24 +2870,18 @@ const imageHeight = 6;
 const prabhagImageWidth = 75;
 const prabhagImageHeight = 6;
 
-
 doc.addImage(FAMahodayUproktaVishayanwaye, 'PNG', leftspaceX, y+6, imageWidth, imageHeight);
-
 
 const gapBetweenImages = 1;
 const secondImageX = leftspaceX + imageWidth + gapBetweenImages;
 
 doc.addImage(FAVVCMCPrabhagSamiti, 'PNG', secondImageX, y+6, prabhagImageWidth, prabhagImageHeight);
 
-
 y += Math.max(imageHeight, prabhagImageHeight) + normalSpacing;
 
-
-// Add consumer number before the Grahak text if provided
 if (consumerNumber) {
   doc.text(`ग्राहक क्र. ${consumerNumber}`, leftspaceX - 5, y - 2);
 }
-
 
 const grahakImageWidth = 150;
 const grahakImageHeight = 6; 
@@ -4434,12 +2893,8 @@ doc.addImage(FAJenekarunBillBharneSopeHoil, 'PNG', leftspaceX, y, jenekarunImage
 y += jenekarunImageHeight + 2;
 
 
-
-
-
 const navinMeterImageWidth = 150; 
 const navinMeterImageHeight = 6; 
-
 
 doc.addImage(FANavinMeterBasavinycheMaganipatrak, 'PNG', leftspaceX, y, navinMeterImageWidth, navinMeterImageHeight);
 
@@ -4473,14 +2928,10 @@ if (user?.ward === "Ward-A") {
   prabhagSamitiText = "प्रभाग समिती आय";
 }
 
-
 ;
-
 
 const rightPadding = 100;
 const rightlX = pageWidth - 10; 
-
-
 
 const wardImageMap = {
   'Ward-A': FAAdhikshakWardA,
@@ -4505,11 +2956,6 @@ const selectedWard = isPrivilegedUser ? wardName : user.ward;
 
 const adhikshakImage = wardImageMap[selectedWard];
 
-
-
-
-
-
 if (adhikshakImage) {
   const adhikshakImageWidth = 60;
   const adhikshakImageHeight = 20;
@@ -4526,13 +2972,9 @@ if (adhikshakImage) {
   y += adhikshakImageHeight + 2;
 }
 
-
-
     const pdfData = doc.output('datauristring');
     let type = "faultymeter";
-    
     handlePdfPreview(pdfData, type, selectedMonthYear);
-
     const pdfBlob = doc.output('blob');
     setPdfBlob(pdfBlob);
   } catch (error) {
@@ -4948,51 +3390,7 @@ md:'space-around',
               },
     }}>
 
- {/* <Button
-            sx={{
-             
-              color:'#000',
-              textTransform: 'uppercase',
-              border: '0.1px solid #757575',
-              cursor: 'pointer',
-              
-              width: {
-                xl: isSidebarOpen ? '12%' : '10%',
-                lg: isSidebarOpen ? '15%' : '17%',
-                md: '30%',
-                sm: '100%',
-                xs: '100%',
-              },
-              ml: {
-                xl: 1,
-                lg: 0,
-                md: 0,
-                sm: 0
-              },
-               height: {
-              xs: '65%',
-              sm: '65%',
-              md: '30px',
-              lg: '65%',
-              xl: '65%',
-              },
-         
-            }}
-            onClick={handleDownloadPDF}
-          >
-           
-            <Typography sx={{
-              fontSize: {
-              xs: isSidebarOpen ? '12.2px' : '14px',
-              sm: isSidebarOpen ? '12.2px' : '14px',
-              lg: isSidebarOpen ? '12.2px' : '14px',
-              xl: isSidebarOpen ? '12.2px' : '14px',
-              md: isSidebarOpen ? '9px' : '11px',
-                       }
-            }}>
-             Ward Bill Totals
-            </Typography>
-          </Button> */}
+ 
            <Button
             sx={{
               // color: '#757575',
@@ -5045,14 +3443,6 @@ md:'space-around',
               Ward Bill Totals
             </Typography>
           </Button>
-
-
-
-
-
-
-
-
 
         <Button
             sx={{
@@ -5148,7 +3538,7 @@ md:'space-around',
             }}
             onClick={downloadKaryalayinTipani}
           >
-            {/* <DownloadIcon /> */}
+           
             <Typography sx={{
               fontSize: {
               xs: isSidebarOpen ? '12.2px' : '14px',
@@ -5164,12 +3554,12 @@ md:'space-around',
 
           <Button
             sx={{
-              // color: '#757575',
+        
                color:'#000',
               textTransform: 'uppercase',
               border: '0.1px solid #757575',
               cursor: 'pointer',
-              // textTransform: 'none',
+           
              
               width: {
                 xl: isSidebarOpen ? '20%' : '20%',
@@ -5200,11 +3590,10 @@ md:'space-around',
               xl: '65%',
               },
             }}
-            // onClick={downloadFaultyMeterReport}
-
+       
             onClick={handleOpenFaultyMeterModal}
           >
-            {/* <DownloadIcon /> */}
+           
             <Typography sx={{
                fontSize: {
               xs: isSidebarOpen ? '12.2px' : '14px',
@@ -5223,7 +3612,7 @@ md:'space-around',
 </Box>
         </Box>
 
-        {/* <button onClick={handleOpenFaultyMeterModal}>Open Faulty Meter Modal</button> */}
+   
 <FaultyMeterConsumerNumber
         open={faultyMeterModalOpen}
         handleClose={handleCloseFaultyMeterModal}
@@ -5233,7 +3622,7 @@ md:'space-around',
         setConsumerNumber={setConsumerNumber}
         date={date}
         setDate={setDate}
-        // handleSubmit={handleFaultyMeterSubmit}  // submit function pass करा
+       
         handleSubmit={handleSaveConsumerDetails}
       />
         
@@ -5244,7 +3633,7 @@ md:'space-around',
       pdfUrl={pdfContent} 
       monthpassbackend={monthpass}
       wardName={wardName}
-      // title={pdfType === "tipani" ? "karyalayintipani" : pdfType === "form22" ? "form22" : "wardbilllist"}
+  
       title={pdfType}
        pdfData={pdfData}  
       onDownload={() => {
