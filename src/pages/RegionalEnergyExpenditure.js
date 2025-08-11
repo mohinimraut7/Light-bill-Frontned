@@ -3207,12 +3207,20 @@ doc.addImage(
     }
   };
 
-const fetchReportData = async (selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr) => {
+const fetchReportData = async (selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr,wardName ) => {
+
+console.log("user in fetchreport",user)
+
   try {
+    const finalWard = user.ward === 'Head Office' ? wardName : user.ward;
+
+
     const response = await axios.post(`${baseUrl}/searchReport`, {
       month: selectedMonthYear,
-    });
+      finalWard:finalWard
 
+    });
+console.log("fetchreport testing search report",user,wardName)
     const foundReport = response.data;
     setMonthArr(foundReport);
 
@@ -3250,9 +3258,13 @@ const fetchReportData = async (selectedMonthYear, user, setMode, setReportingDat
 
 useEffect(() => {
   if (selectedMonthYear) {
-    fetchReportData(selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr);
+    fetchReportData(selectedMonthYear, user, setMode, setReportingDataSM, setMonthArr,wardName);
   }
-}, [selectedMonthYear]);
+}, [selectedMonthYear,wardName]);
+
+
+
+
 
 const downloadKaryalayinTipani =async() => {
 
