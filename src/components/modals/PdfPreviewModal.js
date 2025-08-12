@@ -1586,8 +1586,11 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
   useEffect(() => {
     if (monthpassbackend && user?.ward) {
       const fetchReport = async () => {
+        const finalWard = user.ward === 'Head Office' ? wardName : user.ward;
+
         const response = await axios.post(`${baseUrl}/searchReport`, {
-          ward: user?.ward,
+          // ward: user?.ward,
+            ward:finalWard,
           month: monthpassbackend,
         });
         if (response.data) {
