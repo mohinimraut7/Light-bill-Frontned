@@ -1300,14 +1300,79 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
     console.log("Current mode:", mode);
   }, [mode]);
 
-  // Generate signatures data for 6 users with proper status checking
+
+
+
+  // // Generate signatures data for 6 users with proper status checking
+  // useEffect(() => {
+  //   if (currentReport && currentReport[0]?.reportingRemarks) {
+  //     const signatures = [
+  //       {
+  //         role: 'Lipik:',
+  //         status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Lipik') ? 'verified' : 'unverified',
+  //         ward: wardName || 'Ward A',
+  //         month: monthpassbackend || 'MAR-2025',
+  //         date: new Date().toLocaleDateString(),
+  //         signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Lipik')?.signature || ''
+  //       },
+  //       {
+  //         role: 'Junior Engineer:',
+  //         status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.ward !== 'Head Office') ? 'verified' : 'unverified',
+  //         ward: wardName || 'Ward A',
+  //         month: monthpassbackend || 'MAR-2025',
+  //         date: new Date().toLocaleDateString(),
+  //         signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer')?.signature || ''
+  //       },
+  //       {
+  //         role: 'Junior Engineer:',
+  //         status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.userWard === 'Head Office') ? 'verified' : 'unverified',
+  //         ward: '(via Head Office)',
+  //         month: monthpassbackend || 'MAR-2025',
+  //         date: new Date().toLocaleDateString(),
+  //         signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.ward === 'Head Office')?.signature || ''
+  //       },
+  //       {
+  //         role: 'Accountant:',
+  //         status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Accountant') ? 'verified' : 'unverified',
+  //         ward: wardName || 'Ward A',
+  //         month: monthpassbackend || 'MAR-2025',
+  //         date: new Date().toLocaleDateString(),
+  //         signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Accountant')?.signature || ''
+  //       },
+  //       {
+  //         role: 'Assistant Municipal Commissioner:',
+  //         status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Assistant Municipal Commissioner') ? 'verified' : 'unverified',
+  //         ward: wardName || 'Ward A',
+  //         month: monthpassbackend || 'MAR-2025',
+  //         date: new Date().toLocaleDateString(),
+  //         signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Assistant Municipal Commissioner')?.signature || ''
+  //       },
+  //       {
+  //         role: 'Dy Municipal Commissioner:',
+  //         status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Dy.Municipal Commissioner') ? 'verified' : 'unverified',
+  //         ward: wardName || 'Ward A',
+  //         month: monthpassbackend || 'MAR-2025',
+  //         date: new Date().toLocaleDateString(),
+  //         signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Dy.Municipal Commissioner')?.signature || ''
+  //       }
+  //     ];
+  //     setSignaturesData(signatures);
+  //   }
+  // }, [currentReport, wardName, monthpassbackend]);
+
+
+
+ // Generate signatures data for 6 users with proper status checking
   useEffect(() => {
     if (currentReport && currentReport[0]?.reportingRemarks) {
+      // Get the actual ward from the report data instead of using defaults
+      const actualWard = currentReport[0]?.ward || wardName || user?.ward || 'Unknown Ward';
+      
       const signatures = [
         {
           role: 'Lipik:',
           status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Lipik') ? 'verified' : 'unverified',
-          ward: wardName || 'Ward A',
+          ward: actualWard,
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
           signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Lipik')?.signature || ''
@@ -1315,7 +1380,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         {
           role: 'Junior Engineer:',
           status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.ward !== 'Head Office') ? 'verified' : 'unverified',
-          ward: wardName || 'Ward A',
+          ward: actualWard,
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
           signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer')?.signature || ''
@@ -1323,7 +1388,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         {
           role: 'Junior Engineer:',
           status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.userWard === 'Head Office') ? 'verified' : 'unverified',
-          ward: '(via Head Office)',
+          ward: `${actualWard} (via Head Office)`,
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
           signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Junior Engineer' && r.ward === 'Head Office')?.signature || ''
@@ -1331,7 +1396,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         {
           role: 'Accountant:',
           status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Accountant') ? 'verified' : 'unverified',
-          ward: wardName || 'Ward A',
+          ward: actualWard,
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
           signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Accountant')?.signature || ''
@@ -1339,7 +1404,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         {
           role: 'Assistant Municipal Commissioner:',
           status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Assistant Municipal Commissioner') ? 'verified' : 'unverified',
-          ward: wardName || 'Ward A',
+          ward: actualWard,
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
           signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Assistant Municipal Commissioner')?.signature || ''
@@ -1347,7 +1412,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
         {
           role: 'Dy Municipal Commissioner:',
           status: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Dy.Municipal Commissioner') ? 'verified' : 'unverified',
-          ward: wardName || 'Ward A',
+          ward: actualWard,
           month: monthpassbackend || 'MAR-2025',
           date: new Date().toLocaleDateString(),
           signature: currentReport[0]?.reportingRemarks?.find(r => r.role === 'Dy.Municipal Commissioner')?.signature || ''
@@ -1355,7 +1420,7 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
       ];
       setSignaturesData(signatures);
     }
-  }, [currentReport, wardName, monthpassbackend]);
+  }, [currentReport, wardName, monthpassbackend, user?.ward]);
 
   const generateSignaturePdf = async () => {
     try {
