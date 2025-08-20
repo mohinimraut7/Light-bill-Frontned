@@ -855,7 +855,7 @@ const OverdueBills = () => {
               lg: '20px'
             },
           }} className="title-2">
-            Users with Over Due Bills
+            Users with Overdue Bills
           </Typography>
         </Box>
 
