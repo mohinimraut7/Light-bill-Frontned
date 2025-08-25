@@ -1902,6 +1902,545 @@
 // ========================================================
 
 
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { fetchBills } from '../store/actions/billActions';
+// import { DataGrid } from '@mui/x-data-grid';
+// import {
+//   Typography,
+//   Box,
+//   Modal,
+//   Button,
+//   TextField,
+//   MenuItem,
+//   Select,
+//   InputLabel,
+//   FormControl,
+//   Tabs,
+//   Tab,
+//   CircularProgress,
+//   Paper,
+//   useMediaQuery, useTheme
+// } from '@mui/material';
+// import DownloadIcon from '@mui/icons-material/Download';
+// import * as XLSX from 'xlsx';
+// import ConsumerButton from '../components/ConsumerButton';
+// import BillDatePicker from '../components/BillDatePicker';
+// import wardDataAtoI from '../data/warddataAtoI';
+// import dayjs from 'dayjs';
+
+// const BillingAnomaly = () => {
+//   const dispatch = useDispatch();
+//   const { bills, loading, error,pagination } = useSelector((state) => state.bills);
+//   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
+//   const [tabValue, setTabValue] = useState(0);
+//   const [wardName, setWardName] = useState('');
+//   const [selectedMonthYear, setSelectedMonthYear] = useState('');
+//    const [currentPage, setCurrentPage] = useState(1);
+//     const [pageSize, setPageSize] = useState(50);
+//     const [paginationModel, setPaginationModel] = useState({
+//       page: 0,
+//       pageSize: 10,
+//     });
+  
+//   const user = useSelector((state) => state.auth.user);
+//  const theme = useTheme();
+// const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // ✅ xs & sm
+//   // useEffect(() => {
+//   //   dispatch(fetchBills());
+//   // }, [dispatch]);
+
+
+
+//   // Function to fetch bills with pagination and filters
+//   // const fetchBillsWithFilters = (page = 1, limit = 10) => {
+//   //   const filters = {};
+    
+//   //   if (selectedMonthYear) {
+//   //     filters.monthAndYear = selectedMonthYear;
+//   //   }
+    
+//   //   if (wardName && (
+//   //     user?.role === 'Super Admin' ||
+//   //     user?.role === 'Admin' ||
+//   //     user?.role === 'Executive Engineer' ||
+//   //     (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+//   //   )) {
+//   //     filters.wardName = wardName;
+//   //   }
+
+//   //   // Add anomaly type filter based on current tab
+//   //   const anomalyTypes = ['zero_consumption', 'high_anomaly', 'low_anomaly'];
+//   //   filters.anomalyType = anomalyTypes[tabValue];
+    
+//   //   dispatch(fetchBills(page, limit, filters));
+//   // };
+
+
+//   const fetchBillsWithFilters = (page = 1, limit = 10) => {
+//     const filters = {};
+    
+//     if (selectedMonthYear) {
+//       filters.monthAndYear = selectedMonthYear;
+//     }
+    
+//     if (wardName && (
+//       user?.role === 'Super Admin' ||
+//       user?.role === 'Admin' ||
+//       user?.role === 'Executive Engineer' ||
+//       (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+//     )) {
+//       filters.wardName = wardName;
+//     }
+
+//     // For Junior Engineers not at Head Office, restrict to their own ward only
+//     if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') {
+//       filters.wardName = user.ward;
+//     }
+
+//     // Add anomaly type filter based on current tab
+//     const anomalyTypes = ['zero_consumption', 'high_anomaly', 'low_anomaly'];
+//     filters.anomalyType = anomalyTypes[tabValue];
+    
+//     dispatch(fetchBills(page, limit, filters));
+//   };
+
+
+//   useEffect(() => {
+//     fetchBillsWithFilters(currentPage, pageSize);
+//   }, [dispatch, currentPage, pageSize]);
+
+//   // Refetch when filters change
+//   useEffect(() => {
+//     setCurrentPage(1);
+//     setPaginationModel({ ...paginationModel, page: 0 });
+//     fetchBillsWithFilters(1, pageSize);
+//   }, [selectedMonthYear, wardName, tabValue]);
+
+//   // Handle pagination change
+//   const handlePaginationModelChange = (newPaginationModel) => {
+//     setPaginationModel(newPaginationModel);
+//     const newPage = newPaginationModel.page + 1; // MUI DataGrid uses 0-based indexing
+//     const newPageSize = newPaginationModel.pageSize;
+    
+//     if (newPage !== currentPage || newPageSize !== pageSize) {
+//       setCurrentPage(newPage);
+//       setPageSize(newPageSize);
+//       fetchBillsWithFilters(newPage, newPageSize);
+//     }
+//   };
+
+
+//   const handleDateChange = (value) => {
+//     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
+//     setSelectedMonthYear(formattedValue);
+//   };
+
+//   const handleChangeWard = (event) => setWardName(event.target.value);
+
+//   if (loading) {
+//     return (
+//       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+//         <CircularProgress />
+//       </Box>
+//     );
+//   }
+
+//   if (error) {
+//     return <p>Error: {error}</p>;
+//   }
+
+//   const sortedBills = [...bills].sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
+//   const billMap = new Map();
+//   sortedBills.forEach((bill) => {
+//     if (!billMap.has(bill.consumerNumber)) {
+//       billMap.set(bill.consumerNumber, []);
+//     }
+//     billMap.get(bill.consumerNumber).push(bill);
+//   });
+
+//   const highBills = [];
+//   const lowBills = [];
+//   const zeroConsumptionBills = [];
+
+//   billMap.forEach((billHistory) => {
+//     billHistory.sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
+//     for (let i = 1; i < billHistory.length; i++) {
+//       const previousBill = billHistory[i - 1];
+//       const currentBill = billHistory[i];
+//       const prevAmount = previousBill.netBillAmount;
+//       const currAmount = currentBill.netBillAmount;
+//       const highThreshold = prevAmount + prevAmount * 0.25;
+//       const lowThreshold = prevAmount - prevAmount * 0.25;
+
+//       if (currAmount >= highThreshold) {
+//         highBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+//       } else if (currAmount <= lowThreshold) {
+//         lowBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+//       }
+
+//       if (currentBill.totalConsumption === 0) {
+//         zeroConsumptionBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+//       }
+//     }
+//   });
+
+//   // const downloadAllTypsOfReport = () => {
+//   //   const rows = getRows().filter(
+//   //     bill =>
+//   //       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
+//   //       (!wardName || bill.ward === wardName)
+//   //   );
+
+//   //   const worksheet = XLSX.utils.json_to_sheet(
+//   //     rows.map((row, index) => ({
+//   //       'ID': index + 1,
+//   //       'Consumer No.': row.consumerNumber,
+//   //       'Ward': row.ward,
+//   //       'Meter Number': row.meterNumber,
+//   //       'Total Consumption': row.totalConsumption,
+//   //       'Meter Status': row.meterStatus,
+//   //       'billMonth': row.monthAndYear,
+//   //       'previousBillAmount': row.prevNetBillAmount,
+//   //       'Net Bill Amount': row.netBillAmount,
+//   //     }))
+//   //   );
+
+//   //   const workbook = XLSX.utils.book_new();
+//   //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+//   //   XLSX.writeFile(workbook, 'Anomaly_Report.xlsx');
+//   // };
+
+//   // ---------------------------------------------------------
+
+//   const downloadAllTypsOfReport = () => {
+//   const rows = getRows().filter(
+//     bill =>
+//       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
+//       (!wardName || bill.ward === wardName)
+//   );
+
+//   // Prepare data rows for the sheet
+//   const dataRows = rows.map((row, index) => ({
+//     'ID': index + 1,
+//     'Consumer No.': row.consumerNumber,
+//     'Ward': row.ward,
+//     'Meter Number': row.meterNumber,
+//     'Total Consumption': row.totalConsumption,
+//     'Meter Status': row.meterStatus,
+//     'Bill Month': row.monthAndYear,
+//     'Previous Bill Amount': row.prevNetBillAmount,
+//     'Net Bill Amount': row.netBillAmount,
+//   }));
+
+//   // Insert the heading row at the top of the data array
+//   const heading = [[getTabLabel(tabValue) + ' - REPORT']]; // heading text
+//   const worksheet = XLSX.utils.aoa_to_sheet(heading);
+
+//   // Add the data rows starting from the third row (so you leave one blank line below the heading)
+//   XLSX.utils.sheet_add_json(worksheet, dataRows, { origin: 'A3' });
+
+//   // Merge the heading cell across all columns
+//   const numColumns = Object.keys(dataRows[0] || {}).length;
+//   worksheet['!merges'] = [
+//     {
+//       s: { r: 0, c: 0 }, // start at row 0, col 0
+//       e: { r: 0, c: numColumns - 1 } // end at row 0, last column
+//     }
+//   ];
+
+//   const workbook = XLSX.utils.book_new();
+//   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+//   XLSX.writeFile(workbook, `${getTabLabel(tabValue)}_REPORT.xlsx`);
+// };
+
+  
+  
+// //   const downloadAllTypsOfReport = () => {
+// //   const rows = getRows().filter(
+// //     bill =>
+// //       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
+// //       (!wardName || bill.ward === wardName)
+// //   );
+
+// //   const worksheet = XLSX.utils.json_to_sheet(
+// //     rows.map((row, index) => ({
+// //       'ID': index + 1,
+// //       'Consumer No.': row.consumerNumber,
+// //       'Ward': row.ward,
+// //       'Meter Number': row.meterNumber,
+// //       'Total Consumption': row.totalConsumption,
+// //       'Meter Status': row.meterStatus,
+// //       'billMonth': row.monthAndYear,
+// //       'previousBillAmount': row.prevNetBillAmount,
+// //       'Net Bill Amount': row.netBillAmount,
+// //     }))
+// //   );
+
+// //   const workbook = XLSX.utils.book_new();
+// //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+
+// //   const reportName = getReportFileName(tabValue); // Dynamic file name
+// //   XLSX.writeFile(workbook, reportName);
+// // };
+
+
+
+
+
+// const getReportFileName = (tabIndex) => {
+//   switch (tabIndex) {
+//     case 0: return 'ZERO_CONSUMPTION_BILLS.xlsx';
+//     case 1: return 'HIGH_ANOMALY_BILLS.xlsx';
+//     case 2: return 'LOW_ANOMALY_BILLS.xlsx';
+//     default: return 'Anomaly_Report.xlsx';
+//   }
+// };
+  
+//   const columns = [
+//     { field: 'id', headerName: 'ID', width: 70 },
+//     { field: 'consumerNumber', headerName: 'CONSUMER NUMBER', width: 140 },
+//     { field: 'ward', headerName: 'WARD', width: 130 },
+//     { field: 'meterNumber', headerName: 'METER NUMBER', width: 130 },
+//     { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
+//     { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
+//     { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
+//     { field: 'prevNetBillAmount', headerName: 'PREVIOUS BILL AMOUNT', width: 150 },
+//     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 150 },
+//   ];
+
+//   const getRows = () => {
+//     switch (tabValue) {
+//       case 0: return zeroConsumptionBills;
+//       case 1: return highBills;
+//       case 2: return lowBills;
+//       default: return [];
+//     }
+//   };
+
+//   const getTabLabel = (index) => {
+//     switch (index) {
+//       case 0: return 'ZERO CONSUMPTION BILLS';
+//       case 1: return 'HIGH ANOMALY BILLS';
+//       case 2: return 'LOW ANOMALY BILLS';
+//       default: return '';
+//     } 
+//   };
+
+//   const smallControlStyles = {
+//     // border:'1px solid red',
+//     height: '40px',
+//     minHeight: '40px',
+//     display:'flex',
+    
+//     width: {
+//       xs: '85%',
+//       sm:'85%',
+//       md: '180px'
+//     },
+//     ml:{
+//        xs:5,
+//       sm:5,
+//       md:0
+//     },
+//     '& .MuiInputBase-root': {
+//       height: '40px',
+//       fontSize: '0.875rem'
+//     },
+//     '& .MuiOutlinedInput-root': {
+//       height: '40px',
+//       fontSize: '0.875rem'
+//     },
+//     '& .MuiInputLabel-root': {
+//       fontSize: '0.875rem'
+//     }
+//   };
+
+ 
+//   return (
+//     <Box sx={{ 
+//       minHeight: '100vh', 
+//       backgroundColor: '#f5f5f5',
+//       marginLeft: { xs: 0, sm: isSidebarOpen ? '250px' : '100px' },
+//       padding: { xs: '10px', sm: '15px', md: '20px' },
+//       width: {
+//         xs: '100%',
+//         sm: isSidebarOpen ? 'calc(100% - 250px)' : 'calc(100% - 100px)'
+//       }
+//     }}>
+//       {/* Tabs */}
+//       <Paper elevation={0} 
+//       sx={{ backgroundColor: '#fff',
+//        borderRadius: '8px',
+//         mb: 3,
+//         mt:isSidebarOpen?0:5
+        
+//         }}>
+//         <Tabs 
+//           value={tabValue} 
+//           onChange={(e, newValue) => setTabValue(newValue)}
+//           variant="fullWidth"
+//           orientation={isSmallScreen ? 'vertical' : 'horizontal'} // ✅ responsive orientation
+//           sx={{
+//             // '& .MuiTab-root': {
+//             //   fontSize: { xs: '0.75rem', sm: '0.875rem' },
+//             //   fontWeight: 500,
+//             //   py: 2,
+//             //   textTransform: 'none',
+//             //   '&.Mui-selected': { color: '#23CCEF', fontWeight: 600 }
+//             // },
+//             // '& .MuiTabs-indicator': { backgroundColor: '#23CCEF', height: 3 }
+//             // border:'2px solid red',
+//             display:'flex',
+//               '& .MuiTab-root': {
+//             fontSize: { xs: '0.75rem', sm: '0.875rem' },
+//             fontWeight: 500,
+//             py: 2,
+//             textTransform: 'none',
+//             position: 'relative',
+//             '&.Mui-selected': { 
+//               color: '#23CCEF', 
+//               fontWeight: 600,
+//               '&::after': {
+//                 content: '""',
+//                 position: 'absolute',
+//                 bottom: 0,
+//                 left: '50%',
+//                 transform: 'translateX(-50%)',
+//                 width: 'fit-content',
+//                 minWidth: '60%',
+//                 height: '3px',
+//                 backgroundColor: '#23CCEF',
+//                 borderRadius: '2px'
+//               }
+//             }
+//           },
+//           '& .MuiTabs-indicator': { 
+//             display: 'none' // Hide default indicator
+//           }
+//           }}
+//         >
+//           <Tab label={getTabLabel(0)} />
+//           <Tab label={getTabLabel(1)} />
+//           <Tab label={getTabLabel(2)} />
+//         </Tabs>
+//       </Paper>
+
+//       {/* Filter Row (Download + Date + Ward) */}
+//       <Box sx={{ 
+//         // border:'1px solid red',
+
+//         display: 'flex',
+//         flexDirection: { xs: 'column', sm: 'row' },
+//         gap: 2,
+//         alignItems: { xs: 'stretch', sm: 'center' },
+//         flexWrap: 'wrap',
+//         mb: 3,
+//       }}>
+//         <Button 
+//         // size="small"
+//           variant="contained" 
+//           startIcon={<DownloadIcon />} 
+//           onClick={downloadAllTypsOfReport}
+//           sx={{
+//             ...smallControlStyles,
+//             backgroundColor: '#23CCEF',
+//             '&:hover': { backgroundColor: '#1AB3D1' },
+//             borderRadius: '6px',
+//             textTransform: 'none',
+//             fontSize: '0.75rem',
+//             px: 2,
+//             // width:{
+//             //   xs:'95%',
+//             //   sm:'95%',
+//             //   md:'100%'
+//             // }
+//           }}
+//         >
+// REPORT
+//         </Button>
+
+//         <Box sx={smallControlStyles}>
+//           <BillDatePicker 
+//             selectedMonthYear={selectedMonthYear} 
+//             onChange={handleDateChange}
+//             sx={{
+//               '& .MuiTextField-root': {
+//                 backgroundColor: '#fff',
+//                 borderRadius: '6px',
+//                 height: '40px',
+//               }
+//             }}
+//           />
+//         </Box>
+
+//         {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
+//           <FormControl variant="outlined" size="small" sx={smallControlStyles}>
+//             <InputLabel id="ward-label">Search Ward</InputLabel>
+//             <Select
+//               labelId="ward-label"
+//               value={wardName}
+//               onChange={handleChangeWard}
+//               label="Search Ward"
+//               sx={{ backgroundColor: '#fff', borderRadius: '6px' }}
+//             >
+//               {wardDataAtoI.length > 0 ? (
+//                 wardDataAtoI.map((ward, index) => (
+//                   <MenuItem key={index} value={ward.ward}>{ward.ward}</MenuItem>
+//                 ))
+//               ) : (
+//                 <MenuItem disabled>No Wards Available</MenuItem>
+//               )}
+//             </Select>
+//           </FormControl>
+//         )}
+//       </Box>
+
+//       {/* Data Table */}
+//       <Paper elevation={2} sx={{ backgroundColor: '#fff', borderRadius: '8px' }}>
+//         <Box sx={{ height: { xs: 400, sm: 500, md: 600 }, width: '100%' }}>
+//           <DataGrid
+//             rows={getRows()
+//               .filter((bill) => 
+//                 (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) && 
+//                 (!wardName || bill.ward === wardName)
+//               )
+//               .map((bill, index) => ({ id: paginationModel.page * paginationModel.pageSize + index + 1, ...bill }))}
+           
+//                columns={columns}
+//             pagination
+//             paginationMode="server"
+//             paginationModel={paginationModel}
+//             onPaginationModelChange={handlePaginationModelChange}
+//             pageSizeOptions={[10, 25, 50, 100]}
+//             rowCount={pagination?.totalBills || 0}
+//             loading={loading}
+//             disableSelectionOnClick
+
+//             sx={{
+//               border: 'none',
+//               '& .MuiDataGrid-cell': {
+//                 fontSize: { xs: '0.75rem', sm: '0.875rem' }
+//               },
+//               '& .MuiDataGrid-columnHeaders': {
+//                 backgroundColor: '#f8f9fa',
+//                 fontWeight: 600,
+//                 color: '#333'
+//               },
+//               '& .MuiDataGrid-row:hover': {
+//                 backgroundColor: '#f8f9fa'
+//               }
+//             }}
+//           />
+//         </Box>
+//       </Paper>
+//     </Box>
+//   );
+// };
+
+// export default BillingAnomaly;
+
+// ===============================================================
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBills } from '../store/actions/billActions';
@@ -1920,7 +2459,8 @@ import {
   Tab,
   CircularProgress,
   Paper,
-  useMediaQuery, useTheme
+  useMediaQuery, 
+  useTheme
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
@@ -1931,112 +2471,118 @@ import dayjs from 'dayjs';
 
 const BillingAnomaly = () => {
   const dispatch = useDispatch();
-  const { bills, loading, error,pagination } = useSelector((state) => state.bills);
+  const { bills, loading, error, pagination } = useSelector((state) => state.bills);
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const [tabValue, setTabValue] = useState(0);
   const [wardName, setWardName] = useState('');
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
-   const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(50);
-    const [paginationModel, setPaginationModel] = useState({
-      page: 0,
-      pageSize: 10,
-    });
+  const [allBills, setAllBills] = useState([]);
+  const [processedAnomalies, setProcessedAnomalies] = useState({
+    highBills: [],
+    lowBills: [],
+    zeroConsumptionBills: []
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
   
   const user = useSelector((state) => state.auth.user);
- const theme = useTheme();
-const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // ✅ xs & sm
-  // useEffect(() => {
-  //   dispatch(fetchBills());
-  // }, [dispatch]);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  // Fetch all bills for anomaly processing (client-side pagination for anomalies)
+  const fetchAllBillsForAnomaly = async () => {
+    try {
+      const filters = {};
+      
+      if (wardName && (
+        user?.role === 'Super Admin' ||
+        user?.role === 'Admin' ||
+        user?.role === 'Executive Engineer' ||
+        (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+      )) {
+        filters.wardName = wardName;
+      }
 
+      if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') {
+        filters.wardName = user.ward;
+      }
 
-  // Function to fetch bills with pagination and filters
-  // const fetchBillsWithFilters = (page = 1, limit = 10) => {
-  //   const filters = {};
-    
-  //   if (selectedMonthYear) {
-  //     filters.monthAndYear = selectedMonthYear;
-  //   }
-    
-  //   if (wardName && (
-  //     user?.role === 'Super Admin' ||
-  //     user?.role === 'Admin' ||
-  //     user?.role === 'Executive Engineer' ||
-  //     (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
-  //   )) {
-  //     filters.wardName = wardName;
-  //   }
-
-  //   // Add anomaly type filter based on current tab
-  //   const anomalyTypes = ['zero_consumption', 'high_anomaly', 'low_anomaly'];
-  //   filters.anomalyType = anomalyTypes[tabValue];
-    
-  //   dispatch(fetchBills(page, limit, filters));
-  // };
-
-
-  const fetchBillsWithFilters = (page = 1, limit = 10) => {
-    const filters = {};
-    
-    if (selectedMonthYear) {
-      filters.monthAndYear = selectedMonthYear;
-    }
-    
-    if (wardName && (
-      user?.role === 'Super Admin' ||
-      user?.role === 'Admin' ||
-      user?.role === 'Executive Engineer' ||
-      (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
-    )) {
-      filters.wardName = wardName;
-    }
-
-    // For Junior Engineers not at Head Office, restrict to their own ward only
-    if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') {
-      filters.wardName = user.ward;
-    }
-
-    // Add anomaly type filter based on current tab
-    const anomalyTypes = ['zero_consumption', 'high_anomaly', 'low_anomaly'];
-    filters.anomalyType = anomalyTypes[tabValue];
-    
-    dispatch(fetchBills(page, limit, filters));
-  };
-
-
-  useEffect(() => {
-    fetchBillsWithFilters(currentPage, pageSize);
-  }, [dispatch, currentPage, pageSize]);
-
-  // Refetch when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-    setPaginationModel({ ...paginationModel, page: 0 });
-    fetchBillsWithFilters(1, pageSize);
-  }, [selectedMonthYear, wardName, tabValue]);
-
-  // Handle pagination change
-  const handlePaginationModelChange = (newPaginationModel) => {
-    setPaginationModel(newPaginationModel);
-    const newPage = newPaginationModel.page + 1; // MUI DataGrid uses 0-based indexing
-    const newPageSize = newPaginationModel.pageSize;
-    
-    if (newPage !== currentPage || newPageSize !== pageSize) {
-      setCurrentPage(newPage);
-      setPageSize(newPageSize);
-      fetchBillsWithFilters(newPage, newPageSize);
+      // Fetch large number of bills for anomaly processing
+      dispatch(fetchBills(1, 10000, filters));
+    } catch (error) {
+      console.error('Error fetching bills for anomaly:', error);
     }
   };
 
+  useEffect(() => {
+    fetchAllBillsForAnomaly();
+  }, [dispatch, wardName]);
+
+  // Process bills for anomaly detection when bills data changes
+  useEffect(() => {
+    if (bills && bills.length > 0) {
+      setAllBills(bills);
+      processAnomalies(bills);
+    }
+  }, [bills]);
+
+  const processAnomalies = (billsData) => {
+    const sortedBills = [...billsData].sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
+    const billMap = new Map();
+    
+    sortedBills.forEach((bill) => {
+      if (!billMap.has(bill.consumerNumber)) {
+        billMap.set(bill.consumerNumber, []);
+      }
+      billMap.get(bill.consumerNumber).push(bill);
+    });
+
+    const highBills = [];
+    const lowBills = [];
+    const zeroConsumptionBills = [];
+
+    billMap.forEach((billHistory) => {
+      billHistory.sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
+      
+      for (let i = 1; i < billHistory.length; i++) {
+        const previousBill = billHistory[i - 1];
+        const currentBill = billHistory[i];
+        const prevAmount = previousBill.netBillAmount;
+        const currAmount = currentBill.netBillAmount;
+        const highThreshold = prevAmount + prevAmount * 0.25;
+        const lowThreshold = prevAmount - prevAmount * 0.25;
+
+        if (currAmount >= highThreshold && prevAmount > 0) {
+          highBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+        } else if (currAmount <= lowThreshold && prevAmount > 0) {
+          lowBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+        }
+
+        if (currentBill.totalConsumption === 0) {
+          zeroConsumptionBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
+        }
+      }
+    });
+
+    setProcessedAnomalies({
+      highBills,
+      lowBills,
+      zeroConsumptionBills
+    });
+  };
 
   const handleDateChange = (value) => {
     const formattedValue = dayjs(value).format("MMM-YYYY").toUpperCase();
     setSelectedMonthYear(formattedValue);
   };
 
-  const handleChangeWard = (event) => setWardName(event.target.value);
+  const handleChangeWard = (event) => {
+    setWardName(event.target.value);
+  };
 
   if (loading) {
     return (
@@ -2050,152 +2596,60 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // ✅ xs & s
     return <p>Error: {error}</p>;
   }
 
-  const sortedBills = [...bills].sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
-  const billMap = new Map();
-  sortedBills.forEach((bill) => {
-    if (!billMap.has(bill.consumerNumber)) {
-      billMap.set(bill.consumerNumber, []);
+  const getRows = () => {
+    let baseRows = [];
+    switch (tabValue) {
+      case 0: 
+        baseRows = processedAnomalies.zeroConsumptionBills;
+        break;
+      case 1: 
+        baseRows = processedAnomalies.highBills;
+        break;
+      case 2: 
+        baseRows = processedAnomalies.lowBills;
+        break;
+      default: 
+        baseRows = [];
     }
-    billMap.get(bill.consumerNumber).push(bill);
-  });
 
-  const highBills = [];
-  const lowBills = [];
-  const zeroConsumptionBills = [];
-
-  billMap.forEach((billHistory) => {
-    billHistory.sort((a, b) => new Date(a.monthAndYear) - new Date(b.monthAndYear));
-    for (let i = 1; i < billHistory.length; i++) {
-      const previousBill = billHistory[i - 1];
-      const currentBill = billHistory[i];
-      const prevAmount = previousBill.netBillAmount;
-      const currAmount = currentBill.netBillAmount;
-      const highThreshold = prevAmount + prevAmount * 0.25;
-      const lowThreshold = prevAmount - prevAmount * 0.25;
-
-      if (currAmount >= highThreshold) {
-        highBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
-      } else if (currAmount <= lowThreshold) {
-        lowBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
-      }
-
-      if (currentBill.totalConsumption === 0) {
-        zeroConsumptionBills.push({ ...currentBill, prevNetBillAmount: prevAmount });
-      }
-    }
-  });
-
-  // const downloadAllTypsOfReport = () => {
-  //   const rows = getRows().filter(
-  //     bill =>
-  //       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
-  //       (!wardName || bill.ward === wardName)
-  //   );
-
-  //   const worksheet = XLSX.utils.json_to_sheet(
-  //     rows.map((row, index) => ({
-  //       'ID': index + 1,
-  //       'Consumer No.': row.consumerNumber,
-  //       'Ward': row.ward,
-  //       'Meter Number': row.meterNumber,
-  //       'Total Consumption': row.totalConsumption,
-  //       'Meter Status': row.meterStatus,
-  //       'billMonth': row.monthAndYear,
-  //       'previousBillAmount': row.prevNetBillAmount,
-  //       'Net Bill Amount': row.netBillAmount,
-  //     }))
-  //   );
-
-  //   const workbook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
-  //   XLSX.writeFile(workbook, 'Anomaly_Report.xlsx');
-  // };
-
-  // ---------------------------------------------------------
+    // Apply filters
+    return baseRows.filter((bill) => 
+      (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) && 
+      (!wardName || bill.ward === wardName)
+    );
+  };
 
   const downloadAllTypsOfReport = () => {
-  const rows = getRows().filter(
-    bill =>
-      (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
-      (!wardName || bill.ward === wardName)
-  );
+    const rows = getRows();
 
-  // Prepare data rows for the sheet
-  const dataRows = rows.map((row, index) => ({
-    'ID': index + 1,
-    'Consumer No.': row.consumerNumber,
-    'Ward': row.ward,
-    'Meter Number': row.meterNumber,
-    'Total Consumption': row.totalConsumption,
-    'Meter Status': row.meterStatus,
-    'Bill Month': row.monthAndYear,
-    'Previous Bill Amount': row.prevNetBillAmount,
-    'Net Bill Amount': row.netBillAmount,
-  }));
+    const dataRows = rows.map((row, index) => ({
+      'ID': index + 1,
+      'Consumer No.': row.consumerNumber,
+      'Ward': row.ward,
+      'Meter Number': row.meterNumber,
+      'Total Consumption': row.totalConsumption,
+      'Meter Status': row.meterStatus,
+      'Bill Month': row.monthAndYear,
+      'Previous Bill Amount': row.prevNetBillAmount,
+      'Net Bill Amount': row.netBillAmount,
+    }));
 
-  // Insert the heading row at the top of the data array
-  const heading = [[getTabLabel(tabValue) + ' - REPORT']]; // heading text
-  const worksheet = XLSX.utils.aoa_to_sheet(heading);
+    const heading = [[getTabLabel(tabValue) + ' - REPORT']];
+    const worksheet = XLSX.utils.aoa_to_sheet(heading);
+    XLSX.utils.sheet_add_json(worksheet, dataRows, { origin: 'A3' });
 
-  // Add the data rows starting from the third row (so you leave one blank line below the heading)
-  XLSX.utils.sheet_add_json(worksheet, dataRows, { origin: 'A3' });
+    const numColumns = Object.keys(dataRows[0] || {}).length;
+    worksheet['!merges'] = [
+      {
+        s: { r: 0, c: 0 },
+        e: { r: 0, c: numColumns - 1 }
+      }
+    ];
 
-  // Merge the heading cell across all columns
-  const numColumns = Object.keys(dataRows[0] || {}).length;
-  worksheet['!merges'] = [
-    {
-      s: { r: 0, c: 0 }, // start at row 0, col 0
-      e: { r: 0, c: numColumns - 1 } // end at row 0, last column
-    }
-  ];
-
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
-  XLSX.writeFile(workbook, `${getTabLabel(tabValue)}_REPORT.xlsx`);
-};
-
-  
-  
-//   const downloadAllTypsOfReport = () => {
-//   const rows = getRows().filter(
-//     bill =>
-//       (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) &&
-//       (!wardName || bill.ward === wardName)
-//   );
-
-//   const worksheet = XLSX.utils.json_to_sheet(
-//     rows.map((row, index) => ({
-//       'ID': index + 1,
-//       'Consumer No.': row.consumerNumber,
-//       'Ward': row.ward,
-//       'Meter Number': row.meterNumber,
-//       'Total Consumption': row.totalConsumption,
-//       'Meter Status': row.meterStatus,
-//       'billMonth': row.monthAndYear,
-//       'previousBillAmount': row.prevNetBillAmount,
-//       'Net Bill Amount': row.netBillAmount,
-//     }))
-//   );
-
-//   const workbook = XLSX.utils.book_new();
-//   XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
-
-//   const reportName = getReportFileName(tabValue); // Dynamic file name
-//   XLSX.writeFile(workbook, reportName);
-// };
-
-
-
-
-
-const getReportFileName = (tabIndex) => {
-  switch (tabIndex) {
-    case 0: return 'ZERO_CONSUMPTION_BILLS.xlsx';
-    case 1: return 'HIGH_ANOMALY_BILLS.xlsx';
-    case 2: return 'LOW_ANOMALY_BILLS.xlsx';
-    default: return 'Anomaly_Report.xlsx';
-  }
-};
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+    XLSX.writeFile(workbook, `${getTabLabel(tabValue)}_REPORT.xlsx`);
+  };
   
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -2209,15 +2663,6 @@ const getReportFileName = (tabIndex) => {
     { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 150 },
   ];
 
-  const getRows = () => {
-    switch (tabValue) {
-      case 0: return zeroConsumptionBills;
-      case 1: return highBills;
-      case 2: return lowBills;
-      default: return [];
-    }
-  };
-
   const getTabLabel = (index) => {
     switch (index) {
       case 0: return 'ZERO CONSUMPTION BILLS';
@@ -2228,11 +2673,9 @@ const getReportFileName = (tabIndex) => {
   };
 
   const smallControlStyles = {
-    // border:'1px solid red',
     height: '40px',
     minHeight: '40px',
     display:'flex',
-    
     width: {
       xs: '85%',
       sm:'85%',
@@ -2256,7 +2699,21 @@ const getReportFileName = (tabIndex) => {
     }
   };
 
- 
+  // Client-side pagination for processed data
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+  };
+
+  const paginatedRows = () => {
+    const rows = getRows();
+    const startIndex = paginationModel.page * paginationModel.pageSize;
+    const endIndex = startIndex + paginationModel.pageSize;
+    return rows.slice(startIndex, endIndex).map((bill, index) => ({ 
+      id: startIndex + index + 1, 
+      ...bill 
+    }));
+  };
+
   return (
     <Box sx={{ 
       minHeight: '100vh', 
@@ -2274,50 +2731,40 @@ const getReportFileName = (tabIndex) => {
        borderRadius: '8px',
         mb: 3,
         mt:isSidebarOpen?0:5
-        
-        }}>
+      }}>
         <Tabs 
           value={tabValue} 
           onChange={(e, newValue) => setTabValue(newValue)}
           variant="fullWidth"
-          orientation={isSmallScreen ? 'vertical' : 'horizontal'} // ✅ responsive orientation
+          orientation={isSmallScreen ? 'vertical' : 'horizontal'}
           sx={{
-            // '& .MuiTab-root': {
-            //   fontSize: { xs: '0.75rem', sm: '0.875rem' },
-            //   fontWeight: 500,
-            //   py: 2,
-            //   textTransform: 'none',
-            //   '&.Mui-selected': { color: '#23CCEF', fontWeight: 600 }
-            // },
-            // '& .MuiTabs-indicator': { backgroundColor: '#23CCEF', height: 3 }
-            // border:'2px solid red',
             display:'flex',
-              '& .MuiTab-root': {
-            fontSize: { xs: '0.75rem', sm: '0.875rem' },
-            fontWeight: 500,
-            py: 2,
-            textTransform: 'none',
-            position: 'relative',
-            '&.Mui-selected': { 
-              color: '#23CCEF', 
-              fontWeight: 600,
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                bottom: 0,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: 'fit-content',
-                minWidth: '60%',
-                height: '3px',
-                backgroundColor: '#23CCEF',
-                borderRadius: '2px'
+            '& .MuiTab-root': {
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
+              fontWeight: 500,
+              py: 2,
+              textTransform: 'none',
+              position: 'relative',
+              '&.Mui-selected': { 
+                color: '#23CCEF', 
+                fontWeight: 600,
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 'fit-content',
+                  minWidth: '60%',
+                  height: '3px',
+                  backgroundColor: '#23CCEF',
+                  borderRadius: '2px'
+                }
               }
+            },
+            '& .MuiTabs-indicator': { 
+              display: 'none'
             }
-          },
-          '& .MuiTabs-indicator': { 
-            display: 'none' // Hide default indicator
-          }
           }}
         >
           <Tab label={getTabLabel(0)} />
@@ -2328,8 +2775,6 @@ const getReportFileName = (tabIndex) => {
 
       {/* Filter Row (Download + Date + Ward) */}
       <Box sx={{ 
-        // border:'1px solid red',
-
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },
         gap: 2,
@@ -2338,7 +2783,6 @@ const getReportFileName = (tabIndex) => {
         mb: 3,
       }}>
         <Button 
-        // size="small"
           variant="contained" 
           startIcon={<DownloadIcon />} 
           onClick={downloadAllTypsOfReport}
@@ -2350,14 +2794,9 @@ const getReportFileName = (tabIndex) => {
             textTransform: 'none',
             fontSize: '0.75rem',
             px: 2,
-            // width:{
-            //   xs:'95%',
-            //   sm:'95%',
-            //   md:'100%'
-            // }
           }}
         >
-REPORT
+          REPORT
         </Button>
 
         <Box sx={smallControlStyles}>
@@ -2400,23 +2839,16 @@ REPORT
       <Paper elevation={2} sx={{ backgroundColor: '#fff', borderRadius: '8px' }}>
         <Box sx={{ height: { xs: 400, sm: 500, md: 600 }, width: '100%' }}>
           <DataGrid
-            rows={getRows()
-              .filter((bill) => 
-                (!selectedMonthYear || bill.monthAndYear === selectedMonthYear) && 
-                (!wardName || bill.ward === wardName)
-              )
-              .map((bill, index) => ({ id: paginationModel.page * paginationModel.pageSize + index + 1, ...bill }))}
-           
-               columns={columns}
+            rows={paginatedRows()}
+            columns={columns}
             pagination
-            paginationMode="server"
+            paginationMode="client"
             paginationModel={paginationModel}
             onPaginationModelChange={handlePaginationModelChange}
             pageSizeOptions={[10, 25, 50, 100]}
-            rowCount={pagination?.totalBills || 0}
+            rowCount={getRows().length}
             loading={loading}
             disableSelectionOnClick
-
             sx={{
               border: 'none',
               '& .MuiDataGrid-cell': {
