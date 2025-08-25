@@ -2357,7 +2357,7 @@ const getReportFileName = (tabIndex) => {
             // }
           }}
         >
-REPORTS
+REPORT
         </Button>
 
         <Box sx={smallControlStyles}>
