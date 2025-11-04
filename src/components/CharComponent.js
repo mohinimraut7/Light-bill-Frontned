@@ -736,6 +736,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import { useSelector } from 'react-redux';
 import { Box, CircularProgress } from '@mui/material';
+import { baseUrl } from '../config/config';
 
 const ChartComponent = () => {
   const chartRef = useRef(null);
@@ -761,7 +762,9 @@ const ChartComponent = () => {
       setIsLoading(true);
       
       // First get total count
-      const firstResponse = await fetch('https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1');
+      // const firstResponse = await fetch('https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1');
+            const firstResponse = await fetch(`${baseUrl}/getBills?page=1&limit=1`);
+
       const firstData = await firstResponse.json();
       const totalBills = firstData.pagination.totalBills;
       
@@ -771,7 +774,7 @@ const ChartComponent = () => {
       const totalPages = Math.ceil(totalBills / chunkSize);
       
       for (let page = 1; page <= totalPages; page++) {
-        const response = await fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=${page}&limit=${chunkSize}`);
+        const response = await fetch(`${baseUrl}/getBills?page=${page}&limit=${chunkSize}`);
         const data = await response.json();
         fetchedBills = [...fetchedBills, ...data.bills];
       }

@@ -730,6 +730,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
 import { Box } from '@mui/material';
+import { baseUrl } from "../config/config";
 
 const BarChartBills = () => {
   const chartRef = useRef(null);
@@ -755,7 +756,9 @@ const BarChartBills = () => {
       let totalPages = 1;
 
       // First, get the first page to know total pages
-      const firstPageResponse = await fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1000`);
+      // const firstPageResponse = await fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1000`);
+      const firstPageResponse = await fetch(`${baseUrl}/getBills?page=1&limit=1000`);
+
       const firstPageData = await firstPageResponse.json();
       
       allBillsData = [...firstPageData.bills];
@@ -765,7 +768,8 @@ const BarChartBills = () => {
       const fetchPromises = [];
       for (let page = 2; page <= totalPages; page++) {
         fetchPromises.push(
-          fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=${page}&limit=1000`)
+          // fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=${page}&limit=1000`)
+             fetch(`${baseUrl}/getBills?page=${page}&limit=1000`)
             .then(response => response.json())
             .then(data => data.bills)
         );
