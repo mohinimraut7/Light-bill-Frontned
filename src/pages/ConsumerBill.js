@@ -2215,35 +2215,86 @@ const ConsumerBill = () => {
  : consumers.filter((c) => c?.ward === user?.ward).length
  }`;
 
- const handleDownloadReport = () => {
- const filteredRows = filteredData.filter(row => row.meterStatus === 'FAULTY' || row.meterStatus === 'AVERAGE');
- const worksheet = XLSX.utils.json_to_sheet(filteredRows?.map(row => ({
- 'ID': row.id,
- 'Consumer No.': row.consumerNumber,
- 'Email': row.email,
- 'Contact Number': row.contactNumber,
- 'Ward': row.ward,
- 'Meter Number': row.meterNumber,
- 'Total Consumption': row.totalConsumption,
- 'Meter Status': row.meterStatus,
- 'Previous Reading Date': row.previousReadingDate,
- 'Previous Reading': row.previousReading,
- 'Current Reading Date': row.currentReadingDate,
- 'Current Reading': row.currentReading,
- 'billDate': row.billDate,
- 'Net Bill Amount': row.netBillAmount,
- 'Prompt Payment Date': row.promptPaymentDate,
- 'Prompt Payment Amount': row.promptPaymentAmount,
- 'Due Date': row.dueDate,
- 'NET BILL AMOUNT WITH DPC': row.netBillAmountWithDPC,
- 'Last Receipt Amount': row.lastReceiptAmount,
- })));
- const workbook = XLSX.utils.book_new();
- XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
- XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
- };
+//  const handleDownloadReport = () => {
+//  const filteredRows = filteredData.filter(row => row.meterStatus === 'FAULTY' || row.meterStatus === 'AVERAGE');
+//  const worksheet = XLSX.utils.json_to_sheet(filteredRows?.map(row => ({
+//  'ID': row.id,
+//  'Consumer No.': row.consumerNumber,
+//  'Email': row.email,
+//  'Contact Number': row.contactNumber,
+//  'Ward': row.ward,
+//  'Meter Number': row.meterNumber,
+//  'Total Consumption': row.totalConsumption,
+//  'Meter Status': row.meterStatus,
+//  'Previous Reading Date': row.previousReadingDate,
+//  'Previous Reading': row.previousReading,
+//  'Current Reading Date': row.currentReadingDate,
+//  'Current Reading': row.currentReading,
+//  'billDate': row.billDate,
+//  'Net Bill Amount': row.netBillAmount,
+//  'Prompt Payment Date': row.promptPaymentDate,
+//  'Prompt Payment Amount': row.promptPaymentAmount,
+//  'Due Date': row.dueDate,
+//  'NET BILL AMOUNT WITH DPC': row.netBillAmountWithDPC,
+//  'Last Receipt Amount': row.lastReceiptAmount,
+//  })));
+//  const workbook = XLSX.utils.book_new();
+//  XLSX.utils.book_append_sheet(workbook, worksheet, 'Bills');
+//  XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
+//  };
 
- const downloadAllTypsOfReport = () => {
+ 
+
+
+
+const handleDownloadReport = () => {
+  // Use FULL DATA from allBillsForDownload (not paginated filteredData)
+  const fullFaultyAverage = allBillsForDownload.filter(bill => 
+    bill.meterStatus === 'FAULTY' || bill.meterStatus === 'AVERAGE'
+  );
+
+  if (fullFaultyAverage.length === 0) {
+    toast.warn("No Faulty/Average bills found for selected filters");
+    return;
+  }
+
+  const worksheet = XLSX.utils.json_to_sheet(
+    fullFaultyAverage.map((bill, index) => ({
+      'Sr No.': index + 1,
+      'Consumer No.': bill.consumerNumber,
+      'Consumer Name': bill.consumerName || '-',
+      'Contact No.': bill.contactNumber,
+      'Ward': bill.ward,
+      'Meter No.': bill.meterNumber || '-',
+      'Bill Month': bill.monthAndYear,
+      'Total Consumption': bill.totalConsumption,
+      'Meter Status': bill.meterStatus,
+      'Previous Reading': bill.previousReading,
+      'Previous Reading Date': formatDate(bill.previousReadingDate),
+      'Current Reading': bill.currentReading,
+      'Current Reading Date': formatDate(bill.currentReadingDate),
+      'Bill Date': formatDate(bill.billDate),
+      'Net Bill Amount': bill.netBillAmount,
+      'Prompt Payment Amount': bill.promptPaymentAmount,
+      'Due Date': bill.dueDate,
+      'NET BILL WITH DPC': bill.netBillAmountWithDPC || '-',
+      'Last Receipt Amount': bill.lastReceiptAmount || 0,
+    }))
+  );
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Faulty_Average_Bills');
+  
+  const fileName = `Faulty_Average_Bills_${selectedMonthYear || 'All'}_${wardName || 'All'}.xlsx`;
+  XLSX.writeFile(workbook, fileName);
+
+  toast.success(`${fullFaultyAverage.length} Faulty/Average bills downloaded!`);
+};
+
+
+
+
+const downloadAllTypsOfReport = () => {
  const worksheet = XLSX.utils.json_to_sheet(filteredData?.map(row => ({
  'ID': row.id,
  'Consumer No.': row.consumerNumber,
