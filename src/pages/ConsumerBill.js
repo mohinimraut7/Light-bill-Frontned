@@ -2100,20 +2100,25 @@ const ConsumerBill = () => {
  );
  }
  },
- {
- field: 'consumerNumber',
- headerName: 'CONSUMER NO.',
- width: 130,
- renderCell: (params) => (
- <Link
- to={`/consumer-bill-details/${params.row.consumerNumber}`}
- state={{ consumerData: params.row }}
- style={{ textDecoration: 'none', color: '#475569', fontWeight: 'bold' }}
- >
- {params.row.consumerNumber}
- </Link>
- ),
- },
+
+//  {
+//  field: 'consumerNumber',
+//  headerName: 'CONSUMER NO.',
+//  width: 130,
+//  renderCell: (params) => (
+//  <Link
+//  to={`/consumer-bill-details/${params.row.consumerNumber}`}
+//  state={{ consumerData: params.row }}
+//  style={{ textDecoration: 'none', color: '#475569', fontWeight: 'bold' }}
+//  >
+//  {params.row.consumerNumber}
+//  </Link>
+//  ),
+//  },
+
+{ field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
+
+
  { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
  { field: 'ward', headerName: 'WARD', width: 80 },
  { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
