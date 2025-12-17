@@ -3059,12 +3059,20 @@ const BillingAnomaly = () => {
   const currentData = getCurrentData();
 
   // Client-side paginated rows (only for display)
-  const paginatedRows = currentData
-    .slice(paginationModel.page * paginationModel.pageSize, (paginationModel.page + 1) * paginationModel.pageSize)
-    .map((bill, idx) => ({
-      id: paginationModel.page * paginationModel.pageSize + idx + 1,
-      ...bill
-    }));
+  // const paginatedRows = currentData
+  //   .slice(paginationModel.page * paginationModel.pageSize, (paginationModel.page + 1) * paginationModel.pageSize)
+  //   .map((bill, idx) => ({
+  //     id: paginationModel.page * paginationModel.pageSize + idx + 1,
+  //     ...bill
+  //   }));
+
+
+  // ✅ ADD THIS (simple & correct)
+const rows = currentData.map((bill, idx) => ({
+  id: idx + 1,
+  ...bill
+}));
+
 
   // Export ALL filtered data
   const downloadAllTypsOfReport = () => {
@@ -3204,14 +3212,15 @@ const BillingAnomaly = () => {
       <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
         <Box sx={{ height: { xs: 500, md: 700 }, width: '100%' }}>
           <DataGrid
-            rows={paginatedRows}
+            // rows={paginatedRows}
+            rows={rows}
             columns={columns}
             pagination
             paginationMode="client"
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
             pageSizeOptions={[10, 25, 50, 100]}
-            rowCount={currentData.length}
+            // rowCount={currentData.length}
             loading={loading}
             disableRowSelectionOnClick
             sx={{

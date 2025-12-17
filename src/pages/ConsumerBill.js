@@ -1583,14 +1583,37 @@ const ConsumerBill = () => {
  if (cnId) {
  filters.consumerNumber = cnId;
  }
- if (wardName && (
- user?.role === 'Super Admin' ||
- user?.role === 'Admin' ||
- user?.role === 'Executive Engineer' ||
- (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
- )) {
- filters.wardName = wardName;
- }
+
+//  if (wardName && (
+//  user?.role === 'Super Admin' ||
+//  user?.role === 'Admin' ||
+//  user?.role === 'Executive Engineer' ||
+//  (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+//  )) {
+//  filters.wardName = wardName;
+//  }
+
+
+
+// ✅ Always enforce ward for ward-wise Junior Engineer
+if (user?.role === 'Junior Engineer' && user?.ward !== 'Head Office') {
+  filters.wardName = user.ward;
+}
+// Existing logic remains same for others
+else if (wardName && (
+  user?.role === 'Super Admin' ||
+  user?.role === 'Admin' ||
+  user?.role === 'Executive Engineer' ||
+  (user?.role === 'Junior Engineer' && user.ward === 'Head Office')
+)) {
+  filters.wardName = wardName;
+}
+
+
+
+
+
+
  dispatch(fetchBills(page, limit, filters, fetchAll));
  };
 
