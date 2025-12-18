@@ -8389,7 +8389,7 @@ const innerDivStyle = {
 
 const RegionalEnergyExpenditure = () => {
   const dispatch = useDispatch();
-  const { bills = [], loading, pagination = {} } = useSelector(state => state.bills || {});
+  const { bills = [],allBills = [], loading, pagination = {} } = useSelector(state => state.bills || {});
   const { consumers = [] } = useSelector(state => state.consumers || {});
   const user = useSelector(state => state.auth.user);
   const isSidebarOpen = useSelector(state => state.sidebar.isOpen);
@@ -8538,6 +8538,7 @@ const RegionalEnergyExpenditure = () => {
     consumerNumber: bill.consumerNumber || '',
     consumerAddress: bill.consumerAddress || '',
     ward: bill.ward || '',
+    
     monthAndYear: bill.monthAndYear || '',
     meterPurpose: consumerMap[bill.consumerNumber] || 'N/A',
     netBillAmount: bill.netBillAmount || 0,
@@ -8556,71 +8557,215 @@ const RegionalEnergyExpenditure = () => {
   ];
 
   // Ward Bill List PDF (unchanged)
-  const handleDownloadPDF = async () => {
-    setShowFormControl(true);
-    const { jsPDF } = await import('jspdf');
-    await import('jspdf-autotable');
-    const doc = new jsPDF('landscape');
 
-    const meterPurposeOriginal = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
-    const ward = rows.length > 0 ? rows[0].ward : "N/A";
-    const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+  // yamaadhe marathi font cha issue hota tya mule images use kele aahet
+//   const handleDownloadPDF = async () => {
+//     setShowFormControl(true);
+//     const { jsPDF } = await import('jspdf');
+//     await import('jspdf-autotable');
+//     const doc = new jsPDF('landscape');
 
-    let yPosition = 20;
+//     const meterPurposeOriginal = meterPurposeManyName.length > 0 ? meterPurposeManyName.join(', ') : "N/A";
+//     const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//     const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
 
-    doc.setFontSize(12);
-    doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 22.2, 5.3);
-    let meterPurposeTruncated = meterPurposeOriginal;
-    const maxWidthPt = 187.5;
-    while (doc.getTextWidth(`:${meterPurposeTruncated}`) > maxWidthPt && meterPurposeTruncated.length > 0) {
-      meterPurposeTruncated = meterPurposeTruncated.slice(0, -1);
-    }
-    if (meterPurposeTruncated !== meterPurposeOriginal) meterPurposeTruncated += "...";
-    doc.text(`:${meterPurposeTruncated}`, 175, yPosition + 3);
-    yPosition += 10;
+//     let yPosition = 20;
 
-    doc.addImage(PrabhagIMG, "PNG", 130, yPosition - 1, 13.5, 4.1);
-    doc.text(`:${ward}`, 175, yPosition + 1);
-    yPosition += 10;
+//     doc.setFontSize(12);
+//     doc.addImage(meterPurposeIMG, "PNG", 130, yPosition, 22.2, 5.3);
+//     let meterPurposeTruncated = meterPurposeOriginal;
+//     const maxWidthPt = 187.5;
+//     while (doc.getTextWidth(`:${meterPurposeTruncated}`) > maxWidthPt && meterPurposeTruncated.length > 0) {
+//       meterPurposeTruncated = meterPurposeTruncated.slice(0, -1);
+//     }
+//     if (meterPurposeTruncated !== meterPurposeOriginal) meterPurposeTruncated += "...";
+//     doc.text(`:${meterPurposeTruncated}`, 175, yPosition + 3);
+//     yPosition += 10;
 
-    doc.addImage(mahinAndVarsh, "PNG", 129, yPosition - 4, 33, 5);
-    doc.text(`:${monthYear}`, 175, yPosition);
+//     doc.addImage(PrabhagIMG, "PNG", 130, yPosition - 1, 13.5, 4.1);
+//     doc.text(`:${ward}`, 175, yPosition + 1);
+//     yPosition += 10;
 
-    const tableData = allBillsForDownload.map(row => [
-      row.consumerNumber || '',
-      row.consumerAddress || '',
-      row.monthAndYear || '',
-      row.ward || '',
-      row.meterPurpose || '',
-      row.netBillAmount || 0,
-      row.dueDate || '',
-    ]);
+//     doc.addImage(mahinAndVarsh, "PNG", 129, yPosition - 4, 33, 5);
+//     doc.text(`:${monthYear}`, 175, yPosition);
 
-    doc.autoTable({
-      head: [['', '', '', '', '', '', '']],
-      body: tableData,
-      startY: 50,
-      headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], lineWidth: 0.5, lineColor: [0, 0, 0] },
-      bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], lineWidth: 0.5, lineColor: [0, 0, 0] },
-      styles: { fontSize: 10, cellPadding: 3, overflow: 'linebreak' },
-      didDrawPage: (data) => {
-        const topPosition = data.pageNumber === 1 ? 52 : 15;
-        doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
-        doc.addImage(Tapshil, "PNG", data.settings.margin.left + 45, topPosition - 1, 14, 5);
-        doc.addImage(Mahina, "PNG", data.settings.margin.left + 150.7, topPosition - 1, 13, 5);
-        doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 174, topPosition, 11, 4);
-        doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 192.9, topPosition - 1, 18, 4.8);
-        doc.addImage(Rakkam, "PNG", data.settings.margin.left + 218.7, topPosition, 12.5, 4);
-        doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239.5, topPosition - 1, 22, 5);
-      },
-    });
+//     const tableData = allBills.map(row => [
+//       row.consumerNumber || '',
+//       row.consumerAddress || '',
+//       row.monthAndYear || '',
+//       row.ward || '',
+//       row.meterPurpose || '',
+//       row.netBillAmount || 0,
+//       row.dueDate || '',
+//     ]);
 
-    const pdfData = doc.output('datauristring');
-    const type = "wardbilllist";
-    handlePdfPreview(pdfData, type, monthYear);
-    const pdfBlob = doc.output('blob');
-    setPdfBlob(pdfBlob);
-  };
+//     // doc.autoTable({
+//     //   head: [['', '', '', '', '', '', '']],
+//     //   body: tableData,
+//     //   startY: 50,
+//     //   headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], lineWidth: 0.5, lineColor: [0, 0, 0] },
+//     //   bodyStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], lineWidth: 0.5, lineColor: [0, 0, 0] },
+//     //   styles: { fontSize: 10, cellPadding: 3, overflow: 'linebreak' },
+//     //   didDrawPage: (data) => {
+//     //     const topPosition = data.pageNumber === 1 ? 52 : 15;
+//     //     doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+//     //     doc.addImage(Tapshil, "PNG", data.settings.margin.left + 45, topPosition - 1, 14, 5);
+//     //     doc.addImage(Mahina, "PNG", data.settings.margin.left + 150.7, topPosition - 1, 13, 5);
+//     //     doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 174, topPosition, 11, 4);
+//     //     doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 192.9, topPosition - 1, 18, 4.8);
+//     //     doc.addImage(Rakkam, "PNG", data.settings.margin.left + 218.7, topPosition, 12.5, 4);
+//     //     doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239.5, topPosition - 1, 22, 5);
+//     //   },
+//     // });
+
+    
+//   //  --------------------------
+
+//     doc.autoTable({
+//   startY: 65,
+//   margin: { top: 65 },
+
+//   head: [['', '', '', '', '', '', '']],
+//   body: tableData,
+
+//   styles: {
+//     fontSize: 10,
+//     cellPadding: 3,
+//     overflow: 'hidden',
+//   },
+
+//   columnStyles: {
+//     1: { cellWidth: 80 }, // Address
+//   },
+
+//   didDrawPage: (data) => {
+//     const topPosition = 52; // 🔒 FIXED
+
+//     doc.addImage(grahakKramank, "PNG", data.settings.margin.left + 2, topPosition, 20.7, 4.5);
+//     doc.addImage(Tapshil, "PNG", data.settings.margin.left + 45, topPosition - 1, 14, 5);
+//     doc.addImage(Mahina, "PNG", data.settings.margin.left + 150.7, topPosition - 1, 13, 5);
+//     doc.addImage(PrabhagIMG, "PNG", data.settings.margin.left + 174, topPosition, 11, 4);
+//     doc.addImage(meterPurposeIMG, "PNG", data.settings.margin.left + 192.9, topPosition - 1, 18, 4.8);
+//     doc.addImage(Rakkam, "PNG", data.settings.margin.left + 218.7, topPosition, 12.5, 4);
+//     doc.addImage(AntimDinank, "PNG", data.settings.margin.left + 239.5, topPosition - 1, 22, 5);
+//   },
+// });
+
+    
+//     const pdfData = doc.output('datauristring');
+//     const type = "wardbilllist";
+//     handlePdfPreview(pdfData, type, monthYear);
+//     const pdfBlob = doc.output('blob');
+//     setPdfBlob(pdfBlob);
+//   };
+
+
+
+
+
+const handleDownloadPDF = async () => {
+  setShowFormControl(true);
+  const { jsPDF } = await import("jspdf");
+  await import("jspdf-autotable");
+
+  const doc = new jsPDF("landscape");
+
+  const ward = rows.length > 0 ? rows[0].ward : "N/A";
+  const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+  const meterPurpose =
+    meterPurposeManyName.length > 0
+      ? meterPurposeManyName.join(", ")
+      : "N/A";
+
+  // ===== TOP INFO =====
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+
+  let y = 20;
+  doc.text(`Meter Purpose : ${meterPurpose}`, 130, y);
+  y += 8;
+  doc.text(`Ward : ${ward}`, 130, y);
+  y += 8;
+  doc.text(`Month & Year : ${monthYear}`, 130, y);
+
+  // ===== TABLE DATA (ALL RECORDS – NO PAGINATION ISSUE) =====
+  const tableData = allBills.map(row => [
+    row.consumerNumber || "",
+    row.consumerAddress || "",
+    row.monthAndYear || "",
+    row.ward || "",
+    row.meterPurpose || "",
+    row.netBillAmount || 0,
+    row.dueDate || "",
+  ]);
+
+  doc.autoTable({
+    startY: 60,
+
+    // ✅ ENGLISH HEADERS
+    head: [[
+      "Consumer No",
+      "Address",
+      "Month",
+      "Ward",
+      "Meter Purpose",
+      "Amount",
+      "Due Date"
+    ]],
+
+    body: tableData,
+
+    styles: {
+      font: "helvetica",
+      fontSize: 10,
+      cellPadding: 4,
+      valign: "middle",
+      overflow: "linebreak",
+
+      fillColor: [255, 255, 255], // ⭐ force white everywhere
+    textColor: [0, 0, 0],
+    },
+
+    headStyles: {
+      // fillColor: [235, 235, 235],
+      fillColor: [255, 255, 255], // ⭐ header white
+      textColor: [0, 0, 0],
+      lineWidth: 0.8,
+      lineColor: [0, 0, 0],
+      halign: "center",
+      fontStyle: "bold",
+    },
+
+    bodyStyles: {
+      // fillColor: [255, 255, 255], // ❌ gray rows removed
+       fillColor: [255, 255, 255], // ⭐ rows white
+      textColor: [0, 0, 0],
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+    },
+
+    alternateRowStyles: {
+    fillColor: [255, 255, 255], // ⭐ disable striping
+  },
+
+    columnStyles: {
+      0: { cellWidth: 32 },  // Consumer No
+      1: { cellWidth: 90 },  // Address
+      2: { cellWidth: 30 },  // Month
+      3: { cellWidth: 28 },  // Ward
+      4: { cellWidth: 35 },  // Meter Purpose
+      5: { cellWidth: 30, halign: "right" }, // Amount
+      6: { cellWidth: 35 },  // Due Date
+    },
+  });
+
+  const pdfData = doc.output("datauristring");
+  handlePdfPreview(pdfData, "wardbilllist", monthYear);
+
+  const pdfBlob = doc.output("blob");
+  setPdfBlob(pdfBlob);
+};
+
 
   // Faulty Meter Report, Form22, Tipani – all kept exactly as in your original code-1
   // (Only minor clean-up, no functionality removed)

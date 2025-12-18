@@ -565,7 +565,15 @@ export const fetchBills = (page = 1, limit = 10, filters = {}, fetchAll = false)
  }
 
  const response = await axios.get(`${baseUrl}/getBills?${queryParams}`);
- dispatch(fetchBillsSuccess(response.data));
+
+
+//  dispatch(fetchBillsSuccess(response.data));
+dispatch(fetchBillsSuccess({
+  ...response.data,
+  fetchAll
+}))
+
+
  } catch (error) {
  dispatch(fetchBillsFailure(error.message));
  }

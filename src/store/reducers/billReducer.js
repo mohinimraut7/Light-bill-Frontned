@@ -315,6 +315,7 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,FETCH_OVERDUE
 
   const initialState = {
     bills: [],
+    allBills: [],       
      pagination: {
         currentPage: 1,
         totalPages: 0,
@@ -342,13 +343,31 @@ import { FETCH_BILLS_REQUEST,FETCH_BILLS_SUCCESS,FETCH_BILLS_ERROR,FETCH_OVERDUE
           loading: true,
           error: null
         };
+      // case FETCH_BILLS_SUCCESS:
+      //   return {
+      //     ...state,
+      //     loading: false,
+      //    bills: action.payload.bills || action.payload,
+      //     pagination: action.payload.pagination || state.pagination
+      //   };
       case FETCH_BILLS_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-         bills: action.payload.bills || action.payload,
-          pagination: action.payload.pagination || state.pagination
-        };
+  return {
+    ...state,
+    loading: false,
+
+    // pagination UI data
+    bills: action.payload.fetchAll
+      ? state.bills
+      : action.payload.bills || action.payload,
+
+    // PDF / report data
+    allBills: action.payload.fetchAll
+      ? action.payload.bills
+      : state.allBills,
+
+    pagination: action.payload.pagination || state.pagination
+  };
+
          // Overdue Bills with Server-side Pagination
     case FETCH_OVERDUE_BILLS_SUCCESS:
       return {
