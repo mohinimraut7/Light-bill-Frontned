@@ -8251,6 +8251,9 @@ import FaultyMeterConsumerNumber from '../components/modals/FaultyMeterConsumerN
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { baseUrl } from '../config/config';
+import './RegionalEnergyExpenditure.css';
+import html2pdf from "html2pdf.js";
+
 
 // ALL IMAGES (unchanged – exactly as in code-1)
 import logovvcmc from '../Images/vvcmclogo.jpg';
