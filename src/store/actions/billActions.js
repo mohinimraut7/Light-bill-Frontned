@@ -470,6 +470,10 @@ export const UPDATE_BILL_FLAG_ERROR = 'UPDATE_BILL_FLAG_ERROR';
 export const FETCH_OVERDUE_BILLS_REQUEST ='FETCH_OVERDUE_BILLS_REQUEST';
 export const FETCH_OVERDUE_BILLS_SUCCESS ='FETCH_OVERDUE_BILLS_SUCCESS';
 export const FETCH_OVERDUE_BILLS_ERROR = 'FETCH_OVERDUE_BILLS_ERROR';
+
+
+export const SET_ALL_BILLS_FOR_REPORT = "SET_ALL_BILLS_FOR_REPORT";
+
 const getToken = () => {
   const resdata = JSON.parse(localStorage.getItem('resdata'));
   return resdata ? resdata.token : null;
@@ -567,12 +571,16 @@ export const fetchBills = (page = 1, limit = 10, filters = {}, fetchAll = false)
  const response = await axios.get(`${baseUrl}/getBills?${queryParams}`);
 
 
-//  dispatch(fetchBillsSuccess(response.data));
-dispatch(fetchBillsSuccess({
-  ...response.data,
-  fetchAll
-}))
+ dispatch(fetchBillsSuccess(response.data));
+// dispatch(fetchBillsSuccess({
+//   ...response.data,
+//   fetchAll
+// }))
 
+
+if (fetchAll) {
+  dispatch(setAllBillsForReport(response.data.bills));
+}
 
  } catch (error) {
  dispatch(fetchBillsFailure(error.message));
@@ -811,3 +819,11 @@ export const deleteBill = (bill_id) => {
     }
   };
 };
+
+
+export const setAllBillsForReport = (bills) => ({
+  type: SET_ALL_BILLS_FOR_REPORT,
+  payload: bills,
+});
+
+

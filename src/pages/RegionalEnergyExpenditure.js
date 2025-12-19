@@ -8389,7 +8389,9 @@ const innerDivStyle = {
 
 const RegionalEnergyExpenditure = () => {
   const dispatch = useDispatch();
-  const { bills = [],allBills = [], loading, pagination = {} } = useSelector(state => state.bills || {});
+  const { bills = [], loading, pagination = {} } = useSelector(state => state.bills || {});
+
+  const allBills = useSelector(state => state.bills.allBills);
   const { consumers = [] } = useSelector(state => state.consumers || {});
   const user = useSelector(state => state.auth.user);
   const isSidebarOpen = useSelector(state => state.sidebar.isOpen);
