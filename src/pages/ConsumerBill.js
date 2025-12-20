@@ -2401,6 +2401,7 @@ const downloadAllTypsOfReport = () => {
  </Box>
  <Box sx={innerDivStyle}>
  <Box sx={{
+ 
  width: '100%',
  display: 'flex',
  justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'space-between', xs: 'center' },
@@ -2408,6 +2409,8 @@ const downloadAllTypsOfReport = () => {
  mb: 2
  }}>
  <Box sx={{
+
+ 
  display: 'flex',
  width: { xl: '690px', lg: '1000px', md: '100%', sm: '100%', width: '100%' },
  justifyContent: { lg: 'space-between', xl: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
@@ -2424,27 +2427,28 @@ const downloadAllTypsOfReport = () => {
  </Box>
  </Box>
  <Box sx={{
+
  display: 'flex',
  ml: { xl: isSidebarOpen ? 0 : 0, lg: isSidebarOpen ? 0 : 0, md: isSidebarOpen ? 2.5 : 1 },
  gap: { lg: '5px' },
  width: { xl: isSidebarOpen ? '100%' : '85%', lg: isSidebarOpen ? '85%' : '80%', md: isSidebarOpen ? '95%' : '100%', sm: '100%', xs: '100%' },
- justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
+ justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'flex-start', sm: 'center', xs: 'center' },
  alignItems: 'center',
  mb: 2,
  flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
  }}>
- <ConsumerButton
+ {/* <ConsumerButton
  onClick={handleProcessClick}
  disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
  selectedItems.every(item => item.approvedStatus === 'PendingForExecutiveEngineer')}>
  Process
- </ConsumerButton>
- <ConsumerButton
+ </ConsumerButton> */}
+ {/* <ConsumerButton
  onClick={handleReverseApprovals}
  disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
  selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')}>
  Rollback Approvals
- </ConsumerButton>
+ </ConsumerButton> */}
  <ConsumerButton onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon />}>Download Reports</ConsumerButton>
  <ConsumerButton onClick={handleDownloadReport} startIcon={<DownloadIcon />}>Faulty | Average Bills</ConsumerButton>
  </Box>
