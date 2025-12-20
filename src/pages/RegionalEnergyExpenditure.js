@@ -8699,7 +8699,7 @@ const handleDownloadPDF = async () => {
     row.consumerAddress || "",
     row.monthAndYear || "",
     row.ward || "",
-    row.meterPurpose || "",
+    // row.meterPurpose || "",
     row.netBillAmount || 0,
     row.dueDate || "",
   ]);
@@ -8713,7 +8713,7 @@ const handleDownloadPDF = async () => {
       "Address",
       "Month",
       "Ward",
-      "Meter Purpose",
+      // "Meter Purpose",
       "Amount",
       "Due Date"
     ]],
