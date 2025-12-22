@@ -8238,7 +8238,10 @@ import {
   Select, MenuItem, Checkbox, OutlinedInput, CircularProgress
 } from '@mui/material';
 import PdfPreviewModal from '../components/modals/PdfPreviewModal';
-import BillDatePicker from '../components/BillDatePicker';
+// import BillDatePicker from '../components/BillDatePicker';
+import RegionalEnergyExpenditureBillDatePicker from '../components/RegionalEnergyExpenditureBillDatePicker';
+
+
 import wardDataAtoI from '../data/warddataAtoI';
 import meterPurposeData from '../data/meterpurpose';
 import jsPDF from 'jspdf';
@@ -11612,10 +11615,18 @@ let type="karyalayintipani";
   }}
 >
  
-  <BillDatePicker
+  {/* <BillDatePicker
+    selectedMonthYear={selectedMonthYear}
+    onChange={handleDateChange}
+  /> */}
+
+   <RegionalEnergyExpenditureBillDatePicker
     selectedMonthYear={selectedMonthYear}
     onChange={handleDateChange}
   />
+
+
+  
 
   {(user?.role === "Super Admin" ||
     user?.role === "Admin" ||
