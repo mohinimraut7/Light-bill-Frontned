@@ -8671,12 +8671,113 @@ const RegionalEnergyExpenditure = () => {
 
 
 
+// const handleDownloadPDF = async () => {
+//   setShowFormControl(true);
+//   const { jsPDF } = await import("jspdf");
+//   await import("jspdf-autotable");
+
+//   const doc = new jsPDF("landscape");
+
+//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+//   const meterPurpose =
+//     meterPurposeManyName.length > 0
+//       ? meterPurposeManyName.join(", ")
+//       : "N/A";
+
+//   // ===== TOP INFO =====
+//   doc.setFont("helvetica", "normal");
+//   doc.setFontSize(12);
+
+//   let y = 20;
+//   doc.text(`Meter Purpose : ${meterPurpose}`, 130, y);
+//   y += 8;
+//   doc.text(`Ward : ${ward}`, 130, y);
+//   y += 8;
+//   doc.text(`Month & Year : ${monthYear}`, 130, y);
+
+//   // ===== TABLE DATA (ALL RECORDS – NO PAGINATION ISSUE) =====
+//   const tableData = allBills.map(row => [
+//     row.consumerNumber || "",
+//     row.consumerAddress || "",
+//     row.monthAndYear || "",
+//     row.ward || "",
+//     // row.meterPurpose || "",
+//     row.netBillAmount || 0,
+//     row.dueDate || "",
+//   ]);
+
+//   doc.autoTable({
+//     startY: 60,
+
+//     // ✅ ENGLISH HEADERS
+//     head: [[
+//       "Consumer No",
+//       "Address",
+//       "Month",
+//       "Ward",
+//       // "Meter Purpose",
+//       "Amount",
+//       "Due Date"
+//     ]],
+
+//     body: tableData,
+
+//     styles: {
+//       font: "helvetica",
+//       fontSize: 10,
+//       cellPadding: 4,
+//       valign: "middle",
+//       overflow: "linebreak",
+
+//       fillColor: [255, 255, 255], // ⭐ force white everywhere
+//     textColor: [0, 0, 0],
+//     },
+
+//     headStyles: {
+//       // fillColor: [235, 235, 235],
+//       fillColor: [255, 255, 255], // ⭐ header white
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.8,
+//       lineColor: [0, 0, 0],
+//       halign: "center",
+//       fontStyle: "bold",
+//     },
+
+//     bodyStyles: {
+//       // fillColor: [255, 255, 255], // ❌ gray rows removed
+//        fillColor: [255, 255, 255], // ⭐ rows white
+//       textColor: [0, 0, 0],
+//       lineWidth: 0.5,
+//       lineColor: [0, 0, 0],
+//     },
+
+//     alternateRowStyles: {
+//     fillColor: [255, 255, 255], // ⭐ disable striping
+//   },
+
+//     columnStyles: {
+//       0: { cellWidth: 32 },  // Consumer No
+//       1: { cellWidth: 90 },  // Address
+//       2: { cellWidth: 30 },  // Month
+//       3: { cellWidth: 28 },  // Ward
+//       4: { cellWidth: 35 },  // Meter Purpose
+//       5: { cellWidth: 30, halign: "right" }, // Amount
+//       6: { cellWidth: 35 },  // Due Date
+//     },
+//   });
+
+//   const pdfData = doc.output("datauristring");
+//   handlePdfPreview(pdfData, "wardbilllist", monthYear);
+
+//   const pdfBlob = doc.output("blob");
+//   setPdfBlob(pdfBlob);
+// };
+
+
+
 const handleDownloadPDF = async () => {
   setShowFormControl(true);
-  const { jsPDF } = await import("jspdf");
-  await import("jspdf-autotable");
-
-  const doc = new jsPDF("landscape");
 
   const ward = rows.length > 0 ? rows[0].ward : "N/A";
   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
@@ -8685,94 +8786,103 @@ const handleDownloadPDF = async () => {
       ? meterPurposeManyName.join(", ")
       : "N/A";
 
-  // ===== TOP INFO =====
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
+  // ===============================
+  // HTML (html2pdf – Form22 style)
+  // ===============================
+  const html = `
+    <div
+      style="
+        padding:15mm;
+        box-sizing:border-box;
+        font-family:'Noto Serif Devanagari', serif;
+        font-size:13px;
+        line-height:1.5;
+        color:#000;
+      "
+    >
+     
+<div style="text-align:center;color:#000;">
+  <div style="display:inline-block;text-align:left;">
 
-  let y = 20;
-  doc.text(`Meter Purpose : ${meterPurpose}`, 130, y);
-  y += 8;
-  doc.text(`Ward : ${ward}`, 130, y);
-  y += 8;
-  doc.text(`Month & Year : ${monthYear}`, 130, y);
+    <!-- Heading : same left start -->
+    <h2 style="margin-bottom:10px;">
+      विद्युत देयक यादी
+    </h2>
 
-  // ===== TABLE DATA (ALL RECORDS – NO PAGINATION ISSUE) =====
-  const tableData = allBills.map(row => [
-    row.consumerNumber || "",
-    row.consumerAddress || "",
-    row.monthAndYear || "",
-    row.ward || "",
-    // row.meterPurpose || "",
-    row.netBillAmount || 0,
-    row.dueDate || "",
-  ]);
+    <!-- Aligned content -->
+    <p style="margin:0;line-height:1.6;margin-bottom:10px">
+      <span style="display:inline-block;width:110px;font-weight:bold;">
+        मीटरचा उद्देश :
+      </span>
+      ${meterPurpose}
+      <br/>
 
-  doc.autoTable({
-    startY: 60,
+      <span style="display:inline-block;width:110px;font-weight:bold;">
+        प्रभाग :
+      </span>
+      ${ward}
+      <br/>
 
-    // ✅ ENGLISH HEADERS
-    head: [[
-      "Consumer No",
-      "Address",
-      "Month",
-      "Ward",
-      // "Meter Purpose",
-      "Amount",
-      "Due Date"
-    ]],
+      <span style="display:inline-block;width:110px;font-weight:bold;">
+        महिना :
+      </span>
+      ${monthYear}
+    </p>
 
-    body: tableData,
+  </div>
+</div>
 
-    styles: {
-      font: "helvetica",
-      fontSize: 10,
-      cellPadding: 4,
-      valign: "middle",
-      overflow: "linebreak",
 
-      fillColor: [255, 255, 255], // ⭐ force white everywhere
-    textColor: [0, 0, 0],
-    },
 
-    headStyles: {
-      // fillColor: [235, 235, 235],
-      fillColor: [255, 255, 255], // ⭐ header white
-      textColor: [0, 0, 0],
-      lineWidth: 0.8,
-      lineColor: [0, 0, 0],
-      halign: "center",
-      fontStyle: "bold",
-    },
+      <table border="1" width="100%" cellspacing="0" cellpadding="6"
+        style="border-collapse:collapse;table-layout:fixed;color:#000;border-color:#000;">
+        <thead>
+          <tr>
+            <th style="width:6%">अ.क्र.</th>
+            <th style="width:14%">ग्राहक क्रमांक</th>
+            <th style="width:30%">पत्ता</th>
+            <th style="width:12%">महिना</th>
+            <th style="width:10%">प्रभाग</th>
+            <th style="width:14%">रक्कम</th>
+            <th style="width:14%">देय दिनांक</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${
+            allBills.map((row, index) => `
+              <tr>
+                <td style="text-align:center;color:#000">${index + 1}</td>
+                <td>${row.consumerNumber || ""}</td>
+                <td>${row.consumerAddress || ""}</td>
+                <td>${row.monthAndYear || ""}</td>
+                <td>${row.ward || ""}</td>
+                <td style="text-align:right">${row.netBillAmount || 0}</td>
+                <td>${row.dueDate || ""}</td>
+              </tr>
+            `).join("")
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
 
-    bodyStyles: {
-      // fillColor: [255, 255, 255], // ❌ gray rows removed
-       fillColor: [255, 255, 255], // ⭐ rows white
-      textColor: [0, 0, 0],
-      lineWidth: 0.5,
-      lineColor: [0, 0, 0],
-    },
+  // ===============================
+  // PDF GENERATION (html2pdf)
+  // ===============================
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = html;
+  document.body.appendChild(wrapper);
 
-    alternateRowStyles: {
-    fillColor: [255, 255, 255], // ⭐ disable striping
-  },
+  await html2pdf().set({
+    margin: [15, 12, 15, 12],
+    filename: `Ward_Bill_List_${monthYear}.pdf`,
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+  }).from(wrapper).save();
 
-    columnStyles: {
-      0: { cellWidth: 32 },  // Consumer No
-      1: { cellWidth: 90 },  // Address
-      2: { cellWidth: 30 },  // Month
-      3: { cellWidth: 28 },  // Ward
-      4: { cellWidth: 35 },  // Meter Purpose
-      5: { cellWidth: 30, halign: "right" }, // Amount
-      6: { cellWidth: 35 },  // Due Date
-    },
-  });
-
-  const pdfData = doc.output("datauristring");
-  handlePdfPreview(pdfData, "wardbilllist", monthYear);
-
-  const pdfBlob = doc.output("blob");
-  setPdfBlob(pdfBlob);
+  document.body.removeChild(wrapper);
 };
+
 
 
   // Faulty Meter Report, Form22, Tipani – all kept exactly as in your original code-1
