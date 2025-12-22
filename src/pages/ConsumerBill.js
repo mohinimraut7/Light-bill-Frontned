@@ -1510,6 +1510,10 @@ import * as XLSX from 'xlsx';
 import { CircularProgress } from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
 import BillDatePicker from '../components/BillDatePicker';
+import BillDatePickerConsumerBill from '../components/BillDatePickerConsumerBill';
+
+
+
 import CustomWidthTooltip from '../components/CustomWidthTooltip';
 import { AddRemarkModal } from '../components/modals/AddRemark';
 import ViewRemarkModal from '../components/modals/ViewRemarkModal';
@@ -2476,7 +2480,11 @@ const downloadAllTypsOfReport = () => {
  xs: '80%',
  },
  }}>
- <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
+ {/* <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} /> */}
+
+
+  <BillDatePickerConsumerBill selectedMonthYear={selectedMonthYear} onChange={handleDateChange} />
+
  </Box>
  <TextField
  id="consumerNumber"
