@@ -8404,7 +8404,21 @@ const RegionalEnergyExpenditure = () => {
   const { users = [] } = useSelector(state => state.users || {});
 
   const [selectedMonthYear, setSelectedMonthYear] = useState('');
-  const [wardName, setWardName] = useState('');
+
+  // const [wardName, setWardName] = useState('');
+
+
+const [wardName, setWardName] = useState(
+  user?.ward === 'Head Office' ||
+  user?.role === 'Admin' ||
+  user?.role === 'Super Admin' ||
+  user?.role === 'Executive Engineer'
+    ? ''              // 👉 All wards allowed
+    : user?.ward      // 👉 JE Ward A–I
+);
+
+
+
   const [meterPurposeManyName, setMeterPurposeManyName] = useState([]);
 
   // Perfect server-side pagination (taken from code-2)
