@@ -8894,6 +8894,54 @@ const handleDownloadPDF = async () => {
 
   // For brevity in this answer, the massive PDF generation functions are left as-is from your original code-1.
   // They work perfectly with the new pagination logic above.
+const wardAddressTextMap = {
+  "Ward-A": [
+    "प्रभाग समिती अ, विभागीय कार्यालय,",
+    "बोळींज, विरार (प.), ता. वसई",
+    "जि. पालघर, पिन कोड ४०१३०३"
+  ],
+  "Ward-B": [
+    "प्रभाग समिती बी, विभागीय कार्यालय,",
+    "वसई (प.), ता. वसई",
+    "जि. पालघर, पिन कोड ४०१३०५"
+  ],
+  "Ward-C": [
+    "प्रभाग समिती सी, विभागीय कार्यालय,",
+    "नालासोपारा (प.), ता. वसई",
+    "जि. पालघर, पिन कोड ४०१३०५"
+  ],
+  "Ward-D": [
+    "प्रभाग समिती डी, विभागीय कार्यालय,",
+    "आचोळे, नालासोपारा (प.)",
+    "जि. पालघर, पिन कोड ४०१२०९"
+  ],
+  "Ward-E": [
+    "प्रभाग समिती ई,",
+    "दुर्दम गार्डन जवळ,",
+    "नालासोपारा (प.), ता. वसई",
+    "जि. पालघर, पिन कोड ४०१२०३"
+  ],
+  "Ward-F": [
+    "प्रभाग समिती एफ,",
+    "वालिव मंदिर जवळ, वालिव",
+    "गाव, वसई (पू.)"
+  ],
+  "Ward-G": [
+    "प्रभाग समिती जी, वालिव,",
+    "वालिव नाका, वसई ईस्ट",
+    "जि. पालघर, पिन कोड ४०१२०८"
+  ],
+  "Ward-H": [
+    "प्रभाग समिती एच, नावर,",
+    "विभागीय कार्यालय, नावर",
+    "नालासोपारा (पू.)"
+  ],
+  "Ward-I": [
+    "प्रभाग समिती आय, कार्यालय,",
+    "बोळींज, विरार (प.)",
+    "जि. पालघर, पिन कोड ४०१३०३"
+  ],
+};
 
 
 const handleSaveConsumerDetails = () => {
@@ -8938,10 +8986,24 @@ function convertToMarathiDigits(numberStr) {
   // Add ward logo
   const isPrivilegedUser = ['Executive Engineer', 'Admin', 'Super Admin'].includes(user.role) || (user.role === 'Junior Engineer' && user.ward === 'Head Office');
   const selectedWard = isPrivilegedUser ? wardName : user.ward;
-  const addressImage = getWardAddressImage(selectedWard);
-  if (addressImage) {
-    doc.addImage(addressImage, 'PNG', leftX, y, 50, 28);
-  }
+
+  // const addressImage = getWardAddressImage(selectedWard);
+  // if (addressImage) {
+  //   doc.addImage(addressImage, 'PNG', leftX, y, 50, 28);
+  // }
+
+
+ const addressLines = wardAddressTextMap[selectedWard];
+
+  if (addressLines && addressLines.length > 0) {
+    doc.setFontSize(11);
+    let addrY = y + 4;
+
+    addressLines.forEach(line => {
+      doc.text(line, leftX, addrY);
+      addrY += 5;
+    });
+  
 
   // Phone
   const phoneText = ": ०२५०-२३३४१४४";
