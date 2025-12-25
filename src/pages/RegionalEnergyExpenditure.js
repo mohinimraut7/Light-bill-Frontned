@@ -11530,6 +11530,251 @@ const handleSaveConsumerDetails = async () => {
 
 
 
+// const handleDownloadForm22 = async () => {
+
+//   // ===============================
+//   // EXISTING DATA FLOW (AS-IS)
+//   // ===============================
+//   const { foundReport, reportingData } = await fetchReportData(
+//     selectedMonthYear,
+//     user,
+//     setMode,
+//     setReportingDataSM,
+//     setMonthArr
+//   );
+
+//   const signatureMatches = checkSignatureStatusForm22(monthArr);
+
+//   const totalAmount = rows
+//     .filter(r => r.monthAndYear === selectedMonthYear)
+//     .reduce((s, r) => s + Number(r.netBillAmount || 0), 0);
+
+//   const today = new Date().toLocaleDateString("en-IN");
+
+//   // ===============================
+//   // HTML (FORM–22 : PAGE 1 + PAGE 2)
+//   // ===============================
+//   const html = `
+//   <div class="marathi-pdf"
+//     style="
+//       padding:15mm;
+//       box-sizing:border-box;
+//       font-family:'Noto Serif Devanagari', serif;
+//       font-size:14px;
+//       line-height:1.6;
+//     ">
+
+//     <!-- ================= PAGE 1 ================= -->
+
+//     <div style="display:flex;justify-content:space-between">
+//       <div>M.S.C. Form 22 (Rule (1))</div>
+//       <div>M.S.C. 22</div>
+//     </div>
+
+//     <div style="text-align:center;margin-top:10px">
+//       <img src="${logovvcmc}" width="70"/>
+//       <h2>नमुना नं. २२</h2>
+//       <div>(नियम २२ (१))</div>
+//       <h3>वसई विरार शहर महानगरपालिका</h3>
+//     </div>
+
+//     <p>
+//       <b>बिल क्रमांक :</b> ____________
+//       <span style="float:right"><b>प्रमाणक क्रमांक :</b> ____________</span><br/>
+//       <b>दिनांक :</b> ${today}
+//     </p>
+
+//     <p>
+//       पैसे देणाऱ्याचे नाव : म.रा.वि.वि. कंपनी<br/>
+//       पत्ता : ${user?.ward}<br/>
+//       माल : विद्युत विभाग<br/>
+//       मागणी पुस्तकाचा संदर्भ :
+//       लेखा शीर्ष विद्युत विभाग विद्युत देयक
+//     </p>
+
+//     <table border="1" width="100%" cellspacing="0" cellpadding="6"
+//       style="table-layout:fixed;border-collapse:collapse;">
+//       <thead>
+//         <tr>
+//           <th style="width:6%">अनु.क्र.</th>
+//           <th style="width:44%">कामाचा किंवा वस्तूंचा तपशील</th>
+//           <th style="width:12%">परिमाण</th>
+//           <th style="width:10%">दर</th>
+//           <th style="width:10%">युनिट</th>
+//           <th style="width:18%">रक्कम (रु. पै.)</th>
+//         </tr>
+//       </thead>
+
+//       <tbody>
+//         <tr>
+//           <td align="center">1</td>
+//           <td>
+//             वसई विरार शहर महानगरपालिका<br/>
+//             कार्यक्षेत्रातील प्रभाग समिती ${user?.ward}<br/>
+//             विभागातील विरार विभागाचे<br/>
+//             म.रा.वि.वि. कंपनीचे माहे ${selectedMonthYear}<br/>
+//             चे विद्युत देयक
+//           </td>
+//           <td></td>
+//           <td></td>
+//           <td></td>
+//           <td align="right">${totalAmount.toFixed(2)}</td>
+//         </tr>
+//       </tbody>
+
+//       <tfoot>
+//         <tr>
+//           <td colspan="5" align="right"><b>एकूण</b></td>
+//           <td align="right"><b>${totalAmount.toFixed(2)}</b></td>
+//         </tr>
+//       </tfoot>
+//     </table>
+
+//     <!-- ===== MISSED PART (FIRST PAGE BOTTOM) ===== -->
+
+//     <p style="text-align:center;margin-top:10px;font-weight:bold">
+//       एकूण रक्कम रुपये (अक्षरी ________________________________ मात्र)
+//     </p>
+
+//     <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:25px;font-size:13px">
+
+//       <!-- LEFT -->
+//       <div>
+//         <table width="100%" cellpadding="2">
+//           <tr><td>१) रक्कमेचे नियम तपासले</td><td>रु.</td></tr>
+//           <tr><td>२) पूर्वीचा खर्च</td><td>रु.</td></tr>
+//           <tr>
+//             <td>३) ह्या बिलांत दाखवलेला खर्च</td>
+//             <td>रु. ${totalAmount.toFixed(2)}/-</td>
+//           </tr>
+//           <tr><td>४) २ व ३ यांची बेरीज</td><td>रु.</td></tr>
+//           <tr><td>५) उपलब्ध शिल्लक</td><td>रु.</td></tr>
+//         </table>
+//       </div>
+
+//       <!-- RIGHT -->
+//       <div style="line-height:1.6">
+//         प्रमाणित करण्यात येते की सदर बिलांत दाखवलेली<br/>
+//         रक्कम व परिमाण अचूक असून सदर मागणी ही<br/>
+//         नियमानुसार असून महानगरपालिकेच्या<br/>
+//         संबंधित तरतुदीनुसार करण्यात आली आहे.<br/><br/>
+//         दिनांक : _____________<br/><br/>
+//         वस्तु घेणाऱ्या अधिकाऱ्याची सही
+//       </div>
+
+//     </div>
+
+//     <!-- ================= PAGE BREAK ================= -->
+//     <div style="page-break-before:always"></div>
+
+//     <!-- ================= PAGE 2 ================= -->
+
+//     <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:20px;position:relative">
+
+//       <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#000"></div>
+
+//       <!-- LEFT COLUMN -->
+//       <div style="padding-right:12px">
+//         <p>
+//           मा. आयुक्त यांच्याकडे मंजुरीसाठी सादर<br/>
+//           मी मागणीची तपासणी केली असून ती सर्व बाबतीत अचूक आहे.
+//         </p>
+
+//         <p>दिनांक : ____________________</p>
+
+//         <p style="margin-top:25px">
+//           -----------------------------<br/>
+//           प्र.लेखापाल
+//         </p>
+
+//         <p>प्रभाग समिती – ${user?.ward}</p>
+
+//         <hr/>
+
+//         <p>मागणीची संपूर्ण फेड म्हणून</p>
+
+//         <p>
+//           रक्कम : <b>₹ ${totalAmount.toLocaleString("hi-IN")}/-</b><br/>
+//           (अक्षरी रुपये ${totalAmount} मात्र)
+//         </p>
+
+//         <p style="margin-top:30px">
+//           मुद्रा<br/><br/>
+//           -----------------------------<br/>
+//           पैसे घेणाऱ्याची सही
+//         </p>
+//       </div>
+
+//       <!-- RIGHT COLUMN -->
+//       <div style="padding-left:12px">
+//         <p>
+//           निर्णय क्रमांक : ____________________<br/>
+//           दिनांक : ____________________
+//         </p>
+
+//         <p>
+//           बिलांत दाखवलेली रक्कम<br/>
+//           <b>₹ ${totalAmount.toLocaleString("hi-IN")}/-</b><br/>
+//           (रुपये ${totalAmount} मात्र)
+//         </p>
+
+//         <p>मंजूर करण्यात येत आहे.</p>
+
+//         <p style="margin-top:30px">
+//           -----------------------------<br/>
+//           मुख्य लेखाधिकारी
+//         </p>
+
+//         <p style="margin-top:20px">
+//           दिनांक : ____________<br/>
+//           -----------------------------<br/>
+//           उप-आयुक्त
+//         </p>
+
+//         <p>वसई-विरार शहर महानगरपालिका</p>
+
+//         <hr/>
+
+//         <p>धनादेश क्रमांक : ____________<br/>दिनांक : ____________</p>
+
+//         <p>द्वारे देण्यात आले आणि प्रस्तावित रोख वहीत नोंद घेतली</p>
+
+//         <p>
+//           ---------------- &nbsp;&nbsp;
+//           ----------------<br/>
+//           रोखपाल &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; उप-आयुक्त
+//         </p>
+//       </div>
+
+//     </div>
+
+//   </div>
+//   `;
+
+//   // ===============================
+//   // PDF GENERATION
+//   // ===============================
+//   const wrapper = document.createElement("div");
+//   wrapper.innerHTML = html;
+//   document.body.appendChild(wrapper);
+
+//   await html2pdf().set({
+//     margin: [15, 12, 15, 12],
+//     filename: `Form22_${selectedMonthYear}.pdf`,
+//     html2canvas: { scale: 2, useCORS: true },
+//     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+//   }).from(wrapper).save();
+
+//   document.body.removeChild(wrapper);
+// };
+
+
+
+
+
+
+
+
 const handleDownloadForm22 = async () => {
 
   // ===============================
@@ -11596,7 +11841,7 @@ const handleDownloadForm22 = async () => {
       style="table-layout:fixed;border-collapse:collapse;">
       <thead>
         <tr>
-          <th style="width:6%">अनु.क्र.</th>
+          <th style="width:10%">अनु.क्र.</th>
           <th style="width:44%">कामाचा किंवा वस्तूंचा तपशील</th>
           <th style="width:12%">परिमाण</th>
           <th style="width:10%">दर</th>
@@ -11630,15 +11875,12 @@ const handleDownloadForm22 = async () => {
       </tfoot>
     </table>
 
-    <!-- ===== MISSED PART (FIRST PAGE BOTTOM) ===== -->
-
     <p style="text-align:center;margin-top:10px;font-weight:bold">
       एकूण रक्कम रुपये (अक्षरी ________________________________ मात्र)
     </p>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:25px;font-size:13px">
 
-      <!-- LEFT -->
       <div>
         <table width="100%" cellpadding="2">
           <tr><td>१) रक्कमेचे नियम तपासले</td><td>रु.</td></tr>
@@ -11652,7 +11894,6 @@ const handleDownloadForm22 = async () => {
         </table>
       </div>
 
-      <!-- RIGHT -->
       <div style="line-height:1.6">
         प्रमाणित करण्यात येते की सदर बिलांत दाखवलेली<br/>
         रक्कम व परिमाण अचूक असून सदर मागणी ही<br/>
@@ -11664,16 +11905,12 @@ const handleDownloadForm22 = async () => {
 
     </div>
 
-    <!-- ================= PAGE BREAK ================= -->
     <div style="page-break-before:always"></div>
-
-    <!-- ================= PAGE 2 ================= -->
 
     <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:20px;position:relative">
 
       <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#000"></div>
 
-      <!-- LEFT COLUMN -->
       <div style="padding-right:12px">
         <p>
           मा. आयुक्त यांच्याकडे मंजुरीसाठी सादर<br/>
@@ -11705,7 +11942,6 @@ const handleDownloadForm22 = async () => {
         </p>
       </div>
 
-      <!-- RIGHT COLUMN -->
       <div style="padding-left:12px">
         <p>
           निर्णय क्रमांक : ____________________<br/>
@@ -11752,18 +11988,26 @@ const handleDownloadForm22 = async () => {
   `;
 
   // ===============================
-  // PDF GENERATION
+  // PDF GENERATION ⭐ (Preview First)
   // ===============================
   const wrapper = document.createElement("div");
   wrapper.innerHTML = html;
   document.body.appendChild(wrapper);
 
-  await html2pdf().set({
+  const worker = html2pdf().set({
     margin: [15, 12, 15, 12],
-    filename: `Form22_${selectedMonthYear}.pdf`,
     html2canvas: { scale: 2, useCORS: true },
     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-  }).from(wrapper).save();
+  }).from(wrapper);
+
+  // ⭐ 1) PREVIEW → dataURI
+  const pdfData = await worker.outputPdf("datauristring");
+  const type = "form22";
+  handlePdfPreview(pdfData, type, selectedMonthYear);
+
+  // ⭐ 2) SAVE LATER → blob
+  const pdfBlob = await worker.outputPdf("blob");
+  setPdfBlob(pdfBlob);
 
   document.body.removeChild(wrapper);
 };
