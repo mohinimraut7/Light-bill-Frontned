@@ -8790,6 +8790,118 @@ const [wardName, setWardName] = useState(
 
 
 
+// const handleDownloadPDF = async () => {
+//   setShowFormControl(true);
+
+//   const ward = rows.length > 0 ? rows[0].ward : "N/A";
+//   const monthYear = rows.length > 0 ? rows[0].monthAndYear : "N/A";
+//   const meterPurpose =
+//     meterPurposeManyName.length > 0
+//       ? meterPurposeManyName.join(", ")
+//       : "N/A";
+
+//   // ===============================
+//   // HTML (html2pdf – Form22 style)
+//   // ===============================
+//   const html = `
+//     <div
+//       style="
+//         padding:15mm;
+//         box-sizing:border-box;
+//         font-family:'Noto Serif Devanagari', serif;
+//         font-size:13px;
+//         line-height:1.5;
+//         color:#000;
+//       "
+//     >
+     
+// <div style="text-align:center;color:#000;">
+//   <div style="display:inline-block;text-align:left;">
+
+//     <!-- Heading : same left start -->
+//     <h2 style="margin-bottom:10px;">
+//       विद्युत देयक यादी
+//     </h2>
+
+//     <!-- Aligned content -->
+//     <p style="margin:0;line-height:1.6;margin-bottom:10px">
+//       <span style="display:inline-block;width:110px;font-weight:bold;">
+//         मीटरचा उद्देश :
+//       </span>
+//       ${meterPurpose}
+//       <br/>
+
+//       <span style="display:inline-block;width:110px;font-weight:bold;">
+//         प्रभाग :
+//       </span>
+//       ${ward}
+//       <br/>
+
+//       <span style="display:inline-block;width:110px;font-weight:bold;">
+//         महिना :
+//       </span>
+//       ${monthYear}
+//     </p>
+
+//   </div>
+// </div>
+
+
+
+//       <table border="1" width="100%" cellspacing="0" cellpadding="6"
+//         style="border-collapse:collapse;table-layout:fixed;color:#000;border-color:#000;">
+//         <thead>
+//           <tr>
+//             <th style="width:6%">अ.क्र.</th>
+//             <th style="width:14%">ग्राहक क्रमांक</th>
+//             <th style="width:30%">पत्ता</th>
+//             <th style="width:12%">महिना</th>
+//             <th style="width:10%">प्रभाग</th>
+//             <th style="width:14%">रक्कम</th>
+//             <th style="width:14%">देय दिनांक</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           ${
+//             allBills.map((row, index) => `
+//               <tr>
+//                 <td style="text-align:center;color:#000">${index + 1}</td>
+//                 <td>${row.consumerNumber || ""}</td>
+//                 <td>${row.consumerAddress || ""}</td>
+//                 <td>${row.monthAndYear || ""}</td>
+//                 <td>${row.ward || ""}</td>
+//                 <td style="text-align:right">${row.netBillAmount || 0}</td>
+//                 <td>${row.dueDate || ""}</td>
+//               </tr>
+//             `).join("")
+//           }
+//         </tbody>
+//       </table>
+//     </div>
+//   `;
+
+//   // ===============================
+//   // PDF GENERATION (html2pdf)
+//   // ===============================
+//   const wrapper = document.createElement("div");
+//   wrapper.innerHTML = html;
+//   document.body.appendChild(wrapper);
+
+//   await html2pdf().set({
+//     margin: [15, 12, 15, 12],
+//     filename: `Ward_Bill_List_${monthYear}.pdf`,
+//     html2canvas: { scale: 2, useCORS: true },
+//     jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+//   }).from(wrapper).save();
+
+//   document.body.removeChild(wrapper);
+// };
+
+
+
+
+
+
 const handleDownloadPDF = async () => {
   setShowFormControl(true);
 
@@ -8800,11 +8912,13 @@ const handleDownloadPDF = async () => {
       ? meterPurposeManyName.join(", ")
       : "N/A";
 
-  // ===============================
-  // HTML (html2pdf – Form22 style)
-  // ===============================
   const html = `
-    <div
+   
+
+
+
+
+ <div
       style="
         padding:15mm;
         box-sizing:border-box;
@@ -8848,24 +8962,28 @@ const handleDownloadPDF = async () => {
 
 
 
+
+
+      
+
       <table border="1" width="100%" cellspacing="0" cellpadding="6"
         style="border-collapse:collapse;table-layout:fixed;color:#000;border-color:#000;">
         <thead>
           <tr>
-            <th style="width:6%">अ.क्र.</th>
-            <th style="width:14%">ग्राहक क्रमांक</th>
-            <th style="width:30%">पत्ता</th>
-            <th style="width:12%">महिना</th>
-            <th style="width:10%">प्रभाग</th>
-            <th style="width:14%">रक्कम</th>
-            <th style="width:14%">देय दिनांक</th>
+            <th>अ.क्र.</th>
+            <th>ग्राहक क्रमांक</th>
+            <th>पत्ता</th>
+            <th>महिना</th>
+            <th>प्रभाग</th>
+            <th>रक्कम</th>
+            <th>देय दिनांक</th>
           </tr>
         </thead>
         <tbody>
           ${
             allBills.map((row, index) => `
               <tr>
-                <td style="text-align:center;color:#000">${index + 1}</td>
+                <td style="text-align:center">${index + 1}</td>
                 <td>${row.consumerNumber || ""}</td>
                 <td>${row.consumerAddress || ""}</td>
                 <td>${row.monthAndYear || ""}</td>
@@ -8880,22 +8998,34 @@ const handleDownloadPDF = async () => {
     </div>
   `;
 
-  // ===============================
-  // PDF GENERATION (html2pdf)
-  // ===============================
   const wrapper = document.createElement("div");
   wrapper.innerHTML = html;
   document.body.appendChild(wrapper);
 
-  await html2pdf().set({
+  // 🔹 create worker (but DO NOT SAVE)
+  const worker = html2pdf().set({
     margin: [15, 12, 15, 12],
-    filename: `Ward_Bill_List_${monthYear}.pdf`,
     html2canvas: { scale: 2, useCORS: true },
     jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
-  }).from(wrapper).save();
+  }).from(wrapper);
+
+  // 🔹 Generate preview → dataURI
+  const pdfData = await worker.outputPdf("datauristring");
+
+  const type = "wardbilllist";
+  handlePdfPreview(pdfData, type, monthYear);   // ✅ Preview Modal OPEN
+
+  // 🔹 store blob for later download button
+  const pdfBlob = await worker.outputPdf("blob");
+  setPdfBlob(pdfBlob);
 
   document.body.removeChild(wrapper);
 };
+
+
+
+
+
 
 
 
