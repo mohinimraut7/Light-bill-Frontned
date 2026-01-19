@@ -161,6 +161,8 @@ const getPreviousMonthYear = () => {
 
 const previousMonthYear = getPreviousMonthYear();
 
+console.log("previousMonthYear>>>>>>in table",previousMonthYear)
+
 // 📌 Styled Components
 const StyledTableContainer = styled(TableContainer)({
   marginTop: "2%",

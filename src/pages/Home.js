@@ -920,18 +920,60 @@ const Home = () => {
       // Calculate dates
       const currentDate = new Date();
       const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  console.log("currentMonth>>>>>",currentMonth)
       const currentYear = currentDate.getFullYear();
+    const pYear=currentDate.getFullYear()-1;
+
+    console.log("pYear",pYear)
       const currentMonthYear = `${currentMonth}-${currentYear}`;
 
+       
       const prevDate = new Date(currentDate);
       prevDate.setMonth(prevDate.getMonth() - 1);
       const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-      const previousMonthCYear = `${previousMonth}-${currentYear}`;
+
+
+
+      const isDecember =
+  previousMonth?.toLowerCase() === "dec" ||
+  previousMonth?.toLowerCase() === "december";
+
+const previousMonthCYear = `${previousMonth}-${isDecember ? previousYear : currentYear}`;
+
+
+      // const previousMonthCYear = `${previousMonth}-${currentYear}`;
 
       const prevDateTwo = new Date(currentDate);
       prevDateTwo.setMonth(prevDateTwo.getMonth() - 2);
       const previousTwoMonth = prevDateTwo.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-      const previousTwoMonthCYear = `${previousTwoMonth}-${currentYear}`;
+
+
+
+
+
+
+      // >>>>>>>>
+
+
+      const lowPrevTwoMon = previousTwoMonth?.toLowerCase();
+
+const isPrevYearPrevTwoMon =
+  lowPrevTwoMon === "nov" ||
+  lowPrevTwoMon === "november" ||
+  lowPrevTwoMon === "dec" ||
+  lowPrevTwoMon === "december";
+
+
+      
+
+      // const previousTwoMonthCYear = `${previousTwoMonth}-${currentYear}`;
+      // &&&&&&&&&&
+
+      
+
+      // const previousTwoMonthCYear = `${previousMonth}-${isPrevYearPrevTwoMon ? previousYear : currentYear}`;
+      const previousTwoMonthCYear = `${previousTwoMonth}-${isPrevYearPrevTwoMon ? previousYear : currentYear}`;
+
 
       // Calculate all counts
       const currentMonthPaidCount = allBills.filter(bill =>
@@ -939,7 +981,7 @@ const Home = () => {
         && bill.monthAndYear === currentMonthYear &&
         (user.role !== "Junior Engineer" || user.ward === "Head Office" || bill.ward === user.ward)
       ).length;
-
+// *******
       const previousMonthPaidCount = allBills.filter(bill =>
         bill.paymentStatus === 'paid' && bill.monthAndYear === previousMonthCYear &&
         (user.role !== "Junior Engineer" || user.ward === "Head Office" || bill.ward === user.ward)
@@ -1144,13 +1186,38 @@ const passedDueDateCount = overdueBills.length;
   const prevDate = new Date(currentDate);
   prevDate.setMonth(prevDate.getMonth() - 1);
   const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-  const previousYear = prevDate.getFullYear();
-  const previousMonthCYear = `${previousMonth}-${currentYear}`;
+
+  console.log("previousMonth",previousMonth)
+  const previousYear = prevDate.getFullYear(); 
+  console.log("previousYear>>>>>>--------",previousYear)
+  // const previousMonthCYear = `${previousMonth}-${currentYear}`;
+
+  const isDecember =
+  previousMonth?.toLowerCase() === "dec" ||
+  previousMonth?.toLowerCase() === "december";
+
+const previousMonthCYear = `${previousMonth}-${isDecember ? previousYear : currentYear}`;
+
+console.log(previousMonthCYear);
 
   const prevDateTwo = new Date(currentDate);
   prevDateTwo.setMonth(prevDateTwo.getMonth() - 2);
   const previousTwoMonth = prevDateTwo.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-  const previousTwoMonthCYear = `${previousTwoMonth}-${currentYear}`;
+
+
+const lowerPrevTwoMonth = previousTwoMonth?.toLowerCase();
+
+const isPrevYearForPrevTwoMonth =
+  lowerPrevTwoMonth === "nov" ||
+  lowerPrevTwoMonth === "november" ||
+  lowerPrevTwoMonth === "dec" ||
+  lowerPrevTwoMonth === "december";
+
+  
+  // const previousTwoMonthCYear = `${previousTwoMonth}-${currentYear}`;
+
+  const previousTwoMonthCYear = `${previousTwoMonth}-${isPrevYearForPrevTwoMonth ? previousYear : currentYear}`;
+console.log("previousTwoMonthCYear----home",previousTwoMonthCYear)
 
   const currentMonthPaidCount = bills.filter(bill =>
     bill.paymentStatus === 'paid'
@@ -1170,6 +1237,8 @@ const passedDueDateCount = overdueBills.length;
     bill.paymentStatus === 'paid' && bill.monthAndYear === previousTwoMonthCYear &&
     (user.role !== "Junior Engineer"|| user.ward === "Head Office" || bill.ward === user.ward)
   ).length;
+
+  console.log("previousTwoMonthPaidCount>>>>",previousTwoMonthPaidCount)
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('xs'));
@@ -1294,6 +1363,8 @@ const passedDueDateCount = overdueBills.length;
       IconComponent: FactCheckIcon,
       backgroundColor: "#DCFCF5",
       avatarColor: "#0D9488",
+
+      // ----------
       title: `Paid Bills (${previousTwoMonthCYear})`,
       count: dashboardCounts.previousTwoMonthPaidCount,
       onClick: () => {

@@ -2455,11 +2455,13 @@ const downloadAllTypsOfReport = () => {
  </ConsumerButton> */}
  <ConsumerButton onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon />}>Download Reports</ConsumerButton>
  <ConsumerButton onClick={handleDownloadReport} startIcon={<DownloadIcon />}>Faulty | Average Bills</ConsumerButton>
- </Box>
+
+
  <Box sx={{
+  // border:'2px solid red',
  display: 'flex',
  alignItems: 'center',
- justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
+//  justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
  width: {
  xl: user.role === "Super Admin" || user.role === "Admin" || user.role === "Executive Engineer" || (user.role === "Junior Engineer" && user.ward === "Head Office") ? "60%" : "40%",
  lg: user.role === "Super Admin" || user.role === "Admin" || user.role === "Executive Engineer" || (user.role === "Junior Engineer" && user.ward === "Head Office") ? "60%" : "40%",
@@ -2467,17 +2469,23 @@ const downloadAllTypsOfReport = () => {
  sm: "100%",
  xs: "100%",
  },
- gap: { lg: '5px' },
+//  gap: { lg: '5px' },
  flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
- mb: 5,
+//  mb: 5,
  }}>
+
+
+
  <Box sx={{
+  // border:'1px solid red',
  width: {
  xl: '35%',
  lg: user.role === "Junior Engineer" ? (user.ward === "Head Office" ? "35%" : "50%") : "35%",
  md: '48%',
  sm: '80%',
  xs: '80%',
+ display:'flex',
+ alignItems:'center',
  },
  }}>
  {/* <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} /> */}
@@ -2504,7 +2512,7 @@ const downloadAllTypsOfReport = () => {
  }}
  sx={{
  width: { xl: '48%', lg: user.role === "Junior Engineer" ? (user.ward === "Head Office" ? "35%" : "50%") : "35%", md: '48%', sm: '80%', xs: '80%' },
- mt: { xs: 1, sm: 1, md: 0, lg: 0, xl: 1 },
+//  mt: { xs: 1, sm: 1, md: 0, lg: 0, xl: 1 },
  ml: { md: 1, lg: 1 }
  }}
  />
@@ -2541,6 +2549,14 @@ const downloadAllTypsOfReport = () => {
  </FormControl>
  )}
  </Box>
+
+ </Box>
+
+
+
+ 
+
+
  <StyledDataGrid
  rows={rows}
  columns={columns(handleDeleteBill, handleEditBill)}

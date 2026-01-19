@@ -164,7 +164,7 @@ const getPreviousMonthYear = () => {
 };
 
 const previousMonthYear = getPreviousMonthYear();
-// console.log("previousMonthYear-----table",previousMonthYear)
+console.log("previousMonthYear Nove 2 month before-----table",previousMonthYear)
 // 📌 Styled Components
 const StyledTableContainer = styled(TableContainer)({
   marginTop: "2%",
@@ -266,6 +266,8 @@ const PaidBillpreviousTwoMonthBefore = ({ onClose }) => {
 
         // Total bills (paid + unpaid) count wardwise for previous month (2 months before)
         const beforeTwoCounts = allBills.reduce((acc, bill) => {
+
+          console.log("previousMonthYear Nov testing in table",)
           if (bill.monthAndYear === previousMonthYear) {
             const ward = bill.ward;
             acc[ward] = (acc[ward] || 0) + 1;
