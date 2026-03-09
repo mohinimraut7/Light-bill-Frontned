@@ -726,290 +726,367 @@
 
 // ------------------------------------------------------------------------
 
-import React, { useEffect, useRef, useState } from "react";
+// import React, { useEffect, useRef, useState } from "react";
+// import Chart from "chart.js/auto";
+// import { useSelector } from "react-redux";
+// import { Box } from '@mui/material';
+// import { baseUrl } from "../config/config";
+
+// const BarChartBills = () => {
+//   const chartRef = useRef(null);
+//   const chartInstance = useRef(null);
+//   const user = useSelector((state) => state.auth.user);
+//   const [allBills, setAllBills] = useState([]);
+//   const [loading, setLoading] = useState(true);
+  
+//   const currentYear = new Date().getFullYear();
+  
+//   const getMonthsForCurrentYear = () => {
+//     const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+//     return monthNames.map((month) => `${month}-${currentYear}`);
+//   };
+  
+//   const monthsForAPI = getMonthsForCurrentYear();
+
+//   // Function to fetch all bills from all pages
+//   const fetchAllBills = async () => {
+//     try {
+//       let allBillsData = [];
+//       let currentPage = 1;
+//       let totalPages = 1;
+
+//       // First, get the first page to know total pages
+//       // const firstPageResponse = await fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1000`);
+//       const firstPageResponse = await fetch(`${baseUrl}/getBills?page=1&limit=1000`);
+
+//       const firstPageData = await firstPageResponse.json();
+      
+//       allBillsData = [...firstPageData.bills];
+//       totalPages = firstPageData.pagination.totalPages;
+
+//       // Fetch remaining pages
+//       const fetchPromises = [];
+//       for (let page = 2; page <= totalPages; page++) {
+//         fetchPromises.push(
+//           // fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=${page}&limit=1000`)
+//              fetch(`${baseUrl}/getBills?page=${page}&limit=1000`)
+//             .then(response => response.json())
+//             .then(data => data.bills)
+//         );
+//       }
+
+//       // Wait for all promises to resolve and combine results
+//       const remainingPages = await Promise.all(fetchPromises);
+//       remainingPages.forEach(bills => {
+//         allBillsData = [...allBillsData, ...bills];
+//       });
+
+//       return allBillsData;
+//     } catch (error) {
+//       console.error("Error fetching all bills:", error);
+//       return [];
+//     }
+//   };
+
+//   useEffect(() => {
+//     const loadAllBills = async () => {
+//       setLoading(true);
+//       try {
+//         const bills = await fetchAllBills();
+//         setAllBills(bills);
+//       } catch (error) {
+//         console.error("Error loading bills:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     loadAllBills();
+//   }, []);
+  
+//   const monthlyCounts = monthsForAPI.reduce((acc, month) => {
+//     acc[month] = { paid: 0, unpaid: 0, overdue: 0 };
+//     return acc;
+//   }, {});
+  
+//   const today = new Date();
+  
+//   allBills.forEach((bill) => {
+//     if (monthsForAPI.includes(bill.monthAndYear)) {
+//       const { monthAndYear, paymentStatus, dueDate, ward } = bill;
+//       if (user?.role === "Junior Engineer" && user?.ward !== ward && user?.ward !== "Head Office") return;
+      
+//       if (paymentStatus === "paid") {
+//         monthlyCounts[monthAndYear].paid++;
+//       } else if (paymentStatus === "unpaid") {
+//         const due = new Date(dueDate);
+//         if (due < today) {
+//           monthlyCounts[monthAndYear].overdue++;
+//         } else {
+//           monthlyCounts[monthAndYear].unpaid++;
+//         }
+//       }
+//     }
+//   });
+  
+//   const labels = monthsForAPI;
+//   const paidData = labels.map((month) => monthlyCounts[month]?.paid || 0);
+//   const unpaidData = labels.map((month) => monthlyCounts[month]?.unpaid || 0);
+//   const overdueData = labels.map((month) => monthlyCounts[month]?.overdue || 0);
+
+//   useEffect(() => {
+//     if (chartRef.current && !loading) {
+//       if (chartInstance.current) {
+//         chartInstance.current.destroy();
+//       }
+      
+//       chartInstance.current = new Chart(chartRef.current, {
+//         type: "bar",
+//         data: {
+//           labels: labels.map(label => label.split('-')[0]), // Show only month names
+//           datasets: [
+//             {
+//               label: "Paid Bills",
+//               data: paidData,
+//               backgroundColor: "rgba(35, 204, 239, 0.8)",
+//               borderColor: "#23CCEF",
+//               borderWidth: 2,
+//               borderRadius: 4,
+//               borderSkipped: false,
+//             },
+//             {
+//               label: "Unpaid Bills",
+//               data: unpaidData,
+//               backgroundColor: "rgba(255, 174, 72, 0.8)",
+//               borderColor: "#FFAE48",
+//               borderWidth: 2,
+//               borderRadius: 4,
+//               borderSkipped: false,
+//             },
+//             {
+//               label: "Overdue Bills",
+//               data: overdueData,
+//               backgroundColor: "rgba(231, 76, 60, 0.8)",
+//               borderColor: "#E74C3C",
+//               borderWidth: 2,
+//               borderRadius: 4,
+//               borderSkipped: false,
+//             },
+//           ],
+//         },
+//         options: {
+//           responsive: true,
+//           maintainAspectRatio: false,
+//           interaction: {
+//             mode: 'index',
+//             intersect: false,
+//           },
+//           plugins: {
+//             title: {
+//               display: true,
+//               text: `Monthly Bills Status Overview - ${currentYear}`,
+//               font: {
+//                 size: 16,
+//                 weight: 'bold'
+//               },
+//               color: '#333',
+//               padding: 20
+//             },
+//             legend: {
+//               display: true,
+//               position: 'top',
+//               labels: {
+//                 usePointStyle: true,
+//                 padding: 20,
+//                 font: {
+//                   size: 12,
+//                   weight: '500'
+//                 }
+//               }
+//             },
+//             tooltip: {
+//               backgroundColor: 'rgba(0, 0, 0, 0.8)',
+//               titleColor: '#fff',
+//               bodyColor: '#fff',
+//               borderColor: '#ddd',
+//               borderWidth: 1,
+//               cornerRadius: 8,
+//               displayColors: true,
+//               callbacks: {
+//                 title: function(context) {
+//                   return `Month: ${context[0].label} ${currentYear}`;
+//                 },
+//                 label: function(context) {
+//                   return `${context.dataset.label}: ${context.parsed.y} bills`;
+//                 },
+//                 footer: function(tooltipItems) {
+//                   let total = 0;
+//                   tooltipItems.forEach(function(tooltipItem) {
+//                     total += tooltipItem.parsed.y;
+//                   });
+//                   return `Total Bills: ${total}`;
+//                 }
+//               }
+//             }
+//           },
+//           scales: {
+//             x: {
+//               stacked: true,
+//               grid: {
+//                 display: false
+//               },
+//               ticks: {
+//                 color: '#666',
+//                 font: {
+//                   size: 11,
+//                   weight: '500'
+//                 },
+//                 maxRotation: 45,
+//                 minRotation: 0
+//               }
+//             },
+//             y: {
+//               stacked: true,
+//               beginAtZero: true,
+//               grid: {
+//                 color: 'rgba(0, 0, 0, 0.1)',
+//                 lineWidth: 1
+//               },
+//               ticks: {
+//                 color: '#666',
+//                 font: {
+//                   size: 11
+//                 },
+//                 stepSize: 1,
+//                 callback: function(value) {
+//                   return Number.isInteger(value) ? value : '';
+//                 }
+//               },
+//               title: {
+//                 display: true,
+//                 text: 'Number of Bills',
+//                 color: '#666',
+//                 font: {
+//                   size: 12,
+//                   weight: 'bold'
+//                 }
+//               }
+//             }
+//           },
+//           elements: {
+//             bar: {
+//               borderWidth: 2,
+//             }
+//           },
+//           layout: {
+//             padding: {
+//               top: 10,
+//               bottom: 10,
+//               left: 10,
+//               right: 10
+//             }
+//           }
+//         },
+//       });
+//     }
+    
+//     return () => {
+//       if (chartInstance.current) {
+//         chartInstance.current.destroy();
+//       }
+//     };
+//   }, [allBills, currentYear, loading]);
+
+//   return (
+//     <Box sx={{ 
+//       width: '100%', 
+//       height: '400px',
+//       backgroundColor: '#fff',
+//       borderRadius: '12px',
+//       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+//       padding: '16px',
+//       border: '1px solid #e0e0e0'
+//     }}>
+//       <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
+//     </Box>
+//   );
+// };
+
+// export default BarChartBills;
+
+// ====================================
+
+import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
-import { Box } from '@mui/material';
-import { baseUrl } from "../config/config";
+import { Box, CircularProgress } from '@mui/material';
 
-const BarChartBills = () => {
+const PieChartBills = () => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
   const user = useSelector((state) => state.auth.user);
-  const [allBills, setAllBills] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
+  const { bills: allBills, loading } = useSelector((state) => state.bills);
+
   const currentYear = new Date().getFullYear();
-  
-  const getMonthsForCurrentYear = () => {
-    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    return monthNames.map((month) => `${month}-${currentYear}`);
-  };
-  
-  const monthsForAPI = getMonthsForCurrentYear();
+  const monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  const monthsForAPI = monthNames.map((m) => `${m}-${currentYear}`);
 
-  // Function to fetch all bills from all pages
-  const fetchAllBills = async () => {
-    try {
-      let allBillsData = [];
-      let currentPage = 1;
-      let totalPages = 1;
-
-      // First, get the first page to know total pages
-      // const firstPageResponse = await fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1000`);
-      const firstPageResponse = await fetch(`${baseUrl}/getBills?page=1&limit=1000`);
-
-      const firstPageData = await firstPageResponse.json();
-      
-      allBillsData = [...firstPageData.bills];
-      totalPages = firstPageData.pagination.totalPages;
-
-      // Fetch remaining pages
-      const fetchPromises = [];
-      for (let page = 2; page <= totalPages; page++) {
-        fetchPromises.push(
-          // fetch(`https://lightbillbackend.saavi.co.in/api/getBills?page=${page}&limit=1000`)
-             fetch(`${baseUrl}/getBills?page=${page}&limit=1000`)
-            .then(response => response.json())
-            .then(data => data.bills)
-        );
-      }
-
-      // Wait for all promises to resolve and combine results
-      const remainingPages = await Promise.all(fetchPromises);
-      remainingPages.forEach(bills => {
-        allBillsData = [...allBillsData, ...bills];
-      });
-
-      return allBillsData;
-    } catch (error) {
-      console.error("Error fetching all bills:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    const loadAllBills = async () => {
-      setLoading(true);
-      try {
-        const bills = await fetchAllBills();
-        setAllBills(bills);
-      } catch (error) {
-        console.error("Error loading bills:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadAllBills();
-  }, []);
-  
   const monthlyCounts = monthsForAPI.reduce((acc, month) => {
     acc[month] = { paid: 0, unpaid: 0, overdue: 0 };
     return acc;
   }, {});
-  
+
   const today = new Date();
-  
   allBills.forEach((bill) => {
-    if (monthsForAPI.includes(bill.monthAndYear)) {
-      const { monthAndYear, paymentStatus, dueDate, ward } = bill;
-      if (user?.role === "Junior Engineer" && user?.ward !== ward && user?.ward !== "Head Office") return;
-      
-      if (paymentStatus === "paid") {
-        monthlyCounts[monthAndYear].paid++;
-      } else if (paymentStatus === "unpaid") {
-        const due = new Date(dueDate);
-        if (due < today) {
-          monthlyCounts[monthAndYear].overdue++;
-        } else {
-          monthlyCounts[monthAndYear].unpaid++;
-        }
-      }
+    if (!monthsForAPI.includes(bill.monthAndYear)) return;
+    if (user?.role === "Junior Engineer" && user?.ward !== bill.ward && user?.ward !== "Head Office") return;
+    if (bill.paymentStatus === "paid") {
+      monthlyCounts[bill.monthAndYear].paid++;
+    } else if (bill.paymentStatus === "unpaid") {
+      monthlyCounts[bill.monthAndYear].overdue += new Date(bill.dueDate) < today ? 1 : 0;
+      monthlyCounts[bill.monthAndYear].unpaid += new Date(bill.dueDate) >= today ? 1 : 0;
     }
   });
-  
-  const labels = monthsForAPI;
-  const paidData = labels.map((month) => monthlyCounts[month]?.paid || 0);
-  const unpaidData = labels.map((month) => monthlyCounts[month]?.unpaid || 0);
-  const overdueData = labels.map((month) => monthlyCounts[month]?.overdue || 0);
+
+  const paidData = monthsForAPI.map((m) => monthlyCounts[m].paid);
+  const unpaidData = monthsForAPI.map((m) => monthlyCounts[m].unpaid);
+  const overdueData = monthsForAPI.map((m) => monthlyCounts[m].overdue);
 
   useEffect(() => {
-    if (chartRef.current && !loading) {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-      
-      chartInstance.current = new Chart(chartRef.current, {
-        type: "bar",
-        data: {
-          labels: labels.map(label => label.split('-')[0]), // Show only month names
-          datasets: [
-            {
-              label: "Paid Bills",
-              data: paidData,
-              backgroundColor: "rgba(35, 204, 239, 0.8)",
-              borderColor: "#23CCEF",
-              borderWidth: 2,
-              borderRadius: 4,
-              borderSkipped: false,
-            },
-            {
-              label: "Unpaid Bills",
-              data: unpaidData,
-              backgroundColor: "rgba(255, 174, 72, 0.8)",
-              borderColor: "#FFAE48",
-              borderWidth: 2,
-              borderRadius: 4,
-              borderSkipped: false,
-            },
-            {
-              label: "Overdue Bills",
-              data: overdueData,
-              backgroundColor: "rgba(231, 76, 60, 0.8)",
-              borderColor: "#E74C3C",
-              borderWidth: 2,
-              borderRadius: 4,
-              borderSkipped: false,
-            },
-          ],
+    if (!chartRef.current || loading) return;
+    if (chartInstance.current) chartInstance.current.destroy();
+    chartInstance.current = new Chart(chartRef.current, {
+      type: "bar",
+      data: {
+        labels: monthNames,
+        datasets: [
+          { label: "Paid Bills", data: paidData, backgroundColor: "rgba(35,204,239,0.8)", borderColor: "#23CCEF", borderWidth: 2, borderRadius: 4, borderSkipped: false },
+          { label: "Unpaid Bills", data: unpaidData, backgroundColor: "rgba(255,174,72,0.8)", borderColor: "#FFAE48", borderWidth: 2, borderRadius: 4, borderSkipped: false },
+          { label: "Overdue Bills", data: overdueData, backgroundColor: "rgba(231,76,60,0.8)", borderColor: "#E74C3C", borderWidth: 2, borderRadius: 4, borderSkipped: false },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: `Monthly Bills Status Overview - ${currentYear}`, font: { size: 16, weight: 'bold' } },
+          legend: { display: true, position: 'top' },
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: 'index',
-            intersect: false,
-          },
-          plugins: {
-            title: {
-              display: true,
-              text: `Monthly Bills Status Overview - ${currentYear}`,
-              font: {
-                size: 16,
-                weight: 'bold'
-              },
-              color: '#333',
-              padding: 20
-            },
-            legend: {
-              display: true,
-              position: 'top',
-              labels: {
-                usePointStyle: true,
-                padding: 20,
-                font: {
-                  size: 12,
-                  weight: '500'
-                }
-              }
-            },
-            tooltip: {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              titleColor: '#fff',
-              bodyColor: '#fff',
-              borderColor: '#ddd',
-              borderWidth: 1,
-              cornerRadius: 8,
-              displayColors: true,
-              callbacks: {
-                title: function(context) {
-                  return `Month: ${context[0].label} ${currentYear}`;
-                },
-                label: function(context) {
-                  return `${context.dataset.label}: ${context.parsed.y} bills`;
-                },
-                footer: function(tooltipItems) {
-                  let total = 0;
-                  tooltipItems.forEach(function(tooltipItem) {
-                    total += tooltipItem.parsed.y;
-                  });
-                  return `Total Bills: ${total}`;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              stacked: true,
-              grid: {
-                display: false
-              },
-              ticks: {
-                color: '#666',
-                font: {
-                  size: 11,
-                  weight: '500'
-                },
-                maxRotation: 45,
-                minRotation: 0
-              }
-            },
-            y: {
-              stacked: true,
-              beginAtZero: true,
-              grid: {
-                color: 'rgba(0, 0, 0, 0.1)',
-                lineWidth: 1
-              },
-              ticks: {
-                color: '#666',
-                font: {
-                  size: 11
-                },
-                stepSize: 1,
-                callback: function(value) {
-                  return Number.isInteger(value) ? value : '';
-                }
-              },
-              title: {
-                display: true,
-                text: 'Number of Bills',
-                color: '#666',
-                font: {
-                  size: 12,
-                  weight: 'bold'
-                }
-              }
-            }
-          },
-          elements: {
-            bar: {
-              borderWidth: 2,
-            }
-          },
-          layout: {
-            padding: {
-              top: 10,
-              bottom: 10,
-              left: 10,
-              right: 10
-            }
-          }
-        },
-      });
-    }
-    
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-    };
-  }, [allBills, currentYear, loading]);
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Number of Bills' } }
+        }
+      },
+    });
+    return () => { if (chartInstance.current) chartInstance.current.destroy(); };
+  }, [allBills, loading]);
+
+  if (loading) return <Box sx={{ width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><CircularProgress /></Box>;
 
   return (
-    <Box sx={{ 
-      width: '100%', 
-      height: '400px',
-      backgroundColor: '#fff',
-      borderRadius: '12px',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-      padding: '16px',
-      border: '1px solid #e0e0e0'
-    }}>
+    <Box sx={{ width: '100%', height: '400px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', padding: '16px', border: '1px solid #e0e0e0' }}>
       <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
     </Box>
   );
 };
 
-export default BarChartBills;
+export default PieChartBills;

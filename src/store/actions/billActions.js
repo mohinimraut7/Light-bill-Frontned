@@ -546,7 +546,7 @@ export const fetchOverdueBillsFailure = (error) => ({
 
 
 
-export const fetchBills = (page = 1, limit = 10, filters = {}, fetchAll = false) => {
+export const fetchBills = (page = 1, limit = 10000, filters = {}, fetchAll = false) => {
  return async (dispatch) => {
  dispatch(fetchBillsRequest());
  try {
