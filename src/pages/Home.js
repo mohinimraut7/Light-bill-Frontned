@@ -1663,6 +1663,7 @@ const Home = () => {
   const { roles, loading: loadingRoles, error: errorRoles } = useSelector((state) => state.roles);
 
   const [totalConsumersCount, setTotalConsumersCount] = useState(0);
+  
 
   // Modal states
   const [showConsumerTable, setShowConsumerTable] = useState(false);
