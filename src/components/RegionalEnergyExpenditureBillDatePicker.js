@@ -55,14 +55,24 @@ const RegionalEnergyExpenditureBillDatePicker = ({ selectedMonthYear, onChange }
         views={["year", "month"]}
         view={view}
         openTo="year"
-        label="Month and Year"
+        label="MONTH AND YEAR"
         value={dateValue}
         onChange={handleChange}
         onViewChange={handleViewChange}
         slotProps={{
           textField: {
             size: "small",
-            fullWidth: true,
+            // fullWidth: true,
+              sx: {
+              width: { xs: "100%", sm: "100%", md: "30%" },
+              "& .MuiInputLabel-root": { fontSize: "13px" },
+              "& .MuiInputBase-input": { fontSize: "13px" },
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "6px",
+                "& fieldset": { borderColor: "#bbb" },
+                "&:hover fieldset": { borderColor: "#1976d2" },
+              },
+            },
           },
         }}
       />

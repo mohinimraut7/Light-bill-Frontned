@@ -1326,7 +1326,7 @@ let type="karyalayintipani";
   ENERGY EXPENDITURE
 </Typography>
 
-<Box
+{/* <Box
  sx={{
   display: "flex",
   alignItems: { xs: "flex-start", sm: "flex-start", md: "center" },
@@ -1352,12 +1352,13 @@ let type="karyalayintipani";
     user?.role === "Admin" ||
     user?.role === "Executive Engineer" ||
     user?.ward === "Head Office") && (
-    <FormControl size="small" 
+    <FormControl 
+    size="small" 
     sx={{
-    width: { xs: "100%", sm: "100%", md: "17%" },
+    width: { xs: "100%", sm: "100%", md: "50%" },
      }}
     >
-      <InputLabel>Search Ward</InputLabel>
+      <InputLabel>SEARCH WARD</InputLabel>
       <Select
         value={wardName}
         onChange={handleChangeWard}
@@ -1373,21 +1374,21 @@ let type="karyalayintipani";
     </FormControl>
   )}
 
-  {/* Meter Purpose */}
-  <FormControl size="small" sx={{
-    width: { xs: "100%", sm: "100%", md: "17%" },
+  <FormControl 
+  size="small" sx={{
+    width: { xs: "100%", sm: "100%", md: "30%" },
     // ✅ Label font-size
     "& .MuiInputLabel-root": {
       fontSize: "14px",
     },
 
-    // ✅ Select text font-size
+   
     "& .MuiSelect-select": {
       fontSize: "12px",
       padding: "8px 12px",
     },
 
-    // ✅ Dropdown icon size
+   
     "& .MuiSvgIcon-root": {
       fontSize: "18px",
     },
@@ -1423,7 +1424,21 @@ let type="karyalayintipani";
   </FormControl>
 
 
-   <Button variant="outlined" onClick={handleDownloadPDF} sx={{
+  
+
+
+</Box> */}
+
+
+
+{/* <Box 
+ sx={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 1.5,
+    mt: 1.5,
+  }}
+> <Button variant="outlined" onClick={handleDownloadPDF} sx={{
    
     borderColor: "#757575",
     width: { xs: "100%", sm: "100%", md: "auto",minWidth:"200px",color:'#000'}, // ✅ xs/sm full width
@@ -1453,10 +1468,145 @@ KARYALAYIN TIPANI
     width: { xs: "100%", sm: "100%", md: "auto",minWidth:"200px" }, // ✅ xs/sm full width
   }}>
     FAULTY METER 
-  </Button>
+  </Button></Box> */}
+
+{/* ── Filter Row ── */}
+<Box
+  sx={{
+    display: "flex",
+    alignItems: "center",
+    flexDirection: { xs: "column", sm: "column", md: "row" },
+    gap: 1.5,
+    mb: 1.5,
+    flexWrap: "wrap",
+    width: "100%",
+  }}
+>
+  {/* Date Picker — component च्या आत sx आहे */}
+  <RegionalEnergyExpenditureBillDatePicker
+    selectedMonthYear={selectedMonthYear}
+    onChange={handleDateChange}
+  />
+
+  {/* Search Ward */}
+  {(user?.role === "Super Admin" ||
+    user?.role === "Admin" ||
+    user?.role === "Executive Engineer" ||
+    user?.ward === "Head Office") && (
+    <FormControl
+      size="small"
+      sx={{
+        width: { xs: "100%", sm: "100%", md: "20%" },
+        "& .MuiInputLabel-root": { fontSize: "13px" },
+        "& .MuiSelect-select": { fontSize: "13px" },
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "6px",
+          "& fieldset": { borderColor: "#bbb" },
+          "&:hover fieldset": { borderColor: "#1976d2" },
+        },
+      }}
+    >
+      <InputLabel>Search Ward</InputLabel>
+      <Select
+        value={wardName}
+        onChange={handleChangeWard}
+        label="Search Ward"
+        sx={{ fontSize: "13px" }}
+      >
+        <MenuItem value="" sx={{ fontSize: "13px" }}>All Wards</MenuItem>
+        {wardDataAtoI.map((w) => (
+          <MenuItem key={w.ward} value={w.ward} sx={{ fontSize: "13px" }}>
+            {w.ward}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )}
+
+  {/* Meter Purpose */}
+  <FormControl
+    size="small"
+    sx={{
+      width: { xs: "100%", sm: "100%", md: "20%" },
+      "& .MuiInputLabel-root": { fontSize: "13px", color: "#555" },
+      "& .MuiSelect-select": { fontSize: "13px", padding: "8px 12px" },
+      "& .MuiSvgIcon-root": { fontSize: "18px" },
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "6px",
+        "& fieldset": { borderColor: "#bbb" },
+        "&:hover fieldset": { borderColor: "#1976d2" },
+      },
+    }}
+  >
+    <InputLabel>Meter Purpose</InputLabel>
+    <Select
+      multiple
+      value={meterPurposeManyName}
+      onChange={handleChangeManyMeterPurpose}
+      input={<OutlinedInput label="Meter Purpose" />}
+      renderValue={(selected) =>
+        selected.length === 0
+          ? ""
+          : selected.length === 1
+          ? selected[0]
+          : `${selected.length} selected`
+      }
+      sx={{ fontSize: "13px" }}
+      MenuProps={{
+        PaperProps: {
+          sx: {
+            maxHeight: 260,
+            "& .MuiMenuItem-root": { fontSize: "13px", minHeight: "38px" },
+          },
+        },
+      }}
+    >
+      {meterPurposeData.map((p) => (
+        <MenuItem key={p.purpose} value={p.purpose}>
+          <Checkbox
+            checked={meterPurposeManyName.includes(p.purpose)}
+            size="small"
+            sx={{ padding: "4px 8px 4px 0" }}
+          />
+          {p.purpose}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
 </Box>
 
-
+{/* ── Button Row ── */}
+<Box sx={{ display: "flex", flexWrap: "wrap", gap: 1.5, mb: 3 }}>
+  {[
+    { label: "WARD BILLS",        onClick: handleDownloadPDF },
+    { label: "FORM 22",           onClick: handleDownloadForm22 },
+    { label: "KARYALAYIN TIPANI", onClick: downloadKaryalayinTipani },
+    { label: "FAULTY METER",      onClick: () => setFaultyMeterModalOpen(true) },
+  ].map(({ label, onClick }) => (
+    <Button
+      key={label}
+      variant="outlined"
+      onClick={onClick}
+      sx={{
+        color: "#000",
+        borderColor: "#bbb",
+        fontSize: "13px",
+        fontWeight: 500,
+        borderRadius: "6px",
+        padding: "6px 20px",
+        width: { xs: "100%", sm: "calc(50% - 6px)", md: "auto" },
+        minWidth: { md: "15%" },
+        "&:hover": {
+          borderColor: "#1976d2",
+          color: "#1976d2",
+          backgroundColor: "#f0f6ff",
+        },
+      }}
+    >
+      {label}
+    </Button>
+  ))}
+</Box>
 </Box>
 
 
