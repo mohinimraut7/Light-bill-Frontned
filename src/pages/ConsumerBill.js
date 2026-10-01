@@ -687,7 +687,7 @@ else if (wardName && (
  { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 180 },
  { field: 'billPaymentDate', headerName: 'BILL PAYMENT DATE', width: 165 },
  { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
- { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 230 },
+//  { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 230 },
  {
  field: 'actions',
  headerName: 'ACTIONS',
