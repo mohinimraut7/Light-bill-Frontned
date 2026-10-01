@@ -24,8 +24,8 @@ const PartialPaidBills         = lazy(() => import('./pages/PartialPaidBills'));
 const MassApprovalsBills       = lazy(() => import('./pages/MassApprovalsBills'));
 const UsersUpcomingDueBills    = lazy(() => import('./pages/UsersUpcomingDueBills'));
 const ConsumerBillDetails      = lazy(() => import('./pages/ConsumerBillDetails'));
-const MeterComponent           = lazy(() => import('./pages/MeterComponents'));
-const TarriffMaster            = lazy(() => import('./pages/TarriffMaster'));
+// const MeterComponent           = lazy(() => import('./pages/MeterComponents'));
+// const TarriffMaster            = lazy(() => import('./pages/TarriffMaster'));
 const Overduebills             = lazy(() => import('./pages/Overduebills'));
 const ConsumerComponent        = lazy(() => import('./pages/ConsumerComponents'));
 const Formonetwentynew         = lazy(() => import('./pages/Formonetwentynew'));
@@ -157,8 +157,8 @@ const App = () => {
               <Route path="/formonetwentynew"              element={<Formonetwentynew />} />
               <Route path="/rolemaster"                    element={<Rolemaster />} />
               <Route path="/bills"                         element={<ConsumerBill />} />
-              <Route path="/tarriffscomponent"             element={<TarriffMaster />} />
-              <Route path="/metercomponent"                element={<MeterComponent />} />
+              {/* <Route path="/tarriffscomponent"             element={<TarriffMaster />} /> */}
+              {/* <Route path="/metercomponent"                element={<MeterComponent />} /> */}
               <Route path="/consumercomponent"             element={<ConsumerComponent />} />
               <Route path="/usersupcomingduebills"         element={<UsersUpcomingDueBills />} />
               <Route path="/overduebills"                  element={<Overduebills />} />
