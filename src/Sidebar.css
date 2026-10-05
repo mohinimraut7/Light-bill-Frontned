@@ -1,26 +1,13 @@
-/* @font-face {
-  font-family: 'Montserrat';
-  src: url('./fonts/montserrat/static/Montserrat-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-} */
-
-/* @font-face {
-  font-family: 'Montserrat';
-  src: url('./fonts/montserrat/static/Montserrat-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-} */
-/* .montserrat-regular {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: normal;
-} */
+/* NEW (5-Oct-2026): Times of India sarkha masthead font — @import sarvat varti asla pahije */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
 
 .logo-title{
-  font-weight:700 !important;
+  font-family: 'Playfair Display', 'Times New Roman', Georgia, serif !important; /* NEW */
+  font-weight: 900 !important; /* 700 -> 900 */
 }
 .title-lightbill{
-  font-weight:700 !important; 
+  font-family: 'Playfair Display', 'Times New Roman', Georgia, serif !important; /* NEW */
+  font-weight: 700 !important; 
 }
 .title-billmanagement {
   font-family: 'Gilroy', sans-serif !important;
@@ -71,11 +58,11 @@
 @media (min-width:375.5px) and (max-width: 600px) {
   .logo-title{
    font-size: 17px !important;
-   font-weight: bold !important;
+   font-weight: 900 !important; /* bold -> 900 */
   }
   .title-lightbill{
     font-size: 14.5px !important;
-    font-weight: bold !important;
+    font-weight: 700 !important; /* bold -> 700 */
   }
 }
 @media (min-width:320.1px) and (max-width:375px) {
@@ -84,7 +71,7 @@
   }
    .title-lightbill{
     font-size: 12px !important;
-    font-weight: bold !important;
+    font-weight: 700 !important;
     /* margin-top: 2px !important; */
   }
 }
@@ -94,7 +81,7 @@
   }
    .title-lightbill{
     font-size: 12px !important;
-    font-weight: bold !important;
+    font-weight: 700 !important;
     /* margin-top: 2px !important; */
   }
 }

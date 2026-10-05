@@ -1,872 +1,65 @@
-
 // import React, { useEffect, useRef } from 'react';
-// import Chart from 'chart.js/auto';
-// import { useSelector } from 'react-redux';
-
-// const ChartComponent = () => {
-//   const chartRef = useRef(null); 
-//   const chartInstance = useRef(null); 
-//   const { bills } = useSelector((state) => state.bills);
-//   const user = useSelector(state => state.auth.user);
-//   // Current month & year (e.g., "FEB-2025")
-//   const currentDate = new Date();
-//   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const currentYear = currentDate.getFullYear();
-//   const currentMonthYear = `${currentMonth}-${currentYear}`;
-
-//   console.log("Current Month-Year:", currentMonthYear); 
-
-
-//   currentDate.setMonth(currentDate.getMonth() - 1); // पिछले महीने पर सेट करें
-
-// const previousMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-
-// const previousMonthYear = `${previousMonth}-${currentYear}`;
-
-//   // Filter bills matching latest month & year
-//   // const latestBills = bills.filter(bill => bill.monthAndYear === currentMonthYear);
-//   const latestBills = bills.filter(bill =>
-//     bill.monthAndYear === currentMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward)
-//   );
-
-  
-//   // const meterStatusCounts = {
-//   //   FAULTY: 0, NORMAL: 0, R_N_A: 0, METER_CHNG: 0, NO_METER: 0, LOCKED: 0, INACC_RNT: 0
-//   // };
-
-//   // latestBills.forEach(bill => {
-//   //   const status = bill.meterStatus?.toUpperCase().replace(/\s+/g, "_"); // Normalize keys
-//   //   if (meterStatusCounts.hasOwnProperty(status)) {
-//   //     meterStatusCounts[status]++;
-//   //   }
-//   // });
-
-
-//   const meterStatusCounts = {
-//     FAULTY: 0, NORMAL: 0, R_N_A: 0, METER_CHNG: 0, NO_METER: 0, LOCKED: 0, INACC_RNT: 0
-//   };
-  
-//   latestBills.forEach(bill => {
-//     if (!bill.meterStatus) return; // Null/undefined status असल्यास skip कर
-//     const status = bill.meterStatus.toUpperCase().replace(/\s+/g, "_"); // Normalize key
-  
-//     // जर status आधीपासून असेल तर त्याचा count वाढव
-//     // नसेल तर नवीन status add कर आणि count 1 ठेवा
-//     meterStatusCounts[status] = (meterStatusCounts[status] || 0) + 1;
-//   });
-
-//   useEffect(() => {
-//     if (chartRef.current) {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-
-//       chartInstance.current = new Chart(chartRef.current, {
-//         type: 'bar',
-//         data: {
-//           labels: Object.keys(meterStatusCounts),
-//           datasets: [
-//             {
-//               label: `Meter Status Distribution (${currentMonthYear})`,
-//               // label: `Meter Status Distribution (${previousMonthYear})`,
-//                             data: Object.values(meterStatusCounts),
-//               backgroundColor: '#1CCCF1',
-//               borderColor: '#0099CC',
-//               borderWidth: 1,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           scales: {
-//             y: { beginAtZero: true }
-//           }
-//         },
-//       });
-//     }
-
-//     return () => {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-//     };
-//   }, [bills]); 
-
-//   return <canvas ref={chartRef}></canvas>;
-// };
-
-// export default ChartComponent;
-
-// --------------------------------------------------------------------------------------
-
-// import React, { useEffect, useRef } from 'react';
-// import Chart from 'chart.js/auto';
-// import { useSelector } from 'react-redux';
-
-// const ChartComponent = () => {
-//   const chartRef = useRef(null);
-//   const chartInstance = useRef(null);
-//   const { bills } = useSelector((state) => state.bills);
-//   const user = useSelector(state => state.auth.user);
-  
-//   const currentDate = new Date();
-//   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const currentYear = currentDate.getFullYear();
-//   const currentMonthYear = `${currentMonth}-${currentYear}`;
-  
-//   const prevDate = new Date();
-//   prevDate.setMonth(currentDate.getMonth() - 1);
-//   const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const previousMonthYear = `${previousMonth}-${currentYear}`;
-
-//   const latestBills = bills.filter(bill =>
-//     bill.monthAndYear === currentMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
-//   );
-
-//   const previousBills = bills.filter(bill =>
-//     bill.monthAndYear === previousMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
-//   );
-
-//   // ⚡ Define Meter Status Categories
-//   const meterStatuses = ["FAULTY", "NORMAL", "R_N_A", "METER_CHNG", "NO_METER", "LOCKED", "INACC_RNT"];
-
-//   // ✅ Function to Count Meter Status Occurrences
-//   const getStatusCounts = (bills) => {
-//     const counts = meterStatuses.reduce((acc, status) => ({ ...acc, [status]: 0 }), {});
-//     bills.forEach(bill => {
-//       if (bill.meterStatus) {
-//         const status = bill.meterStatus.toUpperCase().replace(/\s+/g, "_");
-//         if (counts[status] !== undefined) {
-//           counts[status]++;
-//         }
-//       }
-//     });
-//     return counts;
-//   };
-
-//   const currentMonthCounts = getStatusCounts(latestBills);
-//   const previousMonthCounts = getStatusCounts(previousBills);
-
-//   useEffect(() => {
-//     if (chartRef.current) {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-
-//       chartInstance.current = new Chart(chartRef.current, {
-//         type: 'bar',
-//         data: {
-//           labels: meterStatuses,
-//           datasets: [
-//             {
-//               label: `Meter Status (${currentMonthYear})`,
-//               data: meterStatuses.map(status => currentMonthCounts[status]),
-//               backgroundColor: '#1CCCF1',
-//               borderColor: '#0099CC',
-//               borderWidth: 1,
-//             },
-//             {
-//               label: `Meter Status (${previousMonthYear})`,
-//               data: meterStatuses.map(status => previousMonthCounts[status]),
-//               backgroundColor: '#FFAE48',
-//               borderColor: '#FF8C00',
-//               borderWidth: 1,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           scales: {
-//             y: { beginAtZero: true }
-//           }
-//         },
-//       });
-//     }
-
-//     return () => {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-//     };
-//   }, [bills]);
-
-//   return <canvas ref={chartRef}></canvas>;
-// };
-
-// export default ChartComponent;
-
-// -------------------------------------------------------------
-
-// import React, { useEffect, useRef } from 'react';
-// import Chart from 'chart.js/auto';
-// import { useSelector } from 'react-redux';
-// import { Box } from '@mui/material';
-
-// const ChartComponent = () => {
-//   const chartRef = useRef(null);
-//   const chartInstance = useRef(null);
-//   const { bills } = useSelector((state) => state.bills);
-//   const user = useSelector(state => state.auth.user);
-  
-//   const currentDate = new Date();
-//   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const currentYear = currentDate.getFullYear();
-//   const currentMonthYear = `${currentMonth}-${currentYear}`;
-  
-//   const prevDate = new Date();
-//   prevDate.setMonth(currentDate.getMonth() - 1);
-//   const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const previousMonthYear = `${previousMonth}-${currentYear}`;
-
-//   const latestBills = bills.filter(bill =>
-//     bill.monthAndYear === currentMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
-//   );
-
-//   const previousBills = bills.filter(bill =>
-//     bill.monthAndYear === previousMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
-//   );
-
-//   // ⚡ Define Meter Status Categories
-//   const meterStatuses = ["FAULTY", "NORMAL", "R_N_A", "METER_CHNG", "NO_METER", "LOCKED", "INACC_RNT"];
-
-//   // ✅ Enhanced Function to Count Meter Status Occurrences
-//   const getStatusCounts = (bills) => {
-//     // Initialize all statuses to 0
-//     const counts = meterStatuses.reduce((acc, status) => ({ ...acc, [status]: 0 }), {});
-    
-//     bills.forEach(bill => {
-//       if (bill.meterStatus) {
-//         // Normalize the meter status for better matching
-//         let normalizedStatus = bill.meterStatus.toString().trim().toUpperCase();
-        
-//         // Handle different variations of meter status names
-//         const statusMapping = {
-//           'FAULTY': 'FAULTY',
-//           'NORMAL': 'NORMAL',
-//           'R N A': 'R_N_A',
-//           'R_N_A': 'R_N_A',
-//           'RNA': 'R_N_A',
-//           'METER CHNG': 'METER_CHNG',
-//           'METER_CHNG': 'METER_CHNG',
-//           'METER CHANGE': 'METER_CHNG',
-//           'METERCHNG': 'METER_CHNG',
-//           'NO METER': 'NO_METER',
-//           'NO_METER': 'NO_METER',
-//           'NOMETER': 'NO_METER',
-//           'LOCKED': 'LOCKED',
-//           'INACC RNT': 'INACC_RNT',
-//           'INACC_RNT': 'INACC_RNT',
-//           'INACCRENT': 'INACC_RNT',
-//           'INACC RENT': 'INACC_RNT'
-//         };
-
-//         // First try direct mapping
-//         const mappedStatus = statusMapping[normalizedStatus];
-//         if (mappedStatus && counts[mappedStatus] !== undefined) {
-//           counts[mappedStatus]++;
-//         } else {
-//           // If no direct mapping, try to find partial matches
-//           for (const [key, value] of Object.entries(statusMapping)) {
-//             if (normalizedStatus.includes(key.replace(/_/g, '')) || 
-//                 key.replace(/_/g, '').includes(normalizedStatus)) {
-//               counts[value]++;
-//               break;
-//             }
-//           }
-//         }
-//       }
-//     });
-    
-//     return counts;
-//   };
-
-//   const currentMonthCounts = getStatusCounts(latestBills);
-//   const previousMonthCounts = getStatusCounts(previousBills);
-
-//   useEffect(() => {
-//     if (chartRef.current) {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-
-//       chartInstance.current = new Chart(chartRef.current, {
-//         type: 'bar',
-//         data: {
-//           labels: meterStatuses.map(status => {
-//             // Format labels for better readability
-//             return status.replace(/_/g, ' ');
-//           }),
-//           datasets: [
-//             {
-//               label: `Current Month (${currentMonthYear})`,
-//               data: meterStatuses.map(status => currentMonthCounts[status] || 0),
-//               backgroundColor: 'rgba(28, 204, 241, 0.8)',
-//               borderColor: '#1CCCF1',
-//               borderWidth: 2,
-//               borderRadius: 4,
-//               borderSkipped: false,
-//             },
-//             {
-//               label: `Previous Month (${previousMonthYear})`,
-//               data: meterStatuses.map(status => previousMonthCounts[status] || 0),
-//               backgroundColor: 'rgba(255, 174, 72, 0.8)',
-//               borderColor: '#FFAE48',
-//               borderWidth: 2,
-//               borderRadius: 4,
-//               borderSkipped: false,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           interaction: {
-//             mode: 'index',
-//             intersect: false,
-//           },
-//           plugins: {
-//             title: {
-//               display: true,
-//               text: `Meter Status Comparison: ${previousMonth} vs ${currentMonth} ${currentYear}`,
-//               font: {
-//                 size: 16,
-//                 weight: 'bold'
-//               },
-//               color: '#333',
-//               padding: 20
-//             },
-//             legend: {
-//               display: true,
-//               position: 'top',
-//               labels: {
-//                 usePointStyle: true,
-//                 padding: 20,
-//                 font: {
-//                   size: 12,
-//                   weight: '500'
-//                 }
-//               }
-//             },
-//             tooltip: {
-//               backgroundColor: 'rgba(0, 0, 0, 0.8)',
-//               titleColor: '#fff',
-//               bodyColor: '#fff',
-//               borderColor: '#ddd',
-//               borderWidth: 1,
-//               cornerRadius: 8,
-//               displayColors: true,
-//               callbacks: {
-//                 title: function(context) {
-//                   return `Meter Status: ${context[0].label}`;
-//                 },
-//                 label: function(context) {
-//                   return `${context.dataset.label}: ${context.parsed.y} meters`;
-//                 }
-//               }
-//             }
-//           },
-//           scales: {
-//             x: {
-//               grid: {
-//                 display: false
-//               },
-//               ticks: {
-//                 color: '#666',
-//                 font: {
-//                   size: 11,
-//                   weight: '500'
-//                 },
-//                 maxRotation: 45,
-//                 minRotation: 45
-//               }
-//             },
-//             y: {
-//               beginAtZero: true,
-//               grid: {
-//                 color: 'rgba(0, 0, 0, 0.1)',
-//                 lineWidth: 1
-//               },
-//               ticks: {
-//                 color: '#666',
-//                 font: {
-//                   size: 11
-//                 },
-//                 stepSize: 1,
-//                 callback: function(value) {
-//                   return Number.isInteger(value) ? value : '';
-//                 }
-//               },
-//               title: {
-//                 display: true,
-//                 text: 'Number of Meters',
-//                 color: '#666',
-//                 font: {
-//                   size: 12,
-//                   weight: 'bold'
-//                 }
-//               }
-//             }
-//           },
-//           elements: {
-//             bar: {
-//               borderWidth: 2,
-//             }
-//           },
-//           layout: {
-//             padding: {
-//               top: 10,
-//               bottom: 10,
-//               left: 10,
-//               right: 10
-//             }
-//           }
-//         },
-//       });
-//     }
-
-//     return () => {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-//     };
-//   }, [bills, currentMonthYear, previousMonthYear]);
-
-//   return (
-//     <Box sx={{ 
-//       width: '100%', 
-//       height: '400px',
-//       backgroundColor: '#fff',
-//       borderRadius: '12px',
-//       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-//       padding: '16px',
-//       border: '1px solid #e0e0e0'
-//     }}>
-//       <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
-//     </Box>
-//   );
-// };
-
-// export default ChartComponent;
-
-
-// ------------------------------------------------
-
-
-// import React, { useEffect, useRef } from 'react';
-// import Chart from 'chart.js/auto';
-// import { useSelector } from 'react-redux';
-// import { Box } from '@mui/material';
-
-// const ChartComponent = () => {
-//   const chartRef = useRef(null);
-//   const chartInstance = useRef(null);
-//   const { bills } = useSelector((state) => state.bills);
-//   const user = useSelector(state => state.auth.user);
-  
-//   const currentDate = new Date();
-//   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const currentYear = currentDate.getFullYear();
-//   const currentMonthYear = `${currentMonth}-${currentYear}`;
-  
-//   const prevDate = new Date();
-//   prevDate.setMonth(currentDate.getMonth() - 1);
-//   const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const previousMonthYear = `${previousMonth}-${currentYear}`;
-
-//   const latestBills = bills.filter(bill =>
-//     bill.monthAndYear === currentMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
-//   );
-
-//   const previousBills = bills.filter(bill =>
-//     bill.monthAndYear === previousMonthYear &&
-//     (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
-//   );
-
-//   // ⚡ Get all unique meter statuses from bills data
-//   const getAllUniqueStatuses = (bills) => {
-//     const statusSet = new Set();
-//     bills.forEach(bill => {
-//       if (bill.meterStatus) {
-//         let normalizedStatus = bill.meterStatus.toString().trim().toUpperCase();
-        
-//         // Handle different variations of meter status names
-//         const statusMapping = {
-//           'R N A': 'R_N_A',
-//           'RNA': 'R_N_A',
-//           'METER CHNG': 'METER_CHNG',
-//           'METER CHANGE': 'METER_CHNG',
-//           'METERCHNG': 'METER_CHNG',
-//           'NO METER': 'NO_METER',
-//           'NOMETER': 'NO_METER',
-//           'INACC RNT': 'INACC_RNT',
-//           'INACCRENT': 'INACC_RNT',
-//           'INACC RENT': 'INACC_RNT'
-//         };
-        
-//         const mappedStatus = statusMapping[normalizedStatus] || normalizedStatus.replace(/\s+/g, '_');
-//         statusSet.add(mappedStatus);
-//       }
-//     });
-//     return Array.from(statusSet).sort();
-//   };
-
-//   // Get all unique statuses from both current and previous month bills
-//   // const allBills = [...latestBills, ...previousBills];
-//   // const meterStatuses = getAllUniqueStatuses(allBills);
-
-
-//   const meterStatuses = getAllUniqueStatuses(bills);
-
-
-//   // ✅ Enhanced Function to Count Meter Status Occurrences
-//   const getStatusCounts = (bills) => {
-//     // Initialize all unique statuses to 0
-//     const counts = meterStatuses.reduce((acc, status) => ({ ...acc, [status]: 0 }), {});
-    
-//     bills.forEach(bill => {
-//       if (bill.meterStatus) {
-//         // Normalize the meter status for better matching
-//         let normalizedStatus = bill.meterStatus.toString().trim().toUpperCase();
-        
-//         // Handle different variations of meter status names
-//         const statusMapping = {
-//           'R N A': 'R_N_A',
-//           'RNA': 'R_N_A',
-//           'METER CHNG': 'METER_CHNG',
-//           'METER CHANGE': 'METER_CHNG',
-//           'METERCHNG': 'METER_CHNG',
-//           'NO METER': 'NO_METER',
-//           'NOMETER': 'NO_METER',
-//           'INACC RNT': 'INACC_RNT',
-//           'INACCRENT': 'INACC_RNT',
-//           'INACC RENT': 'INACC_RNT'
-//         };
-
-//         // Map the status or use normalized version
-//         const mappedStatus = statusMapping[normalizedStatus] || normalizedStatus.replace(/\s+/g, '_');
-        
-//         if (counts[mappedStatus] !== undefined) {
-//           counts[mappedStatus]++;
-//         }
-//       }
-//     });
-    
-//     return counts;
-//   };
-
-//   const currentMonthCounts = getStatusCounts(latestBills);
-//   const previousMonthCounts = getStatusCounts(previousBills);
-
-//   useEffect(() => {
-//     if (chartRef.current) {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-
-//       chartInstance.current = new Chart(chartRef.current, {
-//         type: 'bar',
-//         data: {
-//           labels: meterStatuses.map(status => {
-//             // Format labels for better readability
-//             return status.replace(/_/g, ' ');
-//           }),
-//           datasets: [
-//             {
-//               label: `Current Month (${currentMonthYear})`,
-//               data: meterStatuses.map(status => currentMonthCounts[status] || 0),
-//               backgroundColor: 'rgba(28, 204, 241, 0.8)',
-//               borderColor: '#1CCCF1',
-//               borderWidth: 2,
-//               borderRadius: 4,
-//               borderSkipped: false,
-//             },
-//             {
-//               label: `Previous Month (${previousMonthYear})`,
-//               data: meterStatuses.map(status => previousMonthCounts[status] || 0),
-//               backgroundColor: 'rgba(255, 174, 72, 0.8)',
-//               borderColor: '#FFAE48',
-//               borderWidth: 2,
-//               borderRadius: 4,
-//               borderSkipped: false,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           interaction: {
-//             mode: 'index',
-//             intersect: false,
-//           },
-//           plugins: {
-//             title: {
-//               display: true,
-//               text: `Meter Status Comparison: ${previousMonth} vs ${currentMonth} ${currentYear}`,
-//               font: {
-//                 size: 16,
-//                 weight: 'bold'
-//               },
-//               color: '#333',
-//               padding: 20
-//             },
-//             legend: {
-//               display: true,
-//               position: 'top',
-//               labels: {
-//                 usePointStyle: true,
-//                 padding: 20,
-//                 font: {
-//                   size: 12,
-//                   weight: '500'
-//                 }
-//               }
-//             },
-//             tooltip: {
-//               backgroundColor: 'rgba(0, 0, 0, 0.8)',
-//               titleColor: '#fff',
-//               bodyColor: '#fff',
-//               borderColor: '#ddd',
-//               borderWidth: 1,
-//               cornerRadius: 8,
-//               displayColors: true,
-//               callbacks: {
-//                 title: function(context) {
-//                   return `Meter Status: ${context[0].label}`;
-//                 },
-//                 label: function(context) {
-//                   return `${context.dataset.label}: ${context.parsed.y} meters`;
-//                 }
-//               }
-//             }
-//           },
-//           scales: {
-//             x: {
-//               grid: {
-//                 display: false
-//               },
-//               ticks: {
-//                 color: '#666',
-//                 font: {
-//                   size: 11,
-//                   weight: '500'
-//                 },
-//                 maxRotation: 45,
-//                 minRotation: 45
-//               }
-//             },
-//             y: {
-//               beginAtZero: true,
-//               grid: {
-//                 color: 'rgba(0, 0, 0, 0.1)',
-//                 lineWidth: 1
-//               },
-//               ticks: {
-//                 color: '#666',
-//                 font: {
-//                   size: 11
-//                 },
-//                 stepSize: 1,
-//                 callback: function(value) {
-//                   return Number.isInteger(value) ? value : '';
-//                 }
-//               },
-//               title: {
-//                 display: true,
-//                 text: 'Number of Meters',
-//                 color: '#666',
-//                 font: {
-//                   size: 12,
-//                   weight: 'bold'
-//                 }
-//               }
-//             }
-//           },
-//           elements: {
-//             bar: {
-//               borderWidth: 2,
-//             }
-//           },
-//           layout: {
-//             padding: {
-//               top: 10,
-//               bottom: 10,
-//               left: 10,
-//               right: 10
-//             }
-//           }
-//         },
-//       });
-//     }
-
-//     return () => {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-//     };
-//   }, [bills, currentMonthYear, previousMonthYear]);
-
-//   return (
-//     <Box sx={{ 
-//       width: '100%', 
-//       height: '400px',
-//       backgroundColor: '#fff',
-//       borderRadius: '12px',
-//       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-//       padding: '16px',
-//       border: '1px solid #e0e0e0'
-//     }}>
-//       <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
-//     </Box>
-//   );
-// };
-
-// export default ChartComponent;
-
-// -----------------------------------------------------------------
-
-// import React, { useEffect, useRef, useState } from 'react';
 // import Chart from 'chart.js/auto';
 // import { useSelector } from 'react-redux';
 // import { Box, CircularProgress } from '@mui/material';
-// import { baseUrl } from '../config/config';
 
 // const ChartComponent = () => {
 //   const chartRef = useRef(null);
 //   const chartInstance = useRef(null);
 //   const user = useSelector(state => state.auth.user);
-  
-//   const [allBills, setAllBills] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-  
+//   const { bills: allBills, loading: isLoading } = useSelector(state => state.bills);
+
 //   const currentDate = new Date();
 //   const currentMonth = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 //   const currentYear = currentDate.getFullYear();
 //   const currentMonthYear = `${currentMonth}-${currentYear}`;
-  
+
 //   const prevDate = new Date();
-//   prevDate.setMonth(currentDate.getMonth() - 1);
+//   prevDate.setMonth(prevDate.getMonth() - 1);
 //   const previousMonth = prevDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-//   const previousMonthYear = `${previousMonth}-${currentYear}`;
+//   const prevYear = prevDate.getFullYear();
+//   const previousMonthYear = `${previousMonth}-${prevYear}`;
 
-//   // Function to fetch all bills data from API
-//   const fetchAllBillsData = async () => {
-//     try {
-//       setIsLoading(true);
-      
-//       // First get total count
-//       // const firstResponse = await fetch('https://lightbillbackend.saavi.co.in/api/getBills?page=1&limit=1');
-//             const firstResponse = await fetch(`${baseUrl}/getBills?page=1&limit=1`);
-
-//       const firstData = await firstResponse.json();
-//       const totalBills = firstData.pagination.totalBills;
-      
-//       // Fetch all bills in chunks
-//       let fetchedBills = [];
-//       const chunkSize = 1000;
-//       const totalPages = Math.ceil(totalBills / chunkSize);
-      
-//       for (let page = 1; page <= totalPages; page++) {
-//         const response = await fetch(`${baseUrl}/getBills?page=${page}&limit=${chunkSize}`);
-//         const data = await response.json();
-//         fetchedBills = [...fetchedBills, ...data.bills];
-//       }
-
-//       setAllBills(fetchedBills);
-//       setIsLoading(false);
-//     } catch (error) {
-//       console.error('Error fetching bills data:', error);
-//       setIsLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (user) {
-//       fetchAllBillsData();
-//     }
-//   }, [user]);
-
-//   // Filter bills based on user role and ward permissions
 //   const getFilteredBills = (billsData, monthYear) => {
 //     return billsData.filter(bill =>
 //       bill.monthAndYear === monthYear &&
-//       (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || (user?.ward === 'Head Office' && user?.role === 'Junior Engineer'))
+//       (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || user?.ward === 'Head Office')
 //     );
 //   };
 
 //   const latestBills = getFilteredBills(allBills, currentMonthYear);
 //   const previousBills = getFilteredBills(allBills, previousMonthYear);
 
-//   // Get all unique meter statuses from bills data
+//   const statusMapping = {
+//     'R N A': 'R_N_A', 'RNA': 'R_N_A',
+//     'METER CHNG': 'METER_CHNG', 'METER CHANGE': 'METER_CHNG', 'METERCHNG': 'METER_CHNG',
+//     'NO METER': 'NO_METER', 'NOMETER': 'NO_METER',
+//     'INACC RNT': 'INACC_RNT', 'INACCRENT': 'INACC_RNT', 'INACC RENT': 'INACC_RNT'
+//   };
+
+//   const normalizeStatus = (status) => {
+//     const upper = status.toString().trim().toUpperCase();
+//     return statusMapping[upper] || upper.replace(/\s+/g, '_');
+//   };
+
 //   const getAllUniqueStatuses = (bills) => {
 //     const statusSet = new Set();
 //     bills.forEach(bill => {
-//       if (bill.meterStatus) {
-//         let normalizedStatus = bill.meterStatus.toString().trim().toUpperCase();
-        
-//         // Handle different variations of meter status names
-//         const statusMapping = {
-//           'R N A': 'R_N_A',
-//           'RNA': 'R_N_A',
-//           'METER CHNG': 'METER_CHNG',
-//           'METER CHANGE': 'METER_CHNG',
-//           'METERCHNG': 'METER_CHNG',
-//           'NO METER': 'NO_METER',
-//           'NOMETER': 'NO_METER',
-//           'INACC RNT': 'INACC_RNT',
-//           'INACCRENT': 'INACC_RNT',
-//           'INACC RENT': 'INACC_RNT'
-//         };
-        
-//         const mappedStatus = statusMapping[normalizedStatus] || normalizedStatus.replace(/\s+/g, '_');
-//         statusSet.add(mappedStatus);
-//       }
+//       if (bill.meterStatus) statusSet.add(normalizeStatus(bill.meterStatus));
 //     });
 //     return Array.from(statusSet).sort();
 //   };
 
 //   const meterStatuses = getAllUniqueStatuses(allBills);
 
-//   // Enhanced Function to Count Meter Status Occurrences
 //   const getStatusCounts = (bills) => {
-//     // Initialize all unique statuses to 0
-//     const counts = meterStatuses.reduce((acc, status) => ({ ...acc, [status]: 0 }), {});
-    
+//     const counts = meterStatuses.reduce((acc, s) => ({ ...acc, [s]: 0 }), {});
 //     bills.forEach(bill => {
 //       if (bill.meterStatus) {
-//         // Normalize the meter status for better matching
-//         let normalizedStatus = bill.meterStatus.toString().trim().toUpperCase();
-        
-//         // Handle different variations of meter status names
-//         const statusMapping = {
-//           'R N A': 'R_N_A',
-//           'RNA': 'R_N_A',
-//           'METER CHNG': 'METER_CHNG',
-//           'METER CHANGE': 'METER_CHNG',
-//           'METERCHNG': 'METER_CHNG',
-//           'NO METER': 'NO_METER',
-//           'NOMETER': 'NO_METER',
-//           'INACC RNT': 'INACC_RNT',
-//           'INACCRENT': 'INACC_RNT',
-//           'INACC RENT': 'INACC_RNT'
-//         };
-
-//         // Map the status or use normalized version
-//         const mappedStatus = statusMapping[normalizedStatus] || normalizedStatus.replace(/\s+/g, '_');
-        
-//         if (counts[mappedStatus] !== undefined) {
-//           counts[mappedStatus]++;
-//         }
+//         const mapped = normalizeStatus(bill.meterStatus);
+//         if (counts[mapped] !== undefined) counts[mapped]++;
 //       }
 //     });
-    
 //     return counts;
 //   };
 
@@ -874,166 +67,79 @@
 //   const previousMonthCounts = getStatusCounts(previousBills);
 
 //   useEffect(() => {
-//     if (chartRef.current && !isLoading && allBills.length > 0) {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
+//     if (!chartRef.current || isLoading || allBills.length === 0) return;
+//     if (chartInstance.current) chartInstance.current.destroy();
 
-//       chartInstance.current = new Chart(chartRef.current, {
-//         type: 'bar',
-//         data: {
-//           labels: meterStatuses.map(status => {
-//             // Format labels for better readability
-//             return status.replace(/_/g, ' ');
-//           }),
-//           datasets: [
-//             {
-//               label: `Current Month (${currentMonthYear})`,
-//               data: meterStatuses.map(status => currentMonthCounts[status] || 0),
-//               backgroundColor: 'rgba(28, 204, 241, 0.8)',
-//               borderColor: '#1CCCF1',
-//               borderWidth: 2,
-//               borderRadius: 4,
-//               borderSkipped: false,
-//             },
-//             {
-//               label: `Previous Month (${previousMonthYear})`,
-//               data: meterStatuses.map(status => previousMonthCounts[status] || 0),
-//               backgroundColor: 'rgba(255, 174, 72, 0.8)',
-//               borderColor: '#FFAE48',
-//               borderWidth: 2,
-//               borderRadius: 4,
-//               borderSkipped: false,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           interaction: {
-//             mode: 'index',
-//             intersect: false,
+//     chartInstance.current = new Chart(chartRef.current, {
+//       type: 'bar',
+//       data: {
+//         labels: meterStatuses.map(s => s.replace(/_/g, ' ')),
+//         datasets: [
+//           {
+//             label: `Current Month (${currentMonthYear})`,
+//             data: meterStatuses.map(s => currentMonthCounts[s] || 0),
+//             backgroundColor: 'rgba(28, 204, 241, 0.8)',
+//             borderColor: '#1CCCF1', borderWidth: 2, borderRadius: 4, borderSkipped: false,
 //           },
-//           plugins: {
-//             title: {
-//               display: true,
-//               text: `Meter Status Comparison: ${previousMonth} vs ${currentMonth} ${currentYear}`,
-//               font: {
-//                 size: 16,
-//                 weight: 'bold'
-//               },
-//               color: '#333',
-//               padding: 20
-//             },
-//             legend: {
-//               display: true,
-//               position: 'top',
-//               labels: {
-//                 usePointStyle: true,
-//                 padding: 20,
-//                 font: {
-//                   size: 12,
-//                   weight: '500'
-//                 }
-//               }
-//             },
-//             tooltip: {
-//               backgroundColor: 'rgba(0, 0, 0, 0.8)',
-//               titleColor: '#fff',
-//               bodyColor: '#fff',
-//               borderColor: '#ddd',
-//               borderWidth: 1,
-//               cornerRadius: 8,
-//               displayColors: true,
-//               callbacks: {
-//                 title: function(context) {
-//                   return `Meter Status: ${context[0].label}`;
-//                 },
-//                 label: function(context) {
-//                   return `${context.dataset.label}: ${context.parsed.y} meters`;
-//                 }
-//               }
-//             }
+//           {
+//             label: `Previous Month (${previousMonthYear})`,
+//             data: meterStatuses.map(s => previousMonthCounts[s] || 0),
+//             backgroundColor: 'rgba(255, 174, 72, 0.8)',
+//             borderColor: '#FFAE48', borderWidth: 2, borderRadius: 4, borderSkipped: false,
 //           },
-//           scales: {
-//             x: {
-//               grid: {
-//                 display: false
-//               },
-//               ticks: {
-//                 color: '#666',
-//                 font: {
-//                   size: 11,
-//                   weight: '500'
-//                 },
-//                 maxRotation: 45,
-//                 minRotation: 45
-//               }
-//             },
-//             y: {
-//               beginAtZero: true,
-//               grid: {
-//                 color: 'rgba(0, 0, 0, 0.1)',
-//                 lineWidth: 1
-//               },
-//               ticks: {
-//                 color: '#666',
-//                 font: {
-//                   size: 11
-//                 },
-//                 stepSize: 1,
-//                 callback: function(value) {
-//                   return Number.isInteger(value) ? value : '';
-//                 }
-//               },
-//               title: {
-//                 display: true,
-//                 text: 'Number of Meters',
-//                 color: '#666',
-//                 font: {
-//                   size: 12,
-//                   weight: 'bold'
-//                 }
-//               }
-//             }
+//         ],
+//       },
+//       options: {
+//         responsive: true,
+//         maintainAspectRatio: false,
+//         interaction: { mode: 'index', intersect: false },
+//         plugins: {
+//           title: {
+//             display: true,
+//             text: `Meter Status Comparison: ${previousMonth} vs ${currentMonth} ${currentYear}`,
+//             font: { size: 16, weight: 'bold' },
+//             color: '#333',
+//             padding: 20
 //           },
-//           elements: {
-//             bar: {
-//               borderWidth: 2,
-//             }
+//           legend: {
+//             display: true,
+//             position: 'top',
+//             labels: { usePointStyle: true, padding: 20 }
 //           },
-//           layout: {
-//             padding: {
-//               top: 10,
-//               bottom: 10,
-//               left: 10,
-//               right: 10
+//           tooltip: {
+//             backgroundColor: 'rgba(0,0,0,0.8)',
+//             titleColor: '#fff',
+//             bodyColor: '#fff',
+//             callbacks: {
+//               title: (ctx) => `Meter Status: ${ctx[0].label}`,
+//               label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y} meters`
 //             }
 //           }
 //         },
-//       });
-//     }
+//         scales: {
+//           x: {
+//             grid: { display: false },
+//             ticks: { maxRotation: 45, minRotation: 45 }
+//           },
+//           y: {
+//             beginAtZero: true,
+//             ticks: { callback: v => Number.isInteger(v) ? v : '' },
+//             title: { display: true, text: 'Number of Meters' }
+//           }
+//         }
+//       },
+//     });
 
-//     return () => {
-//       if (chartInstance.current) {
-//         chartInstance.current.destroy();
-//       }
-//     };
-//   }, [allBills, isLoading, currentMonthYear, previousMonthYear, latestBills, previousBills, meterStatuses, currentMonthCounts, previousMonthCounts]);
+//     return () => { if (chartInstance.current) chartInstance.current.destroy(); };
+//   }, [allBills, isLoading]);
 
 //   if (isLoading) {
 //     return (
-//       <Box sx={{ 
-//         width: '100%', 
-//         height: '400px',
-//         backgroundColor: '#fff',
-//         borderRadius: '12px',
-//         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-//         padding: '16px',
-//         border: '1px solid #e0e0e0',
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignItems: 'center'
+//       <Box sx={{
+//         width: '100%', height: '400px', backgroundColor: '#fff',
+//         borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+//         padding: '16px', border: '1px solid #e0e0e0',
+//         display: 'flex', justifyContent: 'center', alignItems: 'center'
 //       }}>
 //         <CircularProgress />
 //       </Box>
@@ -1041,14 +147,10 @@
 //   }
 
 //   return (
-//     <Box sx={{ 
-//       width: '100%', 
-//       height: '400px',
-//       backgroundColor: '#fff',
-//       borderRadius: '12px',
-//       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-//       padding: '16px',
-//       border: '1px solid #e0e0e0'
+//     <Box sx={{
+//       width: '100%', height: '400px', backgroundColor: '#fff',
+//       borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+//       padding: '16px', border: '1px solid #e0e0e0'
 //     }}>
 //       <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
 //     </Box>
@@ -1057,12 +159,70 @@
 
 // export default ChartComponent;
 
-// =====================================
 
-import React, { useEffect, useRef } from 'react';
+
+import React, { useEffect, useMemo, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { useSelector } from 'react-redux';
-import { Box, CircularProgress } from '@mui/material';
+import ChartCard from './charts/ChartCard';
+import {
+  COLORS,
+  prefersReducedMotion,
+  verticalGradient,
+  hoverLinePlugin,
+  lineRevealPlugin,
+  createTooltipHandler,
+  buildBaseOptions,
+  buildScales,
+} from './charts/chartTheme';
+
+// ── Data mapping: tasach (fakt component baher halvla) ─────────────────────
+const statusMapping = {
+  'R N A': 'R_N_A', 'RNA': 'R_N_A',
+  'METER CHNG': 'METER_CHNG', 'METER CHANGE': 'METER_CHNG', 'METERCHNG': 'METER_CHNG',
+  'NO METER': 'NO_METER', 'NOMETER': 'NO_METER',
+  'INACC RNT': 'INACC_RNT', 'INACCRENT': 'INACC_RNT', 'INACC RENT': 'INACC_RNT'
+};
+
+const normalizeStatus = (status) => {
+  const upper = status.toString().trim().toUpperCase();
+  return statusMapping[upper] || upper.replace(/\s+/g, '_');
+};
+
+const getAllUniqueStatuses = (bills) => {
+  const statusSet = new Set();
+  bills.forEach(bill => {
+    if (bill.meterStatus) statusSet.add(normalizeStatus(bill.meterStatus));
+  });
+  return Array.from(statusSet).sort();
+};
+
+// ── Tooltip (module level — ekdach banto) ──────────────────────────────────
+const tooltipHandler = createTooltipHandler({
+  formatTitle: (points) => `Status: ${points[0] ? points[0].label : ''}`,
+  formatValue: (p) => `${Number(p.parsed.y).toLocaleString('en-IN')} meters`,
+});
+
+const makeLineDataset = ({ label, tooltipLabel, data, color, areaTop, order }) => ({
+  label,
+  tooltipLabel,
+  data,
+  order,
+  accentColor: color,
+  borderColor: color,
+  borderWidth: 2.5,
+  fill: true,
+  backgroundColor: (c) => verticalGradient(c.chart, areaTop, 'rgba(255,255,255,0)'),
+  cubicInterpolationMode: 'monotone', // smooth, pan 0 chya khali jaat nahi
+  pointRadius: 3,
+  pointBackgroundColor: '#fff',
+  pointBorderColor: color,
+  pointBorderWidth: 1.5,
+  pointHoverRadius: 6,
+  pointHoverBackgroundColor: color,
+  pointHoverBorderColor: '#fff',
+  pointHoverBorderWidth: 3,
+});
 
 const ChartComponent = () => {
   const chartRef = useRef(null);
@@ -1081,140 +241,112 @@ const ChartComponent = () => {
   const prevYear = prevDate.getFullYear();
   const previousMonthYear = `${previousMonth}-${prevYear}`;
 
-  const getFilteredBills = (billsData, monthYear) => {
-    return billsData.filter(bill =>
-      bill.monthAndYear === monthYear &&
-      (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || user?.ward === 'Head Office')
-    );
-  };
+  // Display sathi Title-case (Sep / Oct)
+  const currentMonthLabel = currentDate.toLocaleString('en-US', { month: 'short' });
+  const previousMonthLabel = prevDate.toLocaleString('en-US', { month: 'short' });
 
-  const latestBills = getFilteredBills(allBills, currentMonthYear);
-  const previousBills = getFilteredBills(allBills, previousMonthYear);
+  // ── Counts: logic tasach, fakt useMemo madhe (bills/user badalle tarach recalculate) ──
+  const chartData = useMemo(() => {
+    const getFilteredBills = (billsData, monthYear) => {
+      return billsData.filter(bill =>
+        bill.monthAndYear === monthYear &&
+        (user?.role !== 'Junior Engineer' || bill.ward === user?.ward || user?.ward === 'Head Office')
+      );
+    };
 
-  const statusMapping = {
-    'R N A': 'R_N_A', 'RNA': 'R_N_A',
-    'METER CHNG': 'METER_CHNG', 'METER CHANGE': 'METER_CHNG', 'METERCHNG': 'METER_CHNG',
-    'NO METER': 'NO_METER', 'NOMETER': 'NO_METER',
-    'INACC RNT': 'INACC_RNT', 'INACCRENT': 'INACC_RNT', 'INACC RENT': 'INACC_RNT'
-  };
+    const latestBills = getFilteredBills(allBills, currentMonthYear);
+    const previousBills = getFilteredBills(allBills, previousMonthYear);
+    const meterStatuses = getAllUniqueStatuses(allBills);
 
-  const normalizeStatus = (status) => {
-    const upper = status.toString().trim().toUpperCase();
-    return statusMapping[upper] || upper.replace(/\s+/g, '_');
-  };
+    const getStatusCounts = (bills) => {
+      const counts = meterStatuses.reduce((acc, s) => ({ ...acc, [s]: 0 }), {});
+      bills.forEach(bill => {
+        if (bill.meterStatus) {
+          const mapped = normalizeStatus(bill.meterStatus);
+          if (counts[mapped] !== undefined) counts[mapped]++;
+        }
+      });
+      return counts;
+    };
 
-  const getAllUniqueStatuses = (bills) => {
-    const statusSet = new Set();
-    bills.forEach(bill => {
-      if (bill.meterStatus) statusSet.add(normalizeStatus(bill.meterStatus));
-    });
-    return Array.from(statusSet).sort();
-  };
+    const currentMonthCounts = getStatusCounts(latestBills);
+    const previousMonthCounts = getStatusCounts(previousBills);
 
-  const meterStatuses = getAllUniqueStatuses(allBills);
-
-  const getStatusCounts = (bills) => {
-    const counts = meterStatuses.reduce((acc, s) => ({ ...acc, [s]: 0 }), {});
-    bills.forEach(bill => {
-      if (bill.meterStatus) {
-        const mapped = normalizeStatus(bill.meterStatus);
-        if (counts[mapped] !== undefined) counts[mapped]++;
-      }
-    });
-    return counts;
-  };
-
-  const currentMonthCounts = getStatusCounts(latestBills);
-  const previousMonthCounts = getStatusCounts(previousBills);
+    return {
+      labels: meterStatuses.map(s => s.replace(/_/g, ' ')),
+      current: meterStatuses.map(s => currentMonthCounts[s] || 0),
+      previous: meterStatuses.map(s => previousMonthCounts[s] || 0),
+    };
+  }, [allBills, user, currentMonthYear, previousMonthYear]);
 
   useEffect(() => {
     if (!chartRef.current || isLoading || allBills.length === 0) return;
-    if (chartInstance.current) chartInstance.current.destroy();
 
-    chartInstance.current = new Chart(chartRef.current, {
-      type: 'bar',
+    const reduced = prefersReducedMotion();
+    const base = buildBaseOptions({ tooltipHandler, legendPointStyle: 'circle' });
+
+    const chart = new Chart(chartRef.current, {
+      type: 'line',
       data: {
-        labels: meterStatuses.map(s => s.replace(/_/g, ' ')),
+        labels: chartData.labels,
         datasets: [
-          {
+          makeLineDataset({
             label: `Current Month (${currentMonthYear})`,
-            data: meterStatuses.map(s => currentMonthCounts[s] || 0),
-            backgroundColor: 'rgba(28, 204, 241, 0.8)',
-            borderColor: '#1CCCF1', borderWidth: 2, borderRadius: 4, borderSkipped: false,
-          },
-          {
+            tooltipLabel: `${currentMonthLabel} ${currentYear}`,
+            data: chartData.current,
+            color: COLORS.blue,
+            areaTop: 'rgba(47, 107, 255, 0.22)',
+            order: 0,
+          }),
+          makeLineDataset({
             label: `Previous Month (${previousMonthYear})`,
-            data: meterStatuses.map(s => previousMonthCounts[s] || 0),
-            backgroundColor: 'rgba(255, 174, 72, 0.8)',
-            borderColor: '#FFAE48', borderWidth: 2, borderRadius: 4, borderSkipped: false,
-          },
+            tooltipLabel: `${previousMonthLabel} ${prevYear}`,
+            data: chartData.previous,
+            color: COLORS.orange,
+            areaTop: 'rgba(246, 160, 33, 0.26)',
+            order: 1,
+          }),
         ],
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
+        ...base,
+        animation: { duration: 0 }, // drawing animation plugin karto
+        transitions: { active: { animation: { duration: reduced ? 0 : 200 } } },
         plugins: {
-          title: {
-            display: true,
-            text: `Meter Status Comparison: ${previousMonth} vs ${currentMonth} ${currentYear}`,
-            font: { size: 16, weight: 'bold' },
-            color: '#333',
-            padding: 20
-          },
-          legend: {
-            display: true,
-            position: 'top',
-            labels: { usePointStyle: true, padding: 20 }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(0,0,0,0.8)',
-            titleColor: '#fff',
-            bodyColor: '#fff',
-            callbacks: {
-              title: (ctx) => `Meter Status: ${ctx[0].label}`,
-              label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y} meters`
-            }
-          }
+          ...base.plugins,
+          vvLineReveal: { duration: reduced ? 0 : 1100 },
         },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { maxRotation: 45, minRotation: 45 }
-          },
-          y: {
-            beginAtZero: true,
-            ticks: { callback: v => Number.isInteger(v) ? v : '' },
-            title: { display: true, text: 'Number of Meters' }
-          }
-        }
+        scales: buildScales(),
       },
+      plugins: [lineRevealPlugin, hoverLinePlugin],
     });
 
-    return () => { if (chartInstance.current) chartInstance.current.destroy(); };
-  }, [allBills, isLoading]);
-
-  if (isLoading) {
-    return (
-      <Box sx={{
-        width: '100%', height: '400px', backgroundColor: '#fff',
-        borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-        padding: '16px', border: '1px solid #e0e0e0',
-        display: 'flex', justifyContent: 'center', alignItems: 'center'
-      }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+    chartInstance.current = chart;
+    return () => {
+      chart.destroy();
+      chartInstance.current = null;
+    };
+  }, [chartData, isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Box sx={{
-      width: '100%', height: '400px', backgroundColor: '#fff',
-      borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-      padding: '16px', border: '1px solid #e0e0e0'
-    }}>
-      <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}></canvas>
-    </Box>
+    <ChartCard
+      title={`Meter Status Comparison: ${previousMonth} vs ${currentMonth} ${currentYear}`}
+      subtitle="Meters by status, month over month"
+      periodLabel={`${previousMonthLabel} ${prevYear} – ${currentMonthLabel} ${currentYear}`}
+      loading={isLoading}
+      empty={!isLoading && allBills.length === 0}
+      emptyText="No meter data available"
+    >
+      <canvas
+        ref={chartRef}
+        role="img"
+        aria-label={`Meter status comparison between ${previousMonthYear} and ${currentMonthYear}`}
+        // style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+
+
+
+      />
+    </ChartCard>
   );
 };
 

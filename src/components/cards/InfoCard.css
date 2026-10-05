@@ -13,7 +13,7 @@ transition: opacity 0.3s ease;
 
 /* ============================== */
 
-.container-infocard {
+/* .container-infocard {
    z-index: 2 !important;
    font-family: "Playwrite GB S", cursive;
    font-optical-sizing: auto;
@@ -29,4 +29,43 @@ transition: opacity 0.3s ease;
 .container-infocard:hover {
    transform: translateY(-2px);
    transition: all 0.3s ease;
+} */
+
+
+
+
+/* .container-infocard:hover{
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    }
+
+.container-infocard:hover{
+scale:1.01 !important;
+
+
+opacity: 0.8;
+transition: opacity 0.3s ease;
+} */
+
+/* ============================== */
+
+.container-infocard {
+   z-index: 2 !important;
+   font-family: "Playwrite GB S", cursive;
+   font-optical-sizing: auto;
+   font-weight: 100;
+   font-style: normal;
+   color: #655d5d !important;
+   display: flex;
+   background-color: white;
+   height: 100%;
+   width: 100%;
 }
+
+/* OLD (3-Oct-2026 पर्यंत) — नवीन InfoCard चा hover (-5px, shadow, border) component मध्येच आहे.
+   हा rule ठेवला तर hover वेळी -2px होऊन नवीन effect बिघडतो, म्हणून comment केला.
+.container-infocard:hover {
+   transform: translateY(-2px);
+   transition: all 0.3s ease;
+}
+*/
