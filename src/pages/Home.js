@@ -72,6 +72,9 @@ const Home = () => {
   const [showCMonthAvgTable, setShowCMonthAvgTable] = useState(false);
   const [showCMonthUDueBill, setshowCMonthUDueBill] = useState(false);
   const [showOverdueBill, setShowOverdueBill] = useState(false);
+const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
+
+
   const [showPTwoMonthBeforePaidTable, setShowPTwoMonthBeforePaidTable] = useState(false);
   const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
   const [showBeforeTwoMonthFaultyTable, setShowBeforeTwoMonthFaultyTable] = useState(false);
@@ -87,8 +90,19 @@ const Home = () => {
   // ✅ useMemo - bills बदलल्यावरच recalculate, API call नाही!
   const dashboardCounts = useMemo(() => {
     if (!bills.length || !user) return {
-      currentMonthPaidCount: 0, previousMonthPaidCount: 0, previousTwoMonthPaidCount: 0,
-      dueAlertCount: 0, passedDueDateCount: 0, totalFaultyCurrentMonth: 0,
+
+
+
+      // currentMonthPaidCount: 0, previousMonthPaidCount: 0, previousTwoMonthPaidCount: 0,
+
+            currentMonthPaidCount: 0, previousMonthPaidCount: 0, previousTwoMonthPaidCount: 0,
+      previousMonthTotalCount: 0,previousMonthOverdueCount: 0,previousMonthPenaltyTotal: 0,
+
+
+      // dueAlertCount: 0, passedDueDateCount: 0, totalFaultyCurrentMonth: 0,
+
+      dueAlertCount: 0, passedDueDateCount: 0, currentMonthOverdueCount: 0, totalFaultyCurrentMonth: 0,
+
       totalFaultyBeforeTwoMonths: 0, averageMetersCount: 0
     };
 
@@ -103,7 +117,16 @@ const Home = () => {
       b.paymentStatus === 'paid' && b.monthAndYear === previousMonthCYear && wardFilter(b)
     ).length;
 
+    // const previousTwoMonthPaidCount = bills.filter(b =>
+
+    // NEW: mage chya mahinyache total bills (status kaahi pan)
+    const previousMonthTotalCount = bills.filter(b =>
+      b.monthAndYear === previousMonthCYear && wardFilter(b)
+    ).length;
+
     const previousTwoMonthPaidCount = bills.filter(b =>
+
+
       b.paymentStatus === 'paid' && b.monthAndYear === previousTwoMonthCYear && wardFilter(b)
     ).length;
 
@@ -115,6 +138,40 @@ const Home = () => {
       const isRelevantMonth = b.monthAndYear === currentMonthYear || b.monthAndYear === prevMonthYear;
       return isOverdue && isUnpaid && isRelevantMonth && wardFilter(b);
     }).length;
+
+      // NEW: fakta chalu mahinyache overdue bills
+ const previousMonthOverdueCount = bills.filter(b =>
+      new Date(b.dueDate) < today &&
+      b.paymentStatus === 'unpaid' &&
+      b.monthAndYear === previousMonthCYear &&
+      wardFilter(b)
+    ).length;
+
+    // NEW: fakta chalu mahinyache overdue bills
+
+    const currentMonthOverdueCount = bills.filter(b =>
+      new Date(b.dueDate) < today &&
+      b.paymentStatus === 'unpaid' &&
+      b.monthAndYear === currentMonthYear &&
+      wardFilter(b)
+    ).length;
+
+    // const totalFaultyCurrentMonth = bills.filter(b =>
+
+          // NEW: mage chya mahinyacha total penalty (paidAmount == netBillAmountWithDPC asel tevha DPC - net)
+    const previousMonthPenaltyTotal = Math.round(
+      bills
+        .filter(b => b.monthAndYear === previousMonthCYear && wardFilter(b))
+        .reduce((sum, b) => {
+          const net = Number(b.netBillAmount);
+          const withDpc = Number(b.netBillAmountWithDPC);
+          const paid = Number(b.paidAmount);
+          if (isNaN(net) || isNaN(withDpc) || isNaN(paid)) return sum;
+          const paidWithDpc = Math.abs(paid - withDpc) < 0.01;
+          const penalty = withDpc - net;
+          return paidWithDpc && penalty > 0 ? sum + penalty : sum;
+        }, 0)
+    );
 
     const totalFaultyCurrentMonth = bills.filter(b =>
       b.meterStatus === 'FAULTY' && b.monthAndYear === currentMonthYear && wardFilter(b)
@@ -132,8 +189,13 @@ const Home = () => {
     const averageMetersCount = uniqueBills.filter(b => b.meterStatus === 'Average').length;
 
     return {
-      currentMonthPaidCount, previousMonthPaidCount, previousTwoMonthPaidCount,
-      dueAlertCount, passedDueDateCount, totalFaultyCurrentMonth,
+      // currentMonthPaidCount, previousMonthPaidCount, previousTwoMonthPaidCount,
+
+            currentMonthPaidCount, previousMonthPaidCount, previousTwoMonthPaidCount,
+      previousMonthTotalCount,previousMonthOverdueCount,previousMonthPenaltyTotal,
+
+
+      dueAlertCount, passedDueDateCount, currentMonthOverdueCount, totalFaultyCurrentMonth,
       totalFaultyBeforeTwoMonths, averageMetersCount
     };
   }, [bills, user]);
@@ -195,7 +257,10 @@ const Home = () => {
 
   const closeAllTables = () => {
     setShowConsumerTable(false); setShowCMonthPaidTable(false); setShowPMonthPaidTable(false);
+
     setShowCMonthAvgTable(false); setshowCMonthUDueBill(false); setShowOverdueBill(false);
+    setShowCMonthOverdueBill(false);
+
     setShowPTwoMonthBeforePaidTable(false); setShowCMonthFaultyTable(false);
     setShowBeforeTwoMonthFaultyTable(false);
   };
@@ -207,7 +272,9 @@ const Home = () => {
       previousPaid: setShowPMonthPaidTable, average: setShowCMonthAvgTable,
       faulty: setShowCMonthFaultyTable, upcoming: setshowCMonthUDueBill,
       twoMonthPaid: setShowPTwoMonthBeforePaidTable, faultyBefore: setShowBeforeTwoMonthFaultyTable,
+      
       overdue: setShowOverdueBill,
+      overdueCurrent: setShowCMonthOverdueBill,
     };
     if (map[tableToShow]) map[tableToShow](true);
   };
@@ -235,50 +302,100 @@ const Home = () => {
       onClick: () => openSingleTable('consumer')
     },
     {
+      IconComponent: UpcomingIcon, backgroundColor: "#E8EDFF", avatarColor: "#4F46E5",
+      title: `Upcoming Due Bills ${currentMonthYear}`, count: dashboardCounts.dueAlertCount,
+      onClick: () => openSingleTable('upcoming')
+    },
+    {
       IconComponent: FactCheckIcon, backgroundColor: "#E7F1FF", avatarColor: "#2563EB",
       title: `Paid Bills (${currentMonthYear})`, count: dashboardCounts.currentMonthPaidCount,
       onClick: () => openSingleTable('currentPaid')
     },
+
+  
+     // NEW: chalu mahinyache Overdue Bills (Paid Bills chalu mahina chya nantar)
+    {
+      IconComponent: AccessTimeFilledIcon, backgroundColor: "#FFF1E6", avatarColor: "#EA580C",
+      title: `Overdue Bills (${currentMonthYear})`, count: dashboardCounts.currentMonthOverdueCount,
+      onClick: () => openSingleTable('overdueCurrent')
+    },
+     {
+      IconComponent: ErrorOutlinedIcon, backgroundColor: "#FEEAEA", avatarColor: "#DC2626",
+      title: `Total Faulty Meters ${currentMonthYear}`, count: dashboardCounts.totalFaultyCurrentMonth,
+      onClick: () => openSingleTable('faulty')
+    },
+    // {
+    //   IconComponent: FactCheckIcon, backgroundColor: "#E6FCED", avatarColor: "#16A34A",
+    //   title: `Paid Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthPaidCount,
+
+    // NEW: Paid Bills (mage cha mahina) chya aadhi, mage chya mahinyache Total Bills
+    {
+      IconComponent: FactCheckIcon, backgroundColor: "#EEF2FF", avatarColor: "#6366F1",
+      title: `Total Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthTotalCount,
+    },
     {
       IconComponent: FactCheckIcon, backgroundColor: "#E6FCED", avatarColor: "#16A34A",
+
+      // title: `Paid Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthPaidCount,
+      // onClick: () => openSingleTable('previousPaid')
+
+
       title: `Paid Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthPaidCount,
       onClick: () => openSingleTable('previousPaid')
     },
+    // NEW: mage chya mahinyache Total Overdue Bills (Paid Bills (SEP) chya nantar)
     {
-      IconComponent: ElectricMeterOutlinedIcon, backgroundColor: "#F6EEFF", avatarColor: "#9333EA",
-      title: "Total Average Meters", count: dashboardCounts.averageMetersCount,
-      onClick: () => openSingleTable('average')
+      IconComponent: AccessTimeFilledIcon, backgroundColor: "#FDECEC", avatarColor: "#B91C1C",
+    //   title: `Overdue Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthOverdueCount,
+    // },
+
+      title: `Overdue Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthOverdueCount,
     },
+    // NEW: chalu mahinyache Faulty Meters (Overdue Bills (SEP) chya nantar)
     {
       IconComponent: ErrorOutlinedIcon, backgroundColor: "#FEEAEA", avatarColor: "#DC2626",
-      title: "Total Faulty Meters", count: dashboardCounts.totalFaultyCurrentMonth,
+    //   title: `Faulty Meters (${currentMonthYear})`, count: dashboardCounts.totalFaultyCurrentMonth,
+    //   onClick: () => openSingleTable('faulty')
+    // },
+
+          title: `Faulty Meters (${currentMonthYear})`, count: dashboardCounts.totalFaultyCurrentMonth,
       onClick: () => openSingleTable('faulty')
     },
+    // NEW: mage chya mahinyacha Total Penalty (Faulty Meters (OCT) chya nantar)
     {
-      IconComponent: UpcomingIcon, backgroundColor: "#E8EDFF", avatarColor: "#4F46E5",
-      title: "Upcoming Due Bills", count: dashboardCounts.dueAlertCount,
-      onClick: () => openSingleTable('upcoming')
+      IconComponent: ErrorOutlinedIcon, backgroundColor: "#FFF4E5", avatarColor: "#C2410C",
+      title: `Total Penalty ₹ (${previousMonthCYear})`, count: dashboardCounts.previousMonthPenaltyTotal,
     },
-    ...(isAdminRole ? [{
-      IconComponent: FactCheckIcon, backgroundColor: "#DCFCF5", avatarColor: "#0D9488",
-      title: `Paid Bills (${previousTwoMonthCYear})`, count: dashboardCounts.previousTwoMonthPaidCount,
-      onClick: () => openSingleTable('twoMonthPaid')
-    }] : []),
-    {
-      IconComponent: ErrorOutlinedIcon, backgroundColor: "#FFF7D9", avatarColor: "#FFA534",
-      title: `Faulty Meters ${previousTwoMonthCYear}`, count: dashboardCounts.totalFaultyBeforeTwoMonths,
-      onClick: () => openSingleTable('faultyBefore')
-    },
-    {
-      IconComponent: AccessTimeFilledIcon, backgroundColor: "#F6F7F8", avatarColor: "#D97706",
-      title: `Overdue Bills (${currentMonthYear} & ${previousMonthCYear})`,
-      count: dashboardCounts.passedDueDateCount,
-      onClick: () => openSingleTable('overdue')
-    },
-    ...(isAdminRole ? [{
-      IconComponent: Person2OutlinedIcon, backgroundColor: "#F6F7F9", avatarColor: "#374151",
-      title: "Total Users", count: roles.length
-    }] : []),
+
+    // {
+    //   IconComponent: ElectricMeterOutlinedIcon, backgroundColor: "#F6EEFF", avatarColor: "#9333EA",
+    //   title: "Total Average Meters", count: dashboardCounts.averageMetersCount,
+    //   onClick: () => openSingleTable('average')
+    // },
+   
+    
+    // ...(isAdminRole ? [{
+    //   IconComponent: FactCheckIcon, backgroundColor: "#DCFCF5", avatarColor: "#0D9488",
+    //   title: `Paid Bills (${previousTwoMonthCYear})`, count: dashboardCounts.previousTwoMonthPaidCount,
+    //   onClick: () => openSingleTable('twoMonthPaid')
+    // }] : []),
+
+
+    // {
+    //   IconComponent: ErrorOutlinedIcon, backgroundColor: "#FFF7D9", avatarColor: "#FFA534",
+    //   title: `Faulty Meters ${previousTwoMonthCYear}`, count: dashboardCounts.totalFaultyBeforeTwoMonths,
+    //   onClick: () => openSingleTable('faultyBefore')
+    // },
+    // {
+    //   IconComponent: AccessTimeFilledIcon, backgroundColor: "#F6F7F8", avatarColor: "#D97706",
+    //   title: `Overdue Bills (${currentMonthYear} & ${previousMonthCYear})`,
+    //   count: dashboardCounts.passedDueDateCount,
+    //   onClick: () => openSingleTable('overdue')
+    // },
+    // ...(isAdminRole ? [{
+    //   IconComponent: Person2OutlinedIcon, backgroundColor: "#F6F7F9", avatarColor: "#374151",
+    //   title: "Total Users", count: roles.length
+    // }] : []),
   ];
 
   return (
@@ -339,9 +456,15 @@ const Home = () => {
           <Modal open={showBeforeTwoMonthFaultyTable} onClose={() => setShowBeforeTwoMonthFaultyTable(false)}>
             <Box sx={modalStyle}><FaultyMetersBeforeTwoMonth onClose={() => setShowBeforeTwoMonthFaultyTable(false)} /></Box>
           </Modal>
-          <Modal open={showOverdueBill} onClose={() => setShowOverdueBill(false)}>
+                   <Modal open={showOverdueBill} onClose={() => setShowOverdueBill(false)}>
             <Box sx={modalStyle}><OverdueBillsTable onClose={() => setShowOverdueBill(false)} /></Box>
           </Modal>
+          <Modal open={showCMonthOverdueBill} onClose={() => setShowCMonthOverdueBill(false)}>
+            <Box sx={modalStyle}><OverdueBillsTable currentMonthOnly onClose={() => setShowCMonthOverdueBill(false)} /></Box>
+          </Modal>
+
+
+          
         </>
       )}
 

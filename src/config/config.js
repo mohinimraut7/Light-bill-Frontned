@@ -19,4 +19,4 @@
 // ------------------------------------------------------------------------------------
 
     export const baseUrl='https://lightbillbackend.saavi.co.in/api'
-    export const billBaseUrl = 'https://lightbillbackend.saavi.co.in';
+    export const billBaseUrl = 'https://lightbillbackend.saavi.co.in'; 
