@@ -367,7 +367,7 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
     // NEW: mage chya mahinyacha Total Penalty (Faulty Meters (OCT) chya nantar)
     {
       IconComponent: ErrorOutlinedIcon, backgroundColor: "#FFF4E5", avatarColor: "#C2410C",
-      title: `Total Penalty ₹ (${previousMonthCYear})`, count: dashboardCounts.previousMonthPenaltyTotal,
+      title: `Paid Bills Penalty ₹ (${previousMonthCYear})`, count: dashboardCounts.previousMonthPenaltyTotal,
     },
 
     // {
