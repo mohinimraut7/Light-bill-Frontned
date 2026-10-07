@@ -78,6 +78,7 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import DescriptionIcon from '@mui/icons-material/Description';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import BoltIcon from '@mui/icons-material/Bolt';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'; // NEW (7-Oct-2026): Penalty menu
 
 
 
@@ -358,6 +359,7 @@ const overdueAlertCount = bills.filter(bill => bill.overdueAlert === true).lengt
     { label: 'Overdue Bills',      path: '/overduebills',              icon: <AccessAlarmIcon />, show: isStaffRole, badge: passedDueDateCount },
     { label: 'Form 120 Report',    path: '/formonetwentynew',          icon: <DescriptionIcon />, show: isStaffRole },
     { label: 'Billing Anomalies',  path: '/billinganomaly',            icon: <BarChartIcon />,    show: isStaffRole },
+    { label: 'Penalty',            path: '/penalty',                   icon: <CurrencyRupeeIcon />, show: isStaffRole }, // NEW (7-Oct-2026)
     { label: 'Energy Expenditure', path: '/regionalenergyexpenditure', icon: <BoltIcon />,        show: true },
   ];
 

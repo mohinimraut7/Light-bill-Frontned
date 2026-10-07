@@ -761,8 +761,15 @@ const InfoCard = ({ title, count, avatarColor, avatarIcon = 'A',
 
   // जुन्या getCardStyle प्रमाणेच title → रंग नियम (तोच क्रम), फक्त नवीन palette
   const getCardStyle = () => {
+    // if (title.includes('Total Applications') || title.includes('Total Meters')) return VARIANTS.primary;
+    // if (title.includes('Approved') || title.includes('Paid Bills')) return VARIANTS.success;
     if (title.includes('Total Applications') || title.includes('Total Meters')) return VARIANTS.primary;
+    // NEW (7-Oct-2026): "Paid Bills Penalty" — 'Paid Bills' mule hirva hot hota; Faulty sarkha laal (danger)
+    if (title.includes('Penalty')) return VARIANTS.danger;
     if (title.includes('Approved') || title.includes('Paid Bills')) return VARIANTS.success;
+
+
+
     if (title.includes('Pending') || title.includes('Average')) return VARIANTS.warning;
     if (title.includes('Provisionally') || title.includes('Upcoming')) return VARIANTS.info;
     if (title.includes('Rejected') || title.includes('Faulty') || title.includes('Overdue')) return VARIANTS.danger;

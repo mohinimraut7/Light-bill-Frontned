@@ -231,6 +231,7 @@ const Overduebills             = lazy(() => import('./pages/Overduebills'));
 const ConsumerComponent        = lazy(() => import('./pages/ConsumerComponents'));
 const Formonetwentynew         = lazy(() => import('./pages/Formonetwentynew'));
 const BillingAnomaly           = lazy(() => import('./pages/BillingAnomaly'));
+const PenaltyReport            = lazy(() => import('./pages/PenaltyReport')); // NEW (7-Oct-2026)
 const RegionalEnergyExpenditure = lazy(() => import('./pages/RegionalEnergyExpenditure'));
 
 // ─── Page Loading Fallback ────────────────────────────────────────────────────
@@ -375,6 +376,7 @@ const App = () => {
               <Route path="/profile"                       element={<Profile />} />
               <Route path="/pendingapprovals"              element={<ApprovedStatusRecord />} />
               <Route path="/billinganomaly"                element={<BillingAnomaly />} />
+              <Route path="/penalty"                       element={<PenaltyReport />} /> {/* NEW (7-Oct-2026) */}
               <Route path="/paidbills"                     element={<PaidBills />} />
               <Route path="/partialpaidbills"              element={<PartialPaidBills />} />
               <Route path="/regionalenergyexpenditure"     element={<RegionalEnergyExpenditure />} />

@@ -32,6 +32,14 @@ import FaultyMetersBeforeTwoMonth from '../components/table/FaultyMetersBeforeTw
 import OverdueBillsTable from '../components/table/OverdueBillsTable';
 import { baseUrl } from '../config/config';
 
+// NEW (7-Oct-2026)
+import { useNavigate } from 'react-router-dom';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import BillingAnomalyChart from '../components/charts/BillingAnomalyChart';
+import BillSuccessRateChart from '../components/charts/BillSuccessRateChart';
+import UnpaidNotDueBillsTable from '../components/table/UnpaidNotDueBillsTable';
+import { isUnpaidNotDue } from '../utils/unpaidHelper';
+
 import bodyBg from '../Images/subtleWhiteBody.png';
 
 
@@ -54,6 +62,7 @@ const previousTwoMonthCYear = getMonthYear(twoMonthDate);
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // NEW (7-Oct-2026): Paid Bills Penalty card → Penalty page
   const theme = useTheme();
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const user = useSelector(state => state.auth.user);
@@ -73,6 +82,7 @@ const Home = () => {
   const [showCMonthUDueBill, setshowCMonthUDueBill] = useState(false);
   const [showOverdueBill, setShowOverdueBill] = useState(false);
 const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
+  const [showPrevUnpaidNotDue, setShowPrevUnpaidNotDue] = useState(false); // NEW (7-Oct-2026)
 
 
   const [showPTwoMonthBeforePaidTable, setShowPTwoMonthBeforePaidTable] = useState(false);
@@ -103,7 +113,8 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
 
       dueAlertCount: 0, passedDueDateCount: 0, currentMonthOverdueCount: 0, totalFaultyCurrentMonth: 0,
 
-      totalFaultyBeforeTwoMonths: 0, averageMetersCount: 0
+      totalFaultyBeforeTwoMonths: 0, averageMetersCount: 0,
+      previousMonthUnpaidNotDueCount: 0 // NEW (7-Oct-2026)
     };
 
     const today = new Date();
@@ -173,6 +184,11 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
         }, 0)
     );
 
+    // NEW (7-Oct-2026): mage chya mahinyache unpaid bills jyanchi due date ajun baki aahe
+    const previousMonthUnpaidNotDueCount = bills.filter(b =>
+      b.monthAndYear === previousMonthCYear && isUnpaidNotDue(b, today) && wardFilter(b)
+    ).length;
+
     const totalFaultyCurrentMonth = bills.filter(b =>
       b.meterStatus === 'FAULTY' && b.monthAndYear === currentMonthYear && wardFilter(b)
     ).length;
@@ -196,7 +212,8 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
 
 
       dueAlertCount, passedDueDateCount, currentMonthOverdueCount, totalFaultyCurrentMonth,
-      totalFaultyBeforeTwoMonths, averageMetersCount
+      totalFaultyBeforeTwoMonths, averageMetersCount,
+      previousMonthUnpaidNotDueCount
     };
   }, [bills, user]);
 
@@ -260,6 +277,7 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
 
     setShowCMonthAvgTable(false); setshowCMonthUDueBill(false); setShowOverdueBill(false);
     setShowCMonthOverdueBill(false);
+    setShowPrevUnpaidNotDue(false);
 
     setShowPTwoMonthBeforePaidTable(false); setShowCMonthFaultyTable(false);
     setShowBeforeTwoMonthFaultyTable(false);
@@ -275,6 +293,7 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
       
       overdue: setShowOverdueBill,
       overdueCurrent: setShowCMonthOverdueBill,
+      prevUnpaidNotDue: setShowPrevUnpaidNotDue,
     };
     if (map[tableToShow]) map[tableToShow](true);
   };
@@ -319,11 +338,11 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
       title: `Overdue Bills (${currentMonthYear})`, count: dashboardCounts.currentMonthOverdueCount,
       onClick: () => openSingleTable('overdueCurrent')
     },
-     {
-      IconComponent: ErrorOutlinedIcon, backgroundColor: "#FEEAEA", avatarColor: "#DC2626",
-      title: `Total Faulty Meters ${currentMonthYear}`, count: dashboardCounts.totalFaultyCurrentMonth,
-      onClick: () => openSingleTable('faulty')
-    },
+    //  {
+    //   IconComponent: ErrorOutlinedIcon, backgroundColor: "#FEEAEA", avatarColor: "#DC2626",
+    //   title: `Total Faulty Meters ${currentMonthYear}`, count: dashboardCounts.totalFaultyCurrentMonth,
+    //   onClick: () => openSingleTable('faulty')
+    // },
     // {
     //   IconComponent: FactCheckIcon, backgroundColor: "#E6FCED", avatarColor: "#16A34A",
     //   title: `Paid Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthPaidCount,
@@ -342,6 +361,12 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
 
       title: `Paid Bills (${previousMonthCYear})`, count: dashboardCounts.previousMonthPaidCount,
       onClick: () => openSingleTable('previousPaid')
+    },
+    // NEW (7-Oct-2026): mage chya mahinyache unpaid bills, due date ajun baki
+    {
+      IconComponent: PendingActionsIcon, backgroundColor: "#F3EEFF", avatarColor: "#7C3AED",
+      title: `Unpaid Bills - Due Date Baki (${previousMonthCYear})`, count: dashboardCounts.previousMonthUnpaidNotDueCount,
+      onClick: () => openSingleTable('prevUnpaidNotDue')
     },
     // NEW: mage chya mahinyache Total Overdue Bills (Paid Bills (SEP) chya nantar)
     {
@@ -368,6 +393,8 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
     {
       IconComponent: ErrorOutlinedIcon, backgroundColor: "#FFF4E5", avatarColor: "#C2410C",
       title: `Paid Bills Penalty ₹ (${previousMonthCYear})`, count: dashboardCounts.previousMonthPenaltyTotal,
+      // NEW (7-Oct-2026): click → Penalty page (ward-wise + meter purpose-wise)
+      onClick: () => navigate(`/penalty?month=${previousMonthCYear}`)
     },
 
     // {
@@ -465,6 +492,10 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
           <Modal open={showCMonthOverdueBill} onClose={() => setShowCMonthOverdueBill(false)}>
             <Box sx={modalStyle}><OverdueBillsTable currentMonthOnly onClose={() => setShowCMonthOverdueBill(false)} /></Box>
           </Modal>
+          {/* NEW (7-Oct-2026) */}
+          <Modal open={showPrevUnpaidNotDue} onClose={() => setShowPrevUnpaidNotDue(false)}>
+            <Box sx={modalStyle}><UnpaidNotDueBillsTable monthAndYear={previousMonthCYear} onClose={() => setShowPrevUnpaidNotDue(false)} /></Box>
+          </Modal>
 
 
           
@@ -496,6 +527,13 @@ const [showCMonthOverdueBill, setShowCMonthOverdueBill] = useState(false);
         </Grid>
         <Grid item xs={11} md={5.9}>
           <PieChartBills />
+        </Grid>
+        {/* NEW (7-Oct-2026): khali — Billing Anomalies + Bills Payment Success Rate */}
+        <Grid item xs={11} md={5.9}>
+          <BillingAnomalyChart />
+        </Grid>
+        <Grid item xs={11} md={5.9}>
+          <BillSuccessRateChart />
         </Grid>
       </Grid>
     </div>
