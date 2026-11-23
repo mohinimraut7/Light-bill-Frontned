@@ -253,13 +253,25 @@
 
 // -------------------------------
 
-import React from 'react';
+// import React from 'react';
+// import {
+//   Modal,
+//   Box,
+//   Typography,
+//   TextField,
+//   Button
+// } from '@mui/material';
+
+
+// import React from 'react';
+import React, { useState } from 'react'; // 26-Oct-2026
 import {
   Modal,
   Box,
   Typography,
   TextField,
-  Button
+  Button,
+  CircularProgress // 26-Oct-2026
 } from '@mui/material';
 
 const FaultyMeterConsumerNumber = ({
@@ -273,9 +285,27 @@ const FaultyMeterConsumerNumber = ({
   setDate,
   handleSubmit
 }) => {
-  const onSubmit = (e) => {
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   handleSubmit();
+  // };
+
+
+    // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   handleSubmit();
+  // };
+  // 26-Oct-2026: PDF तयार होईपर्यंत Save disable + loader (double click → दोन PDFs नाहीत)
+  const [saving, setSaving] = useState(false);
+  const onSubmit = async (e) => {
     e.preventDefault();
-    handleSubmit();
+    if (saving) return;
+    setSaving(true);
+    try {
+      await handleSubmit();
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -361,11 +391,21 @@ const FaultyMeterConsumerNumber = ({
             >
               Cancel
             </Button>
-            <Button
+            {/* <Button
               type="submit"
               variant="contained"
               sx={{
+                backgroundColor: '#FB404B', */}
+
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={saving} // 26-Oct-2026
+              startIcon={saving ? <CircularProgress size={16} color="inherit" /> : null} // 26-Oct-2026
+              sx={{
                 backgroundColor: '#FB404B',
+
+
                 '&:hover': {
                   backgroundColor: '#FB404B',
                   opacity: '0.8',

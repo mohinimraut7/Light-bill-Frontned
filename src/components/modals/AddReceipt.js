@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
+// import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, IconButton, CircularProgress } from '@mui/material'; // 26-Oct-2026: CircularProgress
 import AddIcon from '@mui/icons-material/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -82,9 +83,19 @@ const AddReceiptModal = ({ open, handleClose, currentBill }) => {
                         >
                             Cancel
                         </Button>
-                        <Button
+                        {/* <Button
                             type="submit"
                             variant="contained"
+                            sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
+                        > */}
+
+
+
+                                                <Button
+                            type="submit"
+                            variant="contained"
+                            disabled={formik.isSubmitting} // 26-Oct-2026: save होईपर्यंत disable (double click → दोन requests नाहीत)
+                            startIcon={formik.isSubmitting ? <CircularProgress size={16} color="inherit" /> : null} // 26-Oct-2026
                             sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
                         >
                             {currentBill ? 'Update Receipt' : 'Add Receipt'}

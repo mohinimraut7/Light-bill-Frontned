@@ -1,3 +1,5 @@
+
+
 // import React, { useEffect, useState } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useLocation, Link } from 'react-router-dom';
@@ -74,6 +76,7 @@
 //  const [showCMonthFaultyTable, setShowCMonthFaultyTable] = useState(false);
 //  const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
 //  const [selectedRemarks, setSelectedRemarks] = useState([]);
+//  const [selectedRemarkBillId, setSelectedRemarkBillId] = useState(null); // 3-Oct-2026
 //  const [billRemarkOpen, setBillRemarkOpen] = useState(false);
 //  const [wardName, setWardName] = useState('');
 //  const [selectedMonthYear, setSelectedMonthYear] = useState('');
@@ -881,6 +884,7 @@
 //  } else {
 //  setSelectedRemarks([]);
 //  }
+//  setSelectedRemarkBillId(row?._id || null); // 3-Oct-2026: signature on-demand fetch साठी
 //  setIsRemarkModalOpen(true);
 //  };
 
@@ -1113,6 +1117,7 @@
 //  open={isRemarkModalOpen}
 //  onClose={() => setIsRemarkModalOpen(false)}
 //  remarks={selectedRemarks}
+//  billId={selectedRemarkBillId}
 //  />
 //  </Box>
 //  </div>
@@ -1124,16 +1129,14 @@
 
 
 
-// -----------------------------------------------------------------------
-
-
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { fetchBills, addBill, updateBillStatusAction, deleteBill, editBill, massBillApprovalsAction, massBillRollbackApprovalsAction } from '../store/actions/billActions';
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box, Button, Modal, Checkbox, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+// UI-only imports (redesign)
+import { Paper, Chip, Breadcrumbs, InputAdornment, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import AddBill from '../components/modals/AddBill';
@@ -1149,6 +1152,17 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
+// UI-only icons (redesign)
+import SearchIcon from '@mui/icons-material/Search';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import SpeedIcon from '@mui/icons-material/Speed';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as XLSX from 'xlsx';
 import { CircularProgress } from '@mui/material';
 import MonthYearPicker from '../components/MonthYearPicker';
@@ -1162,6 +1176,194 @@ import { AddRemarkModal } from '../components/modals/AddRemark';
 import ViewRemarkModal from '../components/modals/ViewRemarkModal';
 import wardDataAtoI from '../data/warddataAtoI';
 import dayjs from 'dayjs';
+
+/* ================================================================== */
+/* UI ONLY — theme tokens & presentational helpers (no business logic) */
+/* ================================================================== */
+const T = {
+  primary: '#4F72F5',
+  primary2: '#668AFB',
+  primarySurface: '#EEF4FF',
+  primaryBorder: '#D9E5FF',
+  orange: '#F28C00',
+  orangeSurface: '#FFF5E8',
+  green: '#22B568',
+  greenSurface: '#EAF8F0',
+  red: '#F04444',
+  redSurface: '#FFF0F0',
+  bg: '#F7F9FC',
+  card: '#FFFFFF',
+  text: '#172033',
+  text2: '#71809A',
+  border: '#E5EAF2',
+  font: "'Montserrat', 'Noto Sans Devanagari', sans-serif",
+};
+
+const TONES = {
+  blue: { fg: T.primary, bg: T.primarySurface, border: T.primaryBorder },
+  green: { fg: T.green, bg: T.greenSurface, border: '#CDEFDC' },
+  red: { fg: T.red, bg: T.redSurface, border: '#FAD4D4' },
+  orange: { fg: T.orange, bg: T.orangeSurface, border: '#FBE1BF' },
+};
+
+// Display-only formatting. Row data & Excel exports still use the raw values.
+const formatINR = (v) => {
+  if (v === null || v === undefined || v === '' || v === '-') return '-';
+  const n = Number(v);
+  if (Number.isNaN(n)) return v;
+  return `₹ ${n.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+};
+
+const formatNum = (v) => {
+  if (v === null || v === undefined || v === '' || v === '-') return '-';
+  const n = Number(v);
+  if (Number.isNaN(n)) return v;
+  return n.toLocaleString('en-IN');
+};
+
+const STATUS_TONE = {
+  NORMAL: 'green',
+  FAULTY: 'red',
+  AVERAGE: 'orange',
+  PAID: 'green',
+  UNPAID: 'orange',
+  OVERDUE: 'red',
+};
+
+const StatusChip = ({ value }) => {
+  if (!value || value === '-') return <span style={{ color: T.text2 }}>-</span>;
+  const tone = TONES[STATUS_TONE[String(value).toUpperCase()]];
+  if (!tone) return <span>{value}</span>;
+  const label = String(value).charAt(0).toUpperCase() + String(value).slice(1).toLowerCase();
+  return (
+    <Box
+      component="span"
+      sx={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 0.75,
+        px: 1.25,
+        py: 0.35,
+        borderRadius: '999px',
+        fontSize: 12,
+        fontWeight: 600,
+        lineHeight: 1.6,
+        color: tone.fg,
+        backgroundColor: tone.bg,
+        border: `1px solid ${tone.border}`,
+      }}
+    >
+      <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: tone.fg }} />
+      {label}
+    </Box>
+  );
+};
+
+const StatCard = ({ icon, label, value, tone = 'blue', tooltip }) => {
+  const c = TONES[tone];
+  return (
+    <CustomWidthTooltip title={tooltip} placement="top">
+      <Paper
+        elevation={0}
+        sx={{
+          p: 1.75,
+          borderRadius: '12px',
+          border: `1px solid ${T.border}`,
+          backgroundColor: T.card,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1.5,
+          minWidth: 0,
+          transition: 'box-shadow .2s ease, border-color .2s ease',
+          boxShadow: '0 1px 2px rgba(23, 32, 51, 0.04)',
+          '&:hover': {
+            borderColor: c.border,
+            boxShadow: '0 6px 16px rgba(79, 114, 245, 0.08)',
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            flexShrink: 0,
+            borderRadius: '10px',
+            display: 'grid',
+            placeItems: 'center',
+            color: c.fg,
+            backgroundColor: c.bg,
+            '& svg': { fontSize: 22 },
+          }}
+        >
+          {icon}
+        </Box>
+        <Box sx={{ minWidth: 0 }}>
+          <Typography sx={{ fontFamily: T.font, fontSize: 12, fontWeight: 500, color: T.text2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {label}
+          </Typography>
+          <Typography sx={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, color: T.text, lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>
+            {formatNum(value)}
+          </Typography>
+        </Box>
+      </Paper>
+    </CustomWidthTooltip>
+  );
+};
+
+const NoRowsOverlay = () => (
+  <Box sx={{ height: '100%', minHeight: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1, color: T.text2 }}>
+    <Box sx={{ width: 52, height: 52, borderRadius: '14px', display: 'grid', placeItems: 'center', backgroundColor: T.primarySurface, color: T.primary }}>
+      <ReceiptLongIcon />
+    </Box>
+    <Typography sx={{ fontFamily: T.font, fontWeight: 600, color: T.text, fontSize: 14 }}>No bills found</Typography>
+    <Typography sx={{ fontFamily: T.font, fontSize: 12.5 }}>Try changing the month, consumer number or ward filter.</Typography>
+  </Box>
+);
+
+const fieldSx = {
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '10px',
+    backgroundColor: T.card,
+    fontFamily: T.font,
+    fontSize: 14,
+    '& fieldset': { borderColor: T.border },
+    '&:hover fieldset': { borderColor: T.primaryBorder },
+    '&.Mui-focused fieldset': { borderColor: T.primary, borderWidth: 1.5 },
+  },
+  '& .MuiInputLabel-root': { fontFamily: T.font, fontSize: 14, color: T.text2 },
+  '& .MuiInputLabel-root.Mui-focused': { color: T.primary },
+};
+
+const primaryBtnSx = {
+  textTransform: 'none',
+  fontFamily: T.font,
+  fontWeight: 600,
+  fontSize: 13.5,
+  borderRadius: '10px',
+  px: 2,
+  height: 40,
+  boxShadow: 'none',
+  backgroundColor: T.primary,
+  whiteSpace: 'nowrap',
+  '&:hover': { backgroundColor: '#3F61E0', boxShadow: '0 4px 12px rgba(79,114,245,.25)' },
+};
+
+const secondaryBtnSx = {
+  textTransform: 'none',
+  fontFamily: T.font,
+  fontWeight: 600,
+  fontSize: 13.5,
+  borderRadius: '10px',
+  px: 2,
+  height: 40,
+  whiteSpace: 'nowrap',
+  color: T.orange,
+  borderColor: '#FBD9A8',
+  backgroundColor: T.orangeSurface,
+  '&:hover': { borderColor: T.orange, backgroundColor: '#FFEDD3' },
+};
+/* ======================= end UI-only helpers ======================= */
+
 const ConsumerBill = () => {
  const location = useLocation();
  const dispatch = useDispatch();
@@ -1447,13 +1649,30 @@ else if (wardName && (
 
  if (loading) {
  return (
- <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
- <CircularProgress />
+ <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+ <CircularProgress sx={{ color: T.primary }} />
+ <Typography sx={{ fontFamily: T.font, fontSize: 13, color: T.text2 }}>Loading consumer bills…</Typography>
  </Box>
  );
  }
  if (error) {
- return <p>Error: {error}</p>;
+ return (
+ <Box sx={{
+ width: isSidebarOpen ? '80%' : '90%',
+ ml: isSidebarOpen ? '19%' : '7%',
+ mt: 6,
+ p: 3,
+ borderRadius: '12px',
+ border: '1px solid #FAD4D4',
+ backgroundColor: T.redSurface,
+ display: 'flex',
+ alignItems: 'center',
+ gap: 1.5,
+ }}>
+ <ErrorOutlineIcon sx={{ color: T.red }} />
+ <Typography component="p" sx={{ fontFamily: T.font, fontSize: 14, color: T.text, fontWeight: 600 }}>Error: {error}</Typography>
+ </Box>
+ );
  }
 
  const handleAddBillOpen = () => {
@@ -1697,13 +1916,25 @@ else if (wardName && (
 
  const handleAddBillRemarkClose = () => setBillRemarkOpen(false);
 
+ // UI-only column helpers: display formatting only, row values unchanged
+ const amountCol = (field, headerName, width = 150) => ({
+ field, headerName, width,
+ headerAlign: 'right', align: 'right', cellClassName: 'cell-num',
+ renderCell: (params) => formatINR(params.value),
+ });
+ const numCol = (field, headerName, width = 140) => ({
+ field, headerName, width,
+ headerAlign: 'right', align: 'right', cellClassName: 'cell-num',
+ renderCell: (params) => formatNum(params.value),
+ });
+
  const columns = (handleDeleteBill) => [
  {
  field: 'checkbox',
  headerClassName: 'view-bill-column',
  cellClassName: 'view-bill-cell',
  headerName: '',
- width: 50,
+ width: 52,
  headerClassName: 'data-grid-checkbox-header',
  renderHeader: (params) => {
  const allRowsChecked = rows.every(row =>
@@ -1714,6 +1945,7 @@ else if (wardName && (
  );
  return (
  <Checkbox
+ size="small"
  checked={allRowsChecked}
  indeterminate={someRowsChecked && !allRowsChecked}
  onChange={handleSelectAll}
@@ -1745,6 +1977,7 @@ else if (wardName && (
  params.row.forwardForGeneration === 'Yes';
  return (
  <Checkbox
+ size="small"
  checked={selectedItems.some((item) => item.id === params.row.id)}
  onChange={(event) => handleCheckboxChange(event, params.row)}
  disabled={disableCheckbox}
@@ -1752,11 +1985,13 @@ else if (wardName && (
  );
  },
  },
- { field: 'id', headerName: 'ID', width: 40 },
+ { field: 'id', headerName: 'ID', width: 56, renderCell: (params) => <span style={{ color: T.text2 }}>{params.value}</span> },
  {
  field: 'cont',
  headerName: 'VIEW BILL',
- width: 80,
+ width: 90,
+ align: 'center',
+ headerAlign: 'center',
  renderCell: (params) => {
  const { billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4 } = params.row;
  const billURL = generateBillURL(billType, billDisplayParameter1, billDisplayParameter2, billDisplayParameter3, billDisplayParameter4);
@@ -1765,8 +2000,19 @@ else if (wardName && (
  className="eyeconsumer"
  to={billURL}
  target="_blank"
+ title="View original bill"
+ style={{
+ display: 'inline-grid',
+ placeItems: 'center',
+ width: 30,
+ height: 30,
+ borderRadius: 8,
+ color: T.primary,
+ backgroundColor: T.primarySurface,
+ border: `1px solid ${T.primaryBorder}`,
+ }}
  >
- <VisibilityIcon />
+ <VisibilityIcon sx={{ fontSize: 17 }} />
  </Link>
  );
  }
@@ -1787,37 +2033,44 @@ else if (wardName && (
 //  ),
 //  },
 
-{ field: 'consumerNumber', headerName: 'CONSUMER NO.', width: 130 },
+ /* ---- Consumer details ---- */
+ { field: 'consumerNumber', headerName: 'Consumer No.', width: 140, cellClassName: 'cell-strong' },
+ { field: 'consumerName', headerName: 'Consumer Name', width: 190 },
+ { field: 'contactNumber', headerName: 'Contact No.', width: 130 },
+ { field: 'ward', headerName: 'Ward', width: 95 },
+ { field: 'meterNumber', headerName: 'Meter No.', width: 130 },
+ { field: 'monthAndYear', headerName: 'Bill Month', width: 115 },
+ { field: 'billingUnit', headerName: 'Billing Unit', width: 115 },
 
+ /* ---- Meter information ---- */
+ { field: 'meterStatus', headerName: 'Meter Status', width: 135, renderCell: (params) => <StatusChip value={params.value} /> },
+ { field: 'phaseType', headerName: 'Phase Type', width: 115 },
+ { field: 'tariffDescription', headerName: 'Tariff Description', width: 180 },
+ { field: 'netLoad', headerName: 'Net Load', width: 105 },
+ { field: 'sanctionedLoad', headerName: 'Sanctioned Load', width: 140 },
+ { field: 'installationDate', headerName: 'Installation Date', width: 150 },
 
- { field: 'contactNumber', headerName: 'CONTACT NO.', width: 130 },
- { field: 'ward', headerName: 'WARD', width: 80 },
- { field: 'meterNumber', headerName: 'METER NO.', width: 130 },
- { field: 'monthAndYear', headerName: 'BILL MONTH', width: 130 },
- { field: 'consumerName', headerName: 'CONSUMER NAME', width: 130 },
- { field: 'billingUnit', headerName: 'BILLING UNIT', width: 130 },
- { field: 'totalConsumption', headerName: 'TOTAL CONSUMPTION', width: 130 },
- { field: 'meterStatus', headerName: 'METER STATUS', width: 130 },
- { field: 'phaseType', headerName: 'PHASE TYPE', width: 130 },
- { field: 'tariffDescription', headerName: 'TARIFF DESCRIPTION', width: 130 },
- { field: 'netLoad', headerName: 'NET LOAD', width: 130 },
- { field: 'sanctionedLoad', headerName: 'SANCTIONED LOAD', width: 130 },
- { field: 'installationDate', headerName: 'INSTALLATION DATE', width: 130 },
- { field: 'previousReadingDate', headerName: 'PREVIOUS READING DATE', width: 130 },
- { field: 'previousReading', headerName: 'PREVIOUS READING', width: 130 },
- { field: 'currentReadingDate', headerName: 'CURRENT READING DATE', width: 130 },
- { field: 'currentReading', headerName: 'CURRENT READING', width: 130 },
- { field: 'billDate', headerName: 'BILL DATE', width: 130 },
- { field: 'netBillAmount', headerName: 'NET BILL AMOUNT', width: 130 },
- { field: 'promptPaymentDate', headerName: 'PROMPT PAYMENT DATE', width: 130 },
- { field: 'promptPaymentAmount', headerName: 'PROMPT PAYMENT AMOUNT', width: 130 },
- { field: 'dueDate', headerName: 'DUE DATE', width: 130 },
- { field: 'netBillAmountWithDPC', headerName: 'NET BILL AMOUNT WITH DPC', width: 130 },
- { field: 'paymentStatus', headerName: 'PAYMENT STATUS', width: 130 },
- { field: 'lastReceiptAmount', headerName: 'LAST RECEIPT AMOUNT', width: 180 },
- { field: 'lastReceiptDate', headerName: 'LAST RECEIPT DATE', width: 180 },
- { field: 'billPaymentDate', headerName: 'BILL PAYMENT DATE', width: 165 },
- { field: 'paidAmount', headerName: 'PAID AMOUNT', width: 130 },
+ /* ---- Meter readings ---- */
+ numCol('previousReading', 'Previous Reading', 145),
+ { field: 'previousReadingDate', headerName: 'Previous Reading Date', width: 190 },
+ numCol('currentReading', 'Current Reading', 140),
+ { field: 'currentReadingDate', headerName: 'Current Reading Date', width: 190 },
+ numCol('totalConsumption', 'Total Consumption', 155),
+
+ /* ---- Billing information ---- */
+ { field: 'billDate', headerName: 'Bill Date', width: 180 },
+ amountCol('netBillAmount', 'Net Bill Amount', 145),
+ { field: 'promptPaymentDate', headerName: 'Prompt Payment Date', width: 175 },
+ amountCol('promptPaymentAmount', 'Prompt Payment Amount', 185),
+ { field: 'dueDate', headerName: 'Due Date', width: 130 },
+ amountCol('netBillAmountWithDPC', 'Net Bill Amount With DPC', 195),
+
+ /* ---- Payment information ---- */
+ { field: 'paymentStatus', headerName: 'Payment Status', width: 140, renderCell: (params) => <StatusChip value={params.value} /> },
+ amountCol('lastReceiptAmount', 'Last Receipt Amount', 175),
+ { field: 'lastReceiptDate', headerName: 'Last Receipt Date', width: 185 },
+ { field: 'billPaymentDate', headerName: 'Bill Payment Date', width: 165 },
+ amountCol('paidAmount', 'Paid Amount', 140),
 //  { field: 'approvedStatus', headerName: 'APPROVED STATUS', width: 230 },
 //  {
 //  field: 'actions',
@@ -1860,17 +2113,44 @@ else if (wardName && (
  alignItems: 'center',
  padding: '0px 0px',
  paddingLeft: '10px',
+ paddingBottom: '24px',
+ fontFamily: T.font,
  };
 
  const innerDivStyle = {
  width: '99%',
  };
 
- const rowColors = ['#F7F9FB', 'white'];
+ const rowColors = ['#FAFBFE', 'white'];
 
  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+ border: `1px solid ${T.border}`,
+ borderRadius: 12,
+ backgroundColor: T.card,
+ fontFamily: T.font,
+ fontSize: 13,
+ color: T.text,
+ '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-columnHeader': {
+ backgroundColor: '#F3F6FC',
+ },
+ '& .MuiDataGrid-columnHeaders': {
+ borderBottom: `1px solid ${T.border}`,
+ },
+ '& .MuiDataGrid-columnHeaderTitle': {
+ fontWeight: 600,
+ fontSize: 12,
+ color: '#4A5875',
+ letterSpacing: 0.2,
+ },
+ '& .MuiDataGrid-columnSeparator': { color: T.border },
  '& .MuiDataGrid-cell': {
- padding: theme.spacing(1),
+ padding: theme.spacing(0, 1.25),
+ borderBottom: `1px solid ${T.border}`,
+ display: 'flex',
+ alignItems: 'center',
+ },
+ '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within': {
+ outline: 'none',
  },
  '& .MuiDataGrid-row': {
  '&:nth-of-type(odd)': {
@@ -1879,7 +2159,22 @@ else if (wardName && (
  '&:nth-of-type(even)': {
  backgroundColor: rowColors[1],
  },
+ '&:hover': {
+ backgroundColor: T.primarySurface,
  },
+ },
+ '& .MuiDataGrid-footerContainer': {
+ borderTop: `1px solid ${T.border}`,
+ backgroundColor: '#FBFCFE',
+ },
+ '& .MuiTablePagination-root, & .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+ fontFamily: T.font,
+ fontSize: 13,
+ color: T.text2,
+ },
+ '& .MuiCheckbox-root.Mui-checked, & .MuiCheckbox-root.MuiCheckbox-indeterminate': { color: T.primary },
+ '& .cell-num': { justifyContent: 'flex-end', fontVariantNumeric: 'tabular-nums' },
+ '& .cell-strong': { fontWeight: 600 },
  }));
 
  const totalmeters = `${
@@ -1919,13 +2214,13 @@ else if (wardName && (
 //  XLSX.writeFile(workbook, 'ConsumerBills.xlsx');
 //  };
 
- 
+
 
 
 
 const handleDownloadReport = () => {
   // Use FULL DATA from allBillsForDownload (not paginated filteredData)
-  const fullFaultyAverage = allBillsForDownload.filter(bill => 
+  const fullFaultyAverage = allBillsForDownload.filter(bill =>
     bill.meterStatus === 'FAULTY' || bill.meterStatus === 'AVERAGE'
   );
 
@@ -1960,7 +2255,7 @@ const handleDownloadReport = () => {
 
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Faulty_Average_Bills');
-  
+
   const fileName = `Faulty_Average_Bills_${selectedMonthYear || 'All'}_${wardName || 'All'}.xlsx`;
   XLSX.writeFile(workbook, fileName);
 
@@ -2016,76 +2311,66 @@ const downloadAllTypsOfReport = () => {
  setIsRemarkModalOpen(true);
  };
 
+ // UI-only: same role condition the original JSX used to show the Ward dropdown
+ const canPickWard =
+ user?.role === 'Super Admin' ||
+ user?.role === 'Admin' ||
+ user?.role === 'Executive Engineer' ||
+ (user?.role === 'Junior Engineer' && user?.ward === 'Head Office');
+ const isWardLocked = user?.role === 'Junior Engineer' && user?.ward !== 'Head Office';
+
+ const filterChipSx = { fontFamily: T.font, fontSize: 12, color: T.primary, backgroundColor: T.primarySurface, border: `1px solid ${T.primaryBorder}` };
+
  return (
  <div style={gridStyle}>
- <Box sx={{
- width: '100%',
- display: 'flex',
- justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'space-between', xs: 'center' },
- flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+ {/* ================= PAGE HEADER ================= */}
+ <Paper
+ elevation={0}
+ sx={{
+ width: '99%',
  mt: isSidebarOpen === false ? '5%' : '2%',
- }}>
- <Box sx={{
- display: 'flex',
- justifyContent: { xl: 'center', lg: 'center', md: 'center', sm: 'center', xs: 'center' },
- alignItems: { xl: 'center', lg: 'center', md: 'center', sm: 'center', xs: 'center' },
- flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'row' }
- }}>
- <Typography sx={{ color: '#0d2136', fontWeight: 'bold' }} className="title-2">BILL MASTER</Typography>
- </Box>
- <Box sx={{
+ p: { xs: 2, md: 2.5 },
+ borderRadius: '14px',
+ border: `1px solid ${T.border}`,
+ backgroundColor: T.card,
  display: 'flex',
  flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
- }}>
- <CustomWidthTooltip title={`Total Meters : ${totalmeters}`} placement="top">
- <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }} placement="top">Total Meter</Button>
- </CustomWidthTooltip>
- <CustomWidthTooltip title={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`} placement="top">
- <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Meter Status</Button>
- </CustomWidthTooltip>
- <CustomWidthTooltip title={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`} placement="top">
- <Button sx={{ color: '#373C5D', '&:hover': { backgroundColor: '#F7F9FB' } }}>Payment Status</Button>
- </CustomWidthTooltip>
- </Box>
- </Box>
- <Box sx={innerDivStyle}>
+ alignItems: { md: 'center', sm: 'flex-start', xs: 'flex-start' },
+ justifyContent: 'space-between',
+ gap: 2,
+ }}
+ >
+ <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.75, minWidth: 0 }}>
  <Box sx={{
- 
- width: '100%',
- display: 'flex',
- justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'space-between', xs: 'center' },
- flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
- mb: 2
+ width: 48, height: 48, borderRadius: '12px', flexShrink: 0,
+ display: 'grid', placeItems: 'center',
+ color: T.primary, backgroundColor: T.primarySurface, border: `1px solid ${T.primaryBorder}`,
  }}>
- <Box sx={{
-
- 
- display: 'flex',
- width: { xl: '690px', lg: '1000px', md: '100%', sm: '100%', width: '100%' },
- justifyContent: { lg: 'space-between', xl: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
- flexDirection: { lg: 'row', xl: 'row', md: 'column', sm: 'column', xs: 'column' },
- alignItems: { lg: 'space-between', xl: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
- }}>
- <input
- type="file"
- accept=".xlsx, .xls"
- onChange={handleFileChange}
- style={{ display: 'none' }}
- id="fileInput"
+ <ReceiptLongIcon />
+ </Box>
+ <Box sx={{ minWidth: 0 }}>
+ <Breadcrumbs separator="/" sx={{ '& .MuiBreadcrumbs-separator': { mx: 0.75, color: '#B4BFD2' } }}>
+ <Typography sx={{ fontFamily: T.font, fontSize: 12, color: T.text2 }}>Home</Typography>
+ <Typography sx={{ fontFamily: T.font, fontSize: 12, color: T.text2 }}>Consumer Bills</Typography>
+ <Typography sx={{ fontFamily: T.font, fontSize: 12, color: T.primary, fontWeight: 600 }}>Bill Master</Typography>
+ </Breadcrumbs>
+ <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, flexWrap: 'wrap' }}>
+ <Typography sx={{ fontFamily: T.font, fontSize: { xs: 19, md: 22 }, fontWeight: 700, color: T.text, lineHeight: 1.3 }} className="title-2">
+ Consumer Bill Master
+ </Typography>
+ <Chip
+ size="small"
+ label={`${formatNum(pagination?.totalBills || 0)} bills`}
+ sx={{ fontFamily: T.font, fontWeight: 600, fontSize: 11.5, height: 22, color: T.orange, backgroundColor: T.orangeSurface, border: '1px solid #FBE1BF' }}
  />
  </Box>
+ <Typography sx={{ fontFamily: T.font, fontSize: 13, color: T.text2, mt: 0.25 }}>
+ Manage, review, filter and download consumer electricity bills.
+ </Typography>
  </Box>
- <Box sx={{
+ </Box>
 
- display: 'flex',
- ml: { xl: isSidebarOpen ? 0 : 0, lg: isSidebarOpen ? 0 : 0, md: isSidebarOpen ? 2.5 : 1 },
- gap: { lg: '5px' },
- width: { xl: isSidebarOpen ? '100%' : '85%', lg: isSidebarOpen ? '85%' : '80%', md: isSidebarOpen ? '95%' : '100%', sm: '100%', xs: '100%' },
- justifyContent: { xl: 'flex-start', lg: 'flex-start', md: 'flex-start', sm: 'center', xs: 'center' },
- alignItems: 'center',
- mb: 2,
- flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
- }}>
+ <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', width: { xs: '100%', sm: '100%', md: 'auto' } }}>
  {/* <ConsumerButton
  onClick={handleProcessClick}
  disabled={user.role === 'Junior Engineer' && selectedItems.length > 0 &&
@@ -2098,40 +2383,79 @@ const downloadAllTypsOfReport = () => {
  selectedItems.every(item => item.approvedStatus === 'PendingForJuniorEngineer')}>
  Rollback Approvals
  </ConsumerButton> */}
- <ConsumerButton onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon />}>Download Reports</ConsumerButton>
- <ConsumerButton onClick={handleDownloadReport} startIcon={<DownloadIcon />}>Faulty | Average Bills</ConsumerButton>
+ <Button variant="contained" onClick={downloadAllTypsOfReport} startIcon={<DownloadIcon />} sx={{ ...primaryBtnSx, flex: { xs: 1, md: 'initial' } }}>
+ Download Reports
+ </Button>
+ <Button variant="outlined" onClick={handleDownloadReport} startIcon={<DownloadIcon />} sx={{ ...secondaryBtnSx, flex: { xs: 1, md: 'initial' } }}>
+ Faulty | Average Bills
+ </Button>
+ </Box>
+ </Paper>
 
+ <Box sx={innerDivStyle}>
+ {/* Hidden Excel upload input — unchanged, still hidden */}
+ <input
+ type="file"
+ accept=".xlsx, .xls"
+ onChange={handleFileChange}
+ style={{ display: 'none' }}
+ id="fileInput"
+ />
+
+ {/* ================= SUMMARY CARDS (same values & tooltips as before) ================= */}
+ <Box sx={{
+ mt: 2,
+ display: 'grid',
+ gap: 1.5,
+ gridTemplateColumns: { xs: 'repeat(2, minmax(0,1fr))', sm: 'repeat(3, minmax(0,1fr))', lg: 'repeat(6, minmax(0,1fr))' },
+ }}>
+ <StatCard tone="blue" icon={<SpeedIcon />} label="Total Meters" value={totalmeters} tooltip={`Total Meters : ${totalmeters}`} />
+ <StatCard tone="green" icon={<CheckCircleOutlineIcon />} label="Normal Meters" value={normalMeterCount} tooltip={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`} />
+ <StatCard tone="red" icon={<ErrorOutlineIcon />} label="Faulty Meters" value={faultyMeterCount} tooltip={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`} />
+ <StatCard tone="orange" icon={<WarningAmberIcon />} label="Average Meters" value={averageMeterCount} tooltip={`Normal Meter: ${normalMeterCount} , Faulty Meter: ${faultyMeterCount} , Average Meter:${averageMeterCount}`} />
+ <StatCard tone="green" icon={<PaymentsIcon />} label="Paid Bills" value={billPaid} tooltip={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`} />
+ <StatCard tone="orange" icon={<PendingActionsIcon />} label="Unpaid Bills" value={billUnPaid} tooltip={`Total Paid Bills:${billPaid} , Total Unpaid Bills:${billUnPaid}`} />
+ </Box>
+
+ {/* ================= FILTER TOOLBAR ================= */}
+ <Paper
+ elevation={0}
+ sx={{
+ mt: 2,
+ mb: 2,
+ p: { xs: 1.5, md: 2 },
+ borderRadius: '14px',
+ border: `1px solid ${T.border}`,
+ backgroundColor: T.card,
+ }}
+ >
+ <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+ <FilterAltOutlinedIcon sx={{ fontSize: 19, color: T.primary }} />
+ <Typography sx={{ fontFamily: T.font, fontWeight: 600, fontSize: 14, color: T.text }}>Filters</Typography>
+ </Box>
 
  <Box sx={{
   // border:'2px solid red',
- display: 'flex',
+ display: 'grid',
+ gap: 1.5,
  alignItems: 'center',
 //  justifyContent: { xl: 'space-between', lg: 'space-between', md: 'space-between', sm: 'center', xs: 'center' },
- width: {
- xl: user.role === "Super Admin" || user.role === "Admin" || user.role === "Executive Engineer" || (user.role === "Junior Engineer" && user.ward === "Head Office") ? "60%" : "40%",
- lg: user.role === "Super Admin" || user.role === "Admin" || user.role === "Executive Engineer" || (user.role === "Junior Engineer" && user.ward === "Head Office") ? "60%" : "40%",
- md: "60%",
- sm: "100%",
- xs: "100%",
+ gridTemplateColumns: {
+ xs: '1fr',
+ sm: '1fr 1fr',
+ md: canPickWard ? '1fr 1fr 1fr' : '1fr 1fr',
  },
 //  gap: { lg: '5px' },
- flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
 //  mb: 5,
  }}>
 
-
-
  <Box sx={{
   // border:'1px solid red',
- width: {
- xl: '35%',
- lg: user.role === "Junior Engineer" ? (user.ward === "Head Office" ? "35%" : "50%") : "35%",
- md: '48%',
- sm: '80%',
- xs: '80%',
- display:'flex',
- alignItems:'center',
- },
+ ...fieldSx,
+ minWidth: 0,
+ display: 'flex',
+ alignItems: 'center',
+ '& > *': { width: '100%' },
  }}>
  {/* <BillDatePicker selectedMonthYear={selectedMonthYear} onChange={handleDateChange} /> */}
 
@@ -2147,18 +2471,17 @@ const downloadAllTypsOfReport = () => {
  size="small"
  onChange={handleChange}
  variant="outlined"
- InputProps={{ sx: {} }}
- InputLabelProps={{
- sx: {
- color: 'gray',
- transform: 'translate(14px, 8px)',
- '&.MuiInputLabel -shrink': { transform: 'translate(14px, -8px) scale(0.75)' },
- },
+ fullWidth
+ InputProps={{
+ startAdornment: (
+ <InputAdornment position="start">
+ <SearchIcon sx={{ fontSize: 19, color: T.text2 }} />
+ </InputAdornment>
+ ),
  }}
  sx={{
- width: { xl: '48%', lg: user.role === "Junior Engineer" ? (user.ward === "Head Office" ? "35%" : "50%") : "35%", md: '48%', sm: '80%', xs: '80%' },
+ ...fieldSx,
 //  mt: { xs: 1, sm: 1, md: 0, lg: 0, xl: 1 },
- ml: { md: 1, lg: 1 }
  }}
  />
  {(user?.role === 'Super Admin' || user?.role === 'Admin' || user?.role === 'Executive Engineer' || (user?.role === 'Junior Engineer' && user?.ward === 'Head Office')) && (
@@ -2166,11 +2489,7 @@ const downloadAllTypsOfReport = () => {
  fullWidth
  size="small"
  variant="outlined"
- sx={{
- width: { xl: '30%', lg: '30%', md: '30%', sm: '80%', xs: '80%' },
- mt: { xs: 1, sm: 1, md: 0, lg: 0, xl: 0 },
- ml: { xl: 1, lg: 1, md: 1, sm: 1 }
- }}
+ sx={fieldSx}
  >
  <InputLabel id="ward-label">Search Ward</InputLabel>
  <Select
@@ -2180,10 +2499,11 @@ const downloadAllTypsOfReport = () => {
  value={wardName}
  onChange={handleChangeWard}
  label="Search Ward"
+ MenuProps={{ PaperProps: { sx: { borderRadius: '10px', mt: 0.5 } } }}
  >
  {wardDataAtoI.length > 0 ? (
  wardDataAtoI.map((ward, index) => (
- <MenuItem key={index} value={ward.ward}>
+ <MenuItem key={index} value={ward.ward} sx={{ fontFamily: T.font, fontSize: 14 }}>
  {ward.ward}
  </MenuItem>
  ))
@@ -2195,12 +2515,34 @@ const downloadAllTypsOfReport = () => {
  )}
  </Box>
 
+ {(selectedMonthYear || cnId || (canPickWard && wardName) || isWardLocked) && (
+ <>
+ <Divider sx={{ my: 1.5, borderColor: T.border }} />
+ <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+ <Typography sx={{ fontFamily: T.font, fontSize: 12, color: T.text2, mr: 0.5 }}>Active filters:</Typography>
+ {selectedMonthYear && <Chip size="small" label={`Month: ${selectedMonthYear}`} sx={filterChipSx} />}
+ {cnId && <Chip size="small" label={`Consumer: ${cnId}`} sx={filterChipSx} />}
+ {canPickWard && wardName && <Chip size="small" label={`Ward: ${wardName}`} sx={filterChipSx} />}
+ {isWardLocked && (
+ <Chip
+ size="small"
+ icon={<LockOutlinedIcon sx={{ fontSize: 14 }} />}
+ label={`Ward: ${user?.ward} (assigned)`}
+ sx={{ fontFamily: T.font, fontSize: 12, color: T.orange, backgroundColor: T.orangeSurface, border: '1px solid #FBE1BF', '& .MuiChip-icon': { color: T.orange } }}
+ />
+ )}
  </Box>
+ </>
+ )}
+ </Paper>
 
-
-
- 
-
+ {/* ================= BILLS TABLE ================= */}
+ <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1, px: 0.5, flexWrap: 'wrap', gap: 1 }}>
+ <Typography sx={{ fontFamily: T.font, fontWeight: 700, fontSize: 15, color: T.text }}>Consumer Bills</Typography>
+ {selectedItems.length > 0 && (
+ <Chip size="small" label={`${selectedItems.length} selected`} sx={{ fontFamily: T.font, fontWeight: 600, fontSize: 12, color: T.primary, backgroundColor: T.primarySurface }} />
+ )}
+ </Box>
 
  <StyledDataGrid
  rows={rows}
@@ -2212,6 +2554,9 @@ const downloadAllTypsOfReport = () => {
  pageSizeOptions={[10, 25, 50, 100]}
  rowCount={pagination.totalBills || 0}
  loading={loading}
+ rowHeight={48}
+ columnHeaderHeight={46}
+ slots={{ noRowsOverlay: NoRowsOverlay }}
  sx={{ paddingRight: 0.5, paddingLeft: 0.5 }}
  />
  <Modal open={billOpen} onClose={handleAddBillClose}>

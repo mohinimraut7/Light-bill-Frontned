@@ -198,7 +198,10 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const location = useLocation();
   const open = useSelector((state) => state.sidebar.isOpen);
-  const { bills, loading, error } = useSelector((state) => state.bills);
+  // const { bills, loading, error } = useSelector((state) => state.bills);
+    // const { bills, loading, error } = useSelector((state) => state.bills);
+  // 26-Oct-2026: badges साठी पूर्ण list (state.bills हा प्रत्येक page चा वेगळा page/filter असतो → count बदलत होता)
+  const bills = useSelector((state) => state.bills.alertBills) || [];
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.auth.user);
   const today = new Date(); 

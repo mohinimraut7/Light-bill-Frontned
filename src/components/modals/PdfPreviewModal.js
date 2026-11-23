@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+// import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+
+import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@mui/material'; // 26-Oct-2026: CircularProgress
 import { Close as CloseIcon, Download as DownloadIcon, Save as SaveIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,6 +61,8 @@ const PdfPreviewModal = ({ open, onClose, pdfUrl, title, monthpassbackend, wardN
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
   const [signaturesData, setSignaturesData] = useState([]);
+    const [description, setDescription] = useState(''); // 24-Oct-2026: Approved चे description
+  const [saving, setSaving] = useState(false); // 26-Oct-2026: Save double click → दोन वेळा report save नको
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);

@@ -309,7 +309,10 @@
 
 
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+// import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+
+// import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, CircularProgress } from '@mui/material'; // 26-Oct-2026
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -470,8 +473,17 @@ const AddRemarkModal = ({ open, handleClose, currentBill }) => {
                             Cancel
                         </Button>
                         <Button
-                            type="submit"
+                        //     type="submit"
+                        //     variant="contained"
+                        //     sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
+                        // >
+                        //     {currentBill ? 'Update Remark' : 'Add Remark'}
+
+
+                                                    type="submit"
                             variant="contained"
+                            disabled={formik.isSubmitting} // 26-Oct-2026: save होईपर्यंत disable
+                            startIcon={formik.isSubmitting ? <CircularProgress size={16} color="inherit" /> : null} // 26-Oct-2026
                             sx={{ backgroundColor: '#FB404B', '&:hover': { opacity: '0.8' } }}
                         >
                             {currentBill ? 'Update Remark' : 'Add Remark'}
